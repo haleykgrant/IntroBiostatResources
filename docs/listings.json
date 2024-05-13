@@ -5,5 +5,12 @@
       "/posts/welcome/index.html",
       "/posts/Tutorial-1/Tutorial1.html"
     ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/welcome/index.html",
+      "/posts/Tutorial-1/Tutorial1.html"
+    ]
   }
 ]

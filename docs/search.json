@@ -47,5 +47,12 @@
     "title": "Tutorial 1: Installing R and RStudio",
     "section": "R Projects",
     "text": "R Projects\nR projects make it easy to keep files relating to the same content organized. I recommend making a folder and an R project for this class. This will allow you to keep all of your data files, notes, and homowork code in one (organized) place on your computer.\n\nGuide to RStudio IDE and R Projects\nWatch this video for a description of the layout of the RStudio interface and a demonstration for how to create an R project on your computer.\n\n\n\nMaking a BIOST 2041 folder and R Project\nI will be making a folder and project for this class where I will keep all of my notes and data sets. If you structure your folder the same way I do, all of my code should work seamlessly on your computer!\n\n\nHave you created a folder (directory) and an R project for BIOST 2041 on your computer?\n\n\n\n\n ✓Yes!\n\n\n ✗No\n\n\n\n\n\n\nI also like to keep things organized into sub-folders. For my BIOST 2041 folder, I have the following sub-folders:\n\nDatasets\nLabs\nNotes\nRecitations\n\nI keep all data files for the class in “Datasets” and then files with code and instructions in their corresponding assignment section.\nThat’s it! The next tutorial will be about using data types, using functions, and downloading packages in R."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "BIOST2041",
+    "section": "",
+    "text": "Welcome To BIOST 2041\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nHaley Grant\n\n\n\n\n\n\n\n\n\n\n\n\nTutorial 1: Installing R and RStudio\n\n\n\n\n\n\nsoftware\n\n\nR coding\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   }
 ]
