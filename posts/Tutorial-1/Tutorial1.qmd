@@ -9,7 +9,7 @@ webr:
   packages: ['tidyverse','learnr']
 categories:
     - software
-    - R coding
+    - code
 ---
 
 ```{css }
