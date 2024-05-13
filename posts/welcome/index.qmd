@@ -1,9 +1,0 @@
----
-title: "Welcome To BIOST 2041"
-author: "Haley Grant"
-categories: [news]
----
-
-![](thumbnail.jpg)
-
-This blog will house the R tutorials that I will use this semester.
