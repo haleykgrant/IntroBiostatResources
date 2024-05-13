@@ -4,7 +4,7 @@
     "href": "biost2041.html",
     "title": "BIOST2041",
     "section": "",
-    "text": "Post With Code\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\nMay 13, 2024\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nMay 10, 2024\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+    "text": "Tutorial 1: Installing R and RStudio\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\nMay 13, 2024\n\n\nHarlow Malloc\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nMay 10, 2024\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/welcome/index.html",
@@ -26,5 +26,33 @@
     "title": "About",
     "section": "",
     "text": "About this blog"
+  },
+  {
+    "objectID": "posts/Tutorial-1/Tutorial1.html#welcome-to-the-installing-r-tutorial",
+    "href": "posts/Tutorial-1/Tutorial1.html#welcome-to-the-installing-r-tutorial",
+    "title": "Tutorial 1: Installing R and RStudio",
+    "section": "Welcome to the Installing R Tutorial",
+    "text": "Welcome to the Installing R Tutorial\nThis tutorial is was developed based on this resource. The goal is to make sure you have R, Rstudio, and an R package called the tidyverse installed on your computer.\n\nOutline\nThis tutorial will help you set up your computer to use R. It is for you if you need to:\n\nInstall R on your computer\nInstall the RStudio IDE\nGet set up with R projects\n\nYou can skip this tutorial if you’ve already done these things."
+  },
+  {
+    "objectID": "posts/Tutorial-1/Tutorial1.html#install-r",
+    "href": "posts/Tutorial-1/Tutorial1.html#install-r",
+    "title": "Tutorial 1: Installing R and RStudio",
+    "section": "Install R",
+    "text": "Install R\n\nHow to install R\n\nIf you need to download R, head over to the CRAN website to download R.\nIf you’ve already done this, we’ll move to the next step!"
+  },
+  {
+    "objectID": "posts/Tutorial-1/Tutorial1.html#install-rstudio",
+    "href": "posts/Tutorial-1/Tutorial1.html#install-rstudio",
+    "title": "Tutorial 1: Installing R and RStudio",
+    "section": "Install RStudio",
+    "text": "Install RStudio\n\nHow to install RStudio\nRStudio is an Integrated Development Environment for R. What does that mean? Well, if you think of R as a language, which it is, you can think of RStudio as a program that helps you write and work in the language. RStudio makes programming in R much easier and I suggest that you use it!\n\nIf you need to download RStudio, head over to the RStudio website to download RStudio. There are also some helpful tutorials on this website!\nIf you’ve already done this, we’ll move to the next step!"
+  },
+  {
+    "objectID": "posts/Tutorial-1/Tutorial1.html#r-projects",
+    "href": "posts/Tutorial-1/Tutorial1.html#r-projects",
+    "title": "Tutorial 1: Installing R and RStudio",
+    "section": "R Projects",
+    "text": "R Projects\nR projects make it easy to keep files relating to the same content organized. I recommend making a folder and an R project for this class. This will allow you to keep all of your data files, notes, and homowork code in one (organized) place on your computer.\n\nGuide to RStudio IDE and R Projects\nWatch this video for a description of the layout of the RStudio interface and a demonstration for how to create an R project on your computer.\n\n\n\nMaking a BIOST 2041 folder and R Project\nI will be making a folder and project for this class where I will keep all of my notes and data sets. If you structure your folder the same way I do, all of my code should work seamlessly on your computer!\n\n\nHave you created a folder (directory) and an R project for BIOST 2041 on your computer?\n\n\n\n\n ✓Yes!\n\n\n ✗No\n\n\n\n\n\n\nI also like to keep things organized into sub-folders. For my BIOST 2041 folder, I have the following sub-folders:\n\nDatasets\nLabs\nNotes\nRecitations\n\nI keep all data files for the class in “Datasets” and then files with code and instructions in their corresponding assignment section.\nThat’s it! The next tutorial will be about using data types, using functions, and downloading packages in R."
   }
 ]

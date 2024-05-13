@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BIOST2041</title>
+<title>BIOST2041 - Tutorial 1: Installing R and RStudio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +23,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/alpine-3.12/buttons.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,77 +67,19 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">BIOST2041</span>
     </a>
   </div>
@@ -149,7 +90,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -172,13 +113,13 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">BIOST2041</h1>
+    <div class="quarto-title column-body">
+      <h1 class="title">Tutorial 1: Installing R and RStudio</h1>
                       </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
       
     
@@ -186,124 +127,102 @@ window.Quarto = {
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="analysis">analysis <span class="quarto-category-count">(1)</span></div><div class="category" data-category="code">code <span class="quarto-category-count">(1)</span></div><div class="category" data-category="news">news <span class="quarto-category-count">(2)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<div class="cell">
+<style type="text/css">
+.quiz-box {
+    background-color: #f0f0f0; /* Gray background color */
+    padding: 10px; /* Padding around the quiz box */
+    border-radius: 5px; /* Rounded corners */
+}
+</style>
+</div>
+<section id="welcome-to-the-installing-r-tutorial" class="level2">
+<h2 class="anchored" data-anchor-id="welcome-to-the-installing-r-tutorial">Welcome to the Installing R Tutorial</h2>
+<p>This tutorial is was developed based on <a href="https://github.com/rstudio/learnr/tree/main/inst/tutorials/ex-setup-r/ex-setup-r.Rmd">this resource</a>. The goal is to make sure you have R, Rstudio, and an R package called the <code>tidyverse</code> installed on your computer.</p>
+<section id="outline" class="level3">
+<h3 class="anchored" data-anchor-id="outline">Outline</h3>
+<p>This tutorial will help you set up your computer to use R. It is for you if you need to:</p>
+<ul>
+<li>Install R on your computer</li>
+<li>Install the RStudio IDE</li>
+<li>Get set up with R projects</li>
+</ul>
+<p>You can skip this tutorial if you’ve already done these things.</p>
+</section>
+</section>
+<section id="install-r" class="level2">
+<h2 class="anchored" data-anchor-id="install-r">Install R</h2>
+<section id="how-to-install-r" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-install-r">How to install R</h3>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/203516510" frameborder="0" title="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>If you need to download R, head over to <a href="http://cloud.r-project.org">the CRAN website to download R</a>.</p>
+<p>If you’ve already done this, we’ll move to the next step!</p>
+</section>
+</section>
+<section id="install-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="install-rstudio">Install RStudio</h2>
+<section id="how-to-install-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-install-rstudio">How to install RStudio</h3>
+<p>RStudio is an Integrated Development Environment for R. What does that mean? Well, if you think of R as a language, which it is, you can think of RStudio as a program that helps you write and work in the language. RStudio makes programming in R much easier and I suggest that you use it!</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/203516968" frameborder="0" title="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>If you need to download RStudio, head over to <a href="www.rstudio.com/download">the RStudio website</a> to download RStudio. There are also some helpful tutorials on this website!</p>
+<p>If you’ve already done this, we’ll move to the next step!</p>
+</section>
+</section>
+<section id="r-projects" class="level2">
+<h2 class="anchored" data-anchor-id="r-projects">R Projects</h2>
+<p>R projects make it easy to keep files relating to the same content organized. I recommend making a folder and an R project for this class. This will allow you to keep all of your data files, notes, and homowork code in one (organized) place on your computer.</p>
+<section id="guide-to-rstudio-ide-and-r-projects" class="level3">
+<h3 class="anchored" data-anchor-id="guide-to-rstudio-ide-and-r-projects">Guide to RStudio IDE and R Projects</h3>
+<p>Watch this video for a description of the layout of the RStudio interface and a demonstration for how to create an R project on your computer.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/kfcX5DEMAp4" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="making-a-biost-2041-folder-and-r-project" class="level3">
+<h3 class="anchored" data-anchor-id="making-a-biost-2041-folder-and-r-project">Making a BIOST 2041 folder and R Project</h3>
+<p>I will be making a folder and project for this class where I will keep all of my notes and data sets. If you structure your folder the same way I do, all of my code should work seamlessly on your computer!</p>
+<div class="quiz-box">
+<div class="question">
+<p>Have you created a folder (directory) and an R project for BIOST 2041 on your computer?</p>
+<div class="choices">
+<div x-data="{ answer: '' , clear() { this.answer = '' }}">
+
+<div class="choice correct-choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="correct"> <span id="correct" x-show="answer == $el.id" class="badge">✓</span>Yes!</p><p></p>
+</div>
+<div class="choice">
+<p></p><p><input class="form-check-input" type="radio" x-model="answer" value="no2"> <span id="no2" x-show="answer == $el.id" class="badge">✗</span>No</p><p></p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<p>I also like to keep things organized into sub-folders. For my BIOST 2041 folder, I have the following sub-folders:</p>
+<ul>
+<li>Datasets</li>
+<li>Labs</li>
+<li>Notes</li>
+<li>Recitations</li>
+</ul>
+<p>I keep all data files for the class in “Datasets” and then files with code and instructions in their corresponding assignment section.</p>
+<p>That’s it! The next tutorial will be about using data types, using functions, and downloading packages in R.</p>
 
 
+</section>
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1715634282733" data-listing-reading-time-sort="3" data-listing-word-count-sort="450">
-<div class="thumbnail">
-<p><a href="./posts/Tutorial-1/Tutorial1.html" class="no-external"></a></p><a href="./posts/Tutorial-1/Tutorial1.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/Tutorial-1/Tutorial1.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Tutorial-1/Tutorial1.html" class="no-external">Tutorial 1: Installing R and RStudio</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Tutorial-1/Tutorial1.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/Tutorial-1/Tutorial1.html" class="no-external">This tutorial is was developed based on this resource. The goal is to make sure you have R, Rstudio, and an R package called the <code>tidyverse</code> installed on your computer.</a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./posts/Tutorial-1/Tutorial1.html" class="no-external"></a></p><a href="./posts/Tutorial-1/Tutorial1.html" class="no-external">
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="news,code,analysis" data-listing-date-sort="1715572800000" data-listing-file-modified-sort="1715632743210" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="9">
-<div class="thumbnail">
-<p><a href="./posts/post-with-code/index.html" class="no-external"></a></p><a href="./posts/post-with-code/index.html" class="no-external">
-<p><img src="./posts/post-with-code/image.jpg" class="thumbnail-image"></p>
-</a><p><a href="./posts/post-with-code/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/post-with-code/index.html" class="no-external">Post With Code</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/post-with-code/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('news'); return false;">
-news
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('analysis'); return false;">
-analysis
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/post-with-code/index.html" class="no-external">This is a post with executable code.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/post-with-code/index.html" class="no-external">
-<div class="listing-date">
-May 13, 2024
-</div>
-<div class="listing-author">
-Harlow Malloc
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="news" data-listing-date-sort="1715313600000" data-listing-file-modified-sort="1715632743208" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="32">
-<div class="thumbnail">
-<p><a href="./posts/welcome/index.html" class="no-external"></a></p><a href="./posts/welcome/index.html" class="no-external">
-<p class="card-img-top"><img src="posts/welcome/thumbnail.jpg"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/welcome/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/welcome/index.html" class="no-external">Welcome To My Blog</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/welcome/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('news'); return false;">
-news
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/welcome/index.html" class="no-external">This is the first post in a Quarto blog. Welcome!</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/welcome/index.html" class="no-external">
-<div class="listing-date">
-May 10, 2024
-</div>
-<div class="listing-author">
-Tristan O’Malley
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -718,4 +637,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
+<script src="../../site_libs/quarto-contrib/alpine-3.12/alpine@3.12.min.js"></script>
 </body></html>
