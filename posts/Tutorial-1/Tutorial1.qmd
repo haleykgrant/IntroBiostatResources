@@ -104,5 +104,5 @@ I also like to keep things organized into sub-folders. For my BIOST 2041 folder,
 I keep all data files for the class in "Datasets" and then files with code and instructions in their corresponding assignment section.
 
 
-That's it! The next tutorial will be about using data types, using functions, and downloading packages in R.
+That's it! The next tutorial will be about using data types, using functions, and downloading packages in R. 
 
