@@ -8,9 +8,8 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/
-      - icon: twitter
-        href: https://twitter.com
+        href: https://github.com/https://github.com/haleykgrant//BIOST2041
+
 format:
   html:
     theme: cosmo
