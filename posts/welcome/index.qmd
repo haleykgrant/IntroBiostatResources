@@ -1,12 +1,9 @@
 ---
-title: "Welcome To My Blog"
-author: "Tristan O'Malley"
-date: "2024-05-10"
+title: "Welcome To BIOST 2041"
+author: "Haley Grant"
 categories: [news]
 ---
 
-This is the first post in a Quarto blog. Welcome!
-
 ![](thumbnail.jpg)
 
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+This blog will house the R tutorials that I will use this semester.
