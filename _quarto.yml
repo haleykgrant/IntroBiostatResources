@@ -8,7 +8,7 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/https://github.com/haleykgrant/BIOST2041
+        href: https://github.com/haleykgrant/BIOST2041
 
 format:
   html:
