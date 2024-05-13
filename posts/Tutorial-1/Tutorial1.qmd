@@ -1,0 +1,107 @@
+---
+title: "Tutorial 1: Installing R and RStudio"
+format: html
+engine: knitr
+filters: 
+  - webr
+  - naquiz
+webr:
+  packages: ['tidyverse','learnr']
+---
+
+```{css }
+#| echo: false
+
+.quiz-box {
+    background-color: #f0f0f0; /* Gray background color */
+    padding: 10px; /* Padding around the quiz box */
+    border-radius: 5px; /* Rounded corners */
+}
+```
+
+## Welcome to the Installing R Tutorial
+
+This tutorial is was developed based on [this resource](https://github.com/rstudio/learnr/tree/main/inst/tutorials/ex-setup-r/ex-setup-r.Rmd). The goal is to make sure you have R, Rstudio, and an R package called the `tidyverse` installed on your computer.
+
+### Outline
+
+This tutorial will help you set up your computer to use R. It is for you if you need to:
+
+* Install R on your computer
+* Install the RStudio IDE
+* Get set up with R projects
+
+You can skip this tutorial if you've already done these things.
+
+
+## Install R
+
+### How to install R
+
+{{< video https://vimeo.com/203516510 >}}
+
+
+If you need to download R, head over to [the CRAN website to download R](http://cloud.r-project.org).
+
+If you've already done this, we'll move to the next step!
+
+## Install RStudio
+
+### How to install RStudio
+
+RStudio is an Integrated Development Environment for R. What does that mean? Well, if you think of R as a language, which it is, you can think of RStudio as a program that helps you write and work in the language. RStudio makes programming in R much easier and I suggest that you use it! 
+
+{{< video https://vimeo.com/203516968 >}}
+
+If you need to download RStudio, head over to [the RStudio website](www.rstudio.com/download) to download RStudio. There are also some helpful tutorials on this website!
+
+If you've already done this, we'll move to the next step!
+
+## R Projects
+
+R projects make it easy to keep files relating to the same content organized. I recommend making a folder and an R project for this class. This will allow you to keep all of your data files, notes, and homowork code in one (organized) place on your computer.
+
+### Guide to RStudio IDE and R Projects
+
+Watch this video for a description of the layout of the RStudio interface and a demonstration for how to create an R project on your computer. 
+
+{{< video https://www.youtube.com/watch?v=kfcX5DEMAp4 >}}
+
+### Making a BIOST 2041 folder and R Project
+
+I will be making a folder and project for this class where I will keep all of my notes and data sets. If you structure your folder the same way I do, all of my code should work seamlessly on your computer!
+
+
+::::::{.quiz-box}
+:::::{.question}
+Have you created a folder (directory) and an R project for BIOST 2041 on your computer?
+
+::::{.choices}
+
+:::{.choice .correct-choice}
+Yes!
+:::
+
+:::{.choice}
+No
+:::
+
+::::
+:::::
+::::::
+
+
+I also like to keep things organized into sub-folders. For my BIOST 2041 folder, I have the following sub-folders:
+
+* Datasets
+* Labs
+* Notes
+* Recitations
+
+I keep all data files for the class in "Datasets" and then files with code and instructions in their corresponding assignment section.
+
+
+That's it! The next tutorial will be about using data types, using functions, and downloading packages in R.
+
+
+
