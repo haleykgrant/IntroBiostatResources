@@ -1,6 +1,9 @@
 ---
 title: "Tutorial 1: Installing R and RStudio"
-format: html
+format: 
+  html:
+    toc: true
+    toc-location: left
 engine: knitr
 filters: 
   - webr
