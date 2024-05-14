@@ -42,7 +42,9 @@ In this tutorial, you will learn about working with data in R. In particular, th
 -   Updating and making new variables
 -   Filtering data
 
-## Files on your local computer
+## Getting Set Up
+
+### Files on your local computer
 
 When you are working in R on your local computer and you want to import a data file into your R session for an analysis, you will need to tell R where it can find the data file. This is why I suggested creating a 'data' folder in your class folder. If you save all of the data files for this class in that folder, you can always use the same general syntax for telling R where your file is.
 
@@ -70,7 +72,7 @@ You should see the output is
 ["/home/web_user"]{style="font-family: 'Courier New'; font-weight: 500;"}
 :::
 
-This is because we are working in R on the web. This is telling us that we are in a subdirectory of the "home" directory called "web_user". That is, "web_user" is a directory (folder) inside the larger directory (folder) called "home". You read file paths from left to right
+This is because we are working in R on the web. This is telling us that we are in a sub-directory of the "home" directory called "web_user". That is, "web_user" is a directory (folder) inside the larger directory (folder) called "home". You read file paths from left to right
 
 Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.
 
@@ -88,7 +90,7 @@ list.files()
 The output should look something like this:
 
 ::: {style="text-align: center;"}
-[[1] "Rplots.pdf"   "cdc.samp.csv" "census.rda"   "dds.xlsx"]{style="font-family: 'Courier New'; font-weight: 500;"}
+[[1] "cdc.samp.csv" "census.rda"   "dds.xlsx"]{style="font-family: 'Courier New'; font-weight: 500;"}
 :::
   
 This tells us that there are 4 files that we have access to in this directory:
@@ -169,7 +171,6 @@ The syntax to use this function is:
 Let's try reading in the "cdc.samp.csv" file and give the dataframe the name `cdc`.
 
 ```{webr-r}
-#| warning: false
 # read in the data file "cdc.samp.csv"
 cdc = read_csv("cdc.samp.csv")
 ```
@@ -194,6 +195,7 @@ Add a line of code above your read_csv() line to load the tidyverse (`library(ti
 
 ```{webr-r}
 #| warning: false
+
 # load tidyverse package first
 library(tidyverse)
 
@@ -203,9 +205,11 @@ cdc = read_csv("cdc.samp.csv")
 :::
 
 
-### View your data
+## View your data
 
 Great! We've now read our first data file into R. But how do we know if it worked?
+
+### The head() function
 
 In RStudio, you should be able to see a new object in your 'Environment' tab in the upper-right quadrant of your screen when you import a new data set. Since we're working on the web, we'll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is `head()` that shows us the top few entries of a data frame, vector, or list.
 
@@ -233,18 +237,111 @@ Make sure you were able to successfully run the code above with the `read_csv()`
 
 Awesome! Here we see the top 6 rows of the `cdc` dataframe. There are 9 columns: <span style="font-family: Courier New;"> genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span>
 
+### The skim() function
 
 Another way we can start to take a look at the data is to use a function from the R package `skmir`. The function is called `skim` and gives us a nice overview of the contents included in our data.
 
 ```{webr-r}
 #| warning: false
+#| context: interactive
+#| autorun: true
 # load skimr library
 library(skimr)
+```
 
+```{webr-r}
 # use the skim() function on the cdc data
 skim(cdc)
 
 ```
 
-This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Courier New;"> genhlth</span> and  <span style="font-family: Courier New;"> gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables )
+This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Courier New;"> genhlth</span> and  <span style="font-family: Courier New;"> gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1---more on this later). 
+
+The columns for categorical variables are:
+
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>n_missing</td>
+    <td>the number of rows with missing value (NA) in the corresponding columns</td>
+  </tr>
+  <tr>
+    <td>complete_rate</td>
+    <td>proportion of rows that are not missing (not NAs)</td>
+  </tr>
+  <tr>
+    <td>min</td>
+    <td>the minimum character length of values in the column</td>
+  </tr>
+  <tr>
+    <td>max</td>
+    <td>the maximum character length of values in the column</td>
+  </tr>
+  <tr>
+    <td>empty</td>
+    <td>the number of empty characters in the column</td>
+  </tr>
+  <tr>
+    <td>n_unique</td>
+    <td>the number of unique values in the column</td>
+  </tr>
+  <tr>
+    <td>whitespace</td>
+    <td>the number of rows containing only white space in the column</td>
+  </tr>
+</table>
+
+The columns for numeric variables are:
+
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>n_missing</td>
+    <td>the number of rows with missing value (NA) in the corresponding columns</td>
+  </tr>
+  <tr>
+    <td>complete_rate</td>
+    <td>proportion of rows that are not missing (not NAs)</td>
+  </tr>
+  <tr>
+    <td>mean</td>
+    <td>the mean (average) value of the non-missing values in the column</td>
+  </tr>
+  <tr>
+    <td>sd</td>
+    <td>the standard deviation of the non-missing values in the column</td>
+  </tr>
+  <tr>
+    <td>p0</td>
+    <td>the minimum value observed in the column</td>
+  </tr>
+  <tr>
+    <td>p25</td>
+    <td>the 25th percentile of values observed in the column</td>
+  </tr>
+  <tr>
+    <td>p50</td>
+    <td>the median (50th percentile) of values observed in the column</td>
+  </tr>
+    <tr>
+    <td>p75</td>
+    <td>the 75th percentile of values observed in the column</td>
+  </tr>
+    <tr>
+    <td>p100</td>
+    <td>the maximum value observed in the column</td>
+  </tr>
+    <tr>
+    <td>hist</td>
+    <td>a histogram showing the shape of the distribution of values in the column</td>
+  </tr>
+</table>
+
+
 

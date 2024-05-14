@@ -278,7 +278,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"id":1,"code":"\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc.samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n","options":{"read-only":"false","editor-max-height":"","warning":"true","fig-height":5,"results":"markup","classes":"","editor-font-scale":"0.85","message":"true","fig-cap":"","comment":"","dpi":72,"editor-quick-suggestions":"false","fig-width":7,"label":"unnamed-chunk-1","autorun":"true","context":"setup","out-width":"700px","output":"true","out-height":""}},{"id":2,"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()","options":{"read-only":"false","editor-max-height":"","warning":"true","fig-height":5,"results":"markup","classes":"","editor-font-scale":"0.85","message":"true","fig-cap":"","comment":"","dpi":72,"editor-quick-suggestions":"false","fig-width":7,"label":"unnamed-chunk-2","autorun":"false","context":"interactive","out-width":"700px","output":"true","out-height":""}},{"id":3,"code":"# print files in working directory\nlist.files()","options":{"read-only":"false","editor-max-height":"","warning":"true","fig-height":5,"results":"markup","classes":"","editor-font-scale":"0.85","message":"true","fig-cap":"","comment":"","dpi":72,"editor-quick-suggestions":"false","fig-width":7,"label":"unnamed-chunk-3","autorun":"false","context":"interactive","out-width":"700px","output":"true","out-height":""}},{"id":4,"code":"# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")","options":{"read-only":"false","editor-max-height":"","warning":"false","fig-height":5,"results":"markup","classes":"","editor-font-scale":"0.85","message":"true","fig-cap":"","comment":"","dpi":72,"editor-quick-suggestions":"false","fig-width":7,"label":"unnamed-chunk-4","autorun":"false","context":"interactive","out-width":"700px","output":"true","out-height":""}},{"id":5,"code":"# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")","options":{"read-only":"false","editor-max-height":"","warning":"false","fig-height":5,"results":"markup","classes":"","editor-font-scale":"0.85","message":"true","fig-cap":"","comment":"","dpi":72,"editor-quick-suggestions":"false","fig-width":7,"label":"unnamed-chunk-5","autorun":"false","context":"interactive","out-width":"700px","output":"true","out-height":""}},{"id":6,"code":"# show top few rows of the data set `cdc`\nhead(cdc)","options":{"read-only":"false","editor-max-height":"","warning":"true","fig-height":5,"results":"markup","classes":"","editor-font-scale":"0.85","message":"true","fig-cap":"","comment":"","dpi":72,"editor-quick-suggestions":"false","fig-width":7,"label":"unnamed-chunk-6","autorun":"false","context":"interactive","out-width":"700px","output":"true","out-height":""}},{"id":7,"code":"# load skimr library\nlibrary(skimr)\n\n# use the skim() function on the cdc data\nskim(cdc)","options":{"read-only":"false","editor-max-height":"","warning":"false","fig-height":5,"results":"markup","classes":"","editor-font-scale":"0.85","message":"true","fig-cap":"","comment":"","dpi":72,"editor-quick-suggestions":"false","fig-width":7,"label":"unnamed-chunk-7","autorun":"false","context":"interactive","out-width":"700px","output":"true","out-height":""}}];
+globalThis.qwebrCellDetails = [{"id":1,"options":{"message":"true","autorun":"true","context":"setup","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-1","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc.samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n"},{"id":2,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-2","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()"},{"id":3,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-3","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"# print files in working directory\nlist.files()"},{"id":4,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-4","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")"},{"id":5,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-5","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"false"},"code":"\n# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")"},{"id":6,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-6","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"# show top few rows of the data set `cdc`\nhead(cdc)"},{"id":7,"options":{"message":"true","autorun":"true","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-7","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"false"},"code":"# load skimr library\nlibrary(skimr)"},{"id":8,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-8","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"# use the skim() function on the cdc data\nskim(cdc)"}];
 
 </script>
 <script type="module">
@@ -1180,8 +1180,9 @@ globalThis.qwebrExecuteCode = async function (
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#files-on-your-local-computer" id="toc-files-on-your-local-computer" class="nav-link" data-scroll-target="#files-on-your-local-computer">Files on your local computer</a>
+  <li><a href="#getting-set-up" id="toc-getting-set-up" class="nav-link" data-scroll-target="#getting-set-up">Getting Set Up</a>
   <ul class="collapse">
+  <li><a href="#files-on-your-local-computer" id="toc-files-on-your-local-computer" class="nav-link" data-scroll-target="#files-on-your-local-computer">Files on your local computer</a></li>
   <li><a href="#checking-your-working-directory" id="toc-checking-your-working-directory" class="nav-link" data-scroll-target="#checking-your-working-directory">Checking your working directory</a></li>
   <li><a href="#list-files-in-working-directory" id="toc-list-files-in-working-directory" class="nav-link" data-scroll-target="#list-files-in-working-directory">List files in working directory</a></li>
   </ul></li>
@@ -1189,7 +1190,11 @@ globalThis.qwebrExecuteCode = async function (
   <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data">Importing Data</a>
   <ul class="collapse">
   <li><a href="#reading-in-a-csv-file" id="toc-reading-in-a-csv-file" class="nav-link" data-scroll-target="#reading-in-a-csv-file">Reading in a csv file</a></li>
-  <li><a href="#view-your-data" id="toc-view-your-data" class="nav-link" data-scroll-target="#view-your-data">View your data</a></li>
+  </ul></li>
+  <li><a href="#view-your-data" id="toc-view-your-data" class="nav-link" data-scroll-target="#view-your-data">View your data</a>
+  <ul class="collapse">
+  <li><a href="#the-head-function" id="toc-the-head-function" class="nav-link" data-scroll-target="#the-head-function">The head() function</a></li>
+  <li><a href="#the-skim-function" id="toc-the-skim-function" class="nav-link" data-scroll-target="#the-skim-function">The skim() function</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -1444,10 +1449,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>Filtering data</li>
 </ul>
 </section>
-<section id="files-on-your-local-computer" class="level2">
-<h2 class="anchored" data-anchor-id="files-on-your-local-computer">Files on your local computer</h2>
+<section id="getting-set-up" class="level2">
+<h2 class="anchored" data-anchor-id="getting-set-up">Getting Set Up</h2>
+<section id="files-on-your-local-computer" class="level3">
+<h3 class="anchored" data-anchor-id="files-on-your-local-computer">Files on your local computer</h3>
 <p>When you are working in R on your local computer and you want to import a data file into your R session for an analysis, you will need to tell R where it can find the data file. This is why I suggested creating a ‘data’ folder in your class folder. If you save all of the data files for this class in that folder, you can always use the same general syntax for telling R where your file is.</p>
 <p>For this tutorial, we are working on the web, so R doesn’t have access to the local files on your device. I have included all of the data files we will be using in this tutorial on a webpage that we can access online. You may need to change this code slightly to when running code for your assignments in this class to work with your computer’s file structure.</p>
+</section>
 <section id="checking-your-working-directory" class="level3">
 <h3 class="anchored" data-anchor-id="checking-your-working-directory">Checking your working directory</h3>
 <p>One good idea when you start working on a new analysis is to make sure you know where within your computer’s file structure you are working so you can figure out how to access various files.</p>
@@ -1459,7 +1467,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div style="text-align: center;">
 <p><span style="font-family: 'Courier New'; font-weight: 500;">“/home/web_user”</span></p>
 </div>
-<p>This is because we are working in R on the web. This is telling us that we are in a subdirectory of the “home” directory called “web_user”. That is, “web_user” is a directory (folder) inside the larger directory (folder) called “home”. You read file paths from left to right</p>
+<p>This is because we are working in R on the web. This is telling us that we are in a sub-directory of the “home” directory called “web_user”. That is, “web_user” is a directory (folder) inside the larger directory (folder) called “home”. You read file paths from left to right</p>
 <p>Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.</p>
 </section>
 <section id="list-files-in-working-directory" class="level3">
@@ -1470,7 +1478,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The output should look something like this:</p>
 <div style="text-align: center;">
-<p><span style="font-family: 'Courier New'; font-weight: 500;">[1] “Rplots.pdf” “cdc.samp.csv” “census.rda” “dds.xlsx”</span></p>
+<p><span style="font-family: 'Courier New'; font-weight: 500;">[1] “cdc.samp.csv” “census.rda” “dds.xlsx”</span></p>
 </div>
 <p>This tells us that there are 4 files that we have access to in this directory:</p>
 <ul>
@@ -1606,9 +1614,12 @@ Answer
 </div>
 </div>
 </section>
-<section id="view-your-data" class="level3">
-<h3 class="anchored" data-anchor-id="view-your-data">View your data</h3>
+</section>
+<section id="view-your-data" class="level2">
+<h2 class="anchored" data-anchor-id="view-your-data">View your data</h2>
 <p>Great! We’ve now read our first data file into R. But how do we know if it worked?</p>
+<section id="the-head-function" class="level3">
+<h3 class="anchored" data-anchor-id="the-head-function">The head() function</h3>
 <p>In RStudio, you should be able to see a new object in your ‘Environment’ tab in the upper-right quadrant of your screen when you import a new data set. Since we’re working on the web, we’ll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is <code>head()</code> that shows us the top few entries of a data frame, vector, or list.</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1635,10 +1646,173 @@ Hint (if you get an error)
 </div>
 </div>
 <p>Awesome! Here we see the top 6 rows of the <code>cdc</code> dataframe. There are 9 columns: <span style="font-family: Courier New;"> genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span></p>
+</section>
+<section id="the-skim-function" class="level3">
+<h3 class="anchored" data-anchor-id="the-skim-function">The skim() function</h3>
 <p>Another way we can start to take a look at the data is to use a function from the R package <code>skmir</code>. The function is called <code>skim</code> and gives us a nice overview of the contents included in our data.</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Courier New;"> genhlth</span> and <span style="font-family: Courier New;"> gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables )</p>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Courier New;"> genhlth</span> and <span style="font-family: Courier New;"> gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1—more on this later).</p>
+<p>The columns for categorical variables are:</p>
+<table>
+<tbody><tr>
+<th>
+Attribute
+</th>
+<th>
+Description
+</th>
+</tr>
+<tr>
+<td>
+n_missing
+</td>
+<td>
+the number of rows with missing value (NA) in the corresponding columns
+</td>
+</tr>
+<tr>
+<td>
+complete_rate
+</td>
+<td>
+proportion of rows that are not missing (not NAs)
+</td>
+</tr>
+<tr>
+<td>
+min
+</td>
+<td>
+the minimum character length of values in the column
+</td>
+</tr>
+<tr>
+<td>
+max
+</td>
+<td>
+the maximum character length of values in the column
+</td>
+</tr>
+<tr>
+<td>
+empty
+</td>
+<td>
+the number of empty characters in the column
+</td>
+</tr>
+<tr>
+<td>
+n_unique
+</td>
+<td>
+the number of unique values in the column
+</td>
+</tr>
+<tr>
+<td>
+whitespace
+</td>
+<td>
+the number of rows containing only white space in the column
+</td>
+</tr>
+</tbody></table>
+<p>The columns for numeric variables are:</p>
+<table>
+<tbody><tr>
+<th>
+Attribute
+</th>
+<th>
+Description
+</th>
+</tr>
+<tr>
+<td>
+n_missing
+</td>
+<td>
+the number of rows with missing value (NA) in the corresponding columns
+</td>
+</tr>
+<tr>
+<td>
+complete_rate
+</td>
+<td>
+proportion of rows that are not missing (not NAs)
+</td>
+</tr>
+<tr>
+<td>
+mean
+</td>
+<td>
+the mean (average) value of the non-missing values in the column
+</td>
+</tr>
+<tr>
+<td>
+sd
+</td>
+<td>
+the standard deviation of the non-missing values in the column
+</td>
+</tr>
+<tr>
+<td>
+p0
+</td>
+<td>
+the minimum value observed in the column
+</td>
+</tr>
+<tr>
+<td>
+p25
+</td>
+<td>
+the 25th percentile of values observed in the column
+</td>
+</tr>
+<tr>
+<td>
+p50
+</td>
+<td>
+the median (50th percentile) of values observed in the column
+</td>
+</tr>
+<tr>
+<td>
+p75
+</td>
+<td>
+the 75th percentile of values observed in the column
+</td>
+</tr>
+<tr>
+<td>
+p100
+</td>
+<td>
+the maximum value observed in the column
+</td>
+</tr>
+<tr>
+<td>
+hist
+</td>
+<td>
+a histogram showing the shape of the distribution of values in the column
+</td>
+</tr>
+</tbody></table>
 
 
 </section>
