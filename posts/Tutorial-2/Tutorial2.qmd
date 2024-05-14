@@ -72,6 +72,7 @@ Think about what the line of code should *start* with.
 ```
 :::
 
+{{< pagebreak >}}
 
 
 ## R objects
@@ -97,9 +98,9 @@ y = 3
 
 ```
 
-
-
-__Side note:__ Sometimes you might see the operator `<-` (for example `x <- 2 `) instead of the equals sign (`=`). This is an artifact of earlier versions of R when you had to use `<-` to assign values to objects; both work now and `=` is shorter so I used it here :)
+::: {.callout-note collapse="true" }
+Sometimes you might see the operator `<-` (for example `x <- 2 `) instead of the equals sign (`=`). This is an artifact of earlier versions of R when you had to use `<-` to assign values to objects; both work now and `=` is shorter so I used it here :)
+:::
 
 Note that when you run this code, nothing happens! Or at least, that's what it looks like. If we were running this in RStudio, we would see in the upper right quadrant under the "Environment" tab that we now have two objects, x and y, that have the values 2 and 3 respectively. To see this here, we can print out the values:
 
@@ -167,7 +168,7 @@ class(x_numeric)
 
 ### Character
 
-This is a number to we can use the same types of functions as we used above on the object `x_numeric` (adding, subtracting, etc.).
+This is a number so we can use the same types of functions as we used above on the object `x_numeric` (adding, subtracting, etc.).
 
 ```{webr-r}
 # save x_character object with the value "5"
