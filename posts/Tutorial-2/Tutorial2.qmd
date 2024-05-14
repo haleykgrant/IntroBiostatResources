@@ -1,5 +1,6 @@
 ---
-title: "Tutorial 2: R Objects and Functions"
+title: "Tutorial 2: R Objects, Functions, and Packages"
+image: "r_packages.jpeg"
 format: 
   html:
     toc: true
