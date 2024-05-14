@@ -278,7 +278,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"id":1,"options":{"message":"true","autorun":"true","context":"setup","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-1","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc.samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n"},{"id":2,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-2","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()"},{"id":3,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-3","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"# print files in working directory\nlist.files()"},{"id":4,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-4","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")"},{"id":5,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-5","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"false"},"code":"\n# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")"},{"id":6,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-6","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"# show top few rows of the data set `cdc`\nhead(cdc)"},{"id":7,"options":{"message":"true","autorun":"true","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-7","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"false"},"code":"# load skimr library\nlibrary(skimr)"},{"id":8,"options":{"message":"true","autorun":"false","context":"interactive","editor-font-scale":"0.85","read-only":"false","fig-cap":"","classes":"","label":"unnamed-chunk-8","fig-width":7,"output":"true","editor-quick-suggestions":"false","comment":"","out-width":"700px","results":"markup","dpi":72,"editor-max-height":"","fig-height":5,"out-height":"","warning":"true"},"code":"# use the skim() function on the cdc data\nskim(cdc)"}];
+globalThis.qwebrCellDetails = [{"options":{"message":"true","fig-cap":"","read-only":"false","fig-height":5,"context":"setup","label":"unnamed-chunk-1","warning":"true","out-width":"700px","results":"markup","editor-quick-suggestions":"false","autorun":"true","out-height":"","output":"true","classes":"","editor-max-height":"","comment":"","editor-font-scale":"0.85","fig-width":7,"dpi":72},"id":1,"code":"\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc.samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n"},{"options":{"message":"true","fig-cap":"","read-only":"false","fig-height":5,"context":"interactive","label":"unnamed-chunk-2","warning":"true","out-width":"700px","results":"markup","editor-quick-suggestions":"false","autorun":"false","out-height":"","output":"true","classes":"","editor-max-height":"","comment":"","editor-font-scale":"0.85","fig-width":7,"dpi":72},"id":2,"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()"},{"options":{"message":"true","fig-cap":"","read-only":"false","fig-height":5,"context":"interactive","label":"unnamed-chunk-3","warning":"true","out-width":"700px","results":"markup","editor-quick-suggestions":"false","autorun":"false","out-height":"","output":"true","classes":"","editor-max-height":"","comment":"","editor-font-scale":"0.85","fig-width":7,"dpi":72},"id":3,"code":"# print files in working directory\nlist.files()"},{"options":{"message":"true","fig-cap":"","read-only":"false","fig-height":5,"context":"interactive","label":"unnamed-chunk-4","warning":"true","out-width":"700px","results":"markup","editor-quick-suggestions":"false","autorun":"false","out-height":"","output":"true","classes":"","editor-max-height":"","comment":"","editor-font-scale":"0.85","fig-width":7,"dpi":72},"id":4,"code":"# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")"},{"options":{"message":"true","fig-cap":"","read-only":"false","fig-height":5,"context":"interactive","label":"unnamed-chunk-5","warning":"false","out-width":"700px","results":"markup","editor-quick-suggestions":"false","autorun":"false","out-height":"","output":"true","classes":"","editor-max-height":"","comment":"","editor-font-scale":"0.85","fig-width":7,"dpi":72},"id":5,"code":"\n# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")"},{"options":{"message":"true","fig-cap":"","read-only":"false","fig-height":5,"context":"interactive","label":"unnamed-chunk-6","warning":"true","out-width":"700px","results":"markup","editor-quick-suggestions":"false","autorun":"false","out-height":"","output":"true","classes":"","editor-max-height":"","comment":"","editor-font-scale":"0.85","fig-width":7,"dpi":72},"id":6,"code":"# show top few rows of the data set `cdc`\nhead(cdc)"},{"options":{"message":"true","fig-cap":"","read-only":"false","fig-height":5,"context":"interactive","label":"unnamed-chunk-7","warning":"false","out-width":"700px","results":"markup","editor-quick-suggestions":"false","autorun":"true","out-height":"","output":"true","classes":"","editor-max-height":"","comment":"","editor-font-scale":"0.85","fig-width":7,"dpi":72},"id":7,"code":"# load skimr library\nlibrary(skimr)"},{"options":{"message":"true","fig-cap":"","read-only":"false","fig-height":5,"context":"interactive","label":"unnamed-chunk-8","warning":"true","out-width":"700px","results":"markup","editor-quick-suggestions":"false","autorun":"false","out-height":"","output":"true","classes":"","editor-max-height":"","comment":"","editor-font-scale":"0.85","fig-width":7,"dpi":72},"id":8,"code":"# use the skim() function on the cdc data\nskim(cdc)"},{"options":{"message":"true","fig-cap":"","read-only":"false","fig-height":5,"context":"interactive","label":"unnamed-chunk-9","warning":"true","out-width":"700px","results":"markup","editor-quick-suggestions":"false","autorun":"false","out-height":"","output":"true","classes":"","editor-max-height":"","comment":"","editor-font-scale":"0.85","fig-width":7,"dpi":72},"id":9,"code":"# load the readxl package \nlibrary(readxl)\n\n# save the data contained in dds.xlsx under the name `dds`\ndds = read_excel(\"dds.xlsx\")\n\n# make sure it worked by looking at the first few rows\nhead(dds)"},{"options":{"message":"true","fig-cap":"","read-only":"false","fig-height":5,"context":"interactive","label":"unnamed-chunk-10","warning":"true","out-width":"700px","results":"markup","editor-quick-suggestions":"false","autorun":"false","out-height":"","output":"true","classes":"","editor-max-height":"","comment":"","editor-font-scale":"0.85","fig-width":7,"dpi":72},"id":10,"code":"# load in the data\n# add verbose = TRUE so the object name gets printed\n\nload(\"census.rda\", verbose = TRUE)"}];
 
 </script>
 <script type="module">
@@ -1191,11 +1191,13 @@ globalThis.qwebrExecuteCode = async function (
   <ul class="collapse">
   <li><a href="#reading-in-a-csv-file" id="toc-reading-in-a-csv-file" class="nav-link" data-scroll-target="#reading-in-a-csv-file">Reading in a csv file</a></li>
   </ul></li>
-  <li><a href="#view-your-data" id="toc-view-your-data" class="nav-link" data-scroll-target="#view-your-data">View your data</a>
+  <li><a href="#viewing-your-data" id="toc-viewing-your-data" class="nav-link" data-scroll-target="#viewing-your-data">Viewing your data</a>
   <ul class="collapse">
   <li><a href="#the-head-function" id="toc-the-head-function" class="nav-link" data-scroll-target="#the-head-function">The head() function</a></li>
   <li><a href="#the-skim-function" id="toc-the-skim-function" class="nav-link" data-scroll-target="#the-skim-function">The skim() function</a></li>
   </ul></li>
+  <li><a href="#reading-in-an-excel-file" id="toc-reading-in-an-excel-file" class="nav-link" data-scroll-target="#reading-in-an-excel-file">Reading in an Excel file</a></li>
+  <li><a href="#r-data-files" id="toc-r-data-files" class="nav-link" data-scroll-target="#r-data-files">R data files</a></li>
   </ul>
 </nav>
 </nav>
@@ -1465,7 +1467,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>You should see the output is</p>
 <div style="text-align: center;">
-<p><span style="font-family: 'Courier New'; font-weight: 500;">“/home/web_user”</span></p>
+<p><span style="font-weight: 500;">"/home/web_user"</span></p>
 </div>
 <p>This is because we are working in R on the web. This is telling us that we are in a sub-directory of the “home” directory called “web_user”. That is, “web_user” is a directory (folder) inside the larger directory (folder) called “home”. You read file paths from left to right</p>
 <p>Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.</p>
@@ -1478,7 +1480,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>The output should look something like this:</p>
 <div style="text-align: center;">
-<p><span style="font-family: 'Courier New'; font-weight: 500;">[1] “cdc.samp.csv” “census.rda” “dds.xlsx”</span></p>
+<p><span style="font-family: 'Monaco'; font-weight: 500;">[1] “cdc.samp.csv” “census.rda” “dds.xlsx”</span></p>
 </div>
 <p>This tells us that there are 4 files that we have access to in this directory:</p>
 <ul>
@@ -1572,56 +1574,35 @@ Files with saved R objects
 <li><p>Here <code>name_for_data</code> is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can’t start with a number).</p></li>
 <li><p><code>"path_to_data"</code> is the file path that will tell R where to look for your data. You will see more examples of this in class, but for this example, the files are in our working directory so we don’t need any long file paths to navigate through different directories.</p></li>
 </ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Assigning a name
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Warning:</strong> Naming the object is very important!</p>
+<p>If you forget to choose a name for your dataframe, R will read in the data and print it, but it won’t save it as an object. If you just use <code>read_csv()</code> without the <code>name_for_data =</code> part, you won’t be able to manipulate or analyze the data</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Duplicate names
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Another warning:</strong> If you read in two datasets and accidentally give them the same name, <em>the one you run second will overwrite the first one</em>! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new dataframes different names!</p>
+</div>
+</div>
 <p>Let’s try reading in the “cdc.samp.csv” file and give the dataframe the name <code>cdc</code>.</p>
 <div id="qwebr-insertion-location-4"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Hint (if you get an error)
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>If you get the following error:</p>
-<div style="text-align: center;">
-<p><span style="color: #BB0000; font-family: 'Courier New'; font-weight: 500;">Error: could not find function “read_csv”</span></p>
-</div>
-<p>you forgot to load the tidyverse package!</p>
-<p>Add a line of code above your read_csv() line to load the tidyverse (<code>library(tidyverse)</code>).</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Answer
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div id="qwebr-insertion-location-5"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="view-your-data" class="level2">
-<h2 class="anchored" data-anchor-id="view-your-data">View your data</h2>
-<p>Great! We’ve now read our first data file into R. But how do we know if it worked?</p>
-<section id="the-head-function" class="level3">
-<h3 class="anchored" data-anchor-id="the-head-function">The head() function</h3>
-<p>In RStudio, you should be able to see a new object in your ‘Environment’ tab in the upper-right quadrant of your screen when you import a new data set. Since we’re working on the web, we’ll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is <code>head()</code> that shows us the top few entries of a data frame, vector, or list.</p>
-<div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
@@ -1637,7 +1618,56 @@ Hint (if you get an error)
 <div class="callout-body-container callout-body">
 <p>If you get the following error:</p>
 <div style="text-align: center;">
-<p><span style="color: #BB0000; font-family: 'Courier New'; font-weight: 500;">Error: object ‘cdc’ not found</span></p>
+<p><span style="color: #BB0000; font-family: 'Monaco'; font-weight: 500;">Error: could not find function “read_csv”</span></p>
+</div>
+<p>you forgot to load the tidyverse package!</p>
+<p>Add a line of code above your read_csv() line to load the tidyverse (<code>library(tidyverse)</code>).</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="viewing-your-data" class="level2">
+<h2 class="anchored" data-anchor-id="viewing-your-data">Viewing your data</h2>
+<p>Great! We’ve now read our first data file into R. But how do we know if it worked?</p>
+<p>We’re going to take a brief detour to talk about taking a first look at your data before we move on to importing data from other files types.</p>
+<section id="the-head-function" class="level3">
+<h3 class="anchored" data-anchor-id="the-head-function">The head() function</h3>
+<p>In RStudio, you should be able to see a new object in your ‘Environment’ tab in the upper-right quadrant of your screen when you import a new data set. Since we’re working on the web, we’ll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is <code>head()</code> that shows us the top few entries of a data frame, vector, or list.</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hint (if you get an error)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If you get the following error:</p>
+<div style="text-align: center;">
+<p><span style="color: #BB0000; font-family: 'Monaco'; font-weight: 500;">Error: object ‘cdc’ not found</span></p>
 </div>
 <p>this is R’s way of telling you that you don’t currently have an object loaded into your environment called ‘cdc’.</p>
 <p>When you see an error like this, you should make sure the code used to import the data worked properly and that you don’t have any spelling errors (R is case sensitive so you have to be very careful to spell things exactly correctly).</p>
@@ -1645,7 +1675,7 @@ Hint (if you get an error)
 </div>
 </div>
 </div>
-<p>Awesome! Here we see the top 6 rows of the <code>cdc</code> dataframe. There are 9 columns: <span style="font-family: Courier New;"> genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span></p>
+<p>Awesome! Here we see the top 6 rows of the <code>cdc</code> dataframe. There are 9 columns: <span style="font-family: Monaco;"> genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span></p>
 </section>
 <section id="the-skim-function" class="level3">
 <h3 class="anchored" data-anchor-id="the-skim-function">The skim() function</h3>
@@ -1654,7 +1684,19 @@ Hint (if you get an error)
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Courier New;"> genhlth</span> and <span style="font-family: Courier New;"> gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1—more on this later).</p>
+<p>This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Monaco;"> genhlth</span> and <span style="font-family: Monaco;"> gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1—more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Understanding <code>skim()</code> output
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>The columns for categorical variables are:</p>
 <table>
 <tbody><tr>
@@ -1813,9 +1855,75 @@ a histogram showing the shape of the distribution of values in the column
 </td>
 </tr>
 </tbody></table>
-
-
+</div>
+</div>
+</div>
+<p>Back to reading in data from various file types…</p>
 </section>
+</section>
+<section id="reading-in-an-excel-file" class="level2">
+<h2 class="anchored" data-anchor-id="reading-in-an-excel-file">Reading in an Excel file</h2>
+<p>We’ve successfully read in a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we’re going to need to use a new package called the <code>readxl</code> package.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Reminder: Installing <code>readxl</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Remember that if you don’t have this package installed on your local computer, you’ll need to install it before you can load and use it. I’ve already installed it here, but remember that to install the package you can just run <code>install.packages("readxl")</code> in your console in R Studio.</p>
+</div>
+</div>
+</div>
+<p>Once we have the <code>readxl</code> package loaded, the syntax is very similar to <code>read_csv()</code> from above. There are a few different functions that could work from this package, but the most generic one is <code>read_excel()</code>. The syntax is:</p>
+<div style="text-align: center;">
+<p><code>name_for_data = read_excel("path_to_data")</code></p>
+</div>
+<p>Let’s try it using our ‘dds.xlsx’ file!</p>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Awesome! We can see that there are 6 columns in this data set: <span style="font-family: Monaco;"> id, age.cohort, age, gender, expenditure, ethnicity.</span></p>
+<p>Once you have the <code>readxl</code> package, importing Excel files works just like reading in csv files!</p>
+</section>
+<section id="r-data-files" class="level2">
+<h2 class="anchored" data-anchor-id="r-data-files">R data files</h2>
+<p>There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. <strong>The syntax is slightly different for these kinds of files.</strong></p>
+<p>The syntax for importing an R data file is:</p>
+<div style="text-align: center;">
+<p><code>load("path_to_data")</code></p>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+load()
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Notice how we didn’t include anything on the left side of the <code>load()</code> function here. We didn’t give the data a name!</p>
+</div>
+</div>
+<p>The reason we don’t assign names to data loaded from an R data file is because <strong>these objects already come with a name</strong>. Since these are R objects that were saved specifically in a file format that R understands, they keep the name that they were given when they were first created in R. So how do we know what the name is? We can add an extra argument to this function called <code>verbose</code>. The syntax will become:</p>
+<div style="text-align: center;">
+<p><code>load("path_to_data", verbose = TRUE)</code></p>
+</div>
+<p>This tells R to print out the name of the data object once it is loaded so we know what to call it.</p>
+<p>Let’s see an example of this using our ‘census.rda’ file.</p>
+<div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>We can see the message:</p>
+<div style="text-align: center;">
+<p><span style="font-family: 'Monaco'; font-weight: 500;">Loading objects: census</span></p>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->

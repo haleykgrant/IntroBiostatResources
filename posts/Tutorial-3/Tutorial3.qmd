@@ -69,7 +69,7 @@ getwd()
 You should see the output is 
 
 ::: {style="text-align: center;"}
-["/home/web_user"]{style="font-family: 'Courier New'; font-weight: 500;"}
+[\left\"/home/web_user\right\"]{style="font-weight: 500;"}
 :::
 
 This is because we are working in R on the web. This is telling us that we are in a sub-directory of the "home" directory called "web_user". That is, "web_user" is a directory (folder) inside the larger directory (folder) called "home". You read file paths from left to right
@@ -90,7 +90,7 @@ list.files()
 The output should look something like this:
 
 ::: {style="text-align: center;"}
-[[1] "cdc.samp.csv" "census.rda"   "dds.xlsx"]{style="font-family: 'Courier New'; font-weight: 500;"}
+[[1] "cdc.samp.csv" "census.rda"   "dds.xlsx"]{style="font-family: 'Monaco'; font-weight: 500;"}
 :::
   
 This tells us that there are 4 files that we have access to in this directory:
@@ -164,9 +164,24 @@ The syntax to use this function is:
 `name_for_data = read_csv("path_to_data")`
 :::
 
--   Here `name_for_data` is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can't start with a number).
+-   Here `name_for_data` is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can't start with a number). 
 
 -   `"path_to_data"` is the file path that will tell R where to look for your data. You will see more examples of this in class, but for this example, the files are in our working directory so we don't need any long file paths to navigate through different directories. 
+
+::: {.callout-warning }
+## Assigning a name
+
+__Warning:__ Naming the object is very important!
+
+If you forget to choose a name for your dataframe, R will read in the data and print it, but it won't save it as an object. If you just use `read_csv()` without the `name_for_data =` part, you won't be able to manipulate or analyze the data
+:::
+
+::: {.callout-warning }
+## Duplicate names
+
+__Another warning:__ If you read in two datasets and accidentally give them the same name, *the one you run second will overwrite the first one*! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new dataframes different names!
+
+:::
 
 Let's try reading in the "cdc.samp.csv" file and give the dataframe the name `cdc`.
 
@@ -182,13 +197,15 @@ cdc = read_csv("cdc.samp.csv")
 If you get the following error:
 
 ::: {style="text-align: center;"}
-[Error: could not find function "read_csv"]{style="color: #BB0000; font-family: 'Courier New'; font-weight: 500;"}
+[Error: could not find function "read_csv"]{style="color: #BB0000; font-family: 'Monaco'; font-weight: 500;"}
 :::
 
 you forgot to load the tidyverse package!
 
 Add a line of code above your read_csv() line to load the tidyverse (`library(tidyverse)`).
 :::
+
+
 
 ::: {.callout-note collapse="true" icon="false"}
 ## Answer
@@ -205,9 +222,11 @@ cdc = read_csv("cdc.samp.csv")
 :::
 
 
-## View your data
+## Viewing your data
 
 Great! We've now read our first data file into R. But how do we know if it worked?
+
+We're going to take a brief detour to talk about taking a first look at your data before we move on to importing data from other files types.
 
 ### The head() function
 
@@ -225,7 +244,7 @@ head(cdc)
 If you get the following error:
 
 ::: {style="text-align: center;"}
-[Error: object 'cdc' not found]{style="color: #BB0000; font-family: 'Courier New'; font-weight: 500;"}
+[Error: object 'cdc' not found]{style="color: #BB0000; font-family: 'Monaco'; font-weight: 500;"}
 :::
 
 this is R's way of telling you that you don't currently have an object loaded into your environment called 'cdc'. 
@@ -235,7 +254,7 @@ When you see an error like this, you should make sure the code used to import th
 Make sure you were able to successfully run the code above with the `read_csv()` function without any errors before running this code block.
 :::
 
-Awesome! Here we see the top 6 rows of the `cdc` dataframe. There are 9 columns: <span style="font-family: Courier New;"> genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span>
+Awesome! Here we see the top 6 rows of the `cdc` dataframe. There are 9 columns: <span style="font-family: Monaco;"> genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span>
 
 ### The skim() function
 
@@ -255,8 +274,10 @@ skim(cdc)
 
 ```
 
-This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Courier New;"> genhlth</span> and  <span style="font-family: Courier New;"> gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1---more on this later). 
+This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Monaco;"> genhlth</span> and  <span style="font-family: Monaco;"> gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1---more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.
 
+::: {.callout-note collapse="true" }
+## Understanding `skim()` output
 The columns for categorical variables are:
 
 <table>
@@ -342,6 +363,82 @@ The columns for numeric variables are:
     <td>a histogram showing the shape of the distribution of values in the column</td>
   </tr>
 </table>
+:::
+
+Back to reading in data from various file types...
 
 
+## Reading in an Excel file
+
+We've successfully read in a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we're going to need to use a new package called the `readxl` package.
+
+
+::: {.callout-caution collapse="true"}
+## Reminder: Installing `readxl`
+Remember that if you don't have this package installed on your local computer, you'll need to install it before you can load and use it. I've already installed it here, but remember that to install the package you can just run `install.packages("readxl")` in your console in R Studio.
+:::
+
+Once we have the `readxl` package loaded, the syntax is very similar to `read_csv()` from above. There are a few different functions that could work from this package, but the most generic one is `read_excel()`. The syntax is: 
+
+
+::: {style="text-align: center;"}
+`name_for_data = read_excel("path_to_data")`
+:::
+
+Let's try it using our 'dds.xlsx' file!
+
+```{webr-r}
+# load the readxl package 
+library(readxl)
+
+# save the data contained in dds.xlsx under the name `dds`
+dds = read_excel("dds.xlsx")
+
+# make sure it worked by looking at the first few rows
+head(dds)
+```
+
+Awesome! We can see that there are 6 columns in this data set: <span style="font-family: Monaco;"> id, age.cohort, age, gender, expenditure, ethnicity.</span>
+
+Once you have the `readxl` package, importing Excel files works just like reading in csv files!
+
+## R data files
+
+There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. __The syntax is slightly different for these kinds of files.__
+
+The syntax for importing an R data file is:
+
+::: {style="text-align: center;"}
+`load("path_to_data")`
+:::
+
+::: {.callout-warning }
+## load()
+
+Notice how we didn't include anything on the left side of the `load()` function here. We didn't give the data a name!
+:::
+
+The reason we don't assign names to data loaded from an R data file is because __these objects already come with a name__. Since these are R objects that were saved specifically in a file format that R understands, they keep the name that they were given when they were first created in R. So how do we know what the name is? We can add an extra argument to this function called `verbose`. The syntax will become:
+
+::: {style="text-align: center;"}
+`load("path_to_data", verbose = TRUE)`
+:::
+
+This tells R to print out the name of the data object once it is loaded so we know what to call it.
+
+Let's see an example of this using our 'census.rda' file.
+
+```{webr-r}
+# load in the data
+# add verbose = TRUE so the object name gets printed
+
+load("census.rda", verbose = TRUE)
+
+```
+
+We can see the message:
+
+::: {style="text-align: center;"}
+[Loading objects: \n census]{style="font-family: 'Monaco'; font-weight: 500;"}
+:::
 
