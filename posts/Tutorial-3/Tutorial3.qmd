@@ -197,7 +197,7 @@ cdc = read_csv("cdc.samp.csv")
 If you get the following error:
 
 ::: {style="text-align: center;"}
-[Error: could not find function "read_csv"]{style="color: #BB0000; font-family: 'Monaco'; font-weight: 500;"}
+[Error: could not find function "read_csv"]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
 :::
 
 you forgot to load the tidyverse package!
@@ -244,7 +244,7 @@ head(cdc)
 If you get the following error:
 
 ::: {style="text-align: center;"}
-[Error: object 'cdc' not found]{style="color: #BB0000; font-family: 'Monaco'; font-weight: 500;"}
+[Error: object 'cdc' not found]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
 :::
 
 this is R's way of telling you that you don't currently have an object loaded into your environment called 'cdc'. 
