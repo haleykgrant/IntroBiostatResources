@@ -438,7 +438,8 @@ load("census.rda", verbose = TRUE)
 
 We can see the message:
 
-::: {style="text-align: center;"}
-[Loading objects: \n census]{style="font-family: 'Monaco'; font-weight: 500;"}
-:::
+<div style="text-align: center;">
+[Loading objects:<br>&nbsp;&nbsp;census]{style="font-family: 'Monaco'; font-weight: 500; display: inline-block; text-align: left;"}
+</div>
+
 
