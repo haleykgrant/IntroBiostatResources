@@ -51,7 +51,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "BIOST2041",
+    "title": "Resources for learning R",
     "section": "",
     "text": "Tutorial 2: R Objects, Functions, and Packages\n\n\n\ncode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTutorial 1: Installing R and RStudio\n\n\n\nsoftware\n\n\ncode\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
@@ -110,5 +110,12 @@
     "title": "Tutorial 2: R Objects, Functions, and Packages",
     "section": "End of tutorial",
     "text": "End of tutorial\nThat’s it! The next tutorial will be about reading in and manipulating data in R."
+  },
+  {
+    "objectID": "index.html#biost-2041",
+    "href": "index.html#biost-2041",
+    "title": "BIOST2041",
+    "section": "",
+    "text": "Resources for learning R"
   }
 ]
