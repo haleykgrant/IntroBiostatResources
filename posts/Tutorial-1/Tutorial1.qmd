@@ -1,5 +1,6 @@
 ---
 title: "Tutorial 1: Installing R and RStudio"
+image: "rstudio.png"
 format: 
   html:
     toc: true
