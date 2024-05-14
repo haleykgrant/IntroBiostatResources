@@ -16,6 +16,7 @@ webr:
     editor-font-scale: 0.85
 categories:
     - code
+title-block-banner: "#a2cffe"
 ---
 ```{webr-r}
 #| context: setup
