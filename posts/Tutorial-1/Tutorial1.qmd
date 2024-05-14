@@ -9,7 +9,7 @@ filters:
   - webr
   - naquiz
 webr:
-  packages: ['tidyverse','learnr']
+  packages: ['tidyverse']
 categories:
     - software
     - code

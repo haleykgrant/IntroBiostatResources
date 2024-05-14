@@ -32,12 +32,12 @@ In this tutorial, you will learn about working with objects in R. In particular,
 
 In this tutorial I will introduce a handful of new concepts in R and example code to demonstrate how the code works. When you get to a code chunk (an example of a code chunk is shown below), you can edit the code in the chunk if there are instructions to do so, and run the code to see what the output is by either hitting the "run code" button or by placing your cursor in the code chunk you want to execute and hitting `command (⌘) + return (↩)` (on mac) or `Ctrl + Enter` (on windows).
 
-#### The 'Start Over' button
+#### The 'Start over' button
 
-Each code chunk has a <span style="border: 1px solid black; padding: 2px;border-radius: 5px; position: relative;margin-right: 3px;">
-  <i style="font-size: 12px; position: absolute; top: 4px; left: 4px;" class="fa">&#xf021;</i>
-  <span style="margin-left: 20px;">Start Over </span>
-</span> button in the upper left corner that allows you to reset the code.If you make a mistake and want to start over, hit this button! There is also a 'Start Over' button on the lefthand side navigation bar if you want to start the tutorial over from the first page.
+Each code chunk has a <span style="padding: 3px; position: relative;margin-right: 6px;">
+  <i style="font-size: 12px; position: absolute; top: 8px; left: 4px;" class="fa">&#xf021;</i>
+  <span style="margin-left: 10px;"> </span>
+</span> button in the upper right corner that allows you to reset the code.If you make a mistake and want to start from scratch, hit this button! 
 
 #### Comments
 
