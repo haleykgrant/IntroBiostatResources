@@ -11,4 +11,3 @@ page-layout: full
 title-block-banner: rainbow.jpg
 title-block-banner-color: "black"
 ---
-

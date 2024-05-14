@@ -28,7 +28,7 @@ categories:
 
 ## Welcome to the Installing R Tutorial
 
-This tutorial is was developed based on [this resource](https://github.com/rstudio/learnr/tree/main/inst/tutorials/ex-setup-r/ex-setup-r.Rmd). The goal is to make sure you have R and Rstudio installed on your computer and make sure you have a folder set up for this class to make your semester go smoother.
+This tutorial was developed based on [this resource](https://github.com/rstudio/learnr/tree/main/inst/tutorials/ex-setup-r/ex-setup-r.Rmd). The goal is to make sure you have R and Rstudio installed on your computer and make sure you have a folder set up for this class to make your semester go smoother.
 
 ### Outline
 
@@ -54,7 +54,7 @@ If you've already done this, we'll move to the next step!
 
 ### How to install RStudio
 
-RStudio is an Integrated Development Environment for R. What does that mean? Well, if you think of R as a language, which it is, you can think of RStudio as a program that helps you write and work in the language. RStudio makes programming in R much easier and I suggest that you use it!
+RStudio is an Integrated Development Environment (IDE) for R. What does that mean? Well, if you think of R as a language, which it is, you can think of RStudio as a program that helps you write and work in the language. RStudio makes programming in R much easier and I suggest that you use it!
 
 {{< video https://vimeo.com/203516968 >}}
 

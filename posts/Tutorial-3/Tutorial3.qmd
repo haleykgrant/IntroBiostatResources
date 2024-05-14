@@ -1,0 +1,249 @@
+---
+title: "Tutorial 3: Importing and Manipulating Data in R"
+image: spreadsheet.jpg
+format: 
+  html:
+    toc: true
+    toc-location: left
+engine: knitr
+filters: 
+  - webr
+  - naquiz
+webr:
+  packages: ['tidyverse', 'readxl','skimr']
+  autoload-packages: false
+  cell-options:
+    editor-font-scale: 0.85
+categories:
+    - code
+---
+```{webr-r}
+#| context: setup
+
+url.csv <- "https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv"
+download.file(url.csv, "cdc.samp.csv")
+
+url.xlsx <- "https://haleykgrant.github.io/tutorial_data/data/dds.xlsx"
+download.file(url.xlsx, "dds.xlsx")
+
+url.rda <- "https://haleykgrant.github.io/tutorial_data/data/census.rda"
+download.file(url.rda, "census.rda")
+
+
+```
+
+## Introduction
+
+In this tutorial, you will learn about working with data in R. In particular, this tutorial will cover...
+
+-   Reading in data from different file types
+-   Data frame structure in R
+-   Updating and making new variables
+-   Filtering data
+
+## Files on your local computer
+
+When you are working in R on your local computer and you want to import a data file into your R session for an analysis, you will need to tell R where it can find the data file. This is why I suggested creating a 'data' folder in your class folder. If you save all of the data files for this class in that folder, you can always use the same general syntax for telling R where your file is.
+
+For this tutorial, we are working on the web, so R doesn't have access to the local files on your device. I have included all of the data files we will be using in this tutorial on a webpage that we can access online. You may need to change this code slightly to when running code for your assignments in this class to work with your computer's file structure.
+
+### Checking your working directory
+
+One good idea when you start working on a new analysis is to make sure you know where within your computer's file structure you are working so you can figure out how to access various files.
+
+We can use the function `getwd()` to have R print out the path to the directory (folder) we are currently working in.
+
+Try running the code in this block:
+
+```{webr-r}
+# check your current working directory
+# there shouldn't be anything between the two parentheses here
+getwd()
+
+```
+
+
+You should see the output is 
+
+::: {style="text-align: center;"}
+["/home/web_user"]{style="font-family: 'Courier New'; font-weight: 500;"}
+:::
+
+This is because we are working in R on the web. This is telling us that we are in a subdirectory of the "home" directory called "web_user". That is, "web_user" is a directory (folder) inside the larger directory (folder) called "home". You read file paths from left to right
+
+Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.
+
+### List files in working directory
+
+To check the files that are present in our current directory, we can use the function `list.files()` to list out all of the files that are stored in the directory where we are currently working. 
+
+Try running the code in this block:
+
+```{webr-r}
+# print files in working directory
+list.files()
+```
+
+The output should look something like this:
+
+::: {style="text-align: center;"}
+[[1] "Rplots.pdf"   "cdc.samp.csv" "census.rda"   "dds.xlsx"]{style="font-family: 'Courier New'; font-weight: 500;"}
+:::
+  
+This tells us that there are 4 files that we have access to in this directory:
+
+- a file called "cdc.samp.csv"
+- a file called "census.rda"
+- a file called "dds.xlsx"
+
+There are the data files that we will be working with in this tutorial.
+
+## Types of files
+
+The main types of files that we will work with in this class are:
+
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+
+<table>
+  <tr>
+    <th>File Type</th>
+    <th>Description</th>
+    <th>File Extension</th>
+  </tr>
+  <tr>
+    <td>CSV files </td>
+    <td> This stands for "comma separated value". These are files that have rows with entries separated by commas to indicate the different columns</td>
+    <td>.csv</td>
+  </tr>
+  <tr>
+    <td>Excel files</td>
+    <td>Files in Excel workbook/sheet format</td>
+    <td>.xls or .xlsx</td>
+  </tr>
+  <tr>
+    <td>R data files</td>
+    <td>Files with saved R objects</td>
+    <td>.RData or .rda</td>
+  </tr>
+</table>
+
+The three files we will read in today have the following names:
+
+-   "cdc.samp.csv" : a csv file with demographic data from the cdc
+-   "dds.xlsx" : an excel file with data from the department of disability services in California
+-   "census.rda": an R data file with data from the US census
+
+
+
+## Importing Data
+
+
+### Reading in a csv file
+
+To read in a csv file to R, we use the function `read.csv()`. There is a similar function in the `tidyverse` package called `read_csv()` that you could also use. We'll go ahead and use the tidyverse version.
+
+The syntax to use this function is:
+
+::: {style="text-align: center;"}
+`name_for_data = read_csv("path_to_data")`
+:::
+
+-   Here `name_for_data` is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can't start with a number).
+
+-   `"path_to_data"` is the file path that will tell R where to look for your data. You will see more examples of this in class, but for this example, the files are in our working directory so we don't need any long file paths to navigate through different directories. 
+
+Let's try reading in the "cdc.samp.csv" file and give the dataframe the name `cdc`.
+
+```{webr-r}
+#| warning: false
+# read in the data file "cdc.samp.csv"
+cdc = read_csv("cdc.samp.csv")
+```
+
+
+::: {.callout-tip collapse="true" icon="false"}
+## Hint (if you get an error)
+
+If you get the following error:
+
+::: {style="text-align: center;"}
+[Error: could not find function "read_csv"]{style="color: #BB0000; font-family: 'Courier New'; font-weight: 500;"}
+:::
+
+you forgot to load the tidyverse package!
+
+Add a line of code above your read_csv() line to load the tidyverse (`library(tidyverse)`).
+:::
+
+::: {.callout-note collapse="true" icon="false"}
+## Answer
+
+```{webr-r}
+#| warning: false
+# load tidyverse package first
+library(tidyverse)
+
+# read in the data file "cdc.samp.csv"
+cdc = read_csv("cdc.samp.csv")
+```
+:::
+
+
+### View your data
+
+Great! We've now read our first data file into R. But how do we know if it worked?
+
+In RStudio, you should be able to see a new object in your 'Environment' tab in the upper-right quadrant of your screen when you import a new data set. Since we're working on the web, we'll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is `head()` that shows us the top few entries of a data frame, vector, or list.
+
+```{webr-r}
+# show top few rows of the data set `cdc`
+head(cdc)
+
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Hint (if you get an error)
+
+If you get the following error:
+
+::: {style="text-align: center;"}
+[Error: object 'cdc' not found]{style="color: #BB0000; font-family: 'Courier New'; font-weight: 500;"}
+:::
+
+this is R's way of telling you that you don't currently have an object loaded into your environment called 'cdc'. 
+
+When you see an error like this, you should make sure the code used to import the data worked properly and that you don't have any spelling errors (R is case sensitive so you have to be very careful to spell things exactly correctly).
+
+Make sure you were able to successfully run the code above with the `read_csv()` function without any errors before running this code block.
+:::
+
+Awesome! Here we see the top 6 rows of the `cdc` dataframe. There are 9 columns: <span style="font-family: Courier New;"> genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span>
+
+
+Another way we can start to take a look at the data is to use a function from the R package `skmir`. The function is called `skim` and gives us a nice overview of the contents included in our data.
+
+```{webr-r}
+#| warning: false
+# load skimr library
+library(skimr)
+
+# use the skim() function on the cdc data
+skim(cdc)
+
+```
+
+This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Courier New;"> genhlth</span> and  <span style="font-family: Courier New;"> gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables )
+
