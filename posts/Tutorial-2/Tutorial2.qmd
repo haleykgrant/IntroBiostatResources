@@ -15,16 +15,14 @@ categories:
     - code
 ---
 
-
 ## Introduction
 
 In this tutorial, you will learn about working with objects in R. In particular, this tutorial will cover...
 
-* R objects
-* Data types in R
-* Functions in R
-* Installing and using R packages
-
+-   R objects
+-   Data types in R
+-   Functions in R
+-   Installing and using R packages
 
 ### Working through the tutorial
 
@@ -34,28 +32,23 @@ In this tutorial I will introduce a handful of new concepts in R and example cod
 
 #### The 'Start over' button
 
-Each code chunk has a <span style="padding: 3px; position: relative;margin-right: 6px;">
-  <i style="font-size: 12px; position: absolute; top: 8px; left: 4px;" class="fa">&#xf021;</i>
-  <span style="margin-left: 10px;"> </span>
-</span> button in the upper right corner that allows you to reset the code.If you make a mistake and want to start from scratch, hit this button! 
+Each code chunk has a [ <i style="font-size: 12px; position: absolute; top: 8px; left: 4px;" class="fa"></i> ]{style="padding: 3px; position: relative;margin-right: 6px;"}[ ]{style="margin-left: 10px;"} button in the upper right corner that allows you to reset the code.If you make a mistake and want to start from scratch, hit this button!
 
 #### Comments
 
-You may notice some lines of code that start with the pound sybmol, `#`, and show up in a different color. These are called __comments__. R doesn't execute anything when it sees a comment, it's just a note to yourself or anyone else reading your code! It's good practice to add comments to your code at each line to help you remember what the code was meant to do, or to help someone else who is reading your code see what you were trying to do. 
+You may notice some lines of code that start with the pound sybmol, `#`, and show up in a different color. These are called **comments**. R doesn't execute anything when it sees a comment, it's just a note to yourself or anyone else reading your code! It's good practice to add comments to your code at each line to help you remember what the code was meant to do, or to help someone else who is reading your code see what you were trying to do.
 
 ```{r }
 # this is an example of a comment!
 
 ```
 
-__Exercise:__ Try writing your own comment in the code chunk below!
+**Exercise:** Try writing your own comment in the code chunk below!
 
 ```{webr-r}
 
 
 ```
-
-
 
 ::: {.callout-tip collapse="true" icon="false"}
 ## Hint
@@ -74,19 +67,16 @@ Think about what the line of code should *start* with.
 
 {{< pagebreak >}}
 
-
 ## R objects
 
 The console in R (the bottom quadrant of the RStudio interface) can be used essentially as a calculator. We can do lots of operations in the console and have R print out the answer for us.
 
-For example, if we want to check what `2+3` is, we can run the code: 
+For example, if we want to check what `2+3` is, we can run the code:
 
 ```{webr-r}
 # add 2 + 3
 2 + 3
 ```
-
-
 
 When you run the code above, it prints out the number 5. That's great, but maybe I don't want to have to type that every time I want to use those numbers. This is where R objects come in. For example, maybe I have a variable that I want to call `x` that will hold the number 2 and a different variable called `y` that will hold the number 3. I can do this with the following code
 
@@ -98,10 +88,10 @@ y = 3
 
 ```
 
-::: {.callout-note collapse="true" }
+::: {.callout-note collapse="true"}
 ## Note: `=` vs `<-`
 
-Sometimes you might see the operator `<-` (for example `x <- 2 `) instead of the equals sign (`=`). This is an artifact of earlier versions of R when you had to use `<-` to assign values to objects; both work now and `=` is shorter so I used it here :)
+Sometimes you might see the operator `<-` (for example `x <- 2`) instead of the equals sign (`=`). This is an artifact of earlier versions of R when you had to use `<-` to assign values to objects; both work now and `=` is shorter so I used it here :)
 :::
 
 Note that when you run this code, nothing happens! Or at least, that's what it looks like. If we were running this in RStudio, we would see in the upper right quadrant under the "Environment" tab that we now have two objects, x and y, that have the values 2 and 3 respectively. To see this here, we can print out the values:
@@ -113,7 +103,7 @@ x
 y 
 ```
 
-Cool! Now that `x` and `y` are placeholders for the numbers 2 and 3, we can use them just like numbers. For example, we can add them together, multiply them, divide, subtract, etc. If we want to save the value of `x + y` for later use, we can do that too! 
+Cool! Now that `x` and `y` are placeholders for the numbers 2 and 3, we can use them just like numbers. For example, we can add them together, multiply them, divide, subtract, etc. If we want to save the value of `x + y` for later use, we can do that too!
 
 ```{webr-r}
 # print x + y
@@ -146,16 +136,15 @@ z
 
 ```
 
-
 ## Types of Data
 
 In the example above, we were using numeric variables. However, there are many different types of data in R. Some of the main types of data we will use are
 
-* __numeric__: numbers
-* __character__: character strings/words
-* __factor__: categorical variables that store data in levels
-* __logical__: binary TRUE/FALSE 
-* __NA__: stand-in for missing values
+-   **numeric**: numbers
+-   **character**: character strings/words
+-   **factor**: categorical variables that store data in levels
+-   **logical**: binary TRUE/FALSE
+-   **NA**: stand-in for missing values
 
 ### Numeric
 
@@ -181,27 +170,26 @@ x_character
 class(x_character)
 ```
 
-This is a character. Even though it looks like a number, the quotation marks tell R that we don't want to treat this as the number 5. For example, maybe this is and identifier for hospital number 5 in a study. In this case, we probably don't want to do typical calculations as if this was the number 5. 
+This is a character. Even though it looks like a number, the quotation marks tell R that we don't want to treat this as the number 5. For example, maybe this is and identifier for hospital number 5 in a study. In this case, we probably don't want to do typical calculations as if this was the number 5.
 
-__Exercise:__ See what happens when you try to multiply `x_character` by 2.
+**Exercise:** See what happens when you try to multiply `x_character` by 2.
 
 ```{webr-r}
 # try multiplying x_character by 2
 
 ```
 
-
-### Error messages 
+### Error messages
 
 Oh no! You should see the following error message:
 
-<div style="text-align: center;">
-<span style="color: #BB0000; font-family: 'Courier New'; font-weight: 500;"> Error: non-numeric argument to binary operator</span>
-</div>
+::: {style="text-align: center;"}
+[ Error: non-numeric argument to binary operator]{style="color: #BB0000; font-family: 'Courier New'; font-weight: 500;"}
+:::
 
 This is how R is telling you that you're trying to apply a function that requires a number to an object that isn't a number. R gives helpful error messages like this when you try to run code that doesn't work. Sometimes the language R uses is hard to understand, but you can always ask me or a TA what the error means, or search the error on Google!
 
-__Exercise:__ If you change `x_character` to `x_numeric` in the code above, you should see it works just fine!
+**Exercise:** If you change `x_character` to `x_numeric` in the code above, you should see it works just fine!
 
 ### Factor
 
@@ -223,7 +211,6 @@ R has another type of data called "logical" values. These are binary TRUE/FALSE 
 
 In the example below we'll make a new variable to tell us if `x_numeric` from above is equal to the number 5.
 
-
 ```{webr-r}
 # save x_logical as a TRUE/FALSE statement
 # the `==` operator is R's way of saying "is the thing on the left equal to the thing on the right?"
@@ -238,13 +225,13 @@ class(x_logical)
 
 ```
 
-__Exercise:__ Try changing the value in the code above to check if `x_numeric` is equal to the number 4 to see how the value would change.
+**Exercise:** Try changing the value in the code above to check if `x_numeric` is equal to the number 4 to see how the value would change.
 
 ### Missing Values
 
-R has a special way of denoting missing values. In R, these show up as `NA` values. For example, if you have a data set with 100 individuals' height, weight, and age, if you weren't able to get the values measured for some of the individuals, those values should show up as `NA` values to indicate that they are missing. 
+R has a special way of denoting missing values. In R, these show up as `NA` values. For example, if you have a data set with 100 individuals' height, weight, and age, if you weren't able to get the values measured for some of the individuals, those values should show up as `NA` values to indicate that they are missing.
 
-__Note:__ this is different from "NA" the character. R will change the color of `NA` when you type it in your code to show that this is a special kind of variable.
+**Note:** this is different from "NA" the character. R will change the color of `NA` when you type it in your code to show that this is a special kind of variable.
 
 ```{webr-r}
 # save x_missing as NA value
@@ -254,15 +241,13 @@ x_missing = NA
 x_missing
 ```
 
-__Exercise:__ Try multiplying the `x_missing` variable by 2 and see what happens. 
+**Exercise:** Try multiplying the `x_missing` variable by 2 and see what happens.
 
 ```{webr-r}
 # multiple x_missing by 2
 
 
 ```
-
-
 
 Generally any kind of functions applied to missing values return another `NA` value unless the function has a special way of handling missing values.
 
@@ -316,7 +301,7 @@ sd(x_vector)
 unique(x_vector)
 ```
 
-#### Print the length of the vector 
+#### Print the length of the vector
 
 ```{webr-r}
 # show the length of the vector
@@ -324,25 +309,23 @@ length(x_vector)
 
 ```
 
-
 {{< pagebreak >}}
 
 ## Functions
 
-We've already shown some examples of functions in R. You can think of R functions kind of like a recipe. You need to tell R what dish you want to make (the function) and give it some ingredients (called arguments), and then R will make the dish for you! 
+We've already shown some examples of functions in R. You can think of R functions kind of like a recipe. You need to tell R what dish you want to make (the function) and give it some ingredients (called arguments), and then R will make the dish for you!
 
 Functions in R all using the same syntax:
 
-<div style="text-align: center;">
-<span style="font-family: 'Courier New';">`function_name(argument1 , argument2 , ...)`</span>
-</div>
+::: {style="text-align: center;"}
+[`function_name(argument1 , argument2 , ...)`]{style="font-family: 'Courier New';"}
+:::
 
 where here the name of the function is `function_name` and the arguments for the function are passed to the function inside a set of parentheses.
 
-For example, the `mean()` function we used above is a built-in R function that takes a vector of numbers (it can also take a vector of logical values or some more advanced data types like dates) and returns the mean (average) value by adding up all of the entries in the vector and dividing by the length. Functions in R are really helpful because it means we don't have to write out the full code ourselves. 
+For example, the `mean()` function we used above is a built-in R function that takes a vector of numbers (it can also take a vector of logical values or some more advanced data types like dates) and returns the mean (average) value by adding up all of the entries in the vector and dividing by the length. Functions in R are really helpful because it means we don't have to write out the full code ourselves.
 
 For example, both lines of code below do the same thing, but one is a lot easier (imagine if the vector had been even longer)!
-
 
 ```{webr-r}
 # the mean of x_vector
@@ -363,12 +346,11 @@ R comes with a lot of great built-in, ready-to-use functions, but there are prob
 
 The following description of R packages comes from [this R Basics Tutorial from R-Ladies Sydney](https://rladiessydney.org/courses/ryouwithme/01-basicbasics-0/).
 
-> A package is a bundle of code that a generous person has written, tested, and then given away. Most of the time packages are designed to solve a specific problem, so they to pull together functions related to a particular data science problem (e.g., data wrangling, visualisation, inference). Anyone can write a package, and you can get packages from lots of different places, but for beginners the best thing to do is get packages from CRAN, the Comprehensive R Archive Network. It’s easier than any of the alternatives, and people tend to wait until their package is stable before submitting it to CRAN, so you’re less likely to run into problems. You can find a list of all the packages on CRAN [here](https://cran.r-project.org/).
+> A package is a bundle of code that a generous person has written, tested, and then given away. Most of the time packages are designed to solve a specific problem, so they to pull together functions related to a particular data science problem (e.g., data wrangling, visualisation, inference). Anyone can write a package, and you can get packages from lots of different places, but for beginners the best thing to do is get packages from CRAN, the Comprehensive R Archive Network. It's easier than any of the alternatives, and people tend to wait until their package is stable before submitting it to CRAN, so you're less likely to run into problems. You can find a list of all the packages on CRAN [here](https://cran.r-project.org/).
 
 ### How to install R packages
 
 {{< video https://vimeo.com/203516241>}}
-
 
 ### Test your knowledge
 
@@ -383,22 +365,19 @@ The following description of R packages comes from [this R Basics Tutorial from 
 #  ))
 ```
 
-
 ### Loading Packages
 
-Just because you installed an R package once, doesn't mean you want to use it for every task you do in R. Because of this, R will automatically load a small set of default packages when you launch a new session, but you'll need to tell it if you want to use any additional packages. To load a library that isn't loaded by default, we use 
+Just because you installed an R package once, doesn't mean you want to use it for every task you do in R. Because of this, R will automatically load a small set of default packages when you launch a new session, but you'll need to tell it if you want to use any additional packages. To load a library that isn't loaded by default, we use
 
-<div style="text-align: center;">
+::: {style="text-align: center;"}
 `library(package_name)`
-</div>
+:::
 
 ::: {.callout-important collapse="true"}
 ## Note: loading packages
 
 Another reason we don't automatically load all of the packages we've ever installed on our computer is because sometimes different packages have functions that are named the same thing (this is because R is open-source)! When this happens, it can be frustrating to try to figure out which version of the function R is using and requires extra code to tell R which version of the function you want to use. To avoid this it is best practice to only load the packages you currently need.
 :::
-
-
 
 ### The tidyverse package
 
@@ -416,40 +395,35 @@ tidyverse_packages()
 This should produce an error when you first try to run it. Can you tell why?
 :::
 
-
-
-
 ### Error message
 
 Oh no! We got another error message. You should see the following error:
 
-<div style="text-align: center;">
-<span style="color: #BB0000; font-family: 'Courier New'; font-weight: 500;">Error: could not find function "tidyverse_packages" </span>
-</div>
+::: {style="text-align: center;"}
+[Error: could not find function "tidyverse_packages" ]{style="color: #BB0000; font-family: 'Courier New'; font-weight: 500;"}
+:::
 
-This is R's way of telling you that you're trying to use a function that it doesn't have access to. The `tidyverse_packages()` function comes from the `tidyverse` package. Even if you have the tidyverse *installed* on your computer, that doesn't mean you have it *loaded* for R to use. 
+This is R's way of telling you that you're trying to use a function that it doesn't have access to. The `tidyverse_packages()` function comes from the `tidyverse` package. Even if you have the tidyverse *installed* on your computer, that doesn't mean you have it *loaded* for R to use.
 
-To give ourselves access to the functions from the `tidyverse` package, let's add the line of code `library(tidyverse)` before the line of code in the chunk above. That should fix the problem. 
+To give ourselves access to the functions from the `tidyverse` package, let's add the line of code `library(tidyverse)` before the line of code in the chunk above. That should fix the problem.
 
-
-__Exercise:__ Add the line of code `library(tidyverse)` before the line of code in the chunk above and try rerunning the code chunk.
-
+**Exercise:** Add the line of code `library(tidyverse)` before the line of code in the chunk above and try rerunning the code chunk.
 
 ### The pipe operator from the tidyverse
 
-One of the unique functions provided by the `tidyverse` is called the "pipe operator." The pipe operator looks like this:  `%>%`. The pipe operator is a way of stringing together a bunch of functions and the purpose is to make your code easier to read. 
+One of the unique functions provided by the `tidyverse` is called the "pipe operator." The pipe operator looks like this: `%>%`. The pipe operator is a way of stringing together a bunch of functions and the purpose is to make your code easier to read.
 
 ::: {.callout-note collapse="true"}
 ## Note: `%>%` vs `|>`
 
-Recent updates to R also let you use `|>` as the pipe operator, but I'm old so I still use `%>%` :) 
+Recent updates to R also let you use `|>` as the pipe operator, but I'm old so I still use `%>%` :)
 :::
 
-To see an example of this, consider the following task: 
+To see an example of this, consider the following task:
 
 We want to know how many unique values are contained in the vector `x_vector`.
 
-To do this, we can start by having R grab the unique values in `x_vector` using `unique(x_vector)`.This will give us a vector of the unique values in `x_vector`. Then, we can print the length of the output of `unique(x_vector)` to get the number of unique values. 
+To do this, we can start by having R grab the unique values in `x_vector` using `unique(x_vector)`.This will give us a vector of the unique values in `x_vector`. Then, we can print the length of the output of `unique(x_vector)` to get the number of unique values.
 
 To do this, we could define a new intermediate vector called `x_unique` to hold the vector of unique values in `x_vector`, or we can just use multiple functions simulatneously by nesting the parentheses:
 
@@ -463,17 +437,17 @@ length(unique(x_vector))
 
 Notice how the order of operations was:
 
-1. Start with your input `x_vector`
+1.  Start with your input `x_vector`
 
-2. Determine the unique values of `x_vector`
+2.  Determine the unique values of `x_vector`
 
-3. Calculate length of `unique(x_vector)`
+3.  Calculate length of `unique(x_vector)`
 
 However, reading left-to-right we see the last step first. This can get particularly confusing when we want to apply multiple sequential functions to the same object in R. Imagine we had wanted to do 3 more functions! This would have read as:
 
-<div style="text-align: center;">
+::: {style="text-align: center;"}
 `function3(function2(function1(length(unique(x_vector)))))`
-</div>
+:::
 
 That's a lot of parentheses and it's hard to even figure out where the operation starts!
 
@@ -485,13 +459,13 @@ x_vector %>% unique() %>% length()
 
 ```
 
-See how the output is the same but the order of operations is much clearer in this example? It's clear that we start with the object `x_vector`, which we then extract just the unique values from, then finally calculate the length of just the vector of unique values. 
+See how the output is the same but the order of operations is much clearer in this example? It's clear that we start with the object `x_vector`, which we then extract just the unique values from, then finally calculate the length of just the vector of unique values.
 
 In the example above with an extra 3 functions at the end, this would read as:
 
-<div style="text-align: center;">
-`x_vector %>% unique() %>% length() %>% function1() %>% function2()  %>% function3() `
-</div>
+::: {style="text-align: center;"}
+`x_vector %>% unique() %>% length() %>% function1() %>% function2()  %>% function3()`
+:::
 
 Still long, but a lot easier to follow (at least I think so)!
 
