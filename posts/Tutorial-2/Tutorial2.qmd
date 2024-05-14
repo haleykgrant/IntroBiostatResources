@@ -18,7 +18,7 @@ categories:
 
 ## Introduction
 
-In this tutorial, you will learn about
+In this tutorial, you will learn about working with objects in R. In particular, this tutorial will cover...
 
 * R objects
 * Data types in R
