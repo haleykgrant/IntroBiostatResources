@@ -278,7 +278,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc.samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n","id":1,"options":{"editor-max-height":"","comment":"","dpi":72,"out-width":"700px","fig-cap":"","fig-height":5,"message":"true","read-only":"false","label":"unnamed-chunk-1","output":"true","autorun":"true","results":"markup","out-height":"","classes":"","context":"setup","fig-width":7,"editor-font-scale":"0.85","warning":"true","editor-quick-suggestions":"false"}},{"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()","id":2,"options":{"editor-max-height":"","comment":"","dpi":72,"out-width":"700px","fig-cap":"","fig-height":5,"message":"true","read-only":"false","label":"unnamed-chunk-2","output":"true","autorun":"false","results":"markup","out-height":"","classes":"","context":"interactive","fig-width":7,"editor-font-scale":"0.85","warning":"true","editor-quick-suggestions":"false"}},{"code":"# print files in working directory\nlist.files()","id":3,"options":{"editor-max-height":"","comment":"","dpi":72,"out-width":"700px","fig-cap":"","fig-height":5,"message":"true","read-only":"false","label":"unnamed-chunk-3","output":"true","autorun":"false","results":"markup","out-height":"","classes":"","context":"interactive","fig-width":7,"editor-font-scale":"0.85","warning":"true","editor-quick-suggestions":"false"}},{"code":"# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")","id":4,"options":{"editor-max-height":"","comment":"","dpi":72,"out-width":"700px","fig-cap":"","fig-height":5,"message":"true","read-only":"false","label":"unnamed-chunk-4","output":"true","autorun":"false","results":"markup","out-height":"","classes":"","context":"interactive","fig-width":7,"editor-font-scale":"0.85","warning":"true","editor-quick-suggestions":"false"}},{"code":"\n# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")","id":5,"options":{"editor-max-height":"","comment":"","dpi":72,"out-width":"700px","fig-cap":"","fig-height":5,"message":"true","read-only":"false","label":"unnamed-chunk-5","output":"true","autorun":"false","results":"markup","out-height":"","classes":"","context":"interactive","fig-width":7,"editor-font-scale":"0.85","warning":"false","editor-quick-suggestions":"false"}},{"code":"# show top few rows of the data set `cdc`\nhead(cdc)","id":6,"options":{"editor-max-height":"","comment":"","dpi":72,"out-width":"700px","fig-cap":"","fig-height":5,"message":"true","read-only":"false","label":"unnamed-chunk-6","output":"true","autorun":"false","results":"markup","out-height":"","classes":"","context":"interactive","fig-width":7,"editor-font-scale":"0.85","warning":"true","editor-quick-suggestions":"false"}},{"code":"# load skimr library\nlibrary(skimr)","id":7,"options":{"editor-max-height":"","comment":"","dpi":72,"out-width":"700px","fig-cap":"","fig-height":5,"message":"true","read-only":"false","label":"unnamed-chunk-7","output":"true","autorun":"true","results":"markup","out-height":"","classes":"","context":"interactive","fig-width":7,"editor-font-scale":"0.85","warning":"false","editor-quick-suggestions":"false"}},{"code":"# use the skim() function on the cdc data\nskim(cdc)","id":8,"options":{"editor-max-height":"","comment":"","dpi":72,"out-width":"700px","fig-cap":"","fig-height":5,"message":"true","read-only":"false","label":"unnamed-chunk-8","output":"true","autorun":"false","results":"markup","out-height":"","classes":"","context":"interactive","fig-width":7,"editor-font-scale":"0.85","warning":"true","editor-quick-suggestions":"false"}},{"code":"# load the readxl package \nlibrary(readxl)\n\n# save the data contained in dds.xlsx under the name `dds`\ndds = read_excel(\"dds.xlsx\")\n\n# make sure it worked by looking at the first few rows\nhead(dds)","id":9,"options":{"editor-max-height":"","comment":"","dpi":72,"out-width":"700px","fig-cap":"","fig-height":5,"message":"true","read-only":"false","label":"unnamed-chunk-9","output":"true","autorun":"false","results":"markup","out-height":"","classes":"","context":"interactive","fig-width":7,"editor-font-scale":"0.85","warning":"true","editor-quick-suggestions":"false"}},{"code":"# load in the data\n# add verbose = TRUE so the object name gets printed\n\nload(\"census.rda\", verbose = TRUE)","id":10,"options":{"editor-max-height":"","comment":"","dpi":72,"out-width":"700px","fig-cap":"","fig-height":5,"message":"true","read-only":"false","label":"unnamed-chunk-10","output":"true","autorun":"false","results":"markup","out-height":"","classes":"","context":"interactive","fig-width":7,"editor-font-scale":"0.85","warning":"true","editor-quick-suggestions":"false"}}];
+globalThis.qwebrCellDetails = [{"code":"\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc.samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n","id":1,"options":{"editor-quick-suggestions":"false","label":"unnamed-chunk-1","editor-max-height":"","autorun":"true","warning":"true","output":"true","fig-width":7,"fig-cap":"","message":"true","out-height":"","results":"markup","read-only":"false","context":"setup","classes":"","comment":"","out-width":"700px","editor-font-scale":"0.85","fig-height":5,"dpi":72}},{"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()","id":2,"options":{"editor-quick-suggestions":"false","label":"unnamed-chunk-2","editor-max-height":"","autorun":"false","warning":"true","output":"true","fig-width":7,"fig-cap":"","message":"true","out-height":"","results":"markup","read-only":"false","context":"interactive","classes":"","comment":"","out-width":"700px","editor-font-scale":"0.85","fig-height":5,"dpi":72}},{"code":"# print files in working directory\nlist.files()","id":3,"options":{"editor-quick-suggestions":"false","label":"unnamed-chunk-3","editor-max-height":"","autorun":"false","warning":"true","output":"true","fig-width":7,"fig-cap":"","message":"true","out-height":"","results":"markup","read-only":"false","context":"interactive","classes":"","comment":"","out-width":"700px","editor-font-scale":"0.85","fig-height":5,"dpi":72}},{"code":"# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")","id":4,"options":{"editor-quick-suggestions":"false","label":"unnamed-chunk-4","editor-max-height":"","autorun":"false","warning":"true","output":"true","fig-width":7,"fig-cap":"","message":"true","out-height":"","results":"markup","read-only":"false","context":"interactive","classes":"","comment":"","out-width":"700px","editor-font-scale":"0.85","fig-height":5,"dpi":72}},{"code":"\n# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc.samp.csv\"\ncdc = read_csv(\"cdc.samp.csv\")","id":5,"options":{"editor-quick-suggestions":"false","label":"unnamed-chunk-5","editor-max-height":"","autorun":"false","warning":"false","output":"true","fig-width":7,"fig-cap":"","message":"true","out-height":"","results":"markup","read-only":"false","context":"interactive","classes":"","comment":"","out-width":"700px","editor-font-scale":"0.85","fig-height":5,"dpi":72}},{"code":"# show top few rows of the data set `cdc`\nhead(cdc)","id":6,"options":{"editor-quick-suggestions":"false","label":"unnamed-chunk-6","editor-max-height":"","autorun":"false","warning":"true","output":"true","fig-width":7,"fig-cap":"","message":"true","out-height":"","results":"markup","read-only":"false","context":"interactive","classes":"","comment":"","out-width":"700px","editor-font-scale":"0.85","fig-height":5,"dpi":72}},{"code":"# load skimr library\nlibrary(skimr)","id":7,"options":{"editor-quick-suggestions":"false","label":"unnamed-chunk-7","editor-max-height":"","autorun":"true","warning":"false","output":"true","fig-width":7,"fig-cap":"","message":"true","out-height":"","results":"markup","read-only":"false","context":"interactive","classes":"","comment":"","out-width":"700px","editor-font-scale":"0.85","fig-height":5,"dpi":72}},{"code":"# use the skim() function on the cdc data\nskim(cdc)","id":8,"options":{"editor-quick-suggestions":"false","label":"unnamed-chunk-8","editor-max-height":"","autorun":"false","warning":"true","output":"true","fig-width":7,"fig-cap":"","message":"true","out-height":"","results":"markup","read-only":"false","context":"interactive","classes":"","comment":"","out-width":"700px","editor-font-scale":"0.85","fig-height":5,"dpi":72}},{"code":"# load the readxl package \nlibrary(readxl)\n\n# save the data contained in dds.xlsx under the name `dds`\ndds = read_excel(\"dds.xlsx\")\n\n# make sure it worked by looking at the first few rows\nhead(dds)","id":9,"options":{"editor-quick-suggestions":"false","label":"unnamed-chunk-9","editor-max-height":"","autorun":"false","warning":"true","output":"true","fig-width":7,"fig-cap":"","message":"true","out-height":"","results":"markup","read-only":"false","context":"interactive","classes":"","comment":"","out-width":"700px","editor-font-scale":"0.85","fig-height":5,"dpi":72}},{"code":"# load in the data\n# add verbose = TRUE so the object name gets printed\n\nload(\"census.rda\", verbose = TRUE)","id":10,"options":{"editor-quick-suggestions":"false","label":"unnamed-chunk-10","editor-max-height":"","autorun":"false","warning":"true","output":"true","fig-width":7,"fig-cap":"","message":"true","out-height":"","results":"markup","read-only":"false","context":"interactive","classes":"","comment":"","out-width":"700px","editor-font-scale":"0.85","fig-height":5,"dpi":72}}];
 
 </script>
 <script type="module">
@@ -1190,14 +1190,10 @@ globalThis.qwebrExecuteCode = async function (
   <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data">Importing Data</a>
   <ul class="collapse">
   <li><a href="#reading-in-a-csv-file" id="toc-reading-in-a-csv-file" class="nav-link" data-scroll-target="#reading-in-a-csv-file">Reading in a csv file</a></li>
-  </ul></li>
-  <li><a href="#viewing-your-data" id="toc-viewing-your-data" class="nav-link" data-scroll-target="#viewing-your-data">Viewing your data</a>
-  <ul class="collapse">
-  <li><a href="#the-head-function" id="toc-the-head-function" class="nav-link" data-scroll-target="#the-head-function">The head() function</a></li>
-  <li><a href="#the-skim-function" id="toc-the-skim-function" class="nav-link" data-scroll-target="#the-skim-function">The skim() function</a></li>
-  </ul></li>
+  <li><a href="#viewing-your-data" id="toc-viewing-your-data" class="nav-link" data-scroll-target="#viewing-your-data">Viewing your data</a></li>
   <li><a href="#reading-in-an-excel-file" id="toc-reading-in-an-excel-file" class="nav-link" data-scroll-target="#reading-in-an-excel-file">Reading in an Excel file</a></li>
-  <li><a href="#r-data-files" id="toc-r-data-files" class="nav-link" data-scroll-target="#r-data-files">R data files</a></li>
+  <li><a href="#importing-r-data-files" id="toc-importing-r-data-files" class="nav-link" data-scroll-target="#importing-r-data-files">Importing R data files</a></li>
+  </ul></li>
   </ul>
 </nav>
 </nav>
@@ -1643,13 +1639,12 @@ Answer
 </div>
 </div>
 </section>
-</section>
-<section id="viewing-your-data" class="level2">
-<h2 class="anchored" data-anchor-id="viewing-your-data">Viewing your data</h2>
+<section id="viewing-your-data" class="level3">
+<h3 class="anchored" data-anchor-id="viewing-your-data">Viewing your data</h3>
 <p>Great! We’ve now read our first data file into R. But how do we know if it worked?</p>
 <p>We’re going to take a brief detour to talk about taking a first look at your data before we move on to importing data from other files types.</p>
-<section id="the-head-function" class="level3">
-<h3 class="anchored" data-anchor-id="the-head-function">The head() function</h3>
+<section id="the-head-function" class="level4">
+<h4 class="anchored" data-anchor-id="the-head-function">The head() function</h4>
 <p>In RStudio, you should be able to see a new object in your ‘Environment’ tab in the upper-right quadrant of your screen when you import a new data set. Since we’re working on the web, we’ll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is <code>head()</code> that shows us the top few entries of a data frame, vector, or list.</p>
 <div id="qwebr-insertion-location-6"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1677,8 +1672,8 @@ Hint (if you get an error)
 </div>
 <p>Awesome! Here we see the top 6 rows of the <code>cdc</code> dataframe. There are 9 columns: <span style="font-family: Monaco;"> genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span></p>
 </section>
-<section id="the-skim-function" class="level3">
-<h3 class="anchored" data-anchor-id="the-skim-function">The skim() function</h3>
+<section id="the-skim-function" class="level4">
+<h4 class="anchored" data-anchor-id="the-skim-function">The skim() function</h4>
 <p>Another way we can start to take a look at the data is to use a function from the R package <code>skmir</code>. The function is called <code>skim</code> and gives us a nice overview of the contents included in our data.</p>
 <div id="qwebr-insertion-location-7"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1861,8 +1856,8 @@ a histogram showing the shape of the distribution of values in the column
 <p>Back to reading in data from various file types…</p>
 </section>
 </section>
-<section id="reading-in-an-excel-file" class="level2">
-<h2 class="anchored" data-anchor-id="reading-in-an-excel-file">Reading in an Excel file</h2>
+<section id="reading-in-an-excel-file" class="level3">
+<h3 class="anchored" data-anchor-id="reading-in-an-excel-file">Reading in an Excel file</h3>
 <p>We’ve successfully read in a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we’re going to need to use a new package called the <code>readxl</code> package.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
@@ -1890,8 +1885,8 @@ Reminder: Installing <code>readxl</code>
 <p>Awesome! We can see that there are 6 columns in this data set: <span style="font-family: Monaco;"> id, age.cohort, age, gender, expenditure, ethnicity.</span></p>
 <p>Once you have the <code>readxl</code> package, importing Excel files works just like reading in csv files!</p>
 </section>
-<section id="r-data-files" class="level2">
-<h2 class="anchored" data-anchor-id="r-data-files">R data files</h2>
+<section id="importing-r-data-files" class="level3">
+<h3 class="anchored" data-anchor-id="importing-r-data-files">Importing R data files</h3>
 <p>There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. <strong>The syntax is slightly different for these kinds of files.</strong></p>
 <p>The syntax for importing an R data file is:</p>
 <div style="text-align: center;">
@@ -1924,6 +1919,7 @@ load()
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

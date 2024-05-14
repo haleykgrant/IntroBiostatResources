@@ -222,13 +222,13 @@ cdc = read_csv("cdc.samp.csv")
 :::
 
 
-## Viewing your data
+### Viewing your data
 
 Great! We've now read our first data file into R. But how do we know if it worked?
 
 We're going to take a brief detour to talk about taking a first look at your data before we move on to importing data from other files types.
 
-### The head() function
+#### The head() function
 
 In RStudio, you should be able to see a new object in your 'Environment' tab in the upper-right quadrant of your screen when you import a new data set. Since we're working on the web, we'll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is `head()` that shows us the top few entries of a data frame, vector, or list.
 
@@ -256,7 +256,7 @@ Make sure you were able to successfully run the code above with the `read_csv()`
 
 Awesome! Here we see the top 6 rows of the `cdc` dataframe. There are 9 columns: <span style="font-family: Monaco;"> genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span>
 
-### The skim() function
+#### The skim() function
 
 Another way we can start to take a look at the data is to use a function from the R package `skmir`. The function is called `skim` and gives us a nice overview of the contents included in our data.
 
@@ -368,7 +368,7 @@ The columns for numeric variables are:
 Back to reading in data from various file types...
 
 
-## Reading in an Excel file
+### Reading in an Excel file
 
 We've successfully read in a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we're going to need to use a new package called the `readxl` package.
 
@@ -402,7 +402,7 @@ Awesome! We can see that there are 6 columns in this data set: <span style="font
 
 Once you have the `readxl` package, importing Excel files works just like reading in csv files!
 
-## R data files
+### Importing R data files
 
 There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. __The syntax is slightly different for these kinds of files.__
 
