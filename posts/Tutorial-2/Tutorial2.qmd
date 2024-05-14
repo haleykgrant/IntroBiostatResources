@@ -99,6 +99,8 @@ y = 3
 ```
 
 ::: {.callout-note collapse="true" }
+## Note: `=` vs `<-`
+
 Sometimes you might see the operator `<-` (for example `x <- 2 `) instead of the equals sign (`=`). This is an artifact of earlier versions of R when you had to use `<-` to assign values to objects; both work now and `=` is shorter so I used it here :)
 :::
 
@@ -322,6 +324,9 @@ length(x_vector)
 
 ```
 
+
+{{< pagebreak >}}
+
 ## Functions
 
 We've already shown some examples of functions in R. You can think of R functions kind of like a recipe. You need to tell R what dish you want to make (the function) and give it some ingredients (called arguments), and then R will make the dish for you! 
@@ -348,6 +353,7 @@ mean(x_vector)
 
 ```
 
+{{< pagebreak >}}
 
 ## R Packages
 
@@ -387,7 +393,7 @@ Just because you installed an R package once, doesn't mean you want to use it fo
 </div>
 
 ::: {.callout-important collapse="true"}
-## Note
+## Note: loading packages
 
 Another reason we don't automatically load all of the packages we've ever installed on our computer is because sometimes different packages have functions that are named the same thing (this is because R is open-source)! When this happens, it can be frustrating to try to figure out which version of the function R is using and requires extra code to tell R which version of the function you want to use. To avoid this it is best practice to only load the packages you currently need.
 :::
@@ -431,7 +437,13 @@ __Exercise:__ Add the line of code `library(tidyverse)` before the line of code 
 
 ### The pipe operator from the tidyverse
 
-One of the unique functions provided by the `tidyverse` is called the "pipe operator." The pipe operator looks like this:  `%>%` (recent updates to R also let you use `|>` as the pipe operator, but I'm old so I still use `%>%` :) ). The pipe operator is a way of stringing together a bunch of functions and the purpose is to make your code easier to read. 
+One of the unique functions provided by the `tidyverse` is called the "pipe operator." The pipe operator looks like this:  `%>%`. The pipe operator is a way of stringing together a bunch of functions and the purpose is to make your code easier to read. 
+
+::: {.callout-note collapse="true"}
+## Note: `%>%` vs `|>`
+
+Recent updates to R also let you use `|>` as the pipe operator, but I'm old so I still use `%>%` :) 
+:::
 
 To see an example of this, consider the following task: 
 
