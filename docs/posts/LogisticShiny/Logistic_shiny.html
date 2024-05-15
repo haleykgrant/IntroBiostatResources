@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Haley Grant">
 
-<title>BIOST2041 - Intro Biostatistics Resources</title>
+<title>BIOST2041 - Logistic Function Visualization</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +24,27 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<meta name="shinylive:serviceworker_dir" content="../..">
+<script src="../../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="../../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/run-python-blocks.js" type="module"></script>
+<link href="../../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/shinylive.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,123 +72,19 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-Tutorials .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-Tutorials'] = new List('listing-Tutorials', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-shiny-apps .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-shiny-apps'] = new List('listing-shiny-apps', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-<style>
-
-      .quarto-title-block .quarto-title-banner h1,
-      .quarto-title-block .quarto-title-banner h2,
-      .quarto-title-block .quarto-title-banner h3,
-      .quarto-title-block .quarto-title-banner h4,
-      .quarto-title-block .quarto-title-banner h5,
-      .quarto-title-block .quarto-title-banner h6
-      {
-        color: black;
-      }
-
-      .quarto-title-block .quarto-title-banner {
-        color: black;
-background-image: url(rainbow.jpg);
-background-size: cover;
-      }
-</style>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">BIOST2041</span>
     </a>
   </div>
@@ -195,7 +95,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -213,203 +113,95 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Intro Biostatistics Resources</h1>
+    <div class="quarto-title column-body">
+      <h1 class="title">Logistic Function Visualization</h1>
                       </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Haley Grant </p>
+            </div>
+    </div>
       
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(7)</span></div><div class="category" data-category="code">code <span class="quarto-category-count">(3)</span></div><div class="category" data-category="software">software <span class="quarto-category-count">(1)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
-<section id="r-tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="r-tutorials">R Tutorials</h2>
-<div id="listing-Tutorials" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="software,code" data-listing-file-modified-sort="1715800255838" data-listing-reading-time-sort="3" data-listing-word-count-sort="479">
-<a href="./posts/Tutorial-1/Tutorial1.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/Tutorial-1/rstudio2.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tutorial 1: Installing R and RStudio
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('software'); return false;">
-software
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-</div>
-<div class="card-text listing-description">
-This tutorial was developed based on this resource. The goal is to make sure you have R and Rstudio installed on your computer and make sure you have a folder set up for…
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
+<pre class="shinylive-r" data-engine="r"><code>#| standalone: true
+#| viewerHeight: 600
 
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="code" data-listing-file-modified-sort="1715800255841" data-listing-reading-time-sort="15" data-listing-word-count-sort="2982">
-<a href="./posts/Tutorial-2/Tutorial2.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/Tutorial-2/r_packages.jpeg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tutorial 2: R Objects, Functions, and Packages
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-</div>
-<div class="card-text listing-description">
-In this tutorial, you will learn about working with objects in R. In particular, this tutorial will cover…
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
+# Load necessary libraries
+library(shiny)
+library(ggplot2)
 
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="code" data-listing-file-modified-sort="1715800255852" data-listing-reading-time-sort="12" data-listing-word-count-sort="2327">
-<a href="./posts/Tutorial-3/Tutorial3.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/Tutorial-3/spreadsheet.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tutorial 3: Importing and Manipulating Data in R
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-</div>
-<div class="card-text listing-description">
-In this tutorial, you will learn about working with data in R. In particular, this tutorial will cover…
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
+# Define UI for application
+ui &lt;- fluidPage(
+  titlePanel("Logistic Function Visualization"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("beta", "Beta Coefficient", min = -5, max = 5, value = 1, step = 0.1),
+      sliderInput("intercept", "Intercept (Log Odds at x=0)", min = -5, max = 5, value = 0, step = 0.1)
+    ),
+    mainPanel(
+      plotOutput("log_odds_plot"),
+      plotOutput("probability_plot")
+    )
+  )
+)
 
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-</section>
-<section id="shiny-apps" class="level2">
-<h2 class="anchored" data-anchor-id="shiny-apps">Shiny Apps</h2>
-<div id="listing-shiny-apps" class="quarto-listing quarto-listing-container-table">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-     <select id="listing-shiny-apps-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-shiny-apps'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-       <option value="" disabled="" selected="" hidden="">Order By</option>
-       <option value="index" data-direction="asc">Default</option>
-         <option value="listing-title-sort" data-direction="asc">
-          Title
-        </option>
-         <option value="listing-author" data-direction="asc">
-          Author
-        </option>
-     </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
-</div>
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-<a class="sort" data-sort="listing-title-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Title</a>
-</th>
-<th>
-<a class="sort" data-sort="listing-author" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Author</a>
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1715801217069" data-listing-reading-time-sort="11" data-listing-word-count-sort="2009" data-listing-title-sort="Least Squares Regression Visualization" data-listing-filename-sort="LeastSquares_shiny.qmd">
-<td>
-<a href="./posts/LeastSquaresShiny/LeastSquares_shiny.html" class="title listing-title">Least Squares Regression Visualization</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="1" data-listing-file-modified-sort="1715801523193" data-listing-reading-time-sort="2" data-listing-word-count-sort="281" data-listing-title-sort="Logistic Function Visualization" data-listing-filename-sort="Logistic_shiny.qmd">
-<td>
-<a href="./posts/LogisticShiny/Logistic_shiny.html" class="title listing-title">Logistic Function Visualization</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="2" data-listing-file-modified-sort="1715801240532" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041" data-listing-title-sort="QQ Plot Visualization Tool" data-listing-filename-sort="QQshiny.qmd">
-<td>
-<a href="./posts/QQ_plot_shiny/QQshiny.html" class="title listing-title">QQ Plot Visualization Tool</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="3" data-listing-file-modified-sort="1715801227900" data-listing-reading-time-sort="10" data-listing-word-count-sort="1994" data-listing-title-sort="Sampling Distributions and Bootstrapping" data-listing-filename-sort="SampDist_shiny.qmd">
-<td>
-<a href="./posts/SamplingDistShiny/SampDist_shiny.html" class="title listing-title">Sampling Distributions and Bootstrapping</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
+# Define server logic
+server &lt;- function(input, output) {
+  # Calculate logistic function
+  logistic_function &lt;- function(x, beta, intercept) {
+    return(1 / (1 + exp(-(intercept + beta * x))))
+  }
+  
+  # Generate x values
+  x_values &lt;- seq(-10, 10, length.out = 100)
+  
+  # Create log odds plot
+  output$log_odds_plot &lt;- renderPlot({
+    log_odds &lt;- input$intercept + input$beta * x_values
+    
+    ggplot() +
+      geom_line(aes(x = x_values, y = log_odds), color = "blue") +
+      labs(title = "Log Odds Plot", x = "X", y = "Log Odds") + theme_bw()
+  })
+  
+  # Create probability plot
+  output$probability_plot &lt;- renderPlot({
+    probabilities &lt;- logistic_function(x_values, input$beta, input$intercept)
+    
+    ggplot() +
+      geom_line(aes(x = x_values, y = probabilities), color = "red") +
+      labs(title = "Probability Plot", x = "X", y = "Probability") + 
+      theme_bw()
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+
+</code></pre>
 
 
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

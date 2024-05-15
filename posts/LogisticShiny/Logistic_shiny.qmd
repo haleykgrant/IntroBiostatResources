@@ -1,0 +1,66 @@
+---
+title: "Logistic Function Visualization"
+author: "Haley Grant"
+filters: 
+  - shinylive
+---
+
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
+
+# Load necessary libraries
+library(shiny)
+library(ggplot2)
+
+# Define UI for application
+ui <- fluidPage(
+  titlePanel("Logistic Function Visualization"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("beta", "Beta Coefficient", min = -5, max = 5, value = 1, step = 0.1),
+      sliderInput("intercept", "Intercept (Log Odds at x=0)", min = -5, max = 5, value = 0, step = 0.1)
+    ),
+    mainPanel(
+      plotOutput("log_odds_plot"),
+      plotOutput("probability_plot")
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output) {
+  # Calculate logistic function
+  logistic_function <- function(x, beta, intercept) {
+    return(1 / (1 + exp(-(intercept + beta * x))))
+  }
+  
+  # Generate x values
+  x_values <- seq(-10, 10, length.out = 100)
+  
+  # Create log odds plot
+  output$log_odds_plot <- renderPlot({
+    log_odds <- input$intercept + input$beta * x_values
+    
+    ggplot() +
+      geom_line(aes(x = x_values, y = log_odds), color = "blue") +
+      labs(title = "Log Odds Plot", x = "X", y = "Log Odds") + theme_bw()
+  })
+  
+  # Create probability plot
+  output$probability_plot <- renderPlot({
+    probabilities <- logistic_function(x_values, input$beta, input$intercept)
+    
+    ggplot() +
+      geom_line(aes(x = x_values, y = probabilities), color = "red") +
+      labs(title = "Probability Plot", x = "X", y = "Probability") + 
+      theme_bw()
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+
+
+```
