@@ -8,8 +8,8 @@ filters:
 
 ```{shinylive-r}
 #| standalone: true
-#| viewerHeight: 600
-#
+#| viewerHeight: 700
+
 library(shiny)
 library(tidyverse)
 
