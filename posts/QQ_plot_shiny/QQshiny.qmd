@@ -1,0 +1,290 @@
+---
+title: "QQ Plot Visualization Tool"
+author: "Haley Grant"
+filters: 
+  - shinylive
+---
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
+
+library(shiny)
+library(tidyverse)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+   
+   # Application title
+   titlePanel("QQ Plot Visualization"),
+   
+      
+      # Show a plot of the generated distribution
+        tabsetPanel(type = "tabs",
+          tabPanel("Data-to-Normal Comparison",
+                  sidebarLayout( 
+                    sidebarPanel(
+                      radioButtons("skew", "Distribution",
+                                 choices = c("Right Skew",
+                                           "Left Skew",
+                                              "Symmetric (light tails)",
+                                              "Symmetric (heavy tails)",
+                                              "Symmetric (Normal)"),
+                                             selected = "Symmetric (Normal)"),
+                                checkboxInput("scaled",
+                                              "Scaled QQ-Plot",
+                                              value = FALSE)
+                   ),
+                   mainPanel( plotOutput("dataPlot",height = "300px"),
+                      plotOutput("quantPlot",height = "350px"),
+                       plotOutput("qqPlot")))),
+          tabPanel("Data-to-Data Comparison",
+                   sidebarLayout( 
+                     sidebarPanel(
+                          radioButtons("x1", "Sample 1 Distribution",
+                                             choices = c("Right Skew","Left Skew",
+                                                         "Symmetric (light tails)",
+                                                         "Symmetric (heavy tails)",
+                                                         "Symmetric (Normal)"),
+                                             selected = "Symmetric (Normal)"),
+                                radioButtons("x2", "Sample 2 Distribution",
+                                             choices = c("Right Skew","Left Skew",
+                                                         "Symmetric (light tails)",
+                                                         "Symmetric (heavy tails)",
+                                                         "Symmetric (Normal)"),
+                                             selected = "Right Skew"),
+                                sliderInput("VR",
+                                            HTML("SD Ratio (&#963;<sub>2</sub>/&#963;<sub>1</sub>)"),
+                                            min = 0.1, max = 2, value = 1,round=-1,ticks = F),
+                                sliderInput("means",
+                                            HTML("Mean Shift (&#956;<sub>2</sub>-&#956;<sub>1</sub>)"),
+                                            min = -2, max = 2, value = 0,step=.1,round=-1,ticks = F),
+                                
+                   ),
+                   mainPanel(
+                     plotOutput("dataPlot2",height = "300px"),
+                   plotOutput("quantPlot2",height = "300px"),
+                   plotOutput("qqPlot2")))
+        )
+    
+      )
+)
+
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+
+  set.seed(1234)
+  
+  vals<-reactiveValues(x=NULL, quants=NULL, quants_t=NULL,m=NULL,s=NULL,x2=NULL)
+  
+observeEvent({input$skew
+             input$scaled},{
+  if(input$skew == "Left Skew"){vals$x<-rbeta(10000,5,1)
+  } else if(input$skew == "Right Skew"){vals$x<-rbeta(10000,1,5)
+  } else if(input$skew == "Symmetric (light tails)"){vals$x<-c(rnorm(5000,mean=-1.5),rnorm(5000,mean=1.5))
+  } else if (input$skew == "Symmetric (heavy tails)"){vals$x<-c(rt(10000,df=4))
+  }else {vals$x<-rnorm(10000,mean = 0, sd = 1)}
+
+  vals$quants=data.frame( q5 = quantile(vals$x,.05),
+                     q10 = quantile(vals$x,.1),
+                     q25 = quantile(vals$x,.25),
+                     q50 = quantile(vals$x,.5),
+                     q75 = quantile(vals$x,.75),
+                     q90 = quantile(vals$x,.9),
+                     q95 = quantile(vals$x,.95))%>%
+    pivot_longer(1:7, names_to = "quantile",values_to="qx")%>%
+    mutate(type="Sample Data")%>%
+    mutate(quantile = factor(quantile,levels = paste0("q",c(5,10,25,50,75,90,95))))
+
+  
+  if(input$scaled){
+    vals$m = 0
+    vals$s = 1
+    vals$quants_t=data.frame(q5 = qnorm(.05),
+                        q10 = qnorm(.1),
+                        q25 = qnorm(.25),
+                        q50 = qnorm(.5),
+                        q75 = qnorm(.75),
+                        q90 = qnorm(.9),
+                        q95 = qnorm(.95)
+    )%>%
+      pivot_longer(1:7, names_to = "quantile",values_to="qx")%>%
+      mutate(type="Theoretical Normal")%>%
+      mutate(quantile = factor(quantile,levels = paste0("q",c(5,10,25,50,75,90,95))))
+  } else {
+    vals$m = mean(vals$x)
+    vals$s = (quantile(vals$x,.75)-quantile(vals$x,.25))/(qnorm(.75)-qnorm(.25))
+    s=vals$s; m=vals$m
+    vals$quants_t=data.frame(q5 = qnorm(.05,mean=m,sd=s),
+                              q10 = qnorm(.1,mean=m,sd=s),
+                              q25 = qnorm(.25,mean=m,sd=s),
+                              q50 = qnorm(.5,mean=m,sd=s),
+                              q75 = qnorm(.75,mean=m,sd=s),
+                              q90 = qnorm(.9,mean=m,sd=s),
+                              q95 = qnorm(.95,mean=m,sd=s)
+  )%>%
+    pivot_longer(1:7, names_to = "quantile",values_to="qx")%>%
+    mutate(type="Theoretical Normal")%>%
+    mutate(quantile = factor(quantile,levels = paste0("q",c(5,10,25,50,75,90,95))))}
+})
+   
+   output$dataPlot <- renderPlot({
+     data.frame(x=vals$x)%>%
+       ggplot(aes(x=x))+
+       geom_histogram(aes(y = ..density..),
+                      fill="grey",color = "black")+
+       geom_function(fun = function(x) dnorm(x, mean=mean(vals$x),sd=sd(vals$x)),color = "blue")+
+       theme_bw()+
+       labs(title="Sample Data")+xlim(mean(vals$x)-4*sd(vals$x),mean(vals$x)+4*sd(vals$x))
+   })
+   
+   output$quantPlot <- renderPlot({
+     p1=vals$quants%>%
+       ggplot()+
+       geom_density(data = data.frame(x=vals$x),aes(x=x))+
+       theme_bw()+
+       labs(title = "Smoothed Data with Quantiles")+
+       geom_vline(aes(xintercept=qx,color = quantile),size=.4)+
+       theme(legend.position = "none")+xlim(mean(vals$x)-4*sd(vals$x),mean(vals$x)+4*sd(vals$x))
+     
+     if(input$scaled){min=-4; mx = 4;clr = "darkred"
+     }else{min =mean(vals$x)-4*sd(vals$x);mx = mean(vals$x)+4*sd(vals$x);clr="blue" }
+     p2 = data.frame(x = seq(min(vals$x),max(vals$x),by=sd(vals$x)/20))%>%
+       ggplot(aes(x=x))+
+       geom_function(fun = dnorm,args=list(mean=vals$m, sd=vals$s),color = clr)+
+       theme_bw()+
+       labs(title = "Theoretical Normal Distribution",y="density")+
+       geom_vline(data=vals$quants_t,aes(xintercept=qx,color = quantile),size=.4)+
+       theme(legend.position = "bottom",legend.title = element_blank())+xlim(min,mx)
+     gridExtra::grid.arrange(p1,p2,nrow=2,heights=c(.85,1.1))
+   })
+
+  
+   output$qqPlot <- renderPlot({
+     if(input$scaled){clr = "darkred"
+     }else{clr="blue" }
+     data.frame(smp=vals$x)%>%
+       ggplot()+
+       geom_qq(aes(sample=smp),
+               dparams = list(mean = vals$m, sd = vals$s))+
+       geom_qq_line(aes(sample=smp),
+                    dparams = list(mean = vals$m, sd = vals$s))+
+       geom_point(data = left_join(vals$quants%>%rename(y=qx),vals$quants_t%>%rename(x=qx),
+                                   by="quantile")%>%
+                    mutate(quantile = factor(quantile,levels = paste0("q",c(5,10,25,50,75,90,95)))),
+                  aes(x=x,y=y,color = quantile),size=2)+
+       theme_bw()+
+       labs(x = "Theoretical Quantiles", y = "Observed Quantiles")+
+       theme(legend.position = "bottom",legend.title = element_blank(),axis.title.x = element_text(color = clr))
+     
+     
+     
+   })
+   vals2<-reactiveValues(x1=NULL, x2= NULL, quants1=NULL, quants2=NULL)
+   
+   observeEvent({input$x1
+     input$x2
+     input$means
+     input$VR},{
+       if(input$x1 == "Left Skew"){vals2$x1<-(rbeta(10000,5,1)-5/6)/sd(rbeta(10000,5,1))
+       } else if(input$x1 == "Right Skew"){vals2$x1<-(rbeta(10000,1,5)-1/6)/sd(rbeta(10000,1,5))
+       } else if(input$x1 == "Symmetric (light tails)"){vals2$x1<-c(rnorm(5000,mean=-1.5),rnorm(5000,mean=1.5))/1.8
+       } else if (input$x1 == "Symmetric (heavy tails)"){vals2$x1<-c(rt(10000,df=4))/sd(rt(10000,df=4))
+       }else {vals2$x1<-rnorm(10000,mean = 0, sd = 1)}
+
+
+       if(input$x2 == "Left Skew"){vals2$x2<-(rbeta(10000,5,1)-5/6)/sd(rbeta(10000,5,1))
+       } else if(input$x2 == "Right Skew"){vals2$x2<-(rbeta(10000,1,5)-1/6)/sd(rbeta(10000,1,5))
+       } else if(input$x2 == "Symmetric (light tails)"){vals2$x2<-c(rnorm(5000,mean=-1.5),rnorm(5000,mean=1.5))/1.8
+       } else if (input$x2 == "Symmetric (heavy tails)"){vals2$x2<-c(rt(10000,df=4))/sd(rt(10000,df=4))
+       }else {vals2$x2<-rnorm(10000,mean = 0, sd = 1)}
+      
+       
+       vals2$x2 =vals2$x2*input$VR+input$means
+       
+       vals2$quants1=data.frame( q5 = quantile(vals2$x1,.05),
+                               q10 = quantile(vals2$x1,.1),
+                               q25 = quantile(vals2$x1,.25),
+                               q50 = quantile(vals2$x1,.5),
+                               q75 = quantile(vals2$x1,.75),
+                               q90 = quantile(vals2$x1,.9),
+                               q95 = quantile(vals2$x1,.95))%>%
+         pivot_longer(1:7, names_to = "quantile",values_to="qx")%>%
+         mutate(type="Sample Data 1")%>%
+         mutate(quantile = factor(quantile,levels = paste0("q",c(5,10,25,50,75,90,95))))
+       vals2$quants2=data.frame( q5 = quantile(vals2$x2,.05),
+                                 q10 = quantile(vals2$x2,.1),
+                                 q25 = quantile(vals2$x2,.25),
+                                 q50 = quantile(vals2$x2,.5),
+                                 q75 = quantile(vals2$x2,.75),
+                                 q90 = quantile(vals2$x2,.9),
+                                 q95 = quantile(vals2$x2,.95))%>%
+         pivot_longer(1:7, names_to = "quantile",values_to="qx")%>%
+         mutate(type="Sample Data 2")%>%
+         mutate(quantile = factor(quantile,levels = paste0("q",c(5,10,25,50,75,90,95))))
+       
+     })
+   
+   output$dataPlot2 <- renderPlot({
+     data.frame(x=c(vals2$x1, vals2$x2),
+                dt = rep(c("Sample 1","Sample 2"), each = 10000))%>%
+       ggplot(aes(x=x,group = dt))+
+       geom_histogram(aes(y = ..density..),
+                      fill="grey",color = "black")+
+       theme_bw()+
+       facet_wrap(.~dt, nrow = 2)+
+       labs(title="Sample Data")
+   })
+   
+   
+   
+   output$quantPlot2 <- renderPlot({
+     plotmin = min(c(mean(vals2$x1)-4*sd(vals2$x1),mean(vals2$x2)-4*sd(vals2$x2)) )
+     plotmx = max(c(mean(vals2$x1)+4*sd(vals2$x1),mean(vals2$x2)+4*sd(vals2$x2)) )
+     p1=vals2$quants1%>%
+       ggplot()+
+       geom_density(data = data.frame(x=vals2$x1),aes(x=x))+
+       theme_bw()+
+       labs(title = "Smoothed Sample 1 with Quantiles")+
+       geom_vline(aes(xintercept=qx,color = quantile),size=.4)+
+       theme(legend.position = "none")+xlim(plotmin, plotmx)
+     
+     p2=vals2$quants2%>%
+       ggplot()+
+       geom_density(data = data.frame(x=vals2$x2),aes(x=x))+
+       theme_bw()+
+       labs(title = "Smoothed Sample 2 with Quantiles")+
+       geom_vline(aes(xintercept=qx,color = quantile),size=.4)+
+       theme(legend.position = "none")+xlim(plotmin, plotmx)
+     
+     gridExtra::grid.arrange(p1,p2,nrow=2)
+   })
+   
+   
+   
+   output$qqPlot2 <- renderPlot({
+     plotmin = min(quantile(vals2$x1,.001),quantile(vals2$x2,.001) )
+     plotmx = max(quantile(vals2$x1,.999),quantile(vals2$x2,.999) )
+     data.frame(x=vals2$x1, y = vals2$x2)%>%
+       ggplot()+
+       geom_point(aes(x=sort(x),y=sort(y)))+
+       geom_abline(slope = 1, intercept = 0)+
+       geom_point(data = left_join(vals2$quants1%>%rename(x=qx),vals2$quants2%>%rename(y=qx),
+                                   by="quantile")%>%
+                    mutate(quantile = factor(quantile,levels = paste0("q",c(5,10,25,50,75,90,95)))),
+                  aes(x=x,y=y,color = quantile),size=2)+
+       theme_bw()+
+       labs(x = "Sample 1", y = "Sample 2")+
+       theme(legend.position = "bottom",legend.title = element_blank())+
+       xlim(plotmin,plotmx)+ylim(plotmin,plotmx)
+    
+     
+     
+   })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+```

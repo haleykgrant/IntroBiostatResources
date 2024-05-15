@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>BIOST2041 - Resources for learning R</title>
+<title>BIOST2041 - Intro Biostatistics Resources</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
 <script>
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    const listingTargetEl = window.document.querySelector('#listing-Tutorials .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
       return; 
@@ -84,7 +84,35 @@ ul.task-list li input[type="checkbox"] {
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+    window['quarto-listings']['listing-Tutorials'] = new List('listing-Tutorials', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-shiny-apps .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-shiny-apps'] = new List('listing-shiny-apps', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -186,7 +214,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-page-left">
-      <h1 class="title">Resources for learning R</h1>
+      <h1 class="title">Intro Biostatistics Resources</h1>
                       </div>
   </div>
     
@@ -204,7 +232,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="code">code <span class="quarto-category-count">(3)</span></div><div class="category" data-category="software">software <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(6)</span></div><div class="category" data-category="code">code <span class="quarto-category-count">(3)</span></div><div class="category" data-category="software">software <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -212,67 +240,11 @@ window.Quarto = {
 
 
 
-
-
-
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<section id="r-tutorials" class="level2">
+<h2 class="anchored" data-anchor-id="r-tutorials">R Tutorials</h2>
+<div id="listing-Tutorials" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="code" data-listing-file-modified-sort="1715719126239" data-listing-reading-time-sort="12" data-listing-word-count-sort="2327">
-<a href="./posts/Tutorial-3/Tutorial3.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/Tutorial-3/spreadsheet.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tutorial 3: Importing and Manipulating Data in R
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-</div>
-<div class="card-text listing-description">
-In this tutorial, you will learn about working with data in R. In particular, this tutorial will cover…
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
-
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="code" data-listing-file-modified-sort="1715717940155" data-listing-reading-time-sort="15" data-listing-word-count-sort="2982">
-<a href="./posts/Tutorial-2/Tutorial2.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/Tutorial-2/r_packages.jpeg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tutorial 2: R Objects, Functions, and Packages
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-</div>
-<div class="card-text listing-description">
-In this tutorial, you will learn about working with objects in R. In particular, this tutorial will cover…
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
-
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="software,code" data-listing-file-modified-sort="1715711703575" data-listing-reading-time-sort="3" data-listing-word-count-sort="479">
+<div class="g-col-1" data-index="0" data-categories="software,code" data-listing-file-modified-sort="1715800255838" data-listing-reading-time-sort="3" data-listing-word-count-sort="479">
 <a href="./posts/Tutorial-1/Tutorial1.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -302,11 +274,136 @@ This tutorial was developed based on this resource. The goal is to make sure you
 </div>
 </a>
 </div>
+<div class="g-col-1" data-index="1" data-categories="code" data-listing-file-modified-sort="1715800255841" data-listing-reading-time-sort="15" data-listing-word-count-sort="2982">
+<a href="./posts/Tutorial-2/Tutorial2.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/Tutorial-2/r_packages.jpeg" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Tutorial 2: R Objects, Functions, and Packages
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
+code
+</div>
+</div>
+<div class="card-text listing-description">
+In this tutorial, you will learn about working with objects in R. In particular, this tutorial will cover…
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="code" data-listing-file-modified-sort="1715800255852" data-listing-reading-time-sort="12" data-listing-word-count-sort="2327">
+<a href="./posts/Tutorial-3/Tutorial3.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/Tutorial-3/spreadsheet.jpg" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Tutorial 3: Importing and Manipulating Data in R
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
+code
+</div>
+</div>
+<div class="card-text listing-description">
+In this tutorial, you will learn about working with data in R. In particular, this tutorial will cover…
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
 </div>
 <div class="listing-no-matching d-none">
 No matching items
 </div>
-</div></main> <!-- /main -->
+</div>
+</section>
+<section id="shiny-apps" class="level2">
+<h2 class="anchored" data-anchor-id="shiny-apps">Shiny Apps</h2>
+<div id="listing-shiny-apps" class="quarto-listing quarto-listing-container-table">
+<div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-shiny-apps-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-shiny-apps'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-title-sort" data-direction="asc">
+          Title
+        </option>
+         <option value="listing-author" data-direction="asc">
+          Author
+        </option>
+     </select>
+  </div>
+    <div class="input-group input-group-sm quarto-listing-filter">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" class="search form-control" placeholder="Filter">
+    </div>
+</div>
+<table class="quarto-listing-table table">
+<thead>
+<tr>
+<th>
+<a class="sort" data-sort="listing-title-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Title</a>
+</th>
+<th>
+<a class="sort" data-sort="listing-author" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Author</a>
+</th>
+</tr>
+</thead>
+<tbody class="list">
+<tr data-index="0" data-listing-file-modified-sort="1715801217069" data-listing-reading-time-sort="11" data-listing-word-count-sort="2009" data-listing-title-sort="Least Squares Regression Visualization" data-listing-filename-sort="LeastSquares_shiny.qmd">
+<td>
+<a href="./posts/LeastSquaresShiny/LeastSquares_shiny.html" class="title listing-title">Least Squares Regression Visualization</a>
+</td>
+<td>
+<span class="listing-author">Haley Grant</span>
+</td>
+</tr>
+<tr data-index="1" data-listing-file-modified-sort="1715801240532" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041" data-listing-title-sort="QQ Plot Visualization Tool" data-listing-filename-sort="QQshiny.qmd">
+<td>
+<a href="./posts/QQ_plot_shiny/QQshiny.html" class="title listing-title">QQ Plot Visualization Tool</a>
+</td>
+<td>
+<span class="listing-author">Haley Grant</span>
+</td>
+</tr>
+<tr data-index="2" data-listing-file-modified-sort="1715801227900" data-listing-reading-time-sort="10" data-listing-word-count-sort="1994" data-listing-title-sort="Sampling Distributions and Bootstrapping" data-listing-filename-sort="SampDist_shiny.qmd">
+<td>
+<a href="./posts/SamplingDistShiny/SampDist_shiny.html" class="title listing-title">Sampling Distributions and Bootstrapping</a>
+</td>
+<td>
+<span class="listing-author">Haley Grant</span>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div>
+
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

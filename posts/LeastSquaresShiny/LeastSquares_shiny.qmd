@@ -1,0 +1,177 @@
+---
+title: "Least Squares Regression Visualization"
+author: "Haley Grant"
+filters: 
+  - shinylive
+---
+
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
+#
+library(shiny)
+library(tidyverse)
+
+
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+
+    # Application title
+    titlePanel("Least Squares Regression"),
+
+    tabsetPanel(
+      tabPanel("Slope and Intercept", fluid = TRUE,
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+          sliderInput("realslope",
+                      "True Slope",
+                      min = -2,
+                      max = 2,
+                      value = 0, step = .01),
+          sliderInput("realintercept",
+                      "True Intercept",
+                      min = -10,
+                      max = 10,
+                      value = 0,step = .01),
+            sliderInput("slope",
+                        "Slope",
+                        min = -2,
+                        max = 2,
+                        value = 0, step = .01),
+            sliderInput("intercept",
+                        "Intercept",
+                        min = -10,
+                        max = 10,
+                        value = 0,step = .01)
+            
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+          plotOutput("regplot"),
+          plotOutput("seplot")
+        ))
+    ), tabPanel("Slope through means", fluid = TRUE,
+                # Sidebar with a slider input for number of bins 
+                sidebarLayout(
+                  sidebarPanel(
+                    sliderInput("realslope2",
+                                "True Slope",
+                                min = -2,
+                                max = 2,
+                                value = 0, step = .01),
+                    sliderInput("realintercept2",
+                                "True Intercept",
+                                min = -10,
+                                max = 10,
+                                value = 0,step = .01),
+                    sliderInput("slope2",
+                                "Slope",
+                                min = -2,
+                                max = 2,
+                                value = 0, step = .01),
+),
+                
+                # Show a plot of the generated distribution
+                mainPanel(
+                  plotOutput("regplot2"),
+                  plotOutput("seplot2")
+                ))
+    )
+)
+)
+
+
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+
+   vals<-reactiveValues(df = NULL, se = NULL, x=NULL, y = NULL)
+   vals2 <-reactiveValues(df = NULL, se = NULL, x=NULL, y = NULL)
+  observeEvent({ input$slope
+     input$intercept
+     input$realslope
+     input$realintercept},
+     {  x = runif(50, min = 18, max = 40)
+     y = input$realintercept + input$realslope*x + rnorm(50, sd = 2)
+       vals$df = data.frame(x=x, y=y)%>% 
+       mutate(s = input$slope,
+          i = input$intercept)%>%
+       mutate(estimated = i + s*x)%>%
+       mutate(error = y-estimated)
+     vals$se = sum(vals$df$error^2)/nrow(vals$df)
+     })
+   
+  observeEvent({ input$slope2
+    input$realslope2
+    input$realintercept2},
+    {  x = runif(50, min = 18, max = 40)
+    y = input$realintercept2 + input$realslope2*x + rnorm(50, sd = 2)
+    vals2$df = data.frame(x=x, y=y)%>% 
+      mutate(s = input$slope2,
+             i = mean(y) - mean(x)*input$slope2)%>%
+      mutate(estimated = i + s*x)%>%
+      mutate(error = y-estimated)
+    vals2$se = sum(vals2$df$error^2)/nrow(vals2$df)
+    })
+  
+  
+   
+   output$regplot <- renderPlot({
+     vals$df %>%
+       ggplot(aes(x = x, y=y)) + 
+       geom_point() +
+       geom_point(aes(y = estimated), color = "skyblue", alpha = 0.5) +
+       geom_abline(aes(intercept = i, slope = s), color = "skyblue")  +
+     geom_errorbar(aes(ymin = y, ymax = estimated), color = "skyblue", linetype=2) + 
+     theme_bw()
+     })
+   
+   output$seplot <- renderPlot({
+     vals$df %>%
+       ggplot(aes(x = x, y=y)) + 
+       geom_point() +
+       geom_point(aes(y = estimated), color = "skyblue", alpha = 0.5) +
+       geom_abline(aes(intercept = i, slope = s), color = "skyblue")  +
+       geom_rect(aes(ymin = y, ymax = estimated, xmin = x, xmax = x-error), 
+                 fill = "firebrick1", alpha = 0.1, color = "firebrick1") + 
+       theme_bw() + 
+       labs(title = paste0("Mean Squared Error: ", vals$se)) 
+
+   })
+   
+   output$regplot2 <- renderPlot({
+     vals2$df %>%
+       ggplot(aes(x = x, y=y)) + 
+       geom_point() +
+       geom_point(aes(y = estimated), color = "skyblue", alpha = 0.5) +
+       geom_abline(aes(intercept = i, slope = s), color = "skyblue")  +
+       geom_errorbar(aes(ymin = y, ymax = estimated), color = "skyblue", linetype=2) + 
+       theme_bw() + 
+       geom_point(shape = 18, color = "red", aes(x=mean(x), y = mean(y)), size = 4) 
+   })
+   
+   output$seplot2 <- renderPlot({
+     vals2$df %>%
+       ggplot(aes(x = x, y=y)) + 
+       geom_point() +
+       geom_point(aes(y = estimated), color = "skyblue", alpha = 0.5) +
+       geom_abline(aes(intercept = i, slope = s), color = "skyblue")  +
+       geom_rect(aes(ymin = y, ymax = estimated, xmin = x, xmax = x-error), 
+                 fill = "firebrick1", alpha = 0.1, color = "firebrick1") + 
+       theme_bw() + 
+       labs(title = paste0("Mean Squared Error: ", vals2$se))  + 
+       geom_point(shape = 18, color = "red", aes(x=mean(x), y = mean(y)), size = 4)
+     
+   })
+
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+
+```

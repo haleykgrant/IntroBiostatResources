@@ -1,0 +1,207 @@
+---
+title: "Sampling Distributions and Bootstrapping"
+author: "Haley Grant"
+filters: 
+  - shinylive
+---
+
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
+#
+
+library(shiny)
+library(tidyverse)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+  
+  tags$style(type="text/css",
+             ".shiny-output-error { visibility: hidden; }",
+             ".shiny-output-error:before { visibility: hidden; }"
+  ),
+    # Application title
+    titlePanel("Sampling Distributions and Bootstrapping"),
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("n",
+                        "Sample Size:",
+                        min = 5,
+                        max = 200,
+                        value = 15),
+            selectInput("shape", 
+                        label = "Shape of Original Variable", 
+                        choices = list("Normal", "Skewed"),
+                        selected = "Normal"),
+            selectInput("stat", 
+                        label = "Statistic of Interest", 
+                        choices = list("Mean", "Median","75th Percentile"),
+                        selected = "Mean"),
+            selectInput("sig.level",
+                        label = "Significance Level",
+                        choices = c(0.01, 0.05, 0.10),
+                        selected = 0.05),
+            actionButton("resamp",
+                          "Sample from Population"),
+            actionButton("reset",
+                         "Reset")
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+          textOutput("popstats"), 
+          fluidRow(
+            splitLayout(cellWidths = c("50%", "50%"), 
+                        plotOutput("popPlot",height = "200px"), 
+                        plotOutput("sampPlot", height = "200px")
+          )),
+          plotOutput("bootsamps3",height = "200px"),
+          fluidRow(
+            splitLayout(cellWidths = c("50%", "50%"), 
+                        plotOutput("bootstatdist",height = "200px"),
+                        plotOutput("iterplot",height = "200px")))
+          
+        )
+    )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  
+  vals<-reactiveValues(x = NULL, bootsamps = NULL,popstat = NULL,
+                       bootci = NULL, iters = data.frame(), i = 0)
+  
+  observeEvent({input$shape
+    input$stat
+    input$sig.level
+    input$n
+    input$resamp},{
+  
+  if(input$shape=="Normal"){vals$x = rnorm(input$n, mean = 10, sd = 3) 
+  if(input$stat == "Mean"){vals$popstat = 10
+  } else if(input$stat == "Median"){vals$popstat = 10
+  } else if (input$stat == "75th Percentile"){vals$popstat = qnorm(0.75,mean = 10, sd = 3 ) }
+  
+  } else{vals$x = rexp(input$n, rate = 0.1) 
+  if(input$stat == "Mean"){vals$popstat = 1/.1
+  } else if(input$stat == "Median"){vals$popstat = qexp(0.5, rate = 0.1)
+  } else if (input$stat == "75th Percentile"){vals$popstat = qexp(0.75,rate = 0.1 ) }
+  }
+      
+  vals$bootsamps <- lapply(1:10000, function(i) 
+      data.frame(iter=i, s=sample(vals$x, length(vals$x), replace = T)))%>%
+    plyr::ldply() %>%
+    group_by(iter) %>%
+    mutate(stat = ifelse(input$stat=="Mean", mean(s),
+                         ifelse(input$stat=="Median", median(s),
+                                quantile(s,.75))))
+  
+  vals$bootci <- list(lower = quantile(vals$bootsamps$stat[seq(1,input$n*10000, by = input$n )],as.numeric(input$sig.level)/2)%>%round(4),
+                 upper = quantile(vals$bootsamps$stat[seq(1,input$n*10000, by = input$n )],1-as.numeric(input$sig.level)/2)%>%round(4))
+  
+  vals$i = vals$i+1
+  vals$iters = bind_rows(vals$iters,
+    data.frame(x=vals$x)%>%
+    summarise(stat = ifelse(input$stat=="Mean", mean(x),
+                         ifelse(input$stat=="Median", median(x),
+                                      quantile(x,.75)))) %>%
+    mutate(upper = vals$bootci$upper, lower =vals$bootci$lower, 
+           iter = vals$i))
+  
+  })
+
+  observeEvent({input$reset}, {
+
+    vals$iters=data.frame()
+    vals$i = 0
+    vals$bootsamps = NULL
+    vals$x = NULL
+
+    })
+  
+  
+  output$popstats <- renderText({
+    paste0(input$stat, " in population: ", vals$popstat)
+  })
+  output$popPlot <- renderPlot({
+    if(input$shape=="Normal"){
+    data.frame(x=0:20) %>%
+      ggplot(aes(x = x)) + 
+      stat_function(fun = dnorm, args = list(mean = 10, sd = 3) ) +
+      theme_bw() +
+      labs(x = "Variable X", title = "Population Distribution")
+    } else {
+      data.frame(x=0:50) %>%
+        ggplot(aes(x = x)) + 
+        stat_function(fun = dexp, args = list(rate=.1) ) +
+        theme_bw() +
+        labs(x = "Variable X", title = "Population Distribution")
+    }
+    
+  })
+    output$sampPlot <- renderPlot({
+      data.frame(x = vals$x) %>%
+        ggplot(aes(x = x)) + 
+        geom_histogram(bins = min(round(input$n/2),30),
+                       color = "black", fill = "skyblue") + 
+        theme_bw()+
+        labs(x = "Variable X", title = "Sample")
+    })
+    
+    output$bootsamps3 <- renderPlot({
+      vals$bootsamps%>%
+        filter(iter<=3)%>%
+        mutate(iter = paste0("Boostrap Sample ",iter))%>%
+      ggplot(aes(x=s)) + 
+        geom_histogram(bins = min(round(input$n/2),30),
+                       color = "black", fill = "skyblue4") + 
+        theme_bw() +
+        facet_wrap(.~iter, nrow = 1) + 
+        geom_vline(aes(xintercept = stat), color = "firebrick1") + 
+        labs(x = "Variable X", title = "Example Bootstrap Samples")
+    })
+    
+    output$bootstatdist <- renderPlot({
+     vals$bootsamps %>%
+        group_by(iter)%>%
+        summarise(stat = first(stat))%>%
+        ggplot(aes(x=stat)) + 
+        geom_histogram(bins = min(round(input$n/2),30),
+                       color = "black", fill = "firebrick1") + 
+        theme_bw() +
+        geom_vline(xintercept = unlist(vals$bootci), linetype = 2) + 
+        labs(x = paste0("Bootstrap", input$stat), title = "Bootstrap Sampling Distribution",
+             subtitle = input$stat)
+    })
+    
+ 
+    output$bootci = renderText(
+      paste0("Bootstrap CI: (",vals$bootci$lower, ", ", 
+             vals$bootci$upper,")" ))
+    
+    output$iterplot = renderPlot({
+      vals$iters %>%
+        mutate(covers = case_when(
+          upper>=vals$popstat & lower <= vals$popstat ~ "Covers True Parameter",
+          upper<vals$popstat | lower > vals$popstat~"Does Not Cover Parameter"))%>%
+        bind_rows(data.frame(covers = "Covers True Parameter", lower = NA, upper = NA, stat = NA))%>%
+        ggplot(aes(x = stat, y = iter, color = covers))+
+        geom_point()+
+        theme_bw()+
+        scale_color_manual(values = c( "#00BFC4","#F8766D")) + 
+        geom_errorbarh(aes(xmin = lower, xmax = upper))+
+        geom_vline(xintercept = vals$popstat) + 
+        labs(x = "Bootstrap CI", y = "Iteration",color = element_blank())
+    })
+
+  
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+
+```
