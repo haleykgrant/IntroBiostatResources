@@ -239,3 +239,64 @@ Be careful with updating existing column names (and other R objects for that mat
 If you make a mistake, this will overwrite the old column, so you won't have access to the original contents anymore and you will have to rerun some of your code (like when you first read in the data) to reset the code and try again.
 
 :::
+
+## Filtering Data Frames
+
+Sometimes we only want to look at a subset of the rows (observations) in our data frame. For example, maybe I want to run an analysis using only individuals who have a `genhlth` value of `"excellent"` or individuals who are at least 30 years old. To do this, I can use the `filter()` function (also within the `dplyr` package from the `tidyverse`).
+
+```{webr-r}
+# filter to only people with excellent genhlth
+cdc %>%
+  filter(genhlth=="excellent") # only keep if genhlth is equal to (==) "excellent"
+
+```
+
+
+```{webr-r}
+# filter to only people who are at least 30 years old
+cdc %>%
+  filter(age >= 30) # only keep if age is greater than or equal to (>=) 30
+
+```
+
+
+Using the filter function, we can then run functions just on the subsetted data. For example, we could check the number of observations for each subet using the `nrow()` function.
+
+```{webr-r}
+# filter to only people with excellent genhlth
+cdc %>%
+  filter(genhlth=="excellent") %>% # only keep if genhlth is equal to (==) "excellent"
+  nrow()
+
+# filter to only people who are at least 30 years old
+cdc %>%
+  filter(age >= 30) %>% # only keep if age is greater than or equal to (>=) 30
+  nrow()
+```
+
+Here we can see that there are 17 observations with `genhlth` value "excellent" and 48 observations with an age of at least 30. If we know we want to continue using these subsets for future statistical analyses, we might choose to save the filtered data sets with new names so we don't have to keep using the `filter()` function.
+
+```{webr-r}
+# filter to only people with excellent genhlth and save with new name cdc_excellent
+cdc_excellent = cdc %>%
+  filter(genhlth=="excellent") 
+
+# take a look at the first few rows
+head(cdc_excellent)
+
+```
+
+```{webr-r}
+# filter to only people who are at least 30 years old and save with name cdc_30y
+cdc_30y = cdc %>%
+  filter(age >= 30) 
+
+# take a look at the first few rows
+head(cdc_30y)
+
+```
+
+
+Now if we want to run any further analysis using just the subset of individuals who were at least 30 years old or had "excellent" general health condition, we can use `cdc_30y` or `cdc_excellent`, respectively. This can be helpful if you want to run multiple analyses on the same subset of observations but still want access to the full data set too.
+
+
