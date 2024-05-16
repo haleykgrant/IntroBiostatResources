@@ -1,5 +1,6 @@
 ---
 title: "Tutorial 2: R Objects, Functions, and Packages"
+author: "Haley Grant"
 image: "r_packages.jpeg"
 format: 
   html:
@@ -388,19 +389,17 @@ Remember that you have to install an R package once before you ever use it. Afte
 
 If you ever run a line of code like this:
 
-:::: {style="text-align: center;"}
+::: {style="text-align: center;"}
 [library(mypackage)]{style="font-family: 'Monaco'; font-weight: 500;"}
-::::
+:::
 
 and get an error message like this:
 
-:::: {style="text-align: center;"}
-[Error in library(mypackage) : there is no package called ‘mypackage’]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
-::::
+::: {style="text-align: center;"}
+[Error in library(mypackage) : there is no package called 'mypackage']{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
+:::
 
 this means you are trying to load a package you haven't installed yet and you need to run `install.packages("mypackage")` once first.
-
-
 :::
 
 ### The tidyverse package

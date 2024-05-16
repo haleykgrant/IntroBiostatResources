@@ -1,6 +1,7 @@
 ---
 title: "Tutorial 1: Installing R and RStudio"
 image: "rstudio2.png"
+author: "Haley Grant"
 format: 
   html:
     toc: true

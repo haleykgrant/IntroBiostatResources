@@ -1,0 +1,241 @@
+---
+title: "Tutorial 4: Data Frames in R"
+author: "Haley Grant"
+image: datatable.jpg
+format: 
+  html:
+    toc: true
+    toc-location: left
+engine: knitr
+filters: 
+  - webr
+  - naquiz
+webr:
+  packages: ['tidyverse']
+  autoload-packages: false
+  cell-options:
+    editor-font-scale: 0.85
+categories:
+    - code
+title-block-banner: "#a2cffe"
+---
+
+## Introduction
+
+
+By now you should have learned to install R and RStudio, learned a little about types of objects and functions in R, and learned to import data into R. If you're not sure about any of those, tutorials for each topic can be found here:
+
+- [Installing R and RStudio Tutorial](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-1/Tutorial1.html)
+
+- [R Objects and Functions Tutorial](grant.github.io/BIOST2041/posts/Tutorial-2/Tutorial2.html)
+
+- [Importing Data into R Tutorial](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-3/Tutorial3.html)
+
+### Outline
+
+In this tutorial, we're going to go over manipulating data frames in R, including: 
+
+- Data frame structure
+- Making new columns
+- Updating variables 
+- Filtering data frames
+
+We're going to use the `cdc` data from [last time](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-3/Tutorial3.html) in this tutorial as an example. Here's a reminder of how we read in that dataset (this code will automatically run when the webpage is ready):
+
+```{webr-r}
+#| context: setup
+url.csv <- "https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv"
+download.file(url.csv, "cdc_samp.csv")
+```
+
+
+```{webr-r}
+#| autorun: true
+#| warning: false
+# load the tidyverse (remember we have to do this at the beginning of every new R session)
+library(tidyverse)
+# read in data from cdc_samp.csv
+cdc <- read_csv("cdc_samp.csv")
+
+# take a look at the top few rows of data
+head(cdc)
+
+```
+
+## Rows and Columns
+
+
+### `nrow()` and `ncol()` functions
+
+The standard setup for a data frame is to put individual observations (so in this case, different people) in the rows, and different attributes (variables) in the columns. In the `cdc` data frame, each row corresponds to one individual, and each column corresponds to a variable. 
+
+From the output above, we can see that the 1st person in the data set has the value `"very good"` for the variable `genhlth`, the value `1` for the variable `exerany`, and so on.
+
+We may want to know how many rows and columns are included in our data. We can find this out using the functions `nrow()` and `ncol()`.
+
+```{webr-r}
+# number of rows in cdc data
+nrow(cdc)
+
+# number of columns in cdc data
+ncol(cdc)
+
+```
+
+This tells us that there are 60 rows (60 observations) and 9 columns (9 variables) recorded in our data.
+
+### `colnames()` function
+
+If we want to get a list of the names of the columns, we can use the `colnames()` function in R, which will just print out the names of all of the columns in the data.
+
+```{webr-r}
+# print column names of cdc data
+colnames(cdc)
+```
+
+Here we can see the names of the 9 columns included in our data. Remember that R is case-sensitive so this can be a helpful function when you first start working with a data set. For example, if I was trying to refer to the column named `"age"` but I accidentally spelled it `"Age"`, R wouldn't understand which variable I was referring to. Checking the column names at the start can help avoid future confusion/frustration with misspellings :)
+
+
+## Making a new column
+
+As with most things in R, there are multiple ways to make new columns in a data frame. I will be using the `tidyverse` syntax and functions to do this, but there are other ways.
+
+The function in the `tidyverse` (and specifically, the `dplyr` package) to make a new column is `mutate()`.
+
+The syntax will be:
+
+::: {style="text-align: center;"}
+
+`mutate(new_column = some_function(existing_column))`
+
+:::
+
+You don't need to use a pre-existing column to make the new column (you could just type out a vector with the new column values), but we generally will be using pre-existing columns to make new columns.
+
+For example, we can see that there is a column called `"exerany"` in our data. This column indicates if the individual has exercised in the past month, where a `1` indicates if they have exercised in the past month and `0` indicates that they have not. This is a fairly common coding of binary variables, but unless you have the codebook readily available you wouldn't know for sure which response (yes/no) corresponds to which value (1/0). It can be helpful to make new variable that reads as "Yes"/"No" instead of 1/0 for clarity.
+
+We will make a new variable called `"exerany_f"` that is a factor variable that takes on the values `0` and `1` with the labels `"No exercise in past month"` and `"Exercise in past month"`, respectively. We will use the values from the `"exerany"` variable to help us make the new variable.
+
+
+
+```{webr-r}
+# make new variable called exerany_f
+mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c("No exercise in past month", "Exercise in past month")) )
+```
+
+Oh no! Why did we get an error?
+
+Let's take a look at the error message:
+
+::: {style="text-align: center;"}
+[Error: object 'exerany' not found]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
+:::
+
+This error message is telling us that there isn't an object called `'exerany'` that R can find. This is because `'exerany'` is the name of a column in our data frame `cdc`, not a standalone object.
+
+To fix this error, we just need to tell R where to look for the variable called `'exerany'`. 
+
+```{webr-r}
+# make new variable called exerany_f
+cdc %>% # tell R where to look
+  mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c("No exercise in past month", "Exercise in past month")) )
+```
+
+Notice that this printed out a data frame that now has 10 columns instead of the previous 9. The new column is the variable we just made, `'exerany_f'`. You can't see it because there is a limit to the number of columns printed, but there is a line telling us that there is `1 more variable: exerany_f <fct>`, which means there is also a factor variable called `exerany_f` that isn't being shown in the printed output.
+
+
+Right now, we haven't actually saved the new column. To see this, let's use the `colnames()` function we learned last time.
+
+```{webr-r}
+# print the column names of the cdc data
+colnames(cdc)
+
+```
+
+
+Basically, mutate will add a new column and return a dataset (that then gets printed in your output). If you want to save the new variable to be able to use it later, we have to either update the cdc data frame or save this as a new data frame.
+
+### Saving a new data frame
+
+To save a new data frame we can use this code:
+
+```{webr-r}
+# new data frame called "cdc_new"
+cdc_new = cdc %>%
+   mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c("No exercise in past month", "Exercise in past month")) )
+
+# print names of columns of cdc_new
+colnames(cdc_new)
+
+# view first few rows of cdc_new
+head(cdc_new, n = 3)
+
+```
+
+### Updating the old data frame
+
+If we don't want to make a new data frame with a new name, we can also just update the original `cdc` object by replacing `cdc_new` in the code above with `cdc`. This will overwrite the old `cdc` object with the updated data frame with the additional column.
+
+```{webr-r}
+# update cdc object
+cdc = cdc %>%
+   mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c("No exercise in past month", "Exercise in past month")) )
+
+# print names of columns of cdc
+colnames(cdc)
+
+# view first few rows of cdc_new
+head(cdc, n = 3)
+
+```
+
+
+Great! If we want to take a look at the new column, we can use a function in the `tidyverse` package called `select()` to select just a few columns to look at. Let's grab the original variable, `exerany`, and the new one, `exerany_f` and look at the first few entries to make sure we defined the new variable correctly.
+
+```{webr-r}
+# look at exerany and exerany_f
+cdc %>%
+  select(exerany, exerany_f) %>%
+  head()
+
+```
+
+It looks like this worked! The first 6 rows all had a `1` in `exerany` so they all show up as `"Exercise in the past month"` under `exerany_f`.
+
+## Updating existing variables
+
+Sometimes instead of making a new column, we just want to update an existing column. We can use the `mutate()` function for this too. The syntax this time will be:
+
+::: {style="text-align: center;"}
+
+`mutate(existin_column = some_function(existing_column))`
+
+:::
+
+This will overwrite the column with the new values. 
+
+For example, let's say `"No exercise in the past month"` and `"Exercise in the past month"` are too long for our liking. Maybe we want to update this column so the values are just `"No exercise"` and `"Exercise"`. We can do this with the following code:
+
+```{webr-r}
+# update cdc object
+cdc = cdc %>%
+   mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c("No exercise", "Exercise")) )
+
+# look at exerany and exerany_f
+cdc %>%
+  select(exerany, exerany_f) %>%
+  head()
+
+```
+
+
+Notice that now the same column as before `exerany_f` has been updated from what we originally created. 
+
+::: {.callout-warning}
+## Warning: Overwriting
+
+Be careful with updating existing column names (and other R objects for that matter)! 
+
+If you make a mistake, this will overwrite the old column, so you won't have access to the original contents anymore and you will have to rerun some of your code (like when you first read in the data) to reset the code and try again.
+
+:::

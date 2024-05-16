@@ -1,6 +1,7 @@
 ---
-title: "Tutorial 3: Importing and Manipulating Data in R"
-image: spreadsheet.jpg
+title: "Tutorial 3: Importing Data in R"
+author: "Haley Grant"
+image: files.jpg
 format: 
   html:
     toc: true
@@ -18,11 +19,12 @@ categories:
     - code
 title-block-banner: "#a2cffe"
 ---
+
 ```{webr-r}
 #| context: setup
 
 url.csv <- "https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv"
-download.file(url.csv, "cdc.samp.csv")
+download.file(url.csv, "cdc_samp.csv")
 
 url.xlsx <- "https://haleykgrant.github.io/tutorial_data/data/dds.xlsx"
 download.file(url.xlsx, "dds.xlsx")
@@ -35,12 +37,12 @@ download.file(url.rda, "census.rda")
 
 ## Introduction
 
-In this tutorial, you will learn about working with data in R. In particular, this tutorial will cover...
+In this tutorial, you will learn about working with data in R. In particular, this tutorial will cover importing data from various file types into R including:
 
--   Reading in data from different file types
--   Data frame structure in R
--   Updating and making new variables
--   Filtering data
+- csv files
+- Excel files
+- R data files
+
 
 ## Getting Set Up
 
@@ -65,11 +67,10 @@ getwd()
 
 ```
 
-
-You should see the output is 
+You should see the output is
 
 ::: {style="text-align: center;"}
-[\left\"/home/web_user\right\"]{style="font-weight: 500;"}
+[\left"/home/web_user\right"]{style="font-weight: 500;"}
 :::
 
 This is because we are working in R on the web. This is telling us that we are in a sub-directory of the "home" directory called "web_user". That is, "web_user" is a directory (folder) inside the larger directory (folder) called "home". You read file paths from left to right
@@ -78,7 +79,7 @@ Try running this in your Console in RStudio on your computer, and you should see
 
 ### List files in working directory
 
-To check the files that are present in our current directory, we can use the function `list.files()` to list out all of the files that are stored in the directory where we are currently working. 
+To check the files that are present in our current directory, we can use the function `list.files()` to list out all of the files that are stored in the directory where we are currently working.
 
 Try running the code in this block:
 
@@ -90,14 +91,14 @@ list.files()
 The output should look something like this:
 
 ::: {style="text-align: center;"}
-[[1] "cdc.samp.csv" "census.rda"   "dds.xlsx"]{style="font-family: 'Monaco'; font-weight: 500;"}
+[\[1\] "cdc_samp.csv" "census.rda" "dds.xlsx"]{style="font-family: 'Monaco'; font-weight: 500;"}
 :::
-  
+
 This tells us that there are 4 files that we have access to in this directory:
 
-- a file called "cdc.samp.csv"
-- a file called "census.rda"
-- a file called "dds.xlsx"
+-   a file called "cdc_samp.csv"
+-   a file called "census.rda"
+-   a file called "dds.xlsx"
 
 There are the data files that we will be working with in this tutorial.
 
@@ -105,6 +106,7 @@ There are the data files that we will be working with in this tutorial.
 
 The main types of files that we will work with in this class are:
 
+```{=html}
 <style>
   table {
     border-collapse: collapse;
@@ -119,40 +121,24 @@ The main types of files that we will work with in this class are:
     background-color: #f2f2f2;
   }
 </style>
-
-<table>
-  <tr>
-    <th>File Type</th>
-    <th>Description</th>
-    <th>File Extension</th>
-  </tr>
-  <tr>
-    <td>CSV files </td>
-    <td> This stands for "comma separated value". These are files that have rows with entries separated by commas to indicate the different columns</td>
-    <td>.csv</td>
-  </tr>
-  <tr>
-    <td>Excel files</td>
-    <td>Files in Excel workbook/sheet format</td>
-    <td>.xls or .xlsx</td>
-  </tr>
-  <tr>
-    <td>R data files</td>
-    <td>Files with saved R objects</td>
-    <td>.RData or .rda</td>
-  </tr>
-</table>
+```
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------+----------------+
+| File Type    | Description                                                                                                                                | File Extension |
++==============+============================================================================================================================================+================+
+| CSV files    | This stands for "comma separated value". These are files that have rows with entries separated by commas to indicate the different columns | .csv           |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------+----------------+
+| Excel files  | Files in Excel workbook/sheet format                                                                                                       | .xls or .xlsx  |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------+----------------+
+| R data files | Files with saved R objects                                                                                                                 | .RData or .rda |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------+----------------+
 
 The three files we will read in today have the following names:
 
--   "cdc.samp.csv" : a csv file with demographic data from the cdc
+-   "cdc_samp.csv" : a csv file with demographic data from the cdc
 -   "dds.xlsx" : an excel file with data from the department of disability services in California
 -   "census.rda": an R data file with data from the US census
 
-
-
 ## Importing Data
-
 
 ### Reading in a csv file
 
@@ -164,32 +150,30 @@ The syntax to use this function is:
 `name_for_data = read_csv("path_to_data")`
 :::
 
--   Here `name_for_data` is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can't start with a number). 
+-   Here `name_for_data` is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can't start with a number).
 
--   `"path_to_data"` is the file path that will tell R where to look for your data. You will see more examples of this in class, but for this example, the files are in our working directory so we don't need any long file paths to navigate through different directories. 
+-   `"path_to_data"` is the file path that will tell R where to look for your data. You will see more examples of this in class, but for this example, the files are in our working directory so we don't need any long file paths to navigate through different directories.
 
-::: {.callout-warning }
+::: {. callout-warning}
 ## Assigning a name
 
-__Warning:__ Naming the object is very important!
+**Warning:** Naming the object is very important!
 
 If you forget to choose a name for your dataframe, R will read in the data and print it, but it won't save it as an object. If you just use `read_csv()` without the `name_for_data =` part, you won't be able to manipulate or analyze the data
 :::
 
-::: {.callout-warning }
+::: {.callout-warning}
 ## Duplicate names
 
-__Another warning:__ If you read in two datasets and accidentally give them the same name, *the one you run second will overwrite the first one*! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new dataframes different names!
-
+**Another warning:** If you read in two datasets and accidentally give them the same name, *the one you run second will overwrite the first one*! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new dataframes different names!
 :::
 
-Let's try reading in the "cdc.samp.csv" file and give the dataframe the name `cdc`.
+Let's try reading in the "cdc_samp.csv" file and give the dataframe the name `cdc`.
 
 ```{webr-r}
-# read in the data file "cdc.samp.csv"
-cdc = read_csv("cdc.samp.csv")
+# read in the data file "cdc_samp.csv"
+cdc = read_csv("cdc_samp.csv")
 ```
-
 
 ::: {.callout-tip collapse="true" icon="false"}
 ## Hint (if you get an error)
@@ -205,8 +189,6 @@ you forgot to load the tidyverse package!
 Add a line of code above your read_csv() line to load the tidyverse (`library(tidyverse)`).
 :::
 
-
-
 ::: {.callout-note collapse="true" icon="false"}
 ## Answer
 
@@ -216,11 +198,10 @@ Add a line of code above your read_csv() line to load the tidyverse (`library(ti
 # load tidyverse package first
 library(tidyverse)
 
-# read in the data file "cdc.samp.csv"
-cdc = read_csv("cdc.samp.csv")
+# read in the data file "cdc_samp.csv"
+cdc = read_csv("cdc_samp.csv")
 ```
 :::
-
 
 ### Viewing your data
 
@@ -247,14 +228,14 @@ If you get the following error:
 [Error: object 'cdc' not found]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
 :::
 
-this is R's way of telling you that you don't currently have an object loaded into your environment called 'cdc'. 
+this is R's way of telling you that you don't currently have an object loaded into your environment called 'cdc'.
 
 When you see an error like this, you should make sure the code used to import the data worked properly and that you don't have any spelling errors (R is case sensitive so you have to be very careful to spell things exactly correctly).
 
 Make sure you were able to successfully run the code above with the `read_csv()` function without any errors before running this code block.
 :::
 
-Awesome! Here we see the top 6 rows of the `cdc` dataframe. There are 9 columns: <span style="font-family: Monaco;"> genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span>
+Awesome! Here we see the top 6 rows of the `cdc` dataframe. There are 9 columns: [ genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.]{style="font-family: Monaco;"}
 
 #### The skim() function
 
@@ -274,112 +255,71 @@ skim(cdc)
 
 ```
 
-This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Monaco;"> genhlth</span> and  <span style="font-family: Monaco;"> gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1---more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.
+This function breaks our columns into groups based on the type of variable they are. Here we see that [ genhlth]{style="font-family: Monaco;"} and [ gender]{style="font-family: Monaco;"} are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1---more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.
 
-::: {.callout-note collapse="true" }
+::: {.callout-note collapse="true"}
 ## Understanding `skim()` output
+
 The columns for categorical variables are:
 
-<table>
-  <tr>
-    <th>Attribute</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>n_missing</td>
-    <td>the number of rows with missing value (NA) in the corresponding columns</td>
-  </tr>
-  <tr>
-    <td>complete_rate</td>
-    <td>proportion of rows that are not missing (not NAs)</td>
-  </tr>
-  <tr>
-    <td>min</td>
-    <td>the minimum character length of values in the column</td>
-  </tr>
-  <tr>
-    <td>max</td>
-    <td>the maximum character length of values in the column</td>
-  </tr>
-  <tr>
-    <td>empty</td>
-    <td>the number of empty characters in the column</td>
-  </tr>
-  <tr>
-    <td>n_unique</td>
-    <td>the number of unique values in the column</td>
-  </tr>
-  <tr>
-    <td>whitespace</td>
-    <td>the number of rows containing only white space in the column</td>
-  </tr>
-</table>
++---------------+-------------------------------------------------------------------------+
+| Attribute     | Description                                                             |
++===============+=========================================================================+
+| n_missing     | the number of rows with missing value (NA) in the corresponding columns |
++---------------+-------------------------------------------------------------------------+
+| complete_rate | proportion of rows that are not missing (not NAs)                       |
++---------------+-------------------------------------------------------------------------+
+| min           | the minimum character length of values in the column                    |
++---------------+-------------------------------------------------------------------------+
+| max           | the maximum character length of values in the column                    |
++---------------+-------------------------------------------------------------------------+
+| empty         | the number of empty characters in the column                            |
++---------------+-------------------------------------------------------------------------+
+| n_unique      | the number of unique values in the column                               |
++---------------+-------------------------------------------------------------------------+
+| whitespace    | the number of rows containing only white space in the column            |
++---------------+-------------------------------------------------------------------------+
 
 The columns for numeric variables are:
 
-<table>
-  <tr>
-    <th>Attribute</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>n_missing</td>
-    <td>the number of rows with missing value (NA) in the corresponding columns</td>
-  </tr>
-  <tr>
-    <td>complete_rate</td>
-    <td>proportion of rows that are not missing (not NAs)</td>
-  </tr>
-  <tr>
-    <td>mean</td>
-    <td>the mean (average) value of the non-missing values in the column</td>
-  </tr>
-  <tr>
-    <td>sd</td>
-    <td>the standard deviation of the non-missing values in the column</td>
-  </tr>
-  <tr>
-    <td>p0</td>
-    <td>the minimum value observed in the column</td>
-  </tr>
-  <tr>
-    <td>p25</td>
-    <td>the 25th percentile of values observed in the column</td>
-  </tr>
-  <tr>
-    <td>p50</td>
-    <td>the median (50th percentile) of values observed in the column</td>
-  </tr>
-    <tr>
-    <td>p75</td>
-    <td>the 75th percentile of values observed in the column</td>
-  </tr>
-    <tr>
-    <td>p100</td>
-    <td>the maximum value observed in the column</td>
-  </tr>
-    <tr>
-    <td>hist</td>
-    <td>a histogram showing the shape of the distribution of values in the column</td>
-  </tr>
-</table>
++---------------+---------------------------------------------------------------------------+
+| Attribute     | Description                                                               |
++===============+===========================================================================+
+| n_missing     | the number of rows with missing value (NA) in the corresponding columns   |
++---------------+---------------------------------------------------------------------------+
+| complete_rate | proportion of rows that are not missing (not NAs)                         |
++---------------+---------------------------------------------------------------------------+
+| mean          | the mean (average) value of the non-missing values in the column          |
++---------------+---------------------------------------------------------------------------+
+| sd            | the standard deviation of the non-missing values in the column            |
++---------------+---------------------------------------------------------------------------+
+| p0            | the minimum value observed in the column                                  |
++---------------+---------------------------------------------------------------------------+
+| p25           | the 25th percentile of values observed in the column                      |
++---------------+---------------------------------------------------------------------------+
+| p50           | the median (50th percentile) of values observed in the column             |
++---------------+---------------------------------------------------------------------------+
+| p75           | the 75th percentile of values observed in the column                      |
++---------------+---------------------------------------------------------------------------+
+| p100          | the maximum value observed in the column                                  |
++---------------+---------------------------------------------------------------------------+
+| hist          | a histogram showing the shape of the distribution of values in the column |
++---------------+---------------------------------------------------------------------------+
 :::
 
 Back to reading in data from various file types...
-
 
 ### Reading in an Excel file
 
 We've successfully read in a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we're going to need to use a new package called the `readxl` package.
 
-
 ::: {.callout-caution collapse="true"}
 ## Reminder: Installing `readxl`
+
 Remember that if you don't have this package installed on your local computer, you'll need to install it before you can load and use it. I've already installed it here, but remember that to install the package you can just run `install.packages("readxl")` in your console in R Studio.
 :::
 
-Once we have the `readxl` package loaded, the syntax is very similar to `read_csv()` from above. There are a few different functions that could work from this package, but the most generic one is `read_excel()`. The syntax is: 
-
+Once we have the `readxl` package loaded, the syntax is very similar to `read_csv()` from above. There are a few different functions that could work from this package, but the most generic one is `read_excel()`. The syntax is:
 
 ::: {style="text-align: center;"}
 `name_for_data = read_excel("path_to_data")`
@@ -398,13 +338,13 @@ dds = read_excel("dds.xlsx")
 head(dds)
 ```
 
-Awesome! We can see that there are 6 columns in this data set: <span style="font-family: Monaco;"> id, age.cohort, age, gender, expenditure, ethnicity.</span>
+Awesome! We can see that there are 6 columns in this data set: [ id, age.cohort, age, gender, expenditure, ethnicity.]{style="font-family: Monaco;"}
 
 Once you have the `readxl` package, importing Excel files works just like reading in csv files!
 
 ### Importing R data files
 
-There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. __The syntax is slightly different for these kinds of files.__
+There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. **The syntax is slightly different for these kinds of files.**
 
 The syntax for importing an R data file is:
 
@@ -412,13 +352,13 @@ The syntax for importing an R data file is:
 `load("path_to_data")`
 :::
 
-::: {.callout-warning }
+::: callout-warning
 ## load()
 
 Notice how we didn't include anything on the left side of the `load()` function here. We didn't give the data a name!
 :::
 
-The reason we don't assign names to data loaded from an R data file is because __these objects already come with a name__. Since these are R objects that were saved specifically in a file format that R understands, they keep the name that they were given when they were first created in R. So how do we know what the name is? We can add an extra argument to this function called `verbose`. The syntax will become:
+The reason we don't assign names to data loaded from an R data file is because **these objects already come with a name**. Since these are R objects that were saved specifically in a file format that R understands, they keep the name that they were given when they were first created in R. So how do we know what the name is? We can add an extra argument to this function called `verbose`. The syntax will become:
 
 ::: {style="text-align: center;"}
 `load("path_to_data", verbose = TRUE)`
@@ -438,8 +378,28 @@ load("census.rda", verbose = TRUE)
 
 We can see the message:
 
-<div style="text-align: center;">
-[Loading objects:<br>&nbsp;&nbsp;census]{style="font-family: 'Monaco'; font-weight: 500; display: inline-block; text-align: left;"}
-</div>
+::: {style="text-align: center;"}
+[Loading objects:<br>  census]{style="font-family: 'Monaco'; font-weight: 500; display: inline-block; text-align: left;"}
+:::
+
+This is telling us that the object we loaded came with the name `census`. This is the name we should use to refer to that data object.
+
+::: {.callout-note collapse="true"}
+## Note: file names vs object names
+
+The name of the R object doesn't have to match with the file name like it did in this example. The file name "census.rda" and the object name `census` are two independent things. However, it can be helpful to have the file name and object name match, so they often will by convention.
+:::
+
+For example, we can take a look at the top few rows of data using the `head()` function again. This time we'll just look at the top 3 by adding the argument `n = 3`.
+
+```{webr-r}
+# look at top 3 rows of census data 
+head(census, n = 3)
+
+```
+
+### Other file types
+
+There are other types of files that you may want to import into R. These include text files (.txt) and files from other statistical software packages like SAS (.sas7bdat) or stata (.dta). The syntax for reading in these files is very similar to reading in csv or Excel files so we won't go into these data types in detail. There are lots of helpful tutorials and R documentation online if you ever need them (for example, [this page](https://dk81.github.io/dkmathstats_site/ranalysis-readfile-types.html) goes through reading in files from multiple sources).
 
 
