@@ -96,6 +96,7 @@ The output should look something like this:
 
 This tells us that there are 4 files that we have access to in this directory:
 
+-   a file called "Rplots.pdf" that we won't be working with
 -   a file called "cdc_samp.csv"
 -   a file called "census.rda"
 -   a file called "dds.xlsx"
@@ -154,7 +155,7 @@ The syntax to use this function is:
 
 -   `"path_to_data"` is the file path that will tell R where to look for your data. You will see more examples of this in class, but for this example, the files are in our working directory so we don't need any long file paths to navigate through different directories.
 
-::: {. callout-warning}
+::: {.callout-warning}
 ## Assigning a name
 
 **Warning:** Naming the object is very important!

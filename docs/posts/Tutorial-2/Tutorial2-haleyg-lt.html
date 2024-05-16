@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Haley Grant">
 
-<title>BIOST2041 - Tutorial 3: Importing Data in R</title>
+<title>BIOST2041 - Tutorial 2: R Objects, Functions, and Packages</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -257,7 +290,7 @@ body.reveal.quarto-dark div.qwebr-console-area {
 // Document level settings ----
 
 // Determine if we need to install R packages
-globalThis.qwebrInstallRPackagesList = ['tidyverse', 'readxl', 'skimr'];
+globalThis.qwebrInstallRPackagesList = ['tidyverse'];
 
 // Specify possible locations to search for the repository
 globalThis.qwebrPackageRepoURLS = ['https://repo.r-wasm.org/'];
@@ -279,7 +312,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"id":1,"code":"\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc_samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n","options":{"comment":"","read-only":"false","fig-width":7,"context":"setup","label":"unnamed-chunk-1","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"true","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":2,"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-2","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":3,"code":"# print files in working directory\nlist.files()","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-3","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":4,"code":"# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"cdc_samp.csv\")","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-4","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":5,"code":"\n# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"cdc_samp.csv\")","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-5","out-width":"700px","editor-max-height":"","output":"true","warning":"false","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":6,"code":"# show top few rows of the data set `cdc`\nhead(cdc)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-6","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":7,"code":"# load skimr library\nlibrary(skimr)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-7","out-width":"700px","editor-max-height":"","output":"true","warning":"false","classes":"","results":"markup","dpi":72,"autorun":"true","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":8,"code":"# use the skim() function on the cdc data\nskim(cdc)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-8","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":9,"code":"# load the readxl package \nlibrary(readxl)\n\n# save the data contained in dds.xlsx under the name `dds`\ndds = read_excel(\"dds.xlsx\")\n\n# make sure it worked by looking at the first few rows\nhead(dds)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-9","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":10,"code":"# load in the data\n# add verbose = TRUE so the object name gets printed\n\nload(\"census.rda\", verbose = TRUE)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-10","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":11,"code":"# look at top 3 rows of census data \nhead(census, n = 3)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-11","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}}];
+globalThis.qwebrCellDetails = [{"code":"","id":1,"options":{"label":"unnamed-chunk-1","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# this is a comment\n# anything starting with the # sign is a comment","id":2,"options":{"label":"unnamed-chunk-2","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# add 2 + 3\n2 + 3","id":3,"options":{"label":"unnamed-chunk-3","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# assign the value 2 to x\nx = 2\n# assign the value 2 to x\ny = 3","id":4,"options":{"label":"unnamed-chunk-4","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# print x\nx \n# print y\ny ","id":5,"options":{"label":"unnamed-chunk-5","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# print x + y\nx + y\n\n# print x - y\nx - y\n\n# print x times y\nx * y\n\n# print x divided by y\nx / y\n\n\n# print x squared\nx^2\n\n# print the log (base e) of x \nlog(x)\n\n# print the exponentiated value of x (e^x)\nexp(x)\n\n# save x + y as z\nz = x + y\n\n# print the value of z\nz","id":6,"options":{"label":"unnamed-chunk-6","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# save x_numeric object with the value 5\nx_numeric = 5\n# print value\nx_numeric\n# print out the type of variable\nclass(x_numeric)","id":7,"options":{"label":"unnamed-chunk-7","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# save x_character object with the value \"5\"\nx_character = \"5\"\n# print value\nx_character\n# print out the type of variable\nclass(x_character)","id":8,"options":{"label":"unnamed-chunk-8","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# try multiplying x_character by 2","id":9,"options":{"label":"unnamed-chunk-9","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# save x_factor objects as a factor variable with the levels \"5\" and label this level \"The number 5\"\nx_factor = factor(x = x_character, levels = \"5\", labels = \"The number 5\")\n# print value\nx_factor\n# print out the type of variable\nclass(x_factor)","id":10,"options":{"label":"unnamed-chunk-10","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# save x_logical as a TRUE/FALSE statement\n# the `==` operator is R's way of saying \"is the thing on the left equal to the thing on the right?\"\nx_logical = (x_numeric == 5)\n\n# print value \nx_logical\n\n# show variable type\nclass(x_logical)\n","id":11,"options":{"label":"unnamed-chunk-11","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# save x_missing as NA value\nx_missing = NA\n\n# print value \nx_missing","id":12,"options":{"label":"unnamed-chunk-12","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# multiple x_missing by 2\n","id":13,"options":{"label":"unnamed-chunk-13","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# make a vector with the values 1, 2, 3, 1, 2, 3\nx_vector = c(1, 2, 3, 1, 2, 3)\n# print the vector to take a look\nx_vector","id":14,"options":{"label":"unnamed-chunk-14","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# multiply vector entries by 2\nx_vector * 2","id":15,"options":{"label":"unnamed-chunk-15","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# take the mean of the vector values\nmean(x_vector)","id":16,"options":{"label":"unnamed-chunk-16","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# take the sum of the vector values\nsum(x_vector)","id":17,"options":{"label":"unnamed-chunk-17","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# take the standard deviation of the vector values\nsd(x_vector)","id":18,"options":{"label":"unnamed-chunk-18","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# show the unique values contained in the vector\nunique(x_vector)","id":19,"options":{"label":"unnamed-chunk-19","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# show the length of the vector\nlength(x_vector)","id":20,"options":{"label":"unnamed-chunk-20","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# the mean of x_vector\nmean(x_vector)\n\n# calculating the mean by hand\n(1 + 2 + 3 + 1 + 2 + 3)/6","id":21,"options":{"label":"unnamed-chunk-21","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# print the packages contained in the tidyverse\ntidyverse_packages()","id":22,"options":{"label":"unnamed-chunk-22","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# take x_vector from earlier, \n# grab the unique values,\n# then show the length of the unique values to count the number of unique values\nlength(unique(x_vector))","id":23,"options":{"label":"unnamed-chunk-23","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}},{"code":"# same thing as above but with the pipe operator\nx_vector %>% unique() %>% length()","id":24,"options":{"label":"unnamed-chunk-24","output":"true","autorun":"false","read-only":"false","warning":"true","editor-quick-suggestions":"false","editor-font-scale":1,"fig-cap":"","out-height":"","results":"markup","editor-max-height":"","comment":"","classes":"","dpi":72,"context":"interactive","message":"true","fig-height":5,"fig-width":7,"out-width":"700px"}}];
 
 </script>
 <script type="module">
@@ -1157,7 +1190,7 @@ globalThis.qwebrExecuteCode = async function (
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Tutorial 3: Importing Data in R</h1>
+      <h1 class="title">Tutorial 2: R Objects, Functions, and Packages</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">code</div>
               </div>
@@ -1167,12 +1200,6 @@ globalThis.qwebrExecuteCode = async function (
   
   <div class="quarto-title-meta">
 
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Haley Grant </p>
-            </div>
-    </div>
       
     
       
@@ -1186,22 +1213,33 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#getting-set-up" id="toc-getting-set-up" class="nav-link" data-scroll-target="#getting-set-up">Getting Set Up</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
-  <li><a href="#files-on-your-local-computer" id="toc-files-on-your-local-computer" class="nav-link" data-scroll-target="#files-on-your-local-computer">Files on your local computer</a></li>
-  <li><a href="#checking-your-working-directory" id="toc-checking-your-working-directory" class="nav-link" data-scroll-target="#checking-your-working-directory">Checking your working directory</a></li>
-  <li><a href="#list-files-in-working-directory" id="toc-list-files-in-working-directory" class="nav-link" data-scroll-target="#list-files-in-working-directory">List files in working directory</a></li>
+  <li><a href="#working-through-the-tutorial" id="toc-working-through-the-tutorial" class="nav-link" data-scroll-target="#working-through-the-tutorial">Working through the tutorial</a></li>
   </ul></li>
-  <li><a href="#types-of-files" id="toc-types-of-files" class="nav-link" data-scroll-target="#types-of-files">Types of files</a></li>
-  <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data">Importing Data</a>
+  <li><a href="#r-objects" id="toc-r-objects" class="nav-link" data-scroll-target="#r-objects">R objects</a></li>
+  <li><a href="#types-of-data" id="toc-types-of-data" class="nav-link" data-scroll-target="#types-of-data">Types of Data</a>
   <ul class="collapse">
-  <li><a href="#reading-in-a-csv-file" id="toc-reading-in-a-csv-file" class="nav-link" data-scroll-target="#reading-in-a-csv-file">Reading in a csv file</a></li>
-  <li><a href="#viewing-your-data" id="toc-viewing-your-data" class="nav-link" data-scroll-target="#viewing-your-data">Viewing your data</a></li>
-  <li><a href="#reading-in-an-excel-file" id="toc-reading-in-an-excel-file" class="nav-link" data-scroll-target="#reading-in-an-excel-file">Reading in an Excel file</a></li>
-  <li><a href="#importing-r-data-files" id="toc-importing-r-data-files" class="nav-link" data-scroll-target="#importing-r-data-files">Importing R data files</a></li>
-  <li><a href="#other-file-types" id="toc-other-file-types" class="nav-link" data-scroll-target="#other-file-types">Other file types</a></li>
+  <li><a href="#numeric" id="toc-numeric" class="nav-link" data-scroll-target="#numeric">Numeric</a></li>
+  <li><a href="#character" id="toc-character" class="nav-link" data-scroll-target="#character">Character</a></li>
+  <li><a href="#error-messages" id="toc-error-messages" class="nav-link" data-scroll-target="#error-messages">Error messages</a></li>
+  <li><a href="#factor" id="toc-factor" class="nav-link" data-scroll-target="#factor">Factor</a></li>
+  <li><a href="#logical" id="toc-logical" class="nav-link" data-scroll-target="#logical">Logical</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing Values</a></li>
   </ul></li>
+  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors">Vectors</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages">R Packages</a>
+  <ul class="collapse">
+  <li><a href="#what-is-an-r-package" id="toc-what-is-an-r-package" class="nav-link" data-scroll-target="#what-is-an-r-package">What is an R package</a></li>
+  <li><a href="#how-to-install-r-packages" id="toc-how-to-install-r-packages" class="nav-link" data-scroll-target="#how-to-install-r-packages">How to install R packages</a></li>
+  <li><a href="#test-your-knowledge" id="toc-test-your-knowledge" class="nav-link" data-scroll-target="#test-your-knowledge">Test your knowledge</a></li>
+  <li><a href="#loading-packages" id="toc-loading-packages" class="nav-link" data-scroll-target="#loading-packages">Loading Packages</a></li>
+  <li><a href="#the-tidyverse-package" id="toc-the-tidyverse-package" class="nav-link" data-scroll-target="#the-tidyverse-package">The tidyverse package</a></li>
+  <li><a href="#error-message" id="toc-error-message" class="nav-link" data-scroll-target="#error-message">Error message</a></li>
+  <li><a href="#the-pipe-operator-from-the-tidyverse" id="toc-the-pipe-operator-from-the-tidyverse" class="nav-link" data-scroll-target="#the-pipe-operator-from-the-tidyverse">The pipe operator from the tidyverse</a></li>
+  </ul></li>
+  <li><a href="#end-of-tutorial" id="toc-end-of-tutorial" class="nav-link" data-scroll-target="#end-of-tutorial">End of tutorial</a></li>
   </ul>
 </nav>
 </nav>
@@ -1443,179 +1481,52 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 
 
-<div id="qwebr-insertion-location-1"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this tutorial, you will learn about working with data in R. In particular, this tutorial will cover importing data from various file types into R including:</p>
+<p>In this tutorial, you will learn about working with objects in R. In particular, this tutorial will cover…</p>
 <ul>
-<li>csv files</li>
-<li>Excel files</li>
-<li>R data files</li>
+<li>R objects</li>
+<li>Data types in R</li>
+<li>Functions in R</li>
+<li>Installing and using R packages</li>
 </ul>
+<section id="working-through-the-tutorial" class="level3">
+<h3 class="anchored" data-anchor-id="working-through-the-tutorial">Working through the tutorial</h3>
+<section id="running-the-code-chunks-in-this-tutorial" class="level4">
+<h4 class="anchored" data-anchor-id="running-the-code-chunks-in-this-tutorial">Running the code chunks in this tutorial</h4>
+<p>In this tutorial I will introduce a handful of new concepts in R and example code to demonstrate how the code works. When you get to a code chunk (an example of a code chunk is shown below), you can edit the code in the chunk if there are instructions to do so, and run the code to see what the output is by either hitting the “run code” button or by placing your cursor in the code chunk you want to execute and hitting <code>command (⌘) + return (↩︎)</code> (on mac) or <code>Ctrl + Enter</code> (on windows).</p>
 </section>
-<section id="getting-set-up" class="level2">
-<h2 class="anchored" data-anchor-id="getting-set-up">Getting Set Up</h2>
-<section id="files-on-your-local-computer" class="level3">
-<h3 class="anchored" data-anchor-id="files-on-your-local-computer">Files on your local computer</h3>
-<p>When you are working in R on your local computer and you want to import a data file into your R session for an analysis, you will need to tell R where it can find the data file. This is why I suggested creating a ‘data’ folder in your class folder. If you save all of the data files for this class in that folder, you can always use the same general syntax for telling R where your file is.</p>
-<p>For this tutorial, we are working on the web, so R doesn’t have access to the local files on your device. I have included all of the data files we will be using in this tutorial on a webpage that we can access online. You may need to change this code slightly to when running code for your assignments in this class to work with your computer’s file structure.</p>
+<section id="the-start-over-button" class="level4">
+<h4 class="anchored" data-anchor-id="the-start-over-button">The ‘Start over’ button</h4>
+<p>Each code chunk has a <span style="padding: 3px; position: relative;margin-right: 6px;"><i style="font-size: 12px; position: absolute; top: 8px; left: 4px;" class="fa"></i></span> button in the upper right corner that allows you to reset the code.If you make a mistake and want to start from scratch, hit this button!</p>
 </section>
-<section id="checking-your-working-directory" class="level3">
-<h3 class="anchored" data-anchor-id="checking-your-working-directory">Checking your working directory</h3>
-<p>One good idea when you start working on a new analysis is to make sure you know where within your computer’s file structure you are working so you can figure out how to access various files.</p>
-<p>We can use the function <code>getwd()</code> to have R print out the path to the directory (folder) we are currently working in.</p>
-<p>Try running the code in this block:</p>
-<div id="qwebr-insertion-location-2"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>You should see the output is</p>
-<div style="text-align: center;">
-<p><span style="font-weight: 500;">“/home/web_user”</span></p>
+<section id="comments" class="level4">
+<h4 class="anchored" data-anchor-id="comments">Comments</h4>
+<p>You may notice some lines of code that start with the pound sybmol, <code>#</code>, and show up in a different color. These are called <strong>comments</strong>. R doesn’t execute anything when it sees a comment, it’s just a note to yourself or anyone else reading your code! It’s good practice to add comments to your code at each line to help you remember what the code was meant to do, or to help someone else who is reading your code see what you were trying to do.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is an example of a comment!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This is because we are working in R on the web. This is telling us that we are in a sub-directory of the “home” directory called “web_user”. That is, “web_user” is a directory (folder) inside the larger directory (folder) called “home”. You read file paths from left to right</p>
-<p>Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.</p>
-</section>
-<section id="list-files-in-working-directory" class="level3">
-<h3 class="anchored" data-anchor-id="list-files-in-working-directory">List files in working directory</h3>
-<p>To check the files that are present in our current directory, we can use the function <code>list.files()</code> to list out all of the files that are stored in the directory where we are currently working.</p>
-<p>Try running the code in this block:</p>
-<div id="qwebr-insertion-location-3"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>The output should look something like this:</p>
-<div style="text-align: center;">
-<p><span style="font-family: 'Monaco'; font-weight: 500;">[1] “cdc_samp.csv” “census.rda” “dds.xlsx”</span></p>
-</div>
-<p>This tells us that there are 4 files that we have access to in this directory:</p>
-<ul>
-<li>a file called “Rplots.pdf” that we won’t be working with</li>
-<li>a file called “cdc_samp.csv”</li>
-<li>a file called “census.rda”</li>
-<li>a file called “dds.xlsx”</li>
-</ul>
-<p>There are the data files that we will be working with in this tutorial.</p>
-</section>
-</section>
-<section id="types-of-files" class="level2">
-<h2 class="anchored" data-anchor-id="types-of-files">Types of files</h2>
-<p>The main types of files that we will work with in this class are:</p>
-<style>
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  th, td {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  th {
-    background-color: #f2f2f2;
-  }
-</style>
-<table class="table">
-<colgroup>
-<col style="width: 8%">
-<col style="width: 81%">
-<col style="width: 9%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>File Type</th>
-<th>Description</th>
-<th>File Extension</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>CSV files</td>
-<td>This stands for “comma separated value”. These are files that have rows with entries separated by commas to indicate the different columns</td>
-<td>.csv</td>
-</tr>
-<tr class="even">
-<td>Excel files</td>
-<td>Files in Excel workbook/sheet format</td>
-<td>.xls or .xlsx</td>
-</tr>
-<tr class="odd">
-<td>R data files</td>
-<td>Files with saved R objects</td>
-<td>.RData or .rda</td>
-</tr>
-</tbody>
-</table>
-<p>The three files we will read in today have the following names:</p>
-<ul>
-<li>“cdc_samp.csv” : a csv file with demographic data from the cdc</li>
-<li>“dds.xlsx” : an excel file with data from the department of disability services in California</li>
-<li>“census.rda”: an R data file with data from the US census</li>
-</ul>
-</section>
-<section id="importing-data" class="level2">
-<h2 class="anchored" data-anchor-id="importing-data">Importing Data</h2>
-<section id="reading-in-a-csv-file" class="level3">
-<h3 class="anchored" data-anchor-id="reading-in-a-csv-file">Reading in a csv file</h3>
-<p>To read in a csv file to R, we use the function <code>read.csv()</code>. There is a similar function in the <code>tidyverse</code> package called <code>read_csv()</code> that you could also use. We’ll go ahead and use the tidyverse version.</p>
-<p>The syntax to use this function is:</p>
-<div style="text-align: center;">
-<p><code>name_for_data = read_csv("path_to_data")</code></p>
-</div>
-<ul>
-<li><p>Here <code>name_for_data</code> is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can’t start with a number).</p></li>
-<li><p><code>"path_to_data"</code> is the file path that will tell R where to look for your data. You will see more examples of this in class, but for this example, the files are in our working directory so we don’t need any long file paths to navigate through different directories.</p></li>
-</ul>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Assigning a name
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Warning:</strong> Naming the object is very important!</p>
-<p>If you forget to choose a name for your dataframe, R will read in the data and print it, but it won’t save it as an object. If you just use <code>read_csv()</code> without the <code>name_for_data =</code> part, you won’t be able to manipulate or analyze the data</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Duplicate names
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Another warning:</strong> If you read in two datasets and accidentally give them the same name, <em>the one you run second will overwrite the first one</em>! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new dataframes different names!</p>
-</div>
-</div>
-<p>Let’s try reading in the “cdc_samp.csv” file and give the dataframe the name <code>cdc</code>.</p>
-<div id="qwebr-insertion-location-4"></div>
+<p><strong>Exercise:</strong> Try writing your own comment in the code chunk below!</p>
+<div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Hint (if you get an error)
+Hint
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>If you get the following error:</p>
-<div style="text-align: center;">
-<p><span style="color: #db4133; font-family: 'Monaco'; font-weight: 500;">Error: could not find function “read_csv”</span></p>
-</div>
-<p>you forgot to load the tidyverse package!</p>
-<p>Add a line of code above your read_csv() line to load the tidyverse (<code>library(tidyverse)</code>).</p>
+<p>Think about what the line of code should <em>start</em> with.</p>
 </div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1624,259 +1535,311 @@ Answer
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="qwebr-insertion-location-5"></div>
+<div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
 </div>
 </div>
+<div style="page-break-after: always;"></div>
 </section>
-<section id="viewing-your-data" class="level3">
-<h3 class="anchored" data-anchor-id="viewing-your-data">Viewing your data</h3>
-<p>Great! We’ve now read our first data file into R. But how do we know if it worked?</p>
-<p>We’re going to take a brief detour to talk about taking a first look at your data before we move on to importing data from other files types.</p>
-<section id="the-head-function" class="level4">
-<h4 class="anchored" data-anchor-id="the-head-function">The head() function</h4>
-<p>In RStudio, you should be able to see a new object in your ‘Environment’ tab in the upper-right quadrant of your screen when you import a new data set. Since we’re working on the web, we’ll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is <code>head()</code> that shows us the top few entries of a data frame, vector, or list.</p>
-<div id="qwebr-insertion-location-6"></div>
+</section>
+</section>
+<section id="r-objects" class="level2">
+<h2 class="anchored" data-anchor-id="r-objects">R objects</h2>
+<p>The console in R (the bottom quadrant of the RStudio interface) can be used essentially as a calculator. We can do lots of operations in the console and have R print out the answer for us.</p>
+<p>For example, if we want to check what <code>2+3</code> is, we can run the code:</p>
+<div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<p>When you run the code above, it prints out the number 5. That’s great, but maybe I don’t want to have to type that every time I want to use those numbers. This is where R objects come in. For example, maybe I have a variable that I want to call <code>x</code> that will hold the number 2 and a different variable called <code>y</code> that will hold the number 3. I can do this with the following code</p>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Hint (if you get an error)
+Note: <code>=</code> vs <code>&lt;-</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Sometimes you might see the operator <code>&lt;-</code> (for example <code>x &lt;- 2</code>) instead of the equals sign (<code>=</code>). This is an artifact of earlier versions of R when you had to use <code>&lt;-</code> to assign values to objects; both work now and <code>=</code> is shorter so I used it here :)</p>
+</div>
+</div>
+</div>
+<p>Note that when you run this code, nothing happens! Or at least, that’s what it looks like. If we were running this in RStudio, we would see in the upper right quadrant under the “Environment” tab that we now have two objects, x and y, that have the values 2 and 3 respectively. To see this here, we can print out the values:</p>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Cool! Now that <code>x</code> and <code>y</code> are placeholders for the numbers 2 and 3, we can use them just like numbers. For example, we can add them together, multiply them, divide, subtract, etc. If we want to save the value of <code>x + y</code> for later use, we can do that too!</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="types-of-data" class="level2">
+<h2 class="anchored" data-anchor-id="types-of-data">Types of Data</h2>
+<p>In the example above, we were using numeric variables. However, there are many different types of data in R. Some of the main types of data we will use are</p>
+<ul>
+<li><strong>numeric</strong>: numbers</li>
+<li><strong>character</strong>: character strings/words</li>
+<li><strong>factor</strong>: categorical variables that store data in levels</li>
+<li><strong>logical</strong>: binary TRUE/FALSE</li>
+<li><strong>NA</strong>: stand-in for missing values</li>
+</ul>
+<section id="numeric" class="level3">
+<h3 class="anchored" data-anchor-id="numeric">Numeric</h3>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="character" class="level3">
+<h3 class="anchored" data-anchor-id="character">Character</h3>
+<p>This is a number so we can use the same types of functions as we used above on the object <code>x_numeric</code> (adding, subtracting, etc.).</p>
+<div id="qwebr-insertion-location-8"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>This is a character. Even though it looks like a number, the quotation marks tell R that we don’t want to treat this as the number 5. For example, maybe this is and identifier for hospital number 5 in a study. In this case, we probably don’t want to do typical calculations as if this was the number 5.</p>
+<p><strong>Exercise:</strong> See what happens when you try to multiply <code>x_character</code> by 2.</p>
+<div id="qwebr-insertion-location-9"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="error-messages" class="level3">
+<h3 class="anchored" data-anchor-id="error-messages">Error messages</h3>
+<p>Oh no! You should see the following error message:</p>
+<div style="text-align: center;">
+<p><span style="color: #db4133; font-family: 'Monaco'; font-weight: 500;">Error: non-numeric argument to binary operator</span></p>
+</div>
+<p>This is how R is telling you that you’re trying to apply a function that requires a number to an object that isn’t a number. R gives helpful error messages like this when you try to run code that doesn’t work. Sometimes the language R uses is hard to understand, but you can always ask me or a TA what the error means, or search the error on Google!</p>
+<p><strong>Exercise:</strong> If you change <code>x_character</code> to <code>x_numeric</code> in the code above, you should see it works just fine!</p>
+</section>
+<section id="factor" class="level3">
+<h3 class="anchored" data-anchor-id="factor">Factor</h3>
+<div id="qwebr-insertion-location-10"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Here we can see that <code>x_factor</code> is a factor variable. It may not be obvious why this is useful yet, but it should hopefully become clear as the semester goes on. Factors are essentially a way that you can pick the order that categorical variable levels are presented and give the variables nice names for things like printing in a plot.</p>
+</section>
+<section id="logical" class="level3">
+<h3 class="anchored" data-anchor-id="logical">Logical</h3>
+<p>R has another type of data called “logical” values. These are binary TRUE/FALSE (can also abbreviate with T/F) that let you know if a statement is true or false. This can be really useful when we want to filter data. For example, if we want to filter data to everyone over the age of 50, we can check the logical variables to check if age is greater than or equal to 50.</p>
+<p>In the example below we’ll make a new variable to tell us if <code>x_numeric</code> from above is equal to the number 5.</p>
+<div id="qwebr-insertion-location-11"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Exercise:</strong> Try changing the value in the code above to check if <code>x_numeric</code> is equal to the number 4 to see how the value would change.</p>
+</section>
+<section id="missing-values" class="level3">
+<h3 class="anchored" data-anchor-id="missing-values">Missing Values</h3>
+<p>R has a special way of denoting missing values. In R, these show up as <code>NA</code> values. For example, if you have a data set with 100 individuals’ height, weight, and age, if you weren’t able to get the values measured for some of the individuals, those values should show up as <code>NA</code> values to indicate that they are missing.</p>
+<p><strong>Note:</strong> this is different from “NA” the character. R will change the color of <code>NA</code> when you type it in your code to show that this is a special kind of variable.</p>
+<div id="qwebr-insertion-location-12"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p><strong>Exercise:</strong> Try multiplying the <code>x_missing</code> variable by 2 and see what happens.</p>
+<div id="qwebr-insertion-location-13"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Generally any kind of functions applied to missing values return another <code>NA</code> value unless the function has a special way of handling missing values.</p>
+</section>
+</section>
+<section id="vectors" class="level2">
+<h2 class="anchored" data-anchor-id="vectors">Vectors</h2>
+<p>We don’t have to save values in R individually. We can also save a bunch of values (numbers, characters, factors, etc.) together in something called a vector.</p>
+<p>We can make these types of objects in R using the <code>c()</code> function (this stands for “concatenate”) to put a bunch of values together in a vector.</p>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>We can do lots of fun stuff in R with vectors. For example, we can multiply every entry of the vector by 2 (if all of the entries are numeric), taking the mean, sum, or standard deviation of a numeric vector, show the unique entries of the vector, and much more!</p>
+<section id="multiply-by-2" class="level4">
+<h4 class="anchored" data-anchor-id="multiply-by-2">Multiply by 2</h4>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="take-the-mean" class="level4">
+<h4 class="anchored" data-anchor-id="take-the-mean">Take the mean</h4>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="take-the-sum" class="level4">
+<h4 class="anchored" data-anchor-id="take-the-sum">Take the sum</h4>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="take-the-standard-deviation" class="level4">
+<h4 class="anchored" data-anchor-id="take-the-standard-deviation">Take the standard deviation</h4>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="show-the-unique-values" class="level4">
+<h4 class="anchored" data-anchor-id="show-the-unique-values">Show the unique values</h4>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="print-the-length-of-the-vector" class="level4">
+<h4 class="anchored" data-anchor-id="print-the-length-of-the-vector">Print the length of the vector</h4>
+<div id="qwebr-insertion-location-20"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="functions" class="level2">
+<h2 class="anchored" data-anchor-id="functions">Functions</h2>
+<p>We’ve already shown some examples of functions in R. You can think of R functions kind of like a recipe. You need to tell R what dish you want to make (the function) and give it some ingredients (called arguments), and then R will make the dish for you!</p>
+<p>Functions in R all using the same syntax:</p>
+<div style="text-align: center;">
+<p><span style="font-family: 'Monaco';"><code>function_name(argument1 , argument2 , ...)</code></span></p>
+</div>
+<p>where here the name of the function is <code>function_name</code> and the arguments for the function are passed to the function inside a set of parentheses.</p>
+<p>For example, the <code>mean()</code> function we used above is a built-in R function that takes a vector of numbers (it can also take a vector of logical values or some more advanced data types like dates) and returns the mean (average) value by adding up all of the entries in the vector and dividing by the length. Functions in R are really helpful because it means we don’t have to write out the full code ourselves.</p>
+<p>For example, both lines of code below do the same thing, but one is a lot easier (imagine if the vector had been even longer)!</p>
+<div id="qwebr-insertion-location-21"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="r-packages" class="level2">
+<h2 class="anchored" data-anchor-id="r-packages">R Packages</h2>
+<section id="what-is-an-r-package" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-an-r-package">What is an R package</h3>
+<p>R comes with a lot of great built-in, ready-to-use functions, but there are probably lots of other functions that we might want to use that don’t come built in to R. You can write your own functions in R if you want, but usually someone else has already written the kind of function you want to use. This is where R packages come in.</p>
+<p>The following description of R packages comes from <a href="https://rladiessydney.org/courses/ryouwithme/01-basicbasics-0/">this R Basics Tutorial from R-Ladies Sydney</a>.</p>
+<blockquote class="blockquote">
+<p>A package is a bundle of code that a generous person has written, tested, and then given away. Most of the time packages are designed to solve a specific problem, so they to pull together functions related to a particular data science problem (e.g., data wrangling, visualisation, inference). Anyone can write a package, and you can get packages from lots of different places, but for beginners the best thing to do is get packages from CRAN, the Comprehensive R Archive Network. It’s easier than any of the alternatives, and people tend to wait until their package is stable before submitting it to CRAN, so you’re less likely to run into problems. You can find a list of all the packages on CRAN <a href="https://cran.r-project.org/">here</a>.</p>
+</blockquote>
+</section>
+<section id="how-to-install-r-packages" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-install-r-packages">How to install R packages</h3>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/203516241" frameborder="0" title="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="test-your-knowledge" class="level3">
+<h3 class="anchored" data-anchor-id="test-your-knowledge">Test your knowledge</h3>
+</section>
+<section id="loading-packages" class="level3">
+<h3 class="anchored" data-anchor-id="loading-packages">Loading Packages</h3>
+<p>Just because you installed an R package once, doesn’t mean you want to use it for every task you do in R. Because of this, R will automatically load a small set of default packages when you launch a new session, but you’ll need to tell it if you want to use any additional packages. To load a library that isn’t loaded by default, we use</p>
+<div style="text-align: center;">
+<p><code>library(package_name)</code></p>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note: loading packages
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Another reason we don’t automatically load all of the packages we’ve ever installed on our computer is because sometimes different packages have functions that are named the same thing (this is because R is open-source)! When this happens, it can be frustrating to try to figure out which version of the function R is using and requires extra code to tell R which version of the function you want to use. To avoid this it is best practice to only load the packages you currently need.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Loading uninstalled packages
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>If you get the following error:</p>
+<p>Remember that you have to install an R package once before you ever use it. After you’ve installed it once, you don’t need to re-install it, you just need to load it into your session to have access to its contents.</p>
+<p>If you ever run a line of code like this:</p>
 <div style="text-align: center;">
-<p><span style="color: #db4133; font-family: 'Monaco'; font-weight: 500;">Error: object ‘cdc’ not found</span></p>
+<p><span style="font-family: 'Monaco'; font-weight: 500;">library(mypackage)</span></p>
 </div>
-<p>this is R’s way of telling you that you don’t currently have an object loaded into your environment called ‘cdc’.</p>
-<p>When you see an error like this, you should make sure the code used to import the data worked properly and that you don’t have any spelling errors (R is case sensitive so you have to be very careful to spell things exactly correctly).</p>
-<p>Make sure you were able to successfully run the code above with the <code>read_csv()</code> function without any errors before running this code block.</p>
+<p>and get an error message like this:</p>
+<div style="text-align: center;">
+<p><span style="color: #db4133; font-family: 'Monaco'; font-weight: 500;">Error in library(mypackage) : there is no package called ‘mypackage’</span></p>
+</div>
+<p>this means you are trying to load a package you haven’t installed yet and you need to run <code>install.packages("mypackage")</code> once first.</p>
 </div>
 </div>
 </div>
-<p>Awesome! Here we see the top 6 rows of the <code>cdc</code> dataframe. There are 9 columns: <span style="font-family: Monaco;">genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span></p>
 </section>
-<section id="the-skim-function" class="level4">
-<h4 class="anchored" data-anchor-id="the-skim-function">The skim() function</h4>
-<p>Another way we can start to take a look at the data is to use a function from the R package <code>skmir</code>. The function is called <code>skim</code> and gives us a nice overview of the contents included in our data.</p>
-<div id="qwebr-insertion-location-7"></div>
+<section id="the-tidyverse-package" class="level3">
+<h3 class="anchored" data-anchor-id="the-tidyverse-package">The tidyverse package</h3>
+<p>The R <code>tidyverse</code> package is a very useful suite of packages that make data manipulation and visualization clean and efficient. To see all of the packages included in the <code>tidyverse package</code> run the following code:</p>
+<div id="qwebr-insertion-location-22"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-8"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Monaco;">genhlth</span> and <span style="font-family: Monaco;">gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1—more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Understanding <code>skim()</code> output
+Hint
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The columns for categorical variables are:</p>
-<table class="table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 82%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>n_missing</td>
-<td>the number of rows with missing value (NA) in the corresponding columns</td>
-</tr>
-<tr class="even">
-<td>complete_rate</td>
-<td>proportion of rows that are not missing (not NAs)</td>
-</tr>
-<tr class="odd">
-<td>min</td>
-<td>the minimum character length of values in the column</td>
-</tr>
-<tr class="even">
-<td>max</td>
-<td>the maximum character length of values in the column</td>
-</tr>
-<tr class="odd">
-<td>empty</td>
-<td>the number of empty characters in the column</td>
-</tr>
-<tr class="even">
-<td>n_unique</td>
-<td>the number of unique values in the column</td>
-</tr>
-<tr class="odd">
-<td>whitespace</td>
-<td>the number of rows containing only white space in the column</td>
-</tr>
-</tbody>
-</table>
-<p>The columns for numeric variables are:</p>
-<table class="table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 82%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>n_missing</td>
-<td>the number of rows with missing value (NA) in the corresponding columns</td>
-</tr>
-<tr class="even">
-<td>complete_rate</td>
-<td>proportion of rows that are not missing (not NAs)</td>
-</tr>
-<tr class="odd">
-<td>mean</td>
-<td>the mean (average) value of the non-missing values in the column</td>
-</tr>
-<tr class="even">
-<td>sd</td>
-<td>the standard deviation of the non-missing values in the column</td>
-</tr>
-<tr class="odd">
-<td>p0</td>
-<td>the minimum value observed in the column</td>
-</tr>
-<tr class="even">
-<td>p25</td>
-<td>the 25th percentile of values observed in the column</td>
-</tr>
-<tr class="odd">
-<td>p50</td>
-<td>the median (50th percentile) of values observed in the column</td>
-</tr>
-<tr class="even">
-<td>p75</td>
-<td>the 75th percentile of values observed in the column</td>
-</tr>
-<tr class="odd">
-<td>p100</td>
-<td>the maximum value observed in the column</td>
-</tr>
-<tr class="even">
-<td>hist</td>
-<td>a histogram showing the shape of the distribution of values in the column</td>
-</tr>
-</tbody>
-</table>
+<p>This should produce an error when you first try to run it. Can you tell why?</p>
 </div>
 </div>
 </div>
-<p>Back to reading in data from various file types…</p>
 </section>
+<section id="error-message" class="level3">
+<h3 class="anchored" data-anchor-id="error-message">Error message</h3>
+<p>Oh no! We got another error message. You should see the following error:</p>
+<div style="text-align: center;">
+<p><span style="color: #db4133; font-family: 'Monaco'; font-weight: 500;">Error: could not find function “tidyverse_packages”</span></p>
+</div>
+<p>This is R’s way of telling you that you’re trying to use a function that it doesn’t have access to. The <code>tidyverse_packages()</code> function comes from the <code>tidyverse</code> package. Even if you have the tidyverse <em>installed</em> on your computer, that doesn’t mean you have it <em>loaded</em> for R to use.</p>
+<p>To give ourselves access to the functions from the <code>tidyverse</code> package, let’s add the line of code <code>library(tidyverse)</code> before the line of code in the chunk above. That should fix the problem.</p>
+<p><strong>Exercise:</strong> Add the line of code <code>library(tidyverse)</code> before the line of code in the chunk above and try rerunning the code chunk.</p>
 </section>
-<section id="reading-in-an-excel-file" class="level3">
-<h3 class="anchored" data-anchor-id="reading-in-an-excel-file">Reading in an Excel file</h3>
-<p>We’ve successfully read in a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we’re going to need to use a new package called the <code>readxl</code> package.</p>
-<div class="callout callout-style-default callout-caution callout-titled">
+<section id="the-pipe-operator-from-the-tidyverse" class="level3">
+<h3 class="anchored" data-anchor-id="the-pipe-operator-from-the-tidyverse">The pipe operator from the tidyverse</h3>
+<p>One of the unique functions provided by the <code>tidyverse</code> is called the “pipe operator.” The pipe operator looks like this: <code>%&gt;%</code>. The pipe operator is a way of stringing together a bunch of functions and the purpose is to make your code easier to read.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Reminder: Installing <code>readxl</code>
+Note: <code>%&gt;%</code> vs <code>|&gt;</code>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Remember that if you don’t have this package installed on your local computer, you’ll need to install it before you can load and use it. I’ve already installed it here, but remember that to install the package you can just run <code>install.packages("readxl")</code> in your console in R Studio.</p>
+<p>Recent updates to R also let you use <code>|&gt;</code> as the pipe operator, but I’m old so I still use <code>%&gt;%</code> :)</p>
 </div>
 </div>
 </div>
-<p>Once we have the <code>readxl</code> package loaded, the syntax is very similar to <code>read_csv()</code> from above. There are a few different functions that could work from this package, but the most generic one is <code>read_excel()</code>. The syntax is:</p>
-<div style="text-align: center;">
-<p><code>name_for_data = read_excel("path_to_data")</code></p>
-</div>
-<p>Let’s try it using our ‘dds.xlsx’ file!</p>
-<div id="qwebr-insertion-location-9"></div>
+<p>To see an example of this, consider the following task:</p>
+<p>We want to know how many unique values are contained in the vector <code>x_vector</code>.</p>
+<p>To do this, we can start by having R grab the unique values in <code>x_vector</code> using <code>unique(x_vector)</code>.This will give us a vector of the unique values in <code>x_vector</code>. Then, we can print the length of the output of <code>unique(x_vector)</code> to get the number of unique values.</p>
+<p>To do this, we could define a new intermediate vector called <code>x_unique</code> to hold the vector of unique values in <code>x_vector</code>, or we can just use multiple functions simulatneously by nesting the parentheses:</p>
+<div id="qwebr-insertion-location-23"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Awesome! We can see that there are 6 columns in this data set: <span style="font-family: Monaco;">id, age.cohort, age, gender, expenditure, ethnicity.</span></p>
-<p>Once you have the <code>readxl</code> package, importing Excel files works just like reading in csv files!</p>
+<p>Notice how the order of operations was:</p>
+<ol type="1">
+<li><p>Start with your input <code>x_vector</code></p></li>
+<li><p>Determine the unique values of <code>x_vector</code></p></li>
+<li><p>Calculate length of <code>unique(x_vector)</code></p></li>
+</ol>
+<p>However, reading left-to-right we see the last step first. This can get particularly confusing when we want to apply multiple sequential functions to the same object in R. Imagine we had wanted to do 3 more functions! This would have read as:</p>
+<div style="text-align: center;">
+<p><code>function3(function2(function1(length(unique(x_vector)))))</code></p>
+</div>
+<p>That’s a lot of parentheses and it’s hard to even figure out where the operation starts!</p>
+<p>To fix this, we can use the pipe operator:</p>
+<div id="qwebr-insertion-location-24"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>See how the output is the same but the order of operations is much clearer in this example? It’s clear that we start with the object <code>x_vector</code>, which we then extract just the unique values from, then finally calculate the length of just the vector of unique values.</p>
+<p>In the example above with an extra 3 functions at the end, this would read as:</p>
+<div style="text-align: center;">
+<p><code>x_vector %&gt;% unique() %&gt;% length() %&gt;% function1() %&gt;% function2()  %&gt;% function3()</code></p>
+</div>
+<p>Still long, but a lot easier to follow (at least I think so)!</p>
 </section>
-<section id="importing-r-data-files" class="level3">
-<h3 class="anchored" data-anchor-id="importing-r-data-files">Importing R data files</h3>
-<p>There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. <strong>The syntax is slightly different for these kinds of files.</strong></p>
-<p>The syntax for importing an R data file is:</p>
-<div style="text-align: center;">
-<p><code>load("path_to_data")</code></p>
-</div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-load()
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Notice how we didn’t include anything on the left side of the <code>load()</code> function here. We didn’t give the data a name!</p>
-</div>
-</div>
-<p>The reason we don’t assign names to data loaded from an R data file is because <strong>these objects already come with a name</strong>. Since these are R objects that were saved specifically in a file format that R understands, they keep the name that they were given when they were first created in R. So how do we know what the name is? We can add an extra argument to this function called <code>verbose</code>. The syntax will become:</p>
-<div style="text-align: center;">
-<p><code>load("path_to_data", verbose = TRUE)</code></p>
-</div>
-<p>This tells R to print out the name of the data object once it is loaded so we know what to call it.</p>
-<p>Let’s see an example of this using our ‘census.rda’ file.</p>
-<div id="qwebr-insertion-location-10"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We can see the message:</p>
-<div style="text-align: center;">
-<p><span style="font-family: 'Monaco'; font-weight: 500; display: inline-block; text-align: left;">Loading objects:<br>&nbsp;&nbsp;census</span></p>
-</div>
-<p>This is telling us that the object we loaded came with the name <code>census</code>. This is the name we should use to refer to that data object.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note: file names vs object names
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The name of the R object doesn’t have to match with the file name like it did in this example. The file name “census.rda” and the object name <code>census</code> are two independent things. However, it can be helpful to have the file name and object name match, so they often will by convention.</p>
-</div>
-</div>
-</div>
-<p>For example, we can take a look at the top few rows of data using the <code>head()</code> function again. This time we’ll just look at the top 3 by adding the argument <code>n = 3</code>.</p>
-<div id="qwebr-insertion-location-11"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="other-file-types" class="level3">
-<h3 class="anchored" data-anchor-id="other-file-types">Other file types</h3>
-<p>There are other types of files that you may want to import into R. These include text files (.txt) and files from other statistical software packages like SAS (.sas7bdat) or stata (.dta). The syntax for reading in these files is very similar to reading in csv or Excel files so we won’t go into these data types in detail. There are lots of helpful tutorials and R documentation online if you ever need them (for example, <a href="https://dk81.github.io/dkmathstats_site/ranalysis-readfile-types.html">this page</a> goes through reading in files from multiple sources).</p>
+<section id="end-of-tutorial" class="level2">
+<h2 class="anchored" data-anchor-id="end-of-tutorial">End of tutorial</h2>
+<p>That’s it! The next tutorial will be about reading in and manipulating data in R.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
