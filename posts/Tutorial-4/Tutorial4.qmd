@@ -1,7 +1,7 @@
 ---
 title: "Tutorial 4: Data Frames in R"
 author: "Haley Grant"
-image: datatable.jpg
+image: spreadsheet.png
 format: 
   html:
     toc: true
