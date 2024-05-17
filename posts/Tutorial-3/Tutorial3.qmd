@@ -39,10 +39,9 @@ download.file(url.rda, "census.rda")
 
 In this tutorial, you will learn about working with data in R. In particular, this tutorial will cover importing data from various file types into R including:
 
-- csv files
-- Excel files
-- R data files
-
+-   csv files
+-   Excel files
+-   R data files
 
 ## Getting Set Up
 
@@ -123,15 +122,11 @@ The main types of files that we will work with in this class are:
   }
 </style>
 ```
-+--------------+--------------------------------------------------------------------------------------------------------------------------------------------+----------------+
 | File Type    | Description                                                                                                                                | File Extension |
-+==============+============================================================================================================================================+================+
+|-----------|-------------------------------------------------|-----------|
 | CSV files    | This stands for "comma separated value". These are files that have rows with entries separated by commas to indicate the different columns | .csv           |
-+--------------+--------------------------------------------------------------------------------------------------------------------------------------------+----------------+
 | Excel files  | Files in Excel workbook/sheet format                                                                                                       | .xls or .xlsx  |
-+--------------+--------------------------------------------------------------------------------------------------------------------------------------------+----------------+
 | R data files | Files with saved R objects                                                                                                                 | .RData or .rda |
-+--------------+--------------------------------------------------------------------------------------------------------------------------------------------+----------------+
 
 The three files we will read in today have the following names:
 
@@ -155,7 +150,7 @@ The syntax to use this function is:
 
 -   `"path_to_data"` is the file path that will tell R where to look for your data. You will see more examples of this in class, but for this example, the files are in our working directory so we don't need any long file paths to navigate through different directories.
 
-::: {.callout-warning}
+::: callout-warning
 ## Assigning a name
 
 **Warning:** Naming the object is very important!
@@ -163,7 +158,7 @@ The syntax to use this function is:
 If you forget to choose a name for your dataframe, R will read in the data and print it, but it won't save it as an object. If you just use `read_csv()` without the `name_for_data =` part, you won't be able to manipulate or analyze the data
 :::
 
-::: {.callout-warning}
+::: callout-warning
 ## Duplicate names
 
 **Another warning:** If you read in two datasets and accidentally give them the same name, *the one you run second will overwrite the first one*! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new dataframes different names!
@@ -236,7 +231,13 @@ When you see an error like this, you should make sure the code used to import th
 Make sure you were able to successfully run the code above with the `read_csv()` function without any errors before running this code block.
 :::
 
-Awesome! Here we see the top 6 rows of the `cdc` dataframe. There are 9 columns: [ genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.]{style="font-family: Monaco;"}
+Awesome! Here we see the top 6 rows of the `cdc` dataframe. There are 9 columns: [genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.]{style="font-family: Monaco;"}
+
+::: {.callout-note collapse="true" icon="false"}
+## `tail()` function
+
+If you want to look at the *last* few entries of an R object, there is a similar function to the `head()` function called `tail()`.
+:::
 
 #### The skim() function
 
@@ -256,56 +257,37 @@ skim(cdc)
 
 ```
 
-This function breaks our columns into groups based on the type of variable they are. Here we see that [ genhlth]{style="font-family: Monaco;"} and [ gender]{style="font-family: Monaco;"} are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1---more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.
+This function breaks our columns into groups based on the type of variable they are. Here we see that [genhlth]{style="font-family: Monaco;"} and [gender]{style="font-family: Monaco;"} are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1---more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.
 
 ::: {.callout-note collapse="true"}
 ## Understanding `skim()` output
 
 The columns for categorical variables are:
 
-+---------------+-------------------------------------------------------------------------+
 | Attribute     | Description                                                             |
-+===============+=========================================================================+
+|----------------|--------------------------------------------------------|
 | n_missing     | the number of rows with missing value (NA) in the corresponding columns |
-+---------------+-------------------------------------------------------------------------+
 | complete_rate | proportion of rows that are not missing (not NAs)                       |
-+---------------+-------------------------------------------------------------------------+
 | min           | the minimum character length of values in the column                    |
-+---------------+-------------------------------------------------------------------------+
 | max           | the maximum character length of values in the column                    |
-+---------------+-------------------------------------------------------------------------+
 | empty         | the number of empty characters in the column                            |
-+---------------+-------------------------------------------------------------------------+
 | n_unique      | the number of unique values in the column                               |
-+---------------+-------------------------------------------------------------------------+
 | whitespace    | the number of rows containing only white space in the column            |
-+---------------+-------------------------------------------------------------------------+
 
 The columns for numeric variables are:
 
-+---------------+---------------------------------------------------------------------------+
 | Attribute     | Description                                                               |
-+===============+===========================================================================+
+|----------------|--------------------------------------------------------|
 | n_missing     | the number of rows with missing value (NA) in the corresponding columns   |
-+---------------+---------------------------------------------------------------------------+
 | complete_rate | proportion of rows that are not missing (not NAs)                         |
-+---------------+---------------------------------------------------------------------------+
 | mean          | the mean (average) value of the non-missing values in the column          |
-+---------------+---------------------------------------------------------------------------+
 | sd            | the standard deviation of the non-missing values in the column            |
-+---------------+---------------------------------------------------------------------------+
 | p0            | the minimum value observed in the column                                  |
-+---------------+---------------------------------------------------------------------------+
 | p25           | the 25th percentile of values observed in the column                      |
-+---------------+---------------------------------------------------------------------------+
 | p50           | the median (50th percentile) of values observed in the column             |
-+---------------+---------------------------------------------------------------------------+
 | p75           | the 75th percentile of values observed in the column                      |
-+---------------+---------------------------------------------------------------------------+
 | p100          | the maximum value observed in the column                                  |
-+---------------+---------------------------------------------------------------------------+
 | hist          | a histogram showing the shape of the distribution of values in the column |
-+---------------+---------------------------------------------------------------------------+
 :::
 
 Back to reading in data from various file types...
@@ -339,7 +321,7 @@ dds = read_excel("dds.xlsx")
 head(dds)
 ```
 
-Awesome! We can see that there are 6 columns in this data set: [ id, age.cohort, age, gender, expenditure, ethnicity.]{style="font-family: Monaco;"}
+Awesome! We can see that there are 6 columns in this data set: [id, age.cohort, age, gender, expenditure, ethnicity.]{style="font-family: Monaco;"}
 
 Once you have the `readxl` package, importing Excel files works just like reading in csv files!
 
@@ -402,5 +384,3 @@ head(census, n = 3)
 ### Other file types
 
 There are other types of files that you may want to import into R. These include text files (.txt) and files from other statistical software packages like SAS (.sas7bdat) or stata (.dta). The syntax for reading in these files is very similar to reading in csv or Excel files so we won't go into these data types in detail. There are lots of helpful tutorials and R documentation online if you ever need them (for example, [this page](https://dk81.github.io/dkmathstats_site/ranalysis-readfile-types.html) goes through reading in files from multiple sources).
-
-

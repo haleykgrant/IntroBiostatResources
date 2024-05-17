@@ -279,7 +279,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"id":1,"code":"\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc_samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n","options":{"comment":"","read-only":"false","fig-width":7,"context":"setup","label":"unnamed-chunk-1","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"true","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":2,"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-2","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":3,"code":"# print files in working directory\nlist.files()","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-3","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":4,"code":"# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"cdc_samp.csv\")","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-4","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":5,"code":"\n# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"cdc_samp.csv\")","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-5","out-width":"700px","editor-max-height":"","output":"true","warning":"false","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":6,"code":"# show top few rows of the data set `cdc`\nhead(cdc)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-6","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":7,"code":"# load skimr library\nlibrary(skimr)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-7","out-width":"700px","editor-max-height":"","output":"true","warning":"false","classes":"","results":"markup","dpi":72,"autorun":"true","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":8,"code":"# use the skim() function on the cdc data\nskim(cdc)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-8","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":9,"code":"# load the readxl package \nlibrary(readxl)\n\n# save the data contained in dds.xlsx under the name `dds`\ndds = read_excel(\"dds.xlsx\")\n\n# make sure it worked by looking at the first few rows\nhead(dds)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-9","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":10,"code":"# load in the data\n# add verbose = TRUE so the object name gets printed\n\nload(\"census.rda\", verbose = TRUE)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-10","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}},{"id":11,"code":"# look at top 3 rows of census data \nhead(census, n = 3)","options":{"comment":"","read-only":"false","fig-width":7,"context":"interactive","label":"unnamed-chunk-11","out-width":"700px","editor-max-height":"","output":"true","warning":"true","classes":"","results":"markup","dpi":72,"autorun":"false","message":"true","fig-height":5,"fig-cap":"","out-height":"","editor-quick-suggestions":"false","editor-font-scale":"0.85"}}];
+globalThis.qwebrCellDetails = [{"id":1,"code":"\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc_samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-1","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"true","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"true","context":"setup","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}},{"id":2,"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-2","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"false","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"true","context":"interactive","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}},{"id":3,"code":"# print files in working directory\nlist.files()","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-3","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"false","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"true","context":"interactive","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}},{"id":4,"code":"# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"cdc_samp.csv\")","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-4","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"false","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"true","context":"interactive","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}},{"id":5,"code":"\n# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"cdc_samp.csv\")","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-5","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"false","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"false","context":"interactive","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}},{"id":6,"code":"# show top few rows of the data set `cdc`\nhead(cdc)","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-6","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"false","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"true","context":"interactive","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}},{"id":7,"code":"# load skimr library\nlibrary(skimr)","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-7","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"true","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"false","context":"interactive","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}},{"id":8,"code":"# use the skim() function on the cdc data\nskim(cdc)","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-8","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"false","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"true","context":"interactive","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}},{"id":9,"code":"# load the readxl package \nlibrary(readxl)\n\n# save the data contained in dds.xlsx under the name `dds`\ndds = read_excel(\"dds.xlsx\")\n\n# make sure it worked by looking at the first few rows\nhead(dds)","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-9","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"false","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"true","context":"interactive","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}},{"id":10,"code":"# load in the data\n# add verbose = TRUE so the object name gets printed\n\nload(\"census.rda\", verbose = TRUE)","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-10","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"false","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"true","context":"interactive","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}},{"id":11,"code":"# look at top 3 rows of census data \nhead(census, n = 3)","options":{"out-height":"","classes":"","fig-width":7,"fig-cap":"","label":"unnamed-chunk-11","editor-quick-suggestions":"false","dpi":72,"message":"true","autorun":"false","output":"true","editor-font-scale":"0.85","comment":"","results":"markup","warning":"true","context":"interactive","editor-max-height":"","out-width":"700px","read-only":"false","fig-height":5}}];
 
 </script>
 <script type="module">
@@ -1118,6 +1118,7 @@ globalThis.qwebrExecuteCode = async function (
 
 
 <link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../include/webex.css">
 </head>
 
 <body class="floating nav-fixed">
@@ -1514,9 +1515,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </style>
 <table class="table">
 <colgroup>
-<col style="width: 8%">
-<col style="width: 81%">
-<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 69%">
+<col style="width: 15%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1664,6 +1665,22 @@ Hint (if you get an error)
 </div>
 </div>
 <p>Awesome! Here we see the top 6 rows of the <code>cdc</code> dataframe. There are 9 columns: <span style="font-family: Monaco;">genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>tail()</code> function
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If you want to look at the <em>last</em> few entries of an R object, there is a similar function to the <code>head()</code> function called <code>tail()</code>.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="the-skim-function" class="level4">
 <h4 class="anchored" data-anchor-id="the-skim-function">The skim() function</h4>
@@ -1674,7 +1691,7 @@ Hint (if you get an error)
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Monaco;">genhlth</span> and <span style="font-family: Monaco;">gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1—more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1683,13 +1700,13 @@ Understanding <code>skim()</code> output
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The columns for categorical variables are:</p>
 <table class="table">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 82%">
+<col style="width: 22%">
+<col style="width: 77%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1731,8 +1748,8 @@ Understanding <code>skim()</code> output
 <p>The columns for numeric variables are:</p>
 <table class="table">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 82%">
+<col style="width: 22%">
+<col style="width: 77%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1793,7 +1810,7 @@ Understanding <code>skim()</code> output
 <h3 class="anchored" data-anchor-id="reading-in-an-excel-file">Reading in an Excel file</h3>
 <p>We’ve successfully read in a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we’re going to need to use a new package called the <code>readxl</code> package.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1802,7 +1819,7 @@ Reminder: Installing <code>readxl</code>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Remember that if you don’t have this package installed on your local computer, you’ll need to install it before you can load and use it. I’ve already installed it here, but remember that to install the package you can just run <code>install.packages("readxl")</code> in your console in R Studio.</p>
 </div>
@@ -1852,7 +1869,7 @@ load()
 </div>
 <p>This is telling us that the object we loaded came with the name <code>census</code>. This is the name we should use to refer to that data object.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1861,7 +1878,7 @@ Note: file names vs object names
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The name of the R object doesn’t have to match with the file name like it did in this example. The file name “census.rda” and the object name <code>census</code> are two independent things. However, it can be helpful to have the file name and object name match, so they often will by convention.</p>
 </div>
@@ -1880,6 +1897,212 @@ Note: file names vs object names
 </section>
 
 </main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

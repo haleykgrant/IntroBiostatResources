@@ -8,7 +8,7 @@
 
 <meta name="author" content="Haley Grant">
 
-<title>BIOST2041 - Tutorial 2: R Objects, Functions, and Packages</title>
+<title>BIOST2041 - Tutorial 5: Data Visualization in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -74,7 +40,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/quarto-contrib/alpine-3.12/buttons.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -313,7 +278,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-1","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":1,"code":""},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-2","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":2,"code":"# this is a comment\n# anything starting with the # sign is a comment"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-3","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":3,"code":"# add 2 + 3\n2 + 3"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-4","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":4,"code":"# assign the value 2 to x\nx = 2\n# assign the value 2 to x\ny = 3"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-5","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":5,"code":"# print x\nx \n# print y\ny "},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-6","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":6,"code":"# print x + y\nx + y\n\n# print x - y\nx - y\n\n# print x times y\nx * y\n\n# print x divided by y\nx / y\n\n\n# print x squared\nx^2\n\n# print the log (base e) of x \nlog(x)\n\n# print the exponentiated value of x (e^x)\nexp(x)\n\n# save x + y as z\nz = x + y\n\n# print the value of z\nz"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-7","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":7,"code":"# save x_numeric object with the value 5\nx_numeric = 5\n# print value\nx_numeric\n# print out the type of variable\nclass(x_numeric)"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-8","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":8,"code":"# save x_character object with the value \"5\"\nx_character = \"5\"\n# print value\nx_character\n# print out the type of variable\nclass(x_character)"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-9","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":9,"code":"# try multiplying x_character by 2"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-10","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":10,"code":"# save x_factor objects as a factor variable with the levels \"5\" and label this level \"The number 5\"\nx_factor = factor(x = x_character, levels = \"5\", labels = \"The number 5\")\n# print value\nx_factor\n# print out the type of variable\nclass(x_factor)"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-11","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":11,"code":"# save x_logical as a TRUE/FALSE statement\n# the `==` operator is R's way of saying \"is the thing on the left equal to the thing on the right?\"\nx_logical = (x_numeric == 5)\n\n# print value \nx_logical\n\n# show variable type\nclass(x_logical)\n"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-12","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":12,"code":"# save x_missing as NA value\nx_missing = NA\n\n# print value \nx_missing"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-13","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":13,"code":"# multiple x_missing by 2\n"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-14","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":14,"code":"# check if the next few things are NA values\n# x_missing\nis.na(x_missing)\n\n# the character string \"NA\" \nis.na(\"NA\")\n\n# x_numeric\nis.na(x_numeric)"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-15","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":15,"code":"# make a vector with the values 1, 2, 3, 1, 2, 3\nx_vector = c(1, 2, 3, 1, 2, 3)\n# print the vector to take a look\nx_vector"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-16","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":16,"code":"# multiply vector entries by 2\nx_vector * 2"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-17","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":17,"code":"# take the mean of the vector values\nmean(x_vector)"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-18","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":18,"code":"# take the sum of the vector values\nsum(x_vector)"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-19","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":19,"code":"# take the standard deviation of the vector values\nsd(x_vector)"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-20","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":20,"code":"# show the unique values contained in the vector\nunique(x_vector)"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-21","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":21,"code":"# show the length of the vector\nlength(x_vector)"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-22","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":22,"code":"# the mean of x_vector\nmean(x_vector)\n\n# calculating the mean by hand\n(1 + 2 + 3 + 1 + 2 + 3)/6"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-23","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":23,"code":"# print the packages contained in the tidyverse\ntidyverse_packages()"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-24","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":24,"code":"# take x_vector from earlier, \n# grab the unique values,\n# then show the length of the unique values to count the number of unique values\nlength(unique(x_vector))"},{"options":{"editor-font-scale":1,"editor-max-height":"","warning":"true","classes":"","results":"markup","editor-quick-suggestions":"false","comment":"","read-only":"false","message":"true","output":"true","fig-height":5,"context":"interactive","dpi":72,"label":"unnamed-chunk-25","fig-width":7,"fig-cap":"","autorun":"false","out-height":"","out-width":"700px"},"id":25,"code":"# same thing as above but with the pipe operator\nx_vector %>% unique() %>% length()"}];
+globalThis.qwebrCellDetails = [{"code":"\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n\nload(\"census.rda\")","options":{"out-width":"700px","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"","editor-font-scale":"0.85","label":"unnamed-chunk-1","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"setup","fig-cap":"","editor-quick-suggestions":"false","autorun":"true"},"id":1},{"code":"# show first few rows of census data\nhead(census)\n\n# show columns names\ncolnames(census)","options":{"out-width":"700px","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"","editor-font-scale":"0.85","label":"unnamed-chunk-2","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":2},{"code":"# load the tidyverse to gain access to ggplot2 functions (and others)\n\nlibrary(tidyverse)","options":{"out-width":"700px","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"","editor-font-scale":"0.85","label":"unnamed-chunk-3","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"false","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"true"},"id":3},{"code":"# make a histogram of total_personal_income\ncensus %>% # supply data frame\n  ggplot(aes(x = total_personal_income)) + # only need to specify x axis since y axis will be the count in each bin\n  geom_histogram() # make a histogram","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-4","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":4},{"code":"# make a histogram of total_personal_income with 50 bins\ncensus %>% # supply data frame\n  ggplot(aes(x = total_personal_income)) +\n  geom_histogram(bins = 50)","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-5","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":5},{"code":"# make a histogram of total_personal_income with bins of size 10k\ncensus %>% # supply data frame\n  ggplot(aes(x = total_personal_income)) +\n  geom_histogram(binwidth = 10000)","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-6","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":6},{"code":"# count NA rows in total_personal_income\nsum(is.na(census$total_personal_income))","options":{"out-width":"700px","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"","editor-font-scale":"0.85","label":"unnamed-chunk-7","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":7},{"code":"# make a vector with logical values\nlogical_vector = c(TRUE, TRUE, FALSE, TRUE, FALSE)\n\n# take the sum\nsum(logical_vector)","options":{"out-width":"700px","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"","editor-font-scale":"0.85","label":"unnamed-chunk-8","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":8},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() # make a boxplot","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-9","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":9},{"code":"# make bar plot of  marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status)) + # only need to give x axis since y axis is counts\n  geom_bar() # make a bar plot","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-10","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":10},{"code":"# make a scatter plot of total_personal_income by age\ncensus %>% # supply data frame\n  ggplot(aes(x = age, y = total_personal_income)) + # x-axis is age, y-axis is total_personal_income\n  geom_point() # make a bar plot","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-11","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":11},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) # make a separate plot for each level of the variable `sex` in the data","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-12","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":12},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_grid( sex ~ race_general) # make a separate plot for each combination of the variables `sex` and `race_general` in the data","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-13","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":13},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex, scales = \"free_y\") # make a separate plot for each level of the variable `sex` in the data","options":{"out-width":"70%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"70%","editor-font-scale":"0.85","label":"unnamed-chunk-14","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":14},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\")","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-15","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":15},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-16","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":16},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_classic()","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-17","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":17},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income, color = marital_status)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-18","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":18},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income, color = sex)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-19","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":19},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot(color = \"blue\") + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-20","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":20},{"code":"# make bar plot of  marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status)) + # only need to give x axis since y axis is counts\n  geom_bar(color = \"blue\") + # make a bar plot\n  labs(title = \"Changing `color` argument\")\n\n# make bar plot of  marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status)) + # only need to give x axis since y axis is counts\n  geom_bar(fill = \"blue\") + # make a bar plot\n  labs(title = \"Changing `fill` argument\")","options":{"out-width":"70%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"70%","editor-font-scale":"0.85","label":"unnamed-chunk-21","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":21},{"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw() + \n  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))","options":{"out-width":"80%","comment":"","message":"true","fig-width":7,"read-only":"false","dpi":72,"out-height":"80%","editor-font-scale":"0.85","label":"unnamed-chunk-22","fig-height":5,"editor-max-height":"","classes":"","results":"markup","warning":"true","output":"true","context":"interactive","fig-cap":"","editor-quick-suggestions":"false","autorun":"false"},"id":22}];
 
 </script>
 <script type="module">
@@ -1192,7 +1157,7 @@ globalThis.qwebrExecuteCode = async function (
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Tutorial 2: R Objects, Functions, and Packages</h1>
+      <h1 class="title">Tutorial 5: Data Visualization in R</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">code</div>
               </div>
@@ -1221,32 +1186,22 @@ globalThis.qwebrExecuteCode = async function (
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#ggplot-syntax" id="toc-ggplot-syntax" class="nav-link" data-scroll-target="#ggplot-syntax"><code>ggplot</code> syntax</a>
   <ul class="collapse">
-  <li><a href="#working-through-the-tutorial" id="toc-working-through-the-tutorial" class="nav-link" data-scroll-target="#working-through-the-tutorial">Working through the tutorial</a></li>
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms">Histograms</a></li>
+  <li><a href="#box-plots" id="toc-box-plots" class="nav-link" data-scroll-target="#box-plots">Box plots</a></li>
+  <li><a href="#bar-plots" id="toc-bar-plots" class="nav-link" data-scroll-target="#bar-plots">Bar plots</a></li>
+  <li><a href="#scatter-plots" id="toc-scatter-plots" class="nav-link" data-scroll-target="#scatter-plots">Scatter plots</a></li>
   </ul></li>
-  <li><a href="#r-objects" id="toc-r-objects" class="nav-link" data-scroll-target="#r-objects">R objects</a></li>
-  <li><a href="#types-of-data" id="toc-types-of-data" class="nav-link" data-scroll-target="#types-of-data">Types of Data</a>
+  <li><a href="#more-ggplot-aesthetic-options" id="toc-more-ggplot-aesthetic-options" class="nav-link" data-scroll-target="#more-ggplot-aesthetic-options">More <code>ggplot</code> aesthetic options</a>
   <ul class="collapse">
-  <li><a href="#numeric" id="toc-numeric" class="nav-link" data-scroll-target="#numeric">Numeric</a></li>
-  <li><a href="#character" id="toc-character" class="nav-link" data-scroll-target="#character">Character</a></li>
-  <li><a href="#error-messages" id="toc-error-messages" class="nav-link" data-scroll-target="#error-messages">Error messages</a></li>
-  <li><a href="#factor" id="toc-factor" class="nav-link" data-scroll-target="#factor">Factor</a></li>
-  <li><a href="#logical" id="toc-logical" class="nav-link" data-scroll-target="#logical">Logical</a></li>
-  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing Values</a></li>
+  <li><a href="#facets" id="toc-facets" class="nav-link" data-scroll-target="#facets">Facets</a></li>
+  <li><a href="#labelstitles" id="toc-labelstitles" class="nav-link" data-scroll-target="#labelstitles">Labels/titles</a></li>
+  <li><a href="#background-color" id="toc-background-color" class="nav-link" data-scroll-target="#background-color">Background color</a></li>
+  <li><a href="#plot-colors" id="toc-plot-colors" class="nav-link" data-scroll-target="#plot-colors">Plot colors</a></li>
+  <li><a href="#formatting-axis-text" id="toc-formatting-axis-text" class="nav-link" data-scroll-target="#formatting-axis-text">Formatting axis text</a></li>
   </ul></li>
-  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors">Vectors</a></li>
-  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a></li>
-  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages">R Packages</a>
-  <ul class="collapse">
-  <li><a href="#what-is-an-r-package" id="toc-what-is-an-r-package" class="nav-link" data-scroll-target="#what-is-an-r-package">What is an R package</a></li>
-  <li><a href="#how-to-install-r-packages" id="toc-how-to-install-r-packages" class="nav-link" data-scroll-target="#how-to-install-r-packages">How to install R packages</a></li>
-  <li><a href="#loading-packages" id="toc-loading-packages" class="nav-link" data-scroll-target="#loading-packages">Loading Packages</a></li>
-  <li><a href="#the-tidyverse-package" id="toc-the-tidyverse-package" class="nav-link" data-scroll-target="#the-tidyverse-package">The tidyverse package</a></li>
-  <li><a href="#error-message" id="toc-error-message" class="nav-link" data-scroll-target="#error-message">Error message</a></li>
-  <li><a href="#the-pipe-operator-from-the-tidyverse" id="toc-the-pipe-operator-from-the-tidyverse" class="nav-link" data-scroll-target="#the-pipe-operator-from-the-tidyverse">The pipe operator from the tidyverse</a></li>
-  </ul></li>
-  <li><a href="#end-of-tutorial" id="toc-end-of-tutorial" class="nav-link" data-scroll-target="#end-of-tutorial">End of tutorial</a></li>
   </ul>
 </nav>
 </nav>
@@ -1488,386 +1443,272 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this tutorial, you will learn about working with objects in R. In particular, this tutorial will cover…</p>
-<ul>
-<li>R objects</li>
-<li>Data types in R</li>
-<li>Functions in R</li>
-<li>Installing and using R packages</li>
-</ul>
-<section id="working-through-the-tutorial" class="level3">
-<h3 class="anchored" data-anchor-id="working-through-the-tutorial">Working through the tutorial</h3>
-<section id="running-the-code-chunks-in-this-tutorial" class="level4">
-<h4 class="anchored" data-anchor-id="running-the-code-chunks-in-this-tutorial">Running the code chunks in this tutorial</h4>
-<p>In this tutorial I will introduce a handful of new concepts in R and example code to demonstrate how the code works. When you get to a code chunk (an example of a code chunk is shown below), you can edit the code in the chunk if there are instructions to do so, and run the code to see what the output is by either hitting the “run code” button or by placing your cursor in the code chunk you want to execute and hitting <code>command (⌘) + return (↩︎)</code> (on mac) or <code>Ctrl + Enter</code> (on windows).</p>
-</section>
-<section id="the-start-over-button" class="level4">
-<h4 class="anchored" data-anchor-id="the-start-over-button">The ‘Start over’ button</h4>
-<p>Each code chunk has a <span style="padding: 3px; position: relative;margin-right: 6px;"><i style="font-size: 12px; position: absolute; top: 8px; left: 4px;" class="fa"></i></span> button in the upper right corner that allows you to reset the code.If you make a mistake and want to start from scratch, hit this button!</p>
-</section>
-<section id="comments" class="level4">
-<h4 class="anchored" data-anchor-id="comments">Comments</h4>
-<p>You may notice some lines of code that start with the pound sybmol, <code>#</code>, and show up in a different color. These are called <strong>comments</strong>. R doesn’t execute anything when it sees a comment, it’s just a note to yourself or anyone else reading your code! It’s good practice to add comments to your code at each line to help you remember what the code was meant to do, or to help someone else who is reading your code see what you were trying to do.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is an example of a comment!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Exercise:</strong> Try writing your own comment in the code chunk below!</p>
 <div id="qwebr-insertion-location-1"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this tutorial, we will cover data visualization in R using the <code>ggplot2</code> package (one of the packages included in the <code>tidyverse</code>). Specifically, we will learn about</p>
+<ul>
+<li>General <code>ggplot</code> syntax</li>
+<li>Types of plots
+<ul>
+<li>histograms</li>
+<li>box plots</li>
+<li>bar plots</li>
+<li>scatter plots</li>
+</ul></li>
+<li>More <code>ggplot</code> aesthetic options</li>
+</ul>
+</section>
+<section id="ggplot-syntax" class="level2">
+<h2 class="anchored" data-anchor-id="ggplot-syntax"><code>ggplot</code> syntax</h2>
+<p>The <code>ggplot2</code> package within the <code>tidyverse</code> suite of packages utilizes similar syntax to create multiple types of graphs.</p>
+<p>All <code>ggplot2</code> plots will begin with a call to the <code>ggplot()</code> functions, to which you will supply the data you will be using to make the plot and specify the variables (columns) you would like to use in the plot. We can then add extra features on top of this base plot using other <code>ggplot2</code> functions, strung together with the <code>+</code> symbol.</p>
+<p>I tend to use the following syntax:</p>
+<p><code>{data_name} %&gt;%</code></p>
+<p><code>ggplot(aes(x = {x_axis_variable_name}, y = {y_axis_varible_name})) +</code></p>
+<p><code>geom_{PLOT_TYPE}()</code></p>
+<p>The code in the brackets <code>{}</code> are the things you should change based on your data and the type of plot you want to make.</p>
+<p>The important thing to note about this code is that any variable you want to use from the data frame that you’ve supplied (in this example, <code>data_name</code>) must be wrapped within the <code>aes()</code> function. This is how R understands that you are trying to pull a column from the data frame and use it in the plot.</p>
+<p>There are lots of different plots that <code>ggplot2</code> can make, each with a different function. Some common ones that we will use are:</p>
+<ul>
+<li><code>geom_histogram()</code>: makes a histogram</li>
+<li><code>geom_boxplot()</code>: makes a boxplot</li>
+<li><code>geom_bar()</code>: makes a bar plot</li>
+<li><code>geom_point()</code>: makes a scatterplot</li>
+<li><code>geom_qq()</code>: makes a quantile-quantile (QQ) plot</li>
+</ul>
+<p>Let’s see some examples! We will use the <code>census.rda</code> data from <a href="https://haleykgrant.github.io/BIOST2041/posts/Tutorial-3/Tutorial3.html">Tutorial 3</a>. I have already loaded the data for you. Reminder: the data frame is saved under the name <code>census</code>. Here’s a reminder of what the data look like:</p>
+<div id="qwebr-insertion-location-2"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>Since we are going to be using the <code>ggplot2</code> functions, we need to load the <code>tidyverse</code>! I’m going to have this code auto-run but make sure when you’re working in RStudio that you type and run this line at the beginning of any R session/document that you want to use <code>tidyverse</code> functions for!</p>
+<div id="qwebr-insertion-location-3"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<section id="histograms" class="level3">
+<h3 class="anchored" data-anchor-id="histograms">Histograms</h3>
+<p>A histogram is a visual representation of quantitative data in which the range of values is split into adjacent, non-overlapping intervals (or “bins”) and the number of observations that fall into each interval is counted and depicted on the plot.</p>
+<p>Let’s make a histogram of the variable <code>total_personal_income</code>.</p>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>You should see a few messages shown in the output. These messages aren’t errors (they aren’t a problem), but it’s good to know what they mean.</p>
+<p>The first message:</p>
+<div style="text-align: center;">
+<p><span style="color: #db4133; font-family: 'Monaco'; font-weight: 500; font-size: 12px;">`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></p>
+</div>
+<p>is telling us that the <code>geom_histogram()</code> function defaulted to splitting the range into 30 intervals (bins). We can change this if we want using either the <code>bins</code> argument to specify the <em>number</em> of bins desired, or the <code>bindwidth</code> argument to specify the size of the bins/intervals, in <code>geom_histogram()</code>.</p>
+<p>For example, if we want to make more, smaller width bins we could specify <code>bins = 50</code> instead of the default of 30 using the following code:</p>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>We could also specify the <em>size</em> of the bins, rather than the <em>number</em> of bins. For example, since this variable refers to annual income, maybe we would want to show bins of size $10,000. Specifying the <code>binwidth</code> argument is highly data-dependent (we wouldn’t want to use a bin size of 10,000 if the variable was height measured in inches, for example 🙂 ). Here’s an example of specifying <code>binwidth</code>:</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>The other message is a warning message:</p>
+<div style="text-align: center;">
+<p><span style="color: #db4133; font-family: 'Monaco'; font-weight: 500; font-size: 12px;">Warning: Removed 108 rows containing non-finite outside the scale range (`stat_bin()`)</span></p>
+</div>
+<p>This is R’s way of telling us that some of the rows were removed and were not included in the plot. We can see that 108 observations (rows) were removed for plotting. This is generally because there are missing values. The <code>ggplot2</code> functions don’t have any way of plotting missing values, so they get skipped in these plotting functions.</p>
+<p>To see that these observations came from missing values, we can look a bit more into the data. For example, we can count the number of rows for which the column <code>total_personal_income</code> is an <code>NA</code> value using the <code>is.na()</code> function:</p>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Hint
+Sum of logical values
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Think about what the line of code should <em>start</em> with.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Answer
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<div id="qwebr-insertion-location-2"></div>
+<p>Note here that <code>is.na(census$total_personal_income)</code> returns a vector of <code>TRUE/FALSE</code> (logical) values. When you take the sum of <code>TRUE/FALSE</code> values in R, it returns the number that are <code>TRUE</code>.</p>
+<p>For example:</p>
+<div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
 </div>
 </div>
-<div style="page-break-after: always;"></div>
+<p>We can see from these histograms that we have a highly right-skewed variable. There are a lot of observations under $100,000 (1e+05) and then a handful of observations all the way to over $400,000.</p>
 </section>
-</section>
-</section>
-<section id="r-objects" class="level2">
-<h2 class="anchored" data-anchor-id="r-objects">R objects</h2>
-<p>The console in R (the bottom quadrant of the RStudio interface) can be used essentially as a calculator. We can do lots of operations in the console and have R print out the answer for us.</p>
-<p>For example, if we want to check what <code>2+3</code> is, we can run the code:</p>
-<div id="qwebr-insertion-location-3"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>When you run the code above, it prints out the number 5. That’s great, but maybe I don’t want to have to type that every time I want to use those numbers. This is where R objects come in. For example, maybe I have a variable that I want to call <code>x</code> that will hold the number 2 and a different variable called <code>y</code> that will hold the number 3. I can do this with the following code</p>
-<div id="qwebr-insertion-location-4"></div>
+<section id="box-plots" class="level3">
+<h3 class="anchored" data-anchor-id="box-plots">Box plots</h3>
+<p>Another way we can visualize quantitative data is using box plots. Box plots can be particularly helpful if you want to compare the distribution of a particular quantitative variable across different groups. For example, maybe we want to compare the distribution of <code>total_personal_income</code> across different levels of <code>marital_status</code>. We can do this with box plots.</p>
+<div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note: <code>=</code> vs <code>&lt;-</code>
+Note
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Sometimes you might see the operator <code>&lt;-</code> (for example <code>x &lt;- 2</code>) instead of the equals sign (<code>=</code>). This is an artifact of earlier versions of R when you had to use <code>&lt;-</code> to assign values to objects; both work now and <code>=</code> is shorter so I used it here 🙂</p>
+<p>Here we can see that the labels on the x-axis are overlapping, making it hard to read the plot. We’ll get more into this later when we go over other aesthetic changes we can make to plots made with ggplot.</p>
 </div>
 </div>
-</div>
-<p>Note that when you run this code, nothing happens! Or at least, that’s what it looks like. If we were running this in RStudio, we would see in the upper right quadrant under the “Environment” tab that we now have two objects, x and y, that have the values 2 and 3 respectively. To see this here, we can print out the values:</p>
-<div id="qwebr-insertion-location-5"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Cool! Now that <code>x</code> and <code>y</code> are placeholders for the numbers 2 and 3, we can use them just like numbers. For example, we can add them together, multiply them, divide, subtract, etc. If we want to save the value of <code>x + y</code> for later use, we can do that too!</p>
-<div id="qwebr-insertion-location-6"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
-<section id="types-of-data" class="level2">
-<h2 class="anchored" data-anchor-id="types-of-data">Types of Data</h2>
-<p>In the example above, we were using numeric variables. However, there are many different types of data in R. Some of the main types of data we will use are</p>
-<ul>
-<li><strong>numeric</strong>: numbers</li>
-<li><strong>character</strong>: character strings/words</li>
-<li><strong>factor</strong>: categorical variables that store data in levels</li>
-<li><strong>logical</strong>: binary TRUE/FALSE</li>
-<li><strong>NA</strong>: stand-in for missing values</li>
-</ul>
-<section id="numeric" class="level3">
-<h3 class="anchored" data-anchor-id="numeric">Numeric</h3>
-<div id="qwebr-insertion-location-7"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="character" class="level3">
-<h3 class="anchored" data-anchor-id="character">Character</h3>
-<p>This is a number so we can use the same types of functions as we used above on the object <code>x_numeric</code> (adding, subtracting, etc.).</p>
-<div id="qwebr-insertion-location-8"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>This is a character. Even though it looks like a number, the quotation marks tell R that we don’t want to treat this as the number 5. For example, maybe this is and identifier for hospital number 5 in a study. In this case, we probably don’t want to do typical calculations as if this was the number 5.</p>
-<p><strong>Exercise:</strong> See what happens when you try to multiply <code>x_character</code> by 2.</p>
-<div id="qwebr-insertion-location-9"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="error-messages" class="level3">
-<h3 class="anchored" data-anchor-id="error-messages">Error messages</h3>
-<p>Oh no! You should see the following error message:</p>
-<div style="text-align: center;">
-<p><span style="color: #db4133; font-family: 'Monaco'; font-weight: 500;">Error: non-numeric argument to binary operator</span></p>
-</div>
-<p>This is how R is telling you that you’re trying to apply a function that requires a number to an object that isn’t a number. R gives helpful error messages like this when you try to run code that doesn’t work. Sometimes the language R uses is hard to understand, but you can always ask me or a TA what the error means, or search the error on Google!</p>
-<p><strong>Exercise:</strong> If you change <code>x_character</code> to <code>x_numeric</code> in the code above, you should see it works just fine!</p>
-</section>
-<section id="factor" class="level3">
-<h3 class="anchored" data-anchor-id="factor">Factor</h3>
+<section id="bar-plots" class="level3">
+<h3 class="anchored" data-anchor-id="bar-plots">Bar plots</h3>
+<p>A bar plot is a tool to visualize a categorical variable. It is similar to a histogram in that it shows the number of times each level of a variable is observed in a data set. For example, in the plot above we showed the distribution of personal income across marital status, but maybe we want to know how many people fell into each of these marital status categories. We can use a bar plot for this.</p>
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Here we can see that <code>x_factor</code> is a factor variable. It may not be obvious why this is useful yet, but it should hopefully become clear as the semester goes on. Factors are essentially a way that you can pick the order that categorical variable levels are presented and give the variables nice names for things like printing in a plot.</p>
+<p>From this plot we can see that “Never married/single” is the most commonly observed marital status in our data, followed closely by “Married/spouse present”. The status “Separated” was the last common, followed by “Married/spouse absent”. The categories “Divorced” and “Widowed” were somewhere in between.</p>
 </section>
-<section id="logical" class="level3">
-<h3 class="anchored" data-anchor-id="logical">Logical</h3>
-<p>R has another type of data called “logical” values. These are binary TRUE/FALSE (can also abbreviate with T/F) that let you know if a statement is true or false. This can be really useful when we want to filter data. For example, if we want to filter data to everyone over the age of 50, we can check the logical variables to check if age is greater than or equal to 50.</p>
-<p>In the example below we’ll make a new variable to tell us if <code>x_numeric</code> from above is equal to the number 5.</p>
+<section id="scatter-plots" class="level3">
+<h3 class="anchored" data-anchor-id="scatter-plots">Scatter plots</h3>
+<p>A scatter plot is a way of visualizing the relationship between two numeric variables. For example, if we want to know how <code>total_personal_income</code> relates to <code>age</code> in this data set, we can use a scatter plot. Here is some example code to make a scatter plot:</p>
 <div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Exercise:</strong> Try changing the value in the code above to check if <code>x_numeric</code> is equal to the number 4 to see how the value would change.</p>
 </section>
-<section id="missing-values" class="level3">
-<h3 class="anchored" data-anchor-id="missing-values">Missing Values</h3>
-<p>R has a special way of denoting missing values. In R, these show up as <code>NA</code> values. For example, if you have a data set with 100 individuals’ height, weight, and age, if you weren’t able to get the values measured for some of the individuals, those values should show up as <code>NA</code> values to indicate that they are missing.</p>
-<p><strong>Note:</strong> this is different from “NA” the character. R will change the color of <code>NA</code> when you type it in your code to show that this is a special kind of variable.</p>
+</section>
+<section id="more-ggplot-aesthetic-options" class="level2">
+<h2 class="anchored" data-anchor-id="more-ggplot-aesthetic-options">More <code>ggplot</code> aesthetic options</h2>
+<p>So far we have only made basic plots using <code>ggplot2</code>, however this package makes it really easy to make much nicer looking plots without too much extra coding. We can do things like change the background color, add titles and subtitles, change the axis labels, and much more. I’ll go over a few of these options but much more can be found online at resources like these: <a href="https://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html">ggplot tutorial</a>, <a href="https://ggplot2.tidyverse.org/articles/ggplot2.html">ggplot reference page</a></p>
+<p>We will return to our side-by-side box plot example showing the total personal income by marital status to demonstrate how we can make the plot look a little nicer.</p>
+<section id="facets" class="level3">
+<h3 class="anchored" data-anchor-id="facets">Facets</h3>
+<p>One really nice feature of <code>ggplot2</code> is the ability to make multiple plots of the same variable(s) across different subgroups using something called “facets”. For example, let’s say we want to make the same box plots we did before showing the distribution of personal income by marital status, but we want to split by sex to see if there are any different trends between male and female participants in our data set. We can do this using the function <code>facet_wrap()</code>:</p>
 <div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p><strong>Exercise:</strong> Try multiplying the <code>x_missing</code> variable by 2 and see what happens.</p>
+<p>Faceting lets us compare trends across groups. We can facet across more than just one variable, too. For, example, we could facet across both sex and race (column name <code>race_general</code>). In this case, I like to use a slightly different function called <code>facet_grid()</code> because it makes the labeling a little easier to follow.</p>
 <div id="qwebr-insertion-location-13"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Generally any kind of functions applied to missing values return another <code>NA</code> value unless the function has a special way of handling missing values.</p>
-<section id="the-is.na-function" class="level4">
-<h4 class="anchored" data-anchor-id="the-is.na-function">The <code>is.na()</code> function</h4>
-<p>There is a special function in R that can help you check if a value is a missing value. This funciton is <code>is.na()</code>. To see how it works, try running the code below:</p>
-<div id="qwebr-insertion-location-14"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-</section>
-</section>
-<section id="vectors" class="level2">
-<h2 class="anchored" data-anchor-id="vectors">Vectors</h2>
-<p>We don’t have to save values in R individually. We can also save a bunch of values (numbers, characters, factors, etc.) together in something called a vector.</p>
-<p>We can make these types of objects in R using the <code>c()</code> function (this stands for “concatenate”) to put a bunch of values together in a vector.</p>
-<div id="qwebr-insertion-location-15"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>We can do lots of fun stuff in R with vectors. For example, we can multiply every entry of the vector by 2 (if all of the entries are numeric), taking the mean, sum, or standard deviation of a numeric vector, show the unique entries of the vector, and much more!</p>
-<section id="multiply-by-2" class="level4">
-<h4 class="anchored" data-anchor-id="multiply-by-2">Multiply by 2</h4>
-<div id="qwebr-insertion-location-16"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="take-the-mean" class="level4">
-<h4 class="anchored" data-anchor-id="take-the-mean">Take the mean</h4>
-<div id="qwebr-insertion-location-17"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="take-the-sum" class="level4">
-<h4 class="anchored" data-anchor-id="take-the-sum">Take the sum</h4>
-<div id="qwebr-insertion-location-18"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="take-the-standard-deviation" class="level4">
-<h4 class="anchored" data-anchor-id="take-the-standard-deviation">Take the standard deviation</h4>
-<div id="qwebr-insertion-location-19"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="show-the-unique-values" class="level4">
-<h4 class="anchored" data-anchor-id="show-the-unique-values">Show the unique values</h4>
-<div id="qwebr-insertion-location-20"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-</section>
-<section id="print-the-length-of-the-vector" class="level4">
-<h4 class="anchored" data-anchor-id="print-the-length-of-the-vector">Print the length of the vector</h4>
-<div id="qwebr-insertion-location-21"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div style="page-break-after: always;"></div>
-</section>
-</section>
-<section id="functions" class="level2">
-<h2 class="anchored" data-anchor-id="functions">Functions</h2>
-<p>We’ve already shown some examples of functions in R. You can think of R functions kind of like a recipe. You need to tell R what dish you want to make (the function) and give it some ingredients (called arguments), and then R will make the dish for you!</p>
-<p>Functions in R all using the same syntax:</p>
-<div style="text-align: center;">
-<p><span style="font-family: 'Monaco';"><code>function_name(argument1 , argument2 , ...)</code></span></p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p>where here the name of the function is <code>function_name</code> and the arguments for the function are passed to the function inside a set of parentheses.</p>
-<p>For example, the <code>mean()</code> function we used above is a built-in R function that takes a vector of numbers (it can also take a vector of logical values or some more advanced data types like dates) and returns the mean (average) value by adding up all of the entries in the vector and dividing by the length. Functions in R are really helpful because it means we don’t have to write out the full code ourselves.</p>
-<p>For example, both lines of code below do the same thing, but one is a lot easier (imagine if the vector had been even longer)!</p>
-<div id="qwebr-insertion-location-22"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div style="page-break-after: always;"></div>
-</section>
-<section id="r-packages" class="level2">
-<h2 class="anchored" data-anchor-id="r-packages">R Packages</h2>
-<section id="what-is-an-r-package" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-an-r-package">What is an R package</h3>
-<p>R comes with a lot of great built-in, ready-to-use functions, but there are probably lots of other functions that we might want to use that don’t come built in to R. You can write your own functions in R if you want, but usually someone else has already written the kind of function you want to use. This is where R packages come in.</p>
-<p>The following description of R packages comes from <a href="https://rladiessydney.org/courses/ryouwithme/01-basicbasics-0/">this R Basics Tutorial from R-Ladies Sydney</a>.</p>
-<blockquote class="blockquote">
-<p>A package is a bundle of code that a generous person has written, tested, and then given away. Most of the time packages are designed to solve a specific problem, so they to pull together functions related to a particular data science problem (e.g., data wrangling, visualisation, inference). Anyone can write a package, and you can get packages from lots of different places, but for beginners the best thing to do is get packages from CRAN, the Comprehensive R Archive Network. It’s easier than any of the alternatives, and people tend to wait until their package is stable before submitting it to CRAN, so you’re less likely to run into problems. You can find a list of all the packages on CRAN <a href="https://cran.r-project.org/">here</a>.</p>
-</blockquote>
-</section>
-<section id="how-to-install-r-packages" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-install-r-packages">How to install R packages</h3>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/203516241" frameborder="0" title="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
-<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-title-container flex-fill">
+Caution: Busy plots
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Notice that this busied up the plot a lot. It’s generally only a good idea to use multiple faceting variables if each only has a few (2-3) possible levels to make sure our figure is still interpretable.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note: Installing packages
+Facets: different scales
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>You should generally only need to install a package one time on your computer. Installing packages is just like downloading any other piece of software on your computer; once you’ve downloaded it once, you have it on your computer unless you delete it.</p>
-<p>Installing packages is different from loading packages, which we’ll get to next.</p>
+<p>Sometimes you’ll notice that when you add facets to a plot, that not every facet takes up the full range of values on either the x-axis or y-axis, so the plots don’t use space very effectively. If you want to change this, you can the following arguments to the <code>facet_wrap()</code> function:</p>
+<ul>
+<li><code>scales = "free_x</code> : to allow the x-axis to have different scales (ranges/degree of zoom) across the plots</li>
+<li><code>scales = "free_y</code> : to allow the y-axis to have different scales (ranges/degree of zoom) across the plots</li>
+<li><code>scales = "free</code> : to allow both the x- and y-axes to have different scales (ranges/degree of zoom) across the plots</li>
+</ul>
+<p>Example:</p>
+<div id="qwebr-insertion-location-14"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
 </div>
 </div>
 </section>
-<section id="loading-packages" class="level3">
-<h3 class="anchored" data-anchor-id="loading-packages">Loading Packages</h3>
-<p>Just because you installed an R package once, doesn’t mean you want to use it for every task you do in R. Because of this, R will automatically load a small set of default packages when you launch a new session, but you’ll need to tell it if you want to use any additional packages. To load a library that isn’t loaded by default, we use the following code:</p>
-<div style="text-align: center;">
-<p><code>library(package_name)</code></p>
-</div>
-<p>Think of installing and loading R packages as similar to using the Microsoft Word application on your computer. Once you have installed Microsoft Word once on your computer, you have the software available to you. But that doesn’t mean Word is always running on your computer. In order to use the functions of Word, you have to open the application. This is essentially what we are doing when we load a library–we’re opening it up so we can use it.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<section id="labelstitles" class="level3">
+<h3 class="anchored" data-anchor-id="labelstitles">Labels/titles</h3>
+<p>One issue with our plot right now is that it doesn’t have a title and the axis labels are column names with underscores. If we wanted to include this figure in a paper, we might want to change these. We can do this by adding the <code>labs()</code> function to the plot to update the plot labels.</p>
+<div id="qwebr-insertion-location-15"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>These labels are a lot nicer than the default labels!</p>
+</section>
+<section id="background-color" class="level3">
+<h3 class="anchored" data-anchor-id="background-color">Background color</h3>
+<p>Don’t like the grey grid background? You can change it, too! I like to use a black and white grid background or sometimes just a plain white background. You can achieve this by adding <code>theme_bw()</code> or <code>theme_classic()</code> to the plot. There are many other options for plot themes that you can find here: _____</p>
+<section id="black-and-white-grid-with-theme_bw" class="level4">
+<h4 class="anchored" data-anchor-id="black-and-white-grid-with-theme_bw">Black and white grid with <code>theme_bw()</code></h4>
+<div id="qwebr-insertion-location-16"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="white-background-with-theme_classic" class="level4">
+<h4 class="anchored" data-anchor-id="white-background-with-theme_classic">White background with <code>theme_classic()</code></h4>
+<div id="qwebr-insertion-location-17"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+</section>
+<section id="plot-colors" class="level3">
+<h3 class="anchored" data-anchor-id="plot-colors">Plot colors</h3>
+<p>You can also add color to plots to help display information. For example, maybe we want to color the box plots by marital status or by sex to further emphasize a comparison that we’re trying to make. If you want to pick your own colors, see <a href="https://r-graph-gallery.com/ggplot2-color.html">this reference</a> for more information about plot colors in <code>ggplot2</code>.</p>
+<section id="color-by-marital-status" class="level4">
+<h4 class="anchored" data-anchor-id="color-by-marital-status">Color by marital status</h4>
+<div id="qwebr-insertion-location-18"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</section>
+<section id="color-by-sex" class="level4">
+<h4 class="anchored" data-anchor-id="color-by-sex">Color by sex</h4>
+<div id="qwebr-insertion-location-19"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note: loading packages
+Using color to display information
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Another reason we don’t automatically load all of the packages we’ve ever installed on our computer is because sometimes different packages have functions that are named the same thing (this is because R is open-source)! When this happens, it can be frustrating to try to figure out which version of the function R is using and requires extra code to tell R which version of the function you want to use. To avoid this it is best practice to only load the packages you currently need.</p>
+<p>Given that some people have trouble distinguishing color, it is best practice not to have color be the <strong>only way</strong> in which information is portrayed.</p>
 </div>
 </div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled">
+</section>
+<section id="static-colors" class="level4">
+<h4 class="anchored" data-anchor-id="static-colors">Static colors</h4>
+<p>You can also change colors without using variables from data. For example, you could make all of the box plots blue by including <code>color="blue"</code> to the <code>geom_boxplot()</code> function. If you are just trying to change the color but not trying to use color to indicate the value of a variable, put this argument doesn’t need to go inside an <code>aes()</code> function. There are lots of colors to choose from in ggplot (<a href="https://sape.inf.usi.ch/quick-reference/ggplot2/colour">link</a>).</p>
+<div id="qwebr-insertion-location-20"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Loading uninstalled packages
+<code>color</code> vs <code>fill</code>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Remember that you have to install an R package once before you ever use it. After you’ve installed it once, you don’t need to re-install it, you just need to load it into your session to have access to its contents.</p>
-<p>If you ever run a line of code like this:</p>
-<div style="text-align: center;">
-<p><span style="font-family: 'Monaco'; font-weight: 500;">library(mypackage)</span></p>
-</div>
-<p>and get an error message like this:</p>
-<div style="text-align: center;">
-<p><span style="color: #db4133; font-family: 'Monaco'; font-weight: 500;">Error in library(mypackage) : there is no package called ‘mypackage’</span></p>
-</div>
-<p>this means you are trying to load a package you haven’t installed yet and you need to run <code>install.packages("mypackage")</code> once first.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="the-tidyverse-package" class="level3">
-<h3 class="anchored" data-anchor-id="the-tidyverse-package">The tidyverse package</h3>
-<p>The R <code>tidyverse</code> package is a very useful suite of packages that make data manipulation and visualization clean and efficient. To see all of the packages included in the <code>tidyverse package</code> run the following code:</p>
-<div id="qwebr-insertion-location-23"></div>
+<p>For some types of plots there is an additional argument <code>fill</code> that you can use to color parts of the plot. For example, in bar plots and histograms, changing the <code>color</code> argument will change the <em>outline color</em> of the bars while changing the <code>fill</code> argument will change the <em>color inside the bars</em>.</p>
+<p>Example:</p>
+<div id="qwebr-insertion-location-21"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Hint
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>This should produce an error when you first try to run it. Can you tell why?</p>
 </div>
 </div>
 </div>
 </section>
-<section id="error-message" class="level3">
-<h3 class="anchored" data-anchor-id="error-message">Error message</h3>
-<p>Oh no! We got another error message. You should see the following error:</p>
-<div style="text-align: center;">
-<p><span style="color: #db4133; font-family: 'Monaco'; font-weight: 500;">Error: could not find function “tidyverse_packages”</span></p>
-</div>
-<p>This is R’s way of telling you that you’re trying to use a function that it doesn’t have access to. The <code>tidyverse_packages()</code> function comes from the <code>tidyverse</code> package. I have already installed the <code>tidyverse</code> for you in the setup of this tutorial, but I didn’t load it. Even if you have the tidyverse <em>installed</em> on your computer, that doesn’t mean you have it <em>loaded</em> for R to use.</p>
-<p>To give ourselves access to the functions from the <code>tidyverse</code> package, let’s add the line of code <code>library(tidyverse)</code> before the line of code in the chunk above. That should fix the problem.</p>
-<p><strong>Exercise:</strong> Add the line of code <code>library(tidyverse)</code> before the line of code in the chunk above and try rerunning the code chunk.</p>
 </section>
-<section id="the-pipe-operator-from-the-tidyverse" class="level3">
-<h3 class="anchored" data-anchor-id="the-pipe-operator-from-the-tidyverse">The pipe operator from the tidyverse</h3>
-<p>One of the unique functions provided by the <code>tidyverse</code> is called the “pipe operator.” The pipe operator looks like this: <code>%&gt;%</code>. The pipe operator is a way of stringing together a bunch of functions and the purpose is to make your code easier to read.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<section id="formatting-axis-text" class="level3">
+<h3 class="anchored" data-anchor-id="formatting-axis-text">Formatting axis text</h3>
+<p>As we noted before, the text on the x-axis of our box plots showing the different values of <code>marital_status</code> are overlapping, making it hard to read the plot. One way we can fix this is using the following code to rotate the text:</p>
+<div id="qwebr-insertion-location-22"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note: <code>%&gt;%</code> vs <code>|&gt;</code>
+Looking up technical code
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Recent updates to R also let you use <code>|&gt;</code> as the pipe operator, but I’m old so I still use <code>%&gt;%</code> 🙂</p>
+<p>This code is starting to get pretty technical. You probably won’t memorize this (I haven’t! I look up how to do it every time I need to rotate axis labels, including just now while I was making this tutorial 🙂 ).</p>
+<p><strong>You aren’t expected to know how to do this from memory</strong>; you can use old example code or search online references/forums for help with this kind of thing.</p>
 </div>
 </div>
-</div>
-<p>To see an example of this, consider the following task:</p>
-<p>We want to know how many unique values are contained in the vector <code>x_vector</code>.</p>
-<p>To do this, we can start by having R grab the unique values in <code>x_vector</code> using <code>unique(x_vector)</code>.This will give us a vector of the unique values in <code>x_vector</code>. Then, we can print the length of the output of <code>unique(x_vector)</code> to get the number of unique values.</p>
-<p>To do this, we could define a new intermediate vector called <code>x_unique</code> to hold the vector of unique values in <code>x_vector</code>, or we can just use multiple functions simulatneously by nesting the parentheses:</p>
-<div id="qwebr-insertion-location-24"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>Notice how the order of operations was:</p>
-<ol type="1">
-<li><p>Start with your input <code>x_vector</code></p></li>
-<li><p>Determine the unique values of <code>x_vector</code></p></li>
-<li><p>Calculate length of <code>unique(x_vector)</code></p></li>
-</ol>
-<p>However, reading left-to-right we see the last step first. This can get particularly confusing when we want to apply multiple sequential functions to the same object in R. Imagine we had wanted to do 3 more functions! This would have read as:</p>
-<div style="text-align: center;">
-<p><code>function3(function2(function1(length(unique(x_vector)))))</code></p>
-</div>
-<p>That’s a lot of parentheses and it’s hard to even figure out where the operation starts!</p>
-<p>To fix this, we can use the pipe operator:</p>
-<div id="qwebr-insertion-location-25"></div>
-<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>See how the output is the same but the order of operations is much clearer in this example? It’s clear that we start with the object <code>x_vector</code>, which we then extract just the unique values from, then finally calculate the length of just the vector of unique values.</p>
-<p>In the example above with an extra 3 functions at the end, this would read as:</p>
-<div style="text-align: center;">
-<p><code>x_vector %&gt;% unique() %&gt;% length() %&gt;% function1() %&gt;% function2()  %&gt;% function3()</code></p>
-</div>
-<p>Still long, but a lot easier to follow (at least I think so)!</p>
-</section>
-</section>
-<section id="end-of-tutorial" class="level2">
-<h2 class="anchored" data-anchor-id="end-of-tutorial">End of tutorial</h2>
-<p>That’s it! The next tutorial will be about reading in and manipulating data in R.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -2603,5 +2444,4 @@ qwebrInstance.then(
 
 
 
-<script src="../../site_libs/quarto-contrib/alpine-3.12/alpine@3.12.min.js"></script>
 </body></html>

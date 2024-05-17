@@ -94,7 +94,7 @@ y = 3
 ::: {.callout-note collapse="true"}
 ## Note: `=` vs `<-`
 
-Sometimes you might see the operator `<-` (for example `x <- 2`) instead of the equals sign (`=`). This is an artifact of earlier versions of R when you had to use `<-` to assign values to objects; both work now and `=` is shorter so I used it here :)
+Sometimes you might see the operator `<-` (for example `x <- 2`) instead of the equals sign (`=`). This is an artifact of earlier versions of R when you had to use `<-` to assign values to objects; both work now and `=` is shorter so I used it here &#128578;
 :::
 
 Note that when you run this code, nothing happens! Or at least, that's what it looks like. If we were running this in RStudio, we would see in the upper right quadrant under the "Environment" tab that we now have two objects, x and y, that have the values 2 and 3 respectively. To see this here, we can print out the values:
@@ -254,6 +254,23 @@ x_missing
 
 Generally any kind of functions applied to missing values return another `NA` value unless the function has a special way of handling missing values.
 
+#### The `is.na()` function
+
+There is a special function in R that can help you check if a value is a missing value. This funciton is `is.na()`. To see how it works, try running the code below:
+
+```{webr-r}
+# check if the next few things are NA values
+# x_missing
+is.na(x_missing)
+
+# the character string "NA" 
+is.na("NA")
+
+# x_numeric
+is.na(x_numeric)
+
+```
+
 ## Vectors
 
 We don't have to save values in R individually. We can also save a bunch of values (numbers, characters, factors, etc.) together in something called a vector.
@@ -355,26 +372,23 @@ The following description of R packages comes from [this R Basics Tutorial from 
 
 {{< video https://vimeo.com/203516241>}}
 
-### Test your knowledge
+::: {.callout-important collapse="true"}
+## Note: Installing packages
 
-```{r names, echo = FALSE, eval=F}
-#quiz(caption = "Quiz - Working with Packages",
-#  question("What command do you use to install packages?",
-#    answer("`library()`", message = "We will see what `library()` does later."),
-#    answer("`install.packages()`", correct = TRUE),
-#    answer("`install_packages()`", message = "Close, though!"),
-#    answer("There is no command. You must visit [cran.r-project.org](http://cran.r-project.org) and download packages manually.", message = "R makes it easy to download packages. You connect to the internet and then run one of the commands above."),
-#    allow_retry = TRUE
-#  ))
-```
+You should generally only need to install a package one time on your computer. Installing packages is just like downloading any other piece of software on your computer; once you've downloaded it once, you have it on your computer unless you delete it. 
+
+Installing packages is different from loading packages, which we'll get to next.
+:::
 
 ### Loading Packages
 
-Just because you installed an R package once, doesn't mean you want to use it for every task you do in R. Because of this, R will automatically load a small set of default packages when you launch a new session, but you'll need to tell it if you want to use any additional packages. To load a library that isn't loaded by default, we use
+Just because you installed an R package once, doesn't mean you want to use it for every task you do in R. Because of this, R will automatically load a small set of default packages when you launch a new session, but you'll need to tell it if you want to use any additional packages. To load a library that isn't loaded by default, we use the following code:
 
 ::: {style="text-align: center;"}
 `library(package_name)`
 :::
+
+Think of installing and loading R packages as similar to using the Microsoft Word application on your computer. Once you have installed Microsoft Word once on your computer, you have the software available to you. But that doesn't mean Word is always running on your computer. In order to use the functions of Word, you have to open the application. This is essentially what we are doing when we load a library--we're opening it up so we can use it.
 
 ::: {.callout-important collapse="true"}
 ## Note: loading packages
@@ -426,7 +440,7 @@ Oh no! We got another error message. You should see the following error:
 [Error: could not find function "tidyverse_packages"]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
 :::
 
-This is R's way of telling you that you're trying to use a function that it doesn't have access to. The `tidyverse_packages()` function comes from the `tidyverse` package. Even if you have the tidyverse *installed* on your computer, that doesn't mean you have it *loaded* for R to use.
+This is R's way of telling you that you're trying to use a function that it doesn't have access to. The `tidyverse_packages()` function comes from the `tidyverse` package. I have already installed the `tidyverse` for you in the setup of this tutorial, but I didn't load it. Even if you have the tidyverse *installed* on your computer, that doesn't mean you have it *loaded* for R to use.
 
 To give ourselves access to the functions from the `tidyverse` package, let's add the line of code `library(tidyverse)` before the line of code in the chunk above. That should fix the problem.
 
@@ -439,7 +453,7 @@ One of the unique functions provided by the `tidyverse` is called the "pipe oper
 ::: {.callout-note collapse="true"}
 ## Note: `%>%` vs `|>`
 
-Recent updates to R also let you use `|>` as the pipe operator, but I'm old so I still use `%>%` :)
+Recent updates to R also let you use `|>` as the pipe operator, but I'm old so I still use `%>%` &#128578;
 :::
 
 To see an example of this, consider the following task:

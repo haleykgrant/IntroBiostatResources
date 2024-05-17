@@ -22,23 +22,22 @@ title-block-banner: "#a2cffe"
 
 ## Introduction
 
-
 By now you should have learned to install R and RStudio, learned a little about types of objects and functions in R, and learned to import data into R. If you're not sure about any of those, tutorials for each topic can be found here:
 
-- [Installing R and RStudio Tutorial](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-1/Tutorial1.html)
+-   [Installing R and RStudio Tutorial](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-1/Tutorial1.html)
 
-- [R Objects and Functions Tutorial](grant.github.io/BIOST2041/posts/Tutorial-2/Tutorial2.html)
+-   [R Objects and Functions Tutorial](grant.github.io/BIOST2041/posts/Tutorial-2/Tutorial2.html)
 
-- [Importing Data into R Tutorial](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-3/Tutorial3.html)
+-   [Importing Data into R Tutorial](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-3/Tutorial3.html)
 
 ### Outline
 
-In this tutorial, we're going to go over manipulating data frames in R, including: 
+In this tutorial, we're going to go over manipulating data frames in R, including:
 
-- Data frame structure
-- Making new columns
-- Updating variables 
-- Filtering data frames
+-   Data frame structure
+-   Making new columns
+-   Updating variables
+-   Filtering data frames
 
 We're going to use the `cdc` data from [last time](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-3/Tutorial3.html) in this tutorial as an example. Here's a reminder of how we read in that dataset (this code will automatically run when the webpage is ready):
 
@@ -47,7 +46,6 @@ We're going to use the `cdc` data from [last time](https://haleykgrant.github.io
 url.csv <- "https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv"
 download.file(url.csv, "cdc_samp.csv")
 ```
-
 
 ```{webr-r}
 #| autorun: true
@@ -64,10 +62,9 @@ head(cdc)
 
 ## Rows and Columns
 
-
 ### `nrow()` and `ncol()` functions
 
-The standard setup for a data frame is to put individual observations (so in this case, different people) in the rows, and different attributes (variables) in the columns. In the `cdc` data frame, each row corresponds to one individual, and each column corresponds to a variable. 
+The standard setup for a data frame is to put individual observations (so in this case, different people) in the rows, and different attributes (variables) in the columns. In the `cdc` data frame, each row corresponds to one individual, and each column corresponds to a variable.
 
 From the output above, we can see that the 1st person in the data set has the value `"very good"` for the variable `genhlth`, the value `1` for the variable `exerany`, and so on.
 
@@ -93,8 +90,7 @@ If we want to get a list of the names of the columns, we can use the `colnames()
 colnames(cdc)
 ```
 
-Here we can see the names of the 9 columns included in our data. Remember that R is case-sensitive so this can be a helpful function when you first start working with a data set. For example, if I was trying to refer to the column named `"age"` but I accidentally spelled it `"Age"`, R wouldn't understand which variable I was referring to. Checking the column names at the start can help avoid future confusion/frustration with misspellings :)
-
+Here we can see the names of the 9 columns included in our data. Remember that R is case-sensitive so this can be a helpful function when you first start working with a data set. For example, if I was trying to refer to the column named `"age"` but I accidentally spelled it `"Age"`, R wouldn't understand which variable I was referring to. Checking the column names at the start can help avoid future confusion/frustration with misspellings &#128578;
 
 ## Making a new column
 
@@ -105,9 +101,7 @@ The function in the `tidyverse` (and specifically, the `dplyr` package) to make 
 The syntax will be:
 
 ::: {style="text-align: center;"}
-
 `mutate(new_column = some_function(existing_column))`
-
 :::
 
 You don't need to use a pre-existing column to make the new column (you could just type out a vector with the new column values), but we generally will be using pre-existing columns to make new columns.
@@ -115,8 +109,6 @@ You don't need to use a pre-existing column to make the new column (you could ju
 For example, we can see that there is a column called `"exerany"` in our data. This column indicates if the individual has exercised in the past month, where a `1` indicates if they have exercised in the past month and `0` indicates that they have not. This is a fairly common coding of binary variables, but unless you have the codebook readily available you wouldn't know for sure which response (yes/no) corresponds to which value (1/0). It can be helpful to make new variable that reads as "Yes"/"No" instead of 1/0 for clarity.
 
 We will make a new variable called `"exerany_f"` that is a factor variable that takes on the values `0` and `1` with the labels `"No exercise in past month"` and `"Exercise in past month"`, respectively. We will use the values from the `"exerany"` variable to help us make the new variable.
-
-
 
 ```{webr-r}
 # make new variable called exerany_f
@@ -133,7 +125,7 @@ Let's take a look at the error message:
 
 This error message is telling us that there isn't an object called `'exerany'` that R can find. This is because `'exerany'` is the name of a column in our data frame `cdc`, not a standalone object.
 
-To fix this error, we just need to tell R where to look for the variable called `'exerany'`. 
+To fix this error, we just need to tell R where to look for the variable called `'exerany'`.
 
 ```{webr-r}
 # make new variable called exerany_f
@@ -143,7 +135,6 @@ cdc %>% # tell R where to look
 
 Notice that this printed out a data frame that now has 10 columns instead of the previous 9. The new column is the variable we just made, `'exerany_f'`. You can't see it because there is a limit to the number of columns printed, but there is a line telling us that there is `1 more variable: exerany_f <fct>`, which means there is also a factor variable called `exerany_f` that isn't being shown in the printed output.
 
-
 Right now, we haven't actually saved the new column. To see this, let's use the `colnames()` function we learned last time.
 
 ```{webr-r}
@@ -151,7 +142,6 @@ Right now, we haven't actually saved the new column. To see this, let's use the 
 colnames(cdc)
 
 ```
-
 
 Basically, mutate will add a new column and return a dataset (that then gets printed in your output). If you want to save the new variable to be able to use it later, we have to either update the cdc data frame or save this as a new data frame.
 
@@ -189,7 +179,6 @@ head(cdc, n = 3)
 
 ```
 
-
 Great! If we want to take a look at the new column, we can use a function in the `tidyverse` package called `select()` to select just a few columns to look at. Let's grab the original variable, `exerany`, and the new one, `exerany_f` and look at the first few entries to make sure we defined the new variable correctly.
 
 ```{webr-r}
@@ -202,17 +191,38 @@ cdc %>%
 
 It looks like this worked! The first 6 rows all had a `1` in `exerany` so they all show up as `"Exercise in the past month"` under `exerany_f`.
 
+### Using the `$` symbol to grab a column
+
+Another way to grab a specific column from a data frame is to use the `$` symbol, using the following syntax
+
+::: {style="text-align: center;"}
+`data_name$column_name`
+:::
+
+This will grab the column and treat it as a vector.
+
+For example, if we want to grab the new column, `exerany_f`, and the old column, `exerany`, and take a look at the last few entries using the `tail()` function.
+
+```{webr-r}
+# last few entries of exerany_f column in the cdc data frame
+tail(cdc$exerany_f)
+```
+
+```{webr-r}
+# last few entries of exerany column in the cdc data frame
+tail(cdc$exerany)
+
+```
+
 ## Updating existing variables
 
 Sometimes instead of making a new column, we just want to update an existing column. We can use the `mutate()` function for this too. The syntax this time will be:
 
 ::: {style="text-align: center;"}
-
 `mutate(existin_column = some_function(existing_column))`
-
 :::
 
-This will overwrite the column with the new values. 
+This will overwrite the column with the new values.
 
 For example, let's say `"No exercise in the past month"` and `"Exercise in the past month"` are too long for our liking. Maybe we want to update this column so the values are just `"No exercise"` and `"Exercise"`. We can do this with the following code:
 
@@ -228,16 +238,14 @@ cdc %>%
 
 ```
 
+Notice that now the same column as before `exerany_f` has been updated from what we originally created.
 
-Notice that now the same column as before `exerany_f` has been updated from what we originally created. 
-
-::: {.callout-warning}
+::: callout-warning
 ## Warning: Overwriting
 
-Be careful with updating existing column names (and other R objects for that matter)! 
+Be careful with updating existing column names (and other R objects for that matter)!
 
 If you make a mistake, this will overwrite the old column, so you won't have access to the original contents anymore and you will have to rerun some of your code (like when you first read in the data) to reset the code and try again.
-
 :::
 
 ## Filtering Data Frames
@@ -251,14 +259,12 @@ cdc %>%
 
 ```
 
-
 ```{webr-r}
 # filter to only people who are at least 30 years old
 cdc %>%
   filter(age >= 30) # only keep if age is greater than or equal to (>=) 30
 
 ```
-
 
 Using the filter function, we can then run functions just on the subsetted data. For example, we could check the number of observations for each subet using the `nrow()` function.
 
@@ -296,7 +302,4 @@ head(cdc_30y)
 
 ```
 
-
 Now if we want to run any further analysis using just the subset of individuals who were at least 30 years old or had "excellent" general health condition, we can use `cdc_30y` or `cdc_excellent`, respectively. This can be helpful if you want to run multiple analyses on the same subset of observations but still want access to the full data set too.
-
-

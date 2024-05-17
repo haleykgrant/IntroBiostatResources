@@ -80,14 +80,11 @@ Watch this video for a description of the layout of the RStudio interface and a 
 
 I will be making a folder and project for this class where I will keep all of my notes and data sets. If you structure your folder the same way I do, all of my code should work seamlessly on your computer!
 
-
 ::: quiz-box
- **Check In** 
- 
+**Check In**
+
 Have you created a folder (directory) and an R project for this class on your computer? `r  longmcq(c(answer = "Yes!", "Not yet"))`
 :::
-
-
 
 I also like to keep things organized into sub-folders. For my BIOST 2041 folder, I have the following sub-folders:
 
