@@ -1,7 +1,7 @@
 ---
 title: "Tutorial 5: Data Visualization in R"
 author: "Haley Grant"
-image: dataviz.jpg
+image: dataviz2.jpg
 format: 
   html:
     toc: true
