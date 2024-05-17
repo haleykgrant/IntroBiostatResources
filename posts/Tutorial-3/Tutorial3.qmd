@@ -1,7 +1,7 @@
 ---
 title: "Tutorial 3: Importing Data in R"
 author: "Haley Grant"
-image: files2.jpg
+image: spreadsheet.jpg
 format: 
   html:
     toc: true
