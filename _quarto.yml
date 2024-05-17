@@ -1,19 +1,18 @@
 project:
   type: website
   output-dir: docs
-
 website:
-  title: "BIOST2041"
+  title: BIOST2041
   navbar:
     right:
-      - about.qmd
-      - icon: github
-        href: https://github.com/haleykgrant/BIOST2041
-
+    - about.qmd
+    - icon: github
+      href: https://github.com/haleykgrant/BIOST2041
 format:
   html:
     theme: cosmo
-    css: styles.css
-
+    css:
+    - styles.css
+    - include/webex.css
+    include-after-body: include/webex.js
 editor: visual
-

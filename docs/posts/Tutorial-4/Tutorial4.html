@@ -279,7 +279,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"options":{"classes":"","message":"true","label":"unnamed-chunk-1","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"true","fig-cap":"","context":"setup","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"url.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc_samp.csv\")","id":1},{"options":{"classes":"","message":"true","label":"unnamed-chunk-2","warning":"false","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"true","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# load the tidyverse (remember we have to do this at the beginning of every new R session)\nlibrary(tidyverse)\n# read in data from cdc_samp.csv\ncdc <- read_csv(\"cdc_samp.csv\")\n\n# take a look at the top few rows of data\nhead(cdc)","id":2},{"options":{"classes":"","message":"true","label":"unnamed-chunk-3","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# number of rows in cdc data\nnrow(cdc)\n\n# number of columns in cdc data\nncol(cdc)","id":3},{"options":{"classes":"","message":"true","label":"unnamed-chunk-4","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# print column names of cdc data\ncolnames(cdc)","id":4},{"options":{"classes":"","message":"true","label":"unnamed-chunk-5","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# make new variable called exerany_f\nmutate(exerany_f = factor(exerany, levels = c(0,1), labels = c(\"No exercise in past month\", \"Exercise in past month\")) )","id":5},{"options":{"classes":"","message":"true","label":"unnamed-chunk-6","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# make new variable called exerany_f\ncdc %>% # tell R where to look\n  mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c(\"No exercise in past month\", \"Exercise in past month\")) )","id":6},{"options":{"classes":"","message":"true","label":"unnamed-chunk-7","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# print the column names of the cdc data\ncolnames(cdc)","id":7},{"options":{"classes":"","message":"true","label":"unnamed-chunk-8","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# new data frame called \"cdc_new\"\ncdc_new = cdc %>%\n   mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c(\"No exercise in past month\", \"Exercise in past month\")) )\n\n# print names of columns of cdc_new\ncolnames(cdc_new)\n\n# view first few rows of cdc_new\nhead(cdc_new, n = 3)","id":8},{"options":{"classes":"","message":"true","label":"unnamed-chunk-9","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# update cdc object\ncdc = cdc %>%\n   mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c(\"No exercise in past month\", \"Exercise in past month\")) )\n\n# print names of columns of cdc\ncolnames(cdc)\n\n# view first few rows of cdc_new\nhead(cdc, n = 3)","id":9},{"options":{"classes":"","message":"true","label":"unnamed-chunk-10","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# look at exerany and exerany_f\ncdc %>%\n  select(exerany, exerany_f) %>%\n  head()","id":10},{"options":{"classes":"","message":"true","label":"unnamed-chunk-11","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# update cdc object\ncdc = cdc %>%\n   mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c(\"No exercise\", \"Exercise\")) )\n\n# look at exerany and exerany_f\ncdc %>%\n  select(exerany, exerany_f) %>%\n  head()","id":11},{"options":{"classes":"","message":"true","label":"unnamed-chunk-12","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# filter to only people with excellent genhlth\ncdc %>%\n  filter(genhlth==\"excellent\") # only keep if genhlth is equal to (==) \"excellent\"","id":12},{"options":{"classes":"","message":"true","label":"unnamed-chunk-13","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# filter to only people who are at least 30 years old\ncdc %>%\n  filter(age >= 30) # only keep if age is greater than or equal to (>=) 30","id":13},{"options":{"classes":"","message":"true","label":"unnamed-chunk-14","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# filter to only people with excellent genhlth\ncdc %>%\n  filter(genhlth==\"excellent\") %>% # only keep if genhlth is equal to (==) \"excellent\"\n  nrow()\n\n# filter to only people who are at least 30 years old\ncdc %>%\n  filter(age >= 30) %>% # only keep if age is greater than or equal to (>=) 30\n  nrow()","id":14},{"options":{"classes":"","message":"true","label":"unnamed-chunk-15","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# filter to only people with excellent genhlth and save with new name cdc_excellent\ncdc_excellent = cdc %>%\n  filter(genhlth==\"excellent\") \n\n# take a look at the first few rows\nhead(cdc_excellent)","id":15},{"options":{"classes":"","message":"true","label":"unnamed-chunk-16","warning":"true","out-width":"700px","dpi":72,"read-only":"false","out-height":"","results":"markup","autorun":"false","fig-cap":"","context":"interactive","fig-width":7,"editor-quick-suggestions":"false","fig-height":5,"editor-font-scale":"0.85","output":"true","comment":"","editor-max-height":""},"code":"# filter to only people who are at least 30 years old and save with name cdc_30y\ncdc_30y = cdc %>%\n  filter(age >= 30) \n\n# take a look at the first few rows\nhead(cdc_30y)","id":16}];
+globalThis.qwebrCellDetails = [{"code":"url.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc_samp.csv\")","options":{"output":"true","autorun":"true","context":"setup","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-1","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":1},{"code":"# load the tidyverse (remember we have to do this at the beginning of every new R session)\nlibrary(tidyverse)\n# read in data from cdc_samp.csv\ncdc <- read_csv(\"cdc_samp.csv\")\n\n# take a look at the top few rows of data\nhead(cdc)","options":{"output":"true","autorun":"true","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"false","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-2","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":2},{"code":"# number of rows in cdc data\nnrow(cdc)\n\n# number of columns in cdc data\nncol(cdc)","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-3","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":3},{"code":"# print column names of cdc data\ncolnames(cdc)","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-4","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":4},{"code":"# make new variable called exerany_f\nmutate(exerany_f = factor(exerany, levels = c(0,1), labels = c(\"No exercise in past month\", \"Exercise in past month\")) )","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-5","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":5},{"code":"# make new variable called exerany_f\ncdc %>% # tell R where to look\n  mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c(\"No exercise in past month\", \"Exercise in past month\")) )","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-6","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":6},{"code":"# print the column names of the cdc data\ncolnames(cdc)","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-7","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":7},{"code":"# new data frame called \"cdc_new\"\ncdc_new = cdc %>%\n   mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c(\"No exercise in past month\", \"Exercise in past month\")) )\n\n# print names of columns of cdc_new\ncolnames(cdc_new)\n\n# view first few rows of cdc_new\nhead(cdc_new, n = 3)","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-8","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":8},{"code":"# update cdc object\ncdc = cdc %>%\n   mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c(\"No exercise in past month\", \"Exercise in past month\")) )\n\n# print names of columns of cdc\ncolnames(cdc)\n\n# view first few rows of cdc_new\nhead(cdc, n = 3)","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-9","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":9},{"code":"# look at exerany and exerany_f\ncdc %>%\n  select(exerany, exerany_f) %>%\n  head()","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-10","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":10},{"code":"# update cdc object\ncdc = cdc %>%\n   mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c(\"No exercise\", \"Exercise\")) )\n\n# look at exerany and exerany_f\ncdc %>%\n  select(exerany, exerany_f) %>%\n  head()","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-11","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":11},{"code":"# filter to only people with excellent genhlth\ncdc %>%\n  filter(genhlth==\"excellent\") # only keep if genhlth is equal to (==) \"excellent\"","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-12","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":12},{"code":"# filter to only people who are at least 30 years old\ncdc %>%\n  filter(age >= 30) # only keep if age is greater than or equal to (>=) 30","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-13","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":13},{"code":"# filter to only people with excellent genhlth\ncdc %>%\n  filter(genhlth==\"excellent\") %>% # only keep if genhlth is equal to (==) \"excellent\"\n  nrow()\n\n# filter to only people who are at least 30 years old\ncdc %>%\n  filter(age >= 30) %>% # only keep if age is greater than or equal to (>=) 30\n  nrow()","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-14","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":14},{"code":"# filter to only people with excellent genhlth and save with new name cdc_excellent\ncdc_excellent = cdc %>%\n  filter(genhlth==\"excellent\") \n\n# take a look at the first few rows\nhead(cdc_excellent)","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-15","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":15},{"code":"# filter to only people who are at least 30 years old and save with name cdc_30y\ncdc_30y = cdc %>%\n  filter(age >= 30) \n\n# take a look at the first few rows\nhead(cdc_30y)","options":{"output":"true","autorun":"false","context":"interactive","read-only":"false","comment":"","fig-width":7,"warning":"true","classes":"","editor-quick-suggestions":"false","label":"unnamed-chunk-16","message":"true","editor-font-scale":"0.85","fig-cap":"","out-height":"","fig-height":5,"dpi":72,"out-width":"700px","editor-max-height":"","results":"markup"},"id":16}];
 
 </script>
 <script type="module">
@@ -1118,6 +1118,7 @@ globalThis.qwebrExecuteCode = async function (
 
 
 <link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../include/webex.css">
 </head>
 
 <body class="floating nav-fixed">
@@ -1577,6 +1578,212 @@ Warning: Overwriting
 </section>
 
 </main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
