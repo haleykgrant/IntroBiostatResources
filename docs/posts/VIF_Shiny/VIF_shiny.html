@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Haley Grant">
 
-<title>BIOST2041 - Intro Biostatistics Resources</title>
+<title>BIOST2041 - Adjusted Variables Plots and VIF</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +24,27 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<meta name="shinylive:serviceworker_dir" content="../..">
+<script src="../../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="../../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/run-python-blocks.js" type="module"></script>
+<link href="../../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/shinylive.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,124 +72,20 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-Tutorials .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-Tutorials'] = new List('listing-Tutorials', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-shiny-apps .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-shiny-apps'] = new List('listing-shiny-apps', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-<style>
-
-      .quarto-title-block .quarto-title-banner h1,
-      .quarto-title-block .quarto-title-banner h2,
-      .quarto-title-block .quarto-title-banner h3,
-      .quarto-title-block .quarto-title-banner h4,
-      .quarto-title-block .quarto-title-banner h5,
-      .quarto-title-block .quarto-title-banner h6
-      {
-        color: black;
-      }
-
-      .quarto-title-block .quarto-title-banner {
-        color: black;
-background-image: url(rainbow.jpg);
-background-size: cover;
-      }
-</style>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="include/webex.css">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../include/webex.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">BIOST2041</span>
     </a>
   </div>
@@ -196,7 +96,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -214,265 +114,226 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Intro Biostatistics Resources</h1>
+    <div class="quarto-title column-body">
+      <h1 class="title">Adjusted Variables Plots and VIF</h1>
                       </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Haley Grant </p>
+            </div>
+    </div>
       
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(10)</span></div><div class="category" data-category="code">code <span class="quarto-category-count">(5)</span></div><div class="category" data-category="software">software <span class="quarto-category-count">(1)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
-<section id="r-tutorials" class="level2">
-<h2 class="anchored" data-anchor-id="r-tutorials">R Tutorials</h2>
-<div id="listing-Tutorials" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="software,code" data-listing-file-modified-sort="1715973755806" data-listing-reading-time-sort="3" data-listing-word-count-sort="482">
-<a href="./posts/Tutorial-1/Tutorial1.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/Tutorial-1/rstudio2.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tutorial 1: Installing R and RStudio
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('software'); return false;">
-software
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-</div>
-<div class="card-text listing-description">
-This tutorial was developed based on this resource. The goal is to make sure you have R and Rstudio installed on your computer and make sure you have a folder set up for…
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
-Haley Grant
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="code" data-listing-file-modified-sort="1715973753970" data-listing-reading-time-sort="16" data-listing-word-count-sort="3097">
-<a href="./posts/Tutorial-2/Tutorial2.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/Tutorial-2/r_packages.jpeg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tutorial 2: R Objects, Functions, and Packages
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-</div>
-<div class="card-text listing-description">
-In this tutorial, you will learn about working with objects in R. In particular, this tutorial will cover…
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
-Haley Grant
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="code" data-listing-file-modified-sort="1715975476239" data-listing-reading-time-sort="17" data-listing-word-count-sort="3272">
-<a href="./posts/Tutorial-3/Tutorial3.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/Tutorial-3/spreadsheet.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tutorial 3: Importing Data in R
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-</div>
-<div class="card-text listing-description">
-In this tutorial, you will learn about working with data in R. In particular, this tutorial will cover importing data from various file types into R including:
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
-Haley Grant
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-categories="code" data-listing-file-modified-sort="1715973748791" data-listing-reading-time-sort="10" data-listing-word-count-sort="1869">
-<a href="./posts/Tutorial-4/Tutorial4.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/Tutorial-4/spreadsheet.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tutorial 4: Data Frames in R
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-</div>
-<div class="card-text listing-description">
-By now you should have learned to install R and RStudio, learned a little about types of objects and functions in R, and learned to import data into R. If you’re not sure…
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
-Haley Grant
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="4" data-categories="code" data-listing-file-modified-sort="1715975196366" data-listing-reading-time-sort="17" data-listing-word-count-sort="3225">
-<a href="./posts/Tutorial-5/Tutorial5.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/Tutorial-5/graphs.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Tutorial 5: Data Visualization in R
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-</div>
-<div class="card-text listing-description">
-In this tutorial, we will cover data visualization in R using the <code>ggplot2</code> package (one of the packages included in the <code>tidyverse</code>). Specifically, we will learn about
-</div>
-<div class="card-attribution card-text-small start">
-<div class="listing-author">
-Haley Grant
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-</section>
-<section id="shiny-apps" class="level2">
-<h2 class="anchored" data-anchor-id="shiny-apps">Shiny Apps</h2>
-<div id="listing-shiny-apps" class="quarto-listing quarto-listing-container-table">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-     <select id="listing-shiny-apps-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-shiny-apps'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-       <option value="" disabled="" selected="" hidden="">Order By</option>
-       <option value="index" data-direction="asc">Default</option>
-         <option value="listing-title-sort" data-direction="asc">
-          Title
-        </option>
-         <option value="listing-author" data-direction="asc">
-          Author
-        </option>
-     </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
-</div>
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-<a class="sort" data-sort="listing-title-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Title</a>
-</th>
-<th>
-<a class="sort" data-sort="listing-author" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Author</a>
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1717443445138" data-listing-reading-time-sort="13" data-listing-word-count-sort="2559" data-listing-title-sort="Adjusted Variables Plots and VIF" data-listing-filename-sort="VIF_shiny.qmd">
-<td>
-<a href="./posts/VIF_Shiny/VIF_shiny.html" class="title listing-title">Adjusted Variables Plots and VIF</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="1" data-listing-file-modified-sort="1715801907000" data-listing-reading-time-sort="11" data-listing-word-count-sort="2009" data-listing-title-sort="Least Squares Regression Visualization" data-listing-filename-sort="LeastSquares_shiny.qmd">
-<td>
-<a href="./posts/LeastSquaresShiny/LeastSquares_shiny.html" class="title listing-title">Least Squares Regression Visualization</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="2" data-listing-file-modified-sort="1715801523000" data-listing-reading-time-sort="2" data-listing-word-count-sort="281" data-listing-title-sort="Logistic Function Visualization" data-listing-filename-sort="Logistic_shiny.qmd">
-<td>
-<a href="./posts/LogisticShiny/Logistic_shiny.html" class="title listing-title">Logistic Function Visualization</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="3" data-listing-file-modified-sort="1715801240000" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041" data-listing-title-sort="QQ Plot Visualization Tool" data-listing-filename-sort="QQshiny.qmd">
-<td>
-<a href="./posts/QQ_plot_shiny/QQshiny.html" class="title listing-title">QQ Plot Visualization Tool</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="4" data-listing-file-modified-sort="1715801227000" data-listing-reading-time-sort="10" data-listing-word-count-sort="1994" data-listing-title-sort="Sampling Distributions and Bootstrapping" data-listing-filename-sort="SampDist_shiny.qmd">
-<td>
-<a href="./posts/SamplingDistShiny/SampDist_shiny.html" class="title listing-title">Sampling Distributions and Bootstrapping</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
+<pre class="shinylive-r" data-engine="r"><code>#| standalone: true
+#| viewerHeight: 600
 
 
+library(shiny)
+library(tidyverse)
 
-</section>
+# Define UI for application that draws a histogram
+ui &lt;- fluidPage(
+  
+  # Application title
+  titlePanel("Adjusted Variables Plots and VI"),
+  
+  
+  # Show a plot of the generated distribution
+  tabsetPanel(type = "tabs",
+              tabPanel("Changing the range of X",
+                       sidebarLayout( 
+                         sidebarPanel(
+                           sliderInput("c", "Scaling Constant", 
+                           min = 0.25, max = 3,value = 1)),
+                       mainPanel( 
+                         plotOutput("xplot",height = "300px"),
+                         textOutput("se")
+                       ))),
+                       tabPanel("MLR and VIF",
+                                sidebarLayout( 
+                                  sidebarPanel(
+                                    radioButtons("cor1", "Correlation betweel X1 and X2",
+                                                 choices = c("-1","-0.75","0","0.75","1"),
+                                                 selected = "0.75")
+                                  ),
+                                  mainPanel(
+                                    h2("Correlation between X1 and X2"),
+                                    fluidRow(
+                                    column(6, offset = 3, plotOutput("corplot",height = "300px"))),
+                                    h3("Adjusted Variable Plots"),
+                                    h3("Regress out X2"),
+                                    fluidRow(
+                                      column(6, plotOutput("dataPlot1", height = "300px")),
+                                      column(6, plotOutput("AVplot1", height = "300px"))
+                                    ),
+                                    h3("Regress out X1"),
+                                    fluidRow(
+                                      column(6, plotOutput("dataPlot2", height = "300px")),
+                                      column(6, plotOutput("AVplot2", height = "300px"))
+                                    ),
+                                    h3("VIF"),
+                                    textOutput("vif")
+                                    
+                                    
+                                  ) )
+                       )
+                       
+              ) 
+              
+)
+
+  
+  
+  # Define server logic required to draw a histogram
+  server &lt;- function(input, output) {
+    
+    set.seed(23)
+    x1 = runif(n=50, max = 10)
+    y = 4.2 + 1.5*x1 + rnorm(n=50, sd = 1.3)
+    origx2&lt;-(3 + 0.5*x1 +rnorm(n=50, sd =1.1))
+    
+    vals&lt;-reactiveValues( x2=origx2,c=1,av.data=NULL,dt=NULL,cor = 0.5)
+    
+    observeEvent({input$c},{ vals$c=input$c})
+    
+    
+    observeEvent({input$cor1},{
+      if(input$cor1 == "1"){x2 = (3 + 0.5*x1 ) 
+      } else if(input$cor1 == "-1"){x2 = -(3 + 0.5*x1 ) 
+      } else if(input$cor1 == "-0.75"){x2 = -origx2
+      } else if(input$cor1 == "0.75"){x2 = origx2
+      } else{x2 = (3 + rnorm(n=50, sd =1))}
+  
+      vals$x2=x2
+      vals$dt = data.frame(x1, x2 = vals$x2,y)
+      vals$cor = as.numeric(input$cor1)
+      
+      
+      xres1 = round(lm(x1 ~ x2, data = vals$dt)$residuals,digits = 6)
+      yres1 = round(lm(y ~ x2, data = vals$dt)$residuals , digits = 6)
+      xres2 = round(lm(x2 ~ x1, data = vals$dt)$residuals, digits = 6) 
+      yres2 = round(lm(y ~ x1, data = vals$dt)$residuals, digits = 6)
+      
+      vals$av.data = data.frame(x_axis = c(xres1, xres2), 
+                                y_axis = c(yres1, yres2),
+                                variable = rep(c("Removing X2", "Removing X1"), 
+                                               each = 50))
+    })
+    
+    output$xplot &lt;- renderPlot({
+      dt = data.frame(x1,y) %&gt;% mutate(x1c = x1*vals$c)
+      dt %&gt;% 
+        ggplot(aes(x = x1c, y=y)) + 
+        geom_point() +
+        theme_bw() + 
+        labs(x = paste0(vals$c," * x1")) + 
+        xlim(0, 30) + 
+        geom_smooth(method = "lm", formula = y~x, se = F)
+    })
+    
+    output$se &lt;- renderText({
+      dt = data.frame(x1,y) %&gt;% mutate(x1c = x1*vals$c)
+      se = (summary(lm(y~x1c, data = dt ))$coef[2,2]) %&gt;% 
+        round(digits=5)
+      print(paste0("Standard error for slope coefficient (\u03B2): ",se))
+    })
+    
+    output$corplot &lt;- renderPlot({
+      
+      vals$dt %&gt;% 
+        ggplot(aes(x = x1, y= x2)) + 
+        geom_point() +
+        theme_bw() + 
+        xlim(0, 10) 
+    })
+    
+    output$dataPlot1 &lt;- renderPlot({
+      
+      vals$dt %&gt;% 
+        ggplot(aes(x = x1, y=y, color = x2)) + 
+        geom_point() +
+        theme_bw() + 
+        xlim(0, 10) +
+        scale_color_viridis_c(option="turbo") + 
+        labs(title  = "Data colored by X2 value")
+    })
+    
+    
+    output$AVplot1 &lt;- renderPlot({
+    
+vals$av.data %&gt;%
+        filter(variable=="Removing X2") %&gt;%
+        mutate(x2 = vals$x2)%&gt;%
+        ggplot(aes(x = x_axis, y = y_axis)) + 
+        theme_bw() + 
+        geom_smooth(method = "lm",color = "black") + 
+        geom_point(aes(color = x2)) + 
+        labs(x = "Residuals (X1 | X2)", y = "Residuals (Y | X2)",
+             title = "Adjusted Variable Plot",
+             subtitle = "Adjusting for X2") +
+        scale_color_viridis_c(option="turbo") 
+
+    })
+    
+    output$dataPlot2 &lt;- renderPlot({
+      
+      vals$dt %&gt;% 
+        ggplot(aes(x = x2, y=y, color = x1)) + 
+        geom_point() +
+        theme_bw()  + 
+        labs(title  = "Data colored by X1 value")
+    })
+    
+    output$AVplot2 &lt;- renderPlot({
+  
+     vals$av.data %&gt;%
+        filter(variable=="Removing X1") %&gt;%
+        mutate(x1 = x1)%&gt;%
+        ggplot(aes(x = x_axis, y = y_axis)) + 
+        theme_bw() + 
+        geom_smooth(method = "lm",color = "black") + 
+        geom_point(aes(color = x1)) + 
+        labs(x = "Residuals (X2 | X1)", y = "Residuals (Y | X1)",
+             title = "Adjusted Variable Plot",
+             subtitle = "Adjusting for X1")
+      
+      
+    })
+    
+    output$vif &lt;- renderText({
+      vif = round(1/(1-as.numeric(vals$cor)^2),5)
+      print(paste0("Variance Inflation Factor: ",vif))
+    })
+    
+    
+
+  }
+  
+  # Run the application 
+  shinyApp(ui = ui, server = server)</code></pre>
+
+
 
 </main> <!-- /main -->
 <script>

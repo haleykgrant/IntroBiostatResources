@@ -1,0 +1,197 @@
+---
+title: "Adjusted Variables Plots and VIF"
+author: "Haley Grant"
+filters: 
+  - shinylive
+---
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
+
+
+library(shiny)
+library(tidyverse)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+  
+  # Application title
+  titlePanel("Adjusted Variables Plots and VI"),
+  
+  
+  # Show a plot of the generated distribution
+  tabsetPanel(type = "tabs",
+              tabPanel("Changing the range of X",
+                       sidebarLayout( 
+                         sidebarPanel(
+                           sliderInput("c", "Scaling Constant", 
+                           min = 0.25, max = 3,value = 1)),
+                       mainPanel( 
+                         plotOutput("xplot",height = "300px"),
+                         textOutput("se")
+                       ))),
+                       tabPanel("MLR and VIF",
+                                sidebarLayout( 
+                                  sidebarPanel(
+                                    radioButtons("cor1", "Correlation betweel X1 and X2",
+                                                 choices = c("-1","-0.75","0","0.75","1"),
+                                                 selected = "0.75")
+                                  ),
+                                  mainPanel(
+                                    h2("Correlation between X1 and X2"),
+                                    fluidRow(
+                                    column(6, offset = 3, plotOutput("corplot",height = "300px"))),
+                                    h3("Adjusted Variable Plots"),
+                                    h3("Regress out X2"),
+                                    fluidRow(
+                                      column(6, plotOutput("dataPlot1", height = "300px")),
+                                      column(6, plotOutput("AVplot1", height = "300px"))
+                                    ),
+                                    h3("Regress out X1"),
+                                    fluidRow(
+                                      column(6, plotOutput("dataPlot2", height = "300px")),
+                                      column(6, plotOutput("AVplot2", height = "300px"))
+                                    ),
+                                    h3("VIF"),
+                                    textOutput("vif")
+                                    
+                                    
+                                  ) )
+                       )
+                       
+              ) 
+              
+)
+
+  
+  
+  # Define server logic required to draw a histogram
+  server <- function(input, output) {
+    
+    set.seed(23)
+    x1 = runif(n=50, max = 10)
+    y = 4.2 + 1.5*x1 + rnorm(n=50, sd = 1.3)
+    origx2<-(3 + 0.5*x1 +rnorm(n=50, sd =1.1))
+    
+    vals<-reactiveValues( x2=origx2,c=1,av.data=NULL,dt=NULL,cor = 0.5)
+    
+    observeEvent({input$c},{ vals$c=input$c})
+    
+    
+    observeEvent({input$cor1},{
+      if(input$cor1 == "1"){x2 = (3 + 0.5*x1 ) 
+      } else if(input$cor1 == "-1"){x2 = -(3 + 0.5*x1 ) 
+      } else if(input$cor1 == "-0.75"){x2 = -origx2
+      } else if(input$cor1 == "0.75"){x2 = origx2
+      } else{x2 = (3 + rnorm(n=50, sd =1))}
+  
+      vals$x2=x2
+      vals$dt = data.frame(x1, x2 = vals$x2,y)
+      vals$cor = as.numeric(input$cor1)
+      
+      
+      xres1 = round(lm(x1 ~ x2, data = vals$dt)$residuals,digits = 6)
+      yres1 = round(lm(y ~ x2, data = vals$dt)$residuals , digits = 6)
+      xres2 = round(lm(x2 ~ x1, data = vals$dt)$residuals, digits = 6) 
+      yres2 = round(lm(y ~ x1, data = vals$dt)$residuals, digits = 6)
+      
+      vals$av.data = data.frame(x_axis = c(xres1, xres2), 
+                                y_axis = c(yres1, yres2),
+                                variable = rep(c("Removing X2", "Removing X1"), 
+                                               each = 50))
+    })
+    
+    output$xplot <- renderPlot({
+      dt = data.frame(x1,y) %>% mutate(x1c = x1*vals$c)
+      dt %>% 
+        ggplot(aes(x = x1c, y=y)) + 
+        geom_point() +
+        theme_bw() + 
+        labs(x = paste0(vals$c," * x1")) + 
+        xlim(0, 30) + 
+        geom_smooth(method = "lm", formula = y~x, se = F)
+    })
+    
+    output$se <- renderText({
+      dt = data.frame(x1,y) %>% mutate(x1c = x1*vals$c)
+      se = (summary(lm(y~x1c, data = dt ))$coef[2,2]) %>% 
+        round(digits=5)
+      print(paste0("Standard error for slope coefficient (\u03B2): ",se))
+    })
+    
+    output$corplot <- renderPlot({
+      
+      vals$dt %>% 
+        ggplot(aes(x = x1, y= x2)) + 
+        geom_point() +
+        theme_bw() + 
+        xlim(0, 10) 
+    })
+    
+    output$dataPlot1 <- renderPlot({
+      
+      vals$dt %>% 
+        ggplot(aes(x = x1, y=y, color = x2)) + 
+        geom_point() +
+        theme_bw() + 
+        xlim(0, 10) +
+        scale_color_viridis_c(option="turbo") + 
+        labs(title  = "Data colored by X2 value")
+    })
+    
+    
+    output$AVplot1 <- renderPlot({
+    
+vals$av.data %>%
+        filter(variable=="Removing X2") %>%
+        mutate(x2 = vals$x2)%>%
+        ggplot(aes(x = x_axis, y = y_axis)) + 
+        theme_bw() + 
+        geom_smooth(method = "lm",color = "black") + 
+        geom_point(aes(color = x2)) + 
+        labs(x = "Residuals (X1 | X2)", y = "Residuals (Y | X2)",
+             title = "Adjusted Variable Plot",
+             subtitle = "Adjusting for X2") +
+        scale_color_viridis_c(option="turbo") 
+
+    })
+    
+    output$dataPlot2 <- renderPlot({
+      
+      vals$dt %>% 
+        ggplot(aes(x = x2, y=y, color = x1)) + 
+        geom_point() +
+        theme_bw()  + 
+        labs(title  = "Data colored by X1 value")
+    })
+    
+    output$AVplot2 <- renderPlot({
+  
+     vals$av.data %>%
+        filter(variable=="Removing X1") %>%
+        mutate(x1 = x1)%>%
+        ggplot(aes(x = x_axis, y = y_axis)) + 
+        theme_bw() + 
+        geom_smooth(method = "lm",color = "black") + 
+        geom_point(aes(color = x1)) + 
+        labs(x = "Residuals (X2 | X1)", y = "Residuals (Y | X1)",
+             title = "Adjusted Variable Plot",
+             subtitle = "Adjusting for X1")
+      
+      
+    })
+    
+    output$vif <- renderText({
+      vif = round(1/(1-as.numeric(vals$cor)^2),5)
+      print(paste0("Variance Inflation Factor: ",vif))
+    })
+    
+    
+
+  }
+  
+  # Run the application 
+  shinyApp(ui = ui, server = server)
+```
+
