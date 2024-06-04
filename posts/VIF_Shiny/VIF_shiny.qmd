@@ -196,8 +196,8 @@ server <- function(input, output) {
       labs(title  = "Data split by x2 value") + 
       geom_smooth(method = "lm", se = F, size = 0.5) + 
       labs(color = "x2\n(rounded)")+  
-        stat_summary(fun = mean, geom = "vline", aes(xintercept = ..x..), color = "black", linetype = "dashed") +
-  stat_summary(fun = mean, geom = "hline", aes(yintercept = ..y..), color = "black",  linetype = "dashed")
+      stat_summary(aes(x = x), fun = mean, geom = "vline", linetype = "dashed", color = "black", size = 1) +
+  stat_summary(aes(y = y), fun = mean, geom = "hline", linetype = "dashed", color = "black", size = 1)
   })
   
   output$AVplot1 <- renderPlot({
