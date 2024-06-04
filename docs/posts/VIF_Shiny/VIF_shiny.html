@@ -8,7 +8,7 @@
 
 <meta name="author" content="Haley Grant">
 
-<title>BIOST2041 - Adjusted Variables Plots and VIF</title>
+<title>BIOST2041 - Added Variable Plots and VIF</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -115,7 +115,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Adjusted Variables Plots and VIF</h1>
+      <h1 class="title">Added Variable Plots and VIF</h1>
                       </div>
   </div>
     
@@ -194,7 +194,7 @@ ui &lt;- fluidPage(
                            fluidRow(
                              column(12, plotOutput("dataPlot1", height = "300px"))
                            ),
-                          p("Let's imagine splitting the data based on the value (here I rounded to the nearest whole number) of x2. 
+                          p("Let's imagine splitting the data based on the value (here I rounded to the nearest whole number for plotting purposes) of x2. 
                             Here we are looking at the relationship between x1 and y for each unique value of x2 (holding x2 constant). We can think 
                             of the slope for x1 in the MLR y ~ x1 + x2 as a sort of average of the slopes in these various plots at each value of x2."),
                           
@@ -205,9 +205,9 @@ ui &lt;- fluidPage(
                             smaller than the overall range of x1 that we originally saw."),
                           
                            p(),
-                          h3("Added Variables Plots"),
-                          p("To see how added variables plots are made imagine we \"regress out\" x2 both from x1 and from y. What this means is that we 
-                            to remove the effects associated with x2 from both x1 and from y."),
+                          h3("Added Variable Plots"),
+                          p("To see how added variabls plots are made imagine we \"regress out\" x2 both from x1 and from y. What this means is that we 
+                             remove the effects associated with x2 from both x1 and from y."),
                            strong("How does this relate to standard error?"),
                            p("Remember that changing the variability in x impacted the standard error for our \u03B2 estimate. When two covariates, x1 and x2, are correlated, it means that some of the variability in x1 can be accounted for by changing x2 and vice versa. When we fit a multiple linear regression model we are looking at the association between each variable and the outcome, holding the other variable(s) constant. "),
                            p("If x1 and x2 are correlated, we effectively limit the range of values for x1 when holding x2 constant and vice verse. If x1 and x2 are perfectly correlated, we cannot fix one variable while moving the other (changing one means the other must change as well)."),
