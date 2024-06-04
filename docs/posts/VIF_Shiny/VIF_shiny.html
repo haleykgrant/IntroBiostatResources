@@ -161,188 +161,194 @@ ui &lt;- fluidPage(
   
   # Show a plot of the generated distribution
   tabsetPanel(type = "tabs",
-              tabPanel("Changing the range of X",
+              tabPanel("Changing the range of x",
                        sidebarLayout( 
                          sidebarPanel(
                            sliderInput("c", "Scaling Constant", 
-                           min = 0.1, max = 3,value = 1)),
-                       mainPanel( 
-                         plotOutput("xplot",height = "300px"),
-                         textOutput("se"),
-                         p(),
-                         strong("What's the point?"),
-                         p("The goal of this part of the app is to show you how changing the amount of variability in X impacts the standard error of our coefficient estimate for \u03B2. As we decrease the variability in X, we increase our uncertainty (the standard error) in our estimate of \u03B2. Likewise, the standard error decreases if we increase the variability in X."
-                         )
-                       ))),
-                       tabPanel("MLR and VIF",
-                                sidebarLayout( 
-                                  sidebarPanel(
-                                    radioButtons("cor1", "Correlation betweel X1 and X2",
-                                                 choices = c("-1","-0.75","0","0.75","1"),
-                                                 selected = "0.75")
-                                  ),
-                                  mainPanel(
-                                    h2("Correlation between X1 and X2"),
-                                    fluidRow(
-                                    column(6, offset = 3, plotOutput("corplot",height = "300px"))),
-                                    h3("Adjusted Variable Plots"),
-                                    h3("Regress out X2"),
-                                    fluidRow(
-                                      column(6, plotOutput("dataPlot1", height = "300px")),
-                                      column(6, plotOutput("AVplot1", height = "300px"))
-                                    ),
-                                    h3("Regress out X1"),
-                                    fluidRow(
-                                      column(6, plotOutput("dataPlot2", height = "300px")),
-                                      column(6, plotOutput("AVplot2", height = "300px"))
-                                    ),
-                                    p(),
-                                    strong("How does this relate to standard error?"),
-                                    p("Remember that changing the variability in x impacted the standard error for our \u03B2 estimate. When two covariates, X1 and X2, are correlated, it means that some of the variability in X1 can be accounted for by changing X2 and vice versa. When we fit a multiple linear regression model we are looking at the association between each variable and the outcome, holding the other variable(s) constant. "),
-                                    p("If X1 and X2 are correlated, we effectively limit the range of values for X1 when holding X2 constant and vice verse. If X1 and X2 are perfectly correlated, we cannot fix one variable while moving the other (changing one means the other must change as well).")
-                                    p(),
-                                    
-                                    h3("VIF"),
-                                    textOutput("vif")
-                                    
-                                    
-                                  ) )
-                       )
-                       
-              ) 
+                                       min = 0.1, max = 3,value = 1)),
+                         mainPanel( 
+                           plotOutput("xplot",height = "300px"),
+                           textOutput("se"),
+                           p(),
+                           strong("What's the point?"),
+                           p("The goal of this part of the app is to show you how changing the amount of variability in x impacts the standard error of our coefficient estimate for \u03B2. As we decrease the variability in X, we increase our uncertainty (the standard error) in our estimate of \u03B2. Likewise, the standard error decreases if we increase the variability in X."
+                           )
+                         ))),
+              tabPanel("MLR and VIF",
+                       sidebarLayout( 
+                         sidebarPanel(
+                           radioButtons("cor1", "Correlation betweel x1 and x2",
+                                        choices = c("-1","-0.75","0","0.75","1"),
+                                        selected = "0.75")
+                         ),
+                         mainPanel(
+                           h3("Simulating the data"),
+                           p("Here we've simulated some data with one outcome (y) and two predictors (x1 and x2). 
+                             You can control the amount of correlation between x1 and x2 using the radio buttons on the left panel"),
+                           h3("Plotting the data"),
+                           p("Here we can see the pairwise correlations and scatterplots between each set of variables in the data."),
+                           fluidRow(
+                             column(6, offset = 3, plotOutput("corplot",height = "300px"))),
+                          p("Another way to visualize the data is to plot y by x1 and show x2 using color. Here we can see that as x1 changes, so does y. 
+                            Depending on the correlation we chose, we may also see a pattern between x1 and the color of the points (indicating the value fo x2)."),
+                           fluidRow(
+                             column(12, plotOutput("dataPlot1", height = "300px"))
+                           ),
+                          p("Let's imagine splitting the data based on the value (here I rounded to the nearest whole number) of x2. 
+                            Here we are looking at the relationship between x1 and y for each unique value of x2 (holding x2 constant). We can think 
+                            of the slope for x1 in the MLR y ~ x1 + x2 as a sort of average of the slopes in these various plots at each value of x2."),
+                          
+                           fluidRow(
+                             column(12, plotOutput("dataPlot2", height = "300px"))
+                           ),
+                          p("Notice how if we picked a non-zero correlation between x1 and x2, the range of values of x1 for any value we fix for x2 is 
+                            smaller than the overall range of x1 that we originally saw."),
+                          
+                           p(),
+                          h3("Added Variables Plots"),
+                          p("To see how added variables plots are made imagine we \"regress out\" x2 both from x1 and from y. What this means is that we 
+                            to remove the effects associated with x2 from both x1 and from y."),
+                           strong("How does this relate to standard error?"),
+                           p("Remember that changing the variability in x impacted the standard error for our \u03B2 estimate. When two covariates, x1 and x2, are correlated, it means that some of the variability in x1 can be accounted for by changing x2 and vice versa. When we fit a multiple linear regression model we are looking at the association between each variable and the outcome, holding the other variable(s) constant. "),
+                           p("If x1 and x2 are correlated, we effectively limit the range of values for x1 when holding x2 constant and vice verse. If x1 and x2 are perfectly correlated, we cannot fix one variable while moving the other (changing one means the other must change as well)."),
+                           p(),
+                           
+                           h3("VIF"),
+                           textOutput("vif")
+                           
+                           
+                         ) )
+              )
               
+  ) 
+  
 )
 
-  
-  
-  # Define server logic required to draw a histogram
-  server &lt;- function(input, output) {
-    
-    set.seed(23)
-    N = 100
-    x1 = runif(n = N, max = 10)
-    y = 4.2 + 1.5*x1 + rnorm(n = N, sd = 1.3)
-    origx2&lt;-(3 + 0.5*x1 +rnorm(n = N, sd =1.1))
-    
-    vals&lt;-reactiveValues( x2=origx2,c=1,av.data=NULL,dt=NULL,cor = 0.5)
-    
-    observeEvent({input$c},{ vals$c=input$c})
-    
-    
-    observeEvent({input$cor1},{
-      if(input$cor1 == "1"){x2 = (3 + 0.5*x1 ) 
-      } else if(input$cor1 == "-1"){x2 = -(3 + 0.5*x1 ) 
-      } else if(input$cor1 == "-0.75"){x2 = -origx2
-      } else if(input$cor1 == "0.75"){x2 = origx2
-      } else{x2 = (3 + rnorm(n = N, sd =1))}
-  
-      vals$x2=x2
-      vals$dt = data.frame(x1, x2 = vals$x2,y)
-      vals$cor = as.numeric(input$cor1)
-      
-      
-      xres1 = round(lm(x1 ~ x2, data = vals$dt)$residuals,digits = 6)
-      yres1 = round(lm(y ~ x2, data = vals$dt)$residuals , digits = 6)
-      xres2 = round(lm(x2 ~ x1, data = vals$dt)$residuals, digits = 6) 
-      yres2 = round(lm(y ~ x1, data = vals$dt)$residuals, digits = 6)
-      
-      vals$av.data = data.frame(x_axis = c(xres1, xres2), 
-                                y_axis = c(yres1, yres2),
-                                variable = rep(c("Removing X2", "Removing X1"), 
-                                               each = 50))
-    })
-    
-    output$xplot &lt;- renderPlot({
-      dt = data.frame(x1,y) %&gt;% mutate(x1c = x1*vals$c)
-      dt %&gt;% 
-        ggplot(aes(x = x1c, y=y)) + 
-        geom_point() +
-        theme_bw() + 
-        labs(x = paste0(vals$c," * x1")) + 
-        xlim(0, 30) + 
-        geom_smooth(method = "lm", formula = y~x, se = F)
-    })
-    
-    output$se &lt;- renderText({
-      dt = data.frame(x1,y) %&gt;% mutate(x1c = x1*vals$c)
-      se = (summary(lm(y~x1c, data = dt ))$coef[2,2]) %&gt;% 
-        round(digits=5)
-      print(paste0("Standard error for slope coefficient (\u03B2): ",se))
-    })
-    
-    output$corplot &lt;- renderPlot({
-      
-      vals$dt %&gt;% 
-        ggplot(aes(x = x1, y= x2)) + 
-        geom_point() +
-        theme_bw() + 
-        xlim(0, 10) 
-    })
-    
-    output$dataPlot1 &lt;- renderPlot({
-      
-      vals$dt %&gt;% 
-        ggplot(aes(x = x1, y=y, color = x2)) + 
-        geom_point() +
-        theme_bw() + 
-        xlim(0, 10) +
-        scale_color_viridis_c(option="turbo") + 
-        labs(title  = "Data colored by X2 value")
-    })
-    
-    
-    output$AVplot1 &lt;- renderPlot({
-    
-vals$av.data %&gt;%
-        filter(variable=="Removing X2") %&gt;%
-        mutate(x2 = vals$x2)%&gt;%
-        ggplot(aes(x = x_axis, y = y_axis)) + 
-        theme_bw() + 
-        geom_smooth(method = "lm",color = "black") + 
-        geom_point(aes(color = x2)) + 
-        labs(x = "Residuals (X1 | X2)", y = "Residuals (Y | X2)",
-             title = "Adjusted Variable Plot",
-             subtitle = "Adjusting for X2") +
-        scale_color_viridis_c(option="turbo") 
 
-    })
-    
-    output$dataPlot2 &lt;- renderPlot({
-      
-      vals$dt %&gt;% 
-        ggplot(aes(x = x2, y=y, color = x1)) + 
-        geom_point() +
-        theme_bw()  + 
-        labs(title  = "Data colored by X1 value")
-    })
-    
-    output$AVplot2 &lt;- renderPlot({
-  
-     vals$av.data %&gt;%
-        filter(variable=="Removing X1") %&gt;%
-        mutate(x1 = x1)%&gt;%
-        ggplot(aes(x = x_axis, y = y_axis)) + 
-        theme_bw() + 
-        geom_smooth(method = "lm",color = "black") + 
-        geom_point(aes(color = x1)) + 
-        labs(x = "Residuals (X2 | X1)", y = "Residuals (Y | X1)",
-             title = "Adjusted Variable Plot",
-             subtitle = "Adjusting for X1")
-      
-      
-    })
-    
-    output$vif &lt;- renderText({
-      vif = round(1/(1-as.numeric(vals$cor)^2),5)
-      print(paste0("Variance Inflation Factor: ",vif))
-    })
-    
-    
 
-  }
+# Define server logic required to draw a histogram
+server &lt;- function(input, output) {
   
-  # Run the application 
-  shinyApp(ui = ui, server = server)</code></pre>
+  set.seed(23)
+  N = 100
+  x1 = runif(n = N, max = 10)
+  y = 4.2 + 1.5*x1 + rnorm(n = N, sd = 1.3)
+  origx2&lt;-(3 + 0.5*x1 +rnorm(n = N, sd =1.1))
+  
+  vals&lt;-reactiveValues( x2=origx2,c=1,av.data=NULL,dt=NULL,cor = 0.5)
+  
+  observeEvent({input$c},{ vals$c=input$c})
+  
+  
+  observeEvent({input$cor1},{
+    if(input$cor1 == "1"){x2 = (3 + 0.5*x1 ) 
+    } else if(input$cor1 == "-1"){x2 = -(3 + 0.5*x1 ) 
+    } else if(input$cor1 == "-0.75"){x2 = -origx2
+    } else if(input$cor1 == "0.75"){x2 = origx2
+    } else{x2 = (3 + rnorm(n = N, sd =1))}
+    
+    vals$x2=x2
+    vals$dt = data.frame(x1, x2 = vals$x2,y)
+    vals$cor = as.numeric(input$cor1)
+    
+    
+    xres1 = round(lm(x1 ~ x2, data = vals$dt)$residuals,digits = 6)
+    yres1 = round(lm(y ~ x2, data = vals$dt)$residuals , digits = 6)
+    xres2 = round(lm(x2 ~ x1, data = vals$dt)$residuals, digits = 6) 
+    yres2 = round(lm(y ~ x1, data = vals$dt)$residuals, digits = 6)
+    
+    vals$av.data = data.frame(x_axis = c(xres1, xres2), 
+                              y_axis = c(yres1, yres2),
+                              variable = rep(c("Removing x2", "Removing x1"), 
+                                             each = 50))
+  })
+  
+  output$xplot &lt;- renderPlot({
+    dt = data.frame(x1,y) %&gt;% mutate(x1c = x1*vals$c)
+    dt %&gt;% 
+      ggplot(aes(x = x1c, y=y)) + 
+      geom_point() +
+      theme_bw() + 
+      labs(x = paste0(vals$c," * x")) + 
+      xlim(0, 30) + 
+      geom_smooth(method = "lm", formula = y~x, se = F)
+  })
+  
+  output$se &lt;- renderText({
+    dt = data.frame(x1,y) %&gt;% mutate(x1c = x1*vals$c)
+    se = (summary(lm(y~x1c, data = dt ))$coef[2,2]) %&gt;% 
+      round(digits=5)
+    print(paste0("Standard error for slope coefficient (\u03B2): ",se))
+  })
+  
+  output$corplot &lt;- renderPlot({
+    
+   # vals$dt %&gt;% 
+    #  ggplot(aes(x = x1, y= x2)) + 
+     # geom_point() +
+      #theme_bw() + 
+      #xlim(0, 10) 
+    
+    psych::pairs.panels(vals$dt, ellipses = F, hist.col = "skyblue1")
+    
+  })
+  
+  output$dataPlot1 &lt;- renderPlot({
+    
+    vals$dt %&gt;% 
+      ggplot(aes(x = x1, y=y, color = x2)) + 
+      geom_point() +
+      theme_bw() + 
+      xlim(0, 10) +
+      scale_color_viridis_c(option="turbo") + 
+      labs(title  = "Data colored by x2 value")
+  })
+  
+  output$dataPlot2 &lt;- renderPlot({
+    
+    vals$dt %&gt;% 
+      mutate(x2_round = round(x2)) %&gt;%
+      ggplot(aes(x = x1, y=y, color = x2_round)) + 
+      geom_point() +
+      theme_bw() + 
+      xlim(0, 10) +
+      scale_color_viridis_c(option="turbo") + 
+      facet_wrap(.~x2_round)+
+      labs(title  = "Data split by x2 value") + 
+      geom_smooth(method = "lm", se = F, size = 0.5) + 
+      labs(color = "x2\n(rounded)")
+  })
+  
+  
+  output$AVplot1 &lt;- renderPlot({
+    
+    vals$av.data %&gt;%
+      filter(variable=="Removing x2") %&gt;%
+      mutate(x2 = vals$x2)%&gt;%
+      ggplot(aes(x = x_axis, y = y_axis)) + 
+      theme_bw() + 
+      geom_smooth(method = "lm",color = "black") + 
+      geom_point(aes(color = x2)) + 
+      labs(x = "Residuals (x1 | x2)", y = "Residuals (Y | x2)",
+           title = "Adjusted Variable Plot",
+           subtitle = "Adjusting for x2") +
+      scale_color_viridis_c(option="turbo") 
+    
+  })
+  
+
+  
+  output$vif &lt;- renderText({
+    vif = round(1/(1-as.numeric(vals$cor)^2),5)
+    print(paste0("Variance Inflation Factor: ",vif))
+  })
+  
+  
+  
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)</code></pre>
 
 
 
