@@ -165,10 +165,14 @@ ui &lt;- fluidPage(
                        sidebarLayout( 
                          sidebarPanel(
                            sliderInput("c", "Scaling Constant", 
-                           min = 0.25, max = 3,value = 1)),
+                           min = 0.1, max = 3,value = 1)),
                        mainPanel( 
                          plotOutput("xplot",height = "300px"),
-                         textOutput("se")
+                         textOutput("se"),
+                         p(),
+                         strong("What's the point?"),
+                         p("The goal of this part of the app is to show you how changing the amount of variability in X impacts the standard error of our coefficient estimate for \u03B2. As we decrease the variability in X, we increase our uncertainty (the standard error) in our estimate of \u03B2. Likewise, the standard error decreases if we increase the variability in X."
+                         )
                        ))),
                        tabPanel("MLR and VIF",
                                 sidebarLayout( 
@@ -192,6 +196,12 @@ ui &lt;- fluidPage(
                                       column(6, plotOutput("dataPlot2", height = "300px")),
                                       column(6, plotOutput("AVplot2", height = "300px"))
                                     ),
+                                    p(),
+                                    strong("How does this relate to standard error?"),
+                                    p("Remember that changing the variability in x impacted the standard error for our \u03B2 estimate. When two covariates, X1 and X2, are correlated, it means that some of the variability in X1 can be accounted for by changing X2 and vice versa. When we fit a multiple linear regression model we are looking at the association between each variable and the outcome, holding the other variable(s) constant. "),
+                                    p("If X1 and X2 are correlated, we effectively limit the range of values for X1 when holding X2 constant and vice verse. If X1 and X2 are perfectly correlated, we cannot fix one variable while moving the other (changing one means the other must change as well).")
+                                    p(),
+                                    
                                     h3("VIF"),
                                     textOutput("vif")
                                     
@@ -209,9 +219,10 @@ ui &lt;- fluidPage(
   server &lt;- function(input, output) {
     
     set.seed(23)
-    x1 = runif(n=50, max = 10)
-    y = 4.2 + 1.5*x1 + rnorm(n=50, sd = 1.3)
-    origx2&lt;-(3 + 0.5*x1 +rnorm(n=50, sd =1.1))
+    N = 100
+    x1 = runif(n = N, max = 10)
+    y = 4.2 + 1.5*x1 + rnorm(n = N, sd = 1.3)
+    origx2&lt;-(3 + 0.5*x1 +rnorm(n = N, sd =1.1))
     
     vals&lt;-reactiveValues( x2=origx2,c=1,av.data=NULL,dt=NULL,cor = 0.5)
     
@@ -223,7 +234,7 @@ ui &lt;- fluidPage(
       } else if(input$cor1 == "-1"){x2 = -(3 + 0.5*x1 ) 
       } else if(input$cor1 == "-0.75"){x2 = -origx2
       } else if(input$cor1 == "0.75"){x2 = origx2
-      } else{x2 = (3 + rnorm(n=50, sd =1))}
+      } else{x2 = (3 + rnorm(n = N, sd =1))}
   
       vals$x2=x2
       vals$dt = data.frame(x1, x2 = vals$x2,y)
