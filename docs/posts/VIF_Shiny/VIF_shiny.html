@@ -206,8 +206,11 @@ ui &lt;- fluidPage(
                           
                            p(),
                           h3("Added Variable Plots"),
-                          p("To see how added variabls plots are made imagine we \"regress out\" x2 both from x1 and from y. What this means is that we 
-                             remove the effects associated with x2 from both x1 and from y."),
+                          p("Imagine now that we combine all of these plots together, but first we center them both in terms of x1 and y. "),
+                          fluidRow(
+                             column(6, plotOutput("dataPlot3", height = "300px"))
+                           ),
+                          p("This is essentially what an added variable plot it. "),
                            strong("How does this relate to standard error?"),
                            p("Remember that changing the variability in x impacted the standard error for our \u03B2 estimate. When two covariates, x1 and x2, are correlated, it means that some of the variability in x1 can be accounted for by changing x2 and vice versa. When we fit a multiple linear regression model we are looking at the association between each variable and the outcome, holding the other variable(s) constant. "),
                            p("If x1 and x2 are correlated, we effectively limit the range of values for x1 when holding x2 constant and vice verse. If x1 and x2 are perfectly correlated, we cannot fix one variable while moving the other (changing one means the other must change as well)."),
@@ -319,6 +322,22 @@ server &lt;- function(input, output) {
       labs(color = "x2\n(rounded)")
   })
   
+    output$dataPlot3 &lt;- renderPlot({
+    
+    vals$dt %&gt;% 
+      mutate(x2_round = round(x2)) %&gt;%
+      ggplot(aes(x = x1, y=y, color = x2_round)) + 
+      geom_point() +
+      theme_bw() + 
+      xlim(0, 10) +
+      scale_color_viridis_c(option="turbo") + 
+      facet_wrap(.~x2_round)+
+      labs(title  = "Data split by x2 value") + 
+      geom_smooth(method = "lm", se = F, size = 0.5) + 
+      labs(color = "x2\n(rounded)")+  
+        stat_summary(fun = mean, geom = "vline", aes(xintercept = ..x..), color = "black", linetype = "dashed") +
+  stat_summary(fun = mean, geom = "hline", aes(yintercept = ..y..), color = "black",  linetype = "dashed")
+  })
   
   output$AVplot1 &lt;- renderPlot({
     
