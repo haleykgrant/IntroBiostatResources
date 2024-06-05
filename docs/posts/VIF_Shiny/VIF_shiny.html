@@ -151,12 +151,13 @@ ul.task-list li input[type="checkbox"] {
 
 library(shiny)
 library(tidyverse)
+library(GGally)
 
 # Define UI for application that draws a histogram
 ui &lt;- fluidPage(
   
   # Application title
-  titlePanel("Adjusted Variables Plots and VI"),
+  titlePanel("Added-Variable Plots and VIF"),
   
   
   # Show a plot of the generated distribution
@@ -188,7 +189,7 @@ ui &lt;- fluidPage(
                            h3("Plotting the data"),
                            p("Here we can see the pairwise correlations and scatterplots between each set of variables in the data."),
                            fluidRow(
-                             column(6, offset = 3, plotOutput("corplot",height = "300px"))),
+                             column(12,  plotOutput("corplot",height = "300px"))),
                           p("Another way to visualize the data is to plot y by x1 and show x2 using color. Here we can see that as x1 changes, so does y. 
                             Depending on the correlation we chose, we may also see a pattern between x1 and the color of the points (indicating the value fo x2)."),
                            fluidRow(
@@ -208,9 +209,11 @@ ui &lt;- fluidPage(
                           h3("Added Variable Plots"),
                           p("Imagine now that we combine all of these plots together, but first we center them both in terms of x1 and y. "),
                           fluidRow(
-                             column(6, plotOutput("dataPlot3", height = "300px"))
+                             column(12, plotOutput("dataPlot3", height = "300px"))
                            ),
-                          p("This is essentially what an added variable plot it. "),
+                          p("This is essentially what an added variable plot is. If we overlay all of the centered scatter plots above, we can see that there doesn't appear to be any relationship between x2 and x1 or x2 and y (the colors are scattered without a clear pattern). This is what we mean by \"removing the effects of x2.\" What we are visualizing now is the relationship between x1 and y, adjusted for x2 (the relationship between x1 and y that is completely independent of x2)."),
+                          fluidRow(
+                             column(12, plotOutput("AVplot1", height = "300px"))),
                            strong("How does this relate to standard error?"),
                            p("Remember that changing the variability in x impacted the standard error for our \u03B2 estimate. When two covariates, x1 and x2, are correlated, it means that some of the variability in x1 can be accounted for by changing x2 and vice versa. When we fit a multiple linear regression model we are looking at the association between each variable and the outcome, holding the other variable(s) constant. "),
                            p("If x1 and x2 are correlated, we effectively limit the range of values for x1 when holding x2 constant and vice verse. If x1 and x2 are perfectly correlated, we cannot fix one variable while moving the other (changing one means the other must change as well)."),
@@ -238,7 +241,7 @@ server &lt;- function(input, output) {
   y = 4.2 + 1.5*x1 + rnorm(n = N, sd = 1.3)
   origx2&lt;-(3 + 0.5*x1 +rnorm(n = N, sd =1.1))
   
-  vals&lt;-reactiveValues( x2=origx2,c=1,av.data=NULL,dt=NULL,cor = 0.5)
+  vals&lt;-reactiveValues( x2=origx2,c=1,av.data=NULL,dt=data.frame(x1, x2 = origx2,y),cor = 0.5)
   
   observeEvent({input$c},{ vals$c=input$c})
   
@@ -286,14 +289,12 @@ server &lt;- function(input, output) {
   
   output$corplot &lt;- renderPlot({
     
-   # vals$dt %&gt;% 
-    #  ggplot(aes(x = x1, y= x2)) + 
-     # geom_point() +
-      #theme_bw() + 
-      #xlim(0, 10) 
-    
-    psych::pairs.panels(vals$dt, ellipses = F, hist.col = "skyblue1")
-    
+    #psych::pairs.panels(vals$dt, ellipses = F, hist.col = "skyblue1")
+     ggpairs(vals$dt, 
+         upper = list(continuous = wrap("blank")),
+        lower = list(continuous = "points"),
+       diag = list(continuous = "densityDiag")) + 
+      theme_bw()
   })
   
   output$dataPlot1 &lt;- renderPlot({
@@ -318,7 +319,7 @@ server &lt;- function(input, output) {
       scale_color_viridis_c(option="turbo") + 
       facet_wrap(.~x2_round)+
       labs(title  = "Data split by x2 value") + 
-      geom_smooth(method = "lm", se = F, size = 0.5) + 
+      geom_smooth(method = "lm", se = F, linewidth = 0.5) + 
       labs(color = "x2\n(rounded)")
   })
   
@@ -335,8 +336,9 @@ server &lt;- function(input, output) {
       labs(title  = "Data split by x2 value") + 
       geom_smooth(method = "lm", se = F, size = 0.5) + 
       labs(color = "x2\n(rounded)")+  
-      stat_summary(aes(x = x), fun = mean, geom = "vline", linetype = "dashed", color = "black", size = 1) +
-  stat_summary(aes(y = y), fun = mean, geom = "hline", linetype = "dashed", color = "black", size = 1)
+      geom_vline(data = vals$dt %&gt;% mutate(x2_round = round(x2)) %&gt;% group_by(x2_round) %&gt;% summarize(mean_x = mean(x1)), aes(xintercept = mean_x), linetype = "dashed", color = "black") +
+        geom_hline(data = vals$dt %&gt;% mutate(x2_round = round(x2)) %&gt;% group_by(x2_round) %&gt;% summarize(mean_y = mean(y)), aes(yintercept = mean_y), linetype = "dashed", color = "black") + 
+        theme(legend.position = "none")
   })
   
   output$AVplot1 &lt;- renderPlot({
@@ -346,12 +348,14 @@ server &lt;- function(input, output) {
       mutate(x2 = vals$x2)%&gt;%
       ggplot(aes(x = x_axis, y = y_axis)) + 
       theme_bw() + 
-      geom_smooth(method = "lm",color = "black") + 
+      geom_smooth(method = "lm",color = "black", se = F,linewidth = 0.5) + 
       geom_point(aes(color = x2)) + 
       labs(x = "Residuals (x1 | x2)", y = "Residuals (Y | x2)",
            title = "Adjusted Variable Plot",
            subtitle = "Adjusting for x2") +
-      scale_color_viridis_c(option="turbo") 
+      scale_color_viridis_c(option="turbo") +
+      geom_hline(yintercept = 0, linetype = "dashed", color = "black") + 
+      geom_vline(xintercept = 0,linetype = "dashed", color = "black")
     
   })
   
