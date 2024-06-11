@@ -37,10 +37,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -178,7 +180,7 @@ window.Quarto = {
 <link rel="stylesheet" href="include/webex.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -207,20 +209,39 @@ window.Quarto = {
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Intro Biostatistics Resources</li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
+    <div class="quarto-title column-body">
       <h1 class="title">Intro Biostatistics Resources</h1>
                       </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta column-body">
 
       
     
@@ -230,12 +251,20 @@ window.Quarto = {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
     <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(10)</span></div><div class="category" data-category="code">code <span class="quarto-category-count">(5)</span></div><div class="category" data-category="software">software <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block column-body" id="quarto-document-content">
 
 
 
@@ -245,7 +274,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="r-tutorials">R Tutorials</h2>
 <div id="listing-Tutorials" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="software,code" data-listing-file-modified-sort="1717587124989" data-listing-reading-time-sort="3" data-listing-word-count-sort="482">
+<div class="g-col-1" data-index="0" data-categories="software,code" data-listing-file-modified-sort="1715973755806" data-listing-reading-time-sort="3" data-listing-word-count-sort="482">
 <a href="./posts/Tutorial-1/Tutorial1.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -275,7 +304,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="code" data-listing-file-modified-sort="1717587124990" data-listing-reading-time-sort="16" data-listing-word-count-sort="3097">
+<div class="g-col-1" data-index="1" data-categories="code" data-listing-file-modified-sort="1715973753970" data-listing-reading-time-sort="16" data-listing-word-count-sort="3097">
 <a href="./posts/Tutorial-2/Tutorial2.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -302,7 +331,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="code" data-listing-file-modified-sort="1717587124992" data-listing-reading-time-sort="17" data-listing-word-count-sort="3272">
+<div class="g-col-1" data-index="2" data-categories="code" data-listing-file-modified-sort="1715975476239" data-listing-reading-time-sort="17" data-listing-word-count-sort="3272">
 <a href="./posts/Tutorial-3/Tutorial3.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -329,7 +358,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="code" data-listing-file-modified-sort="1717587124996" data-listing-reading-time-sort="10" data-listing-word-count-sort="1869">
+<div class="g-col-1" data-index="3" data-categories="code" data-listing-file-modified-sort="1715973748791" data-listing-reading-time-sort="10" data-listing-word-count-sort="1869">
 <a href="./posts/Tutorial-4/Tutorial4.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -356,7 +385,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="code" data-listing-file-modified-sort="1717587124996" data-listing-reading-time-sort="17" data-listing-word-count-sort="3225">
+<div class="g-col-1" data-index="4" data-categories="code" data-listing-file-modified-sort="1715975196366" data-listing-reading-time-sort="17" data-listing-word-count-sort="3225">
 <a href="./posts/Tutorial-5/Tutorial5.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -423,7 +452,7 @@ No matching items
 </tr>
 </thead>
 <tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1718072527592" data-listing-reading-time-sort="19" data-listing-word-count-sort="3788" data-listing-title-sort="Added Variable Plots and VIF" data-listing-filename-sort="VIF_shiny.qmd">
+<tr data-index="0" data-listing-file-modified-sort="1718121149108" data-listing-reading-time-sort="19" data-listing-word-count-sort="3788" data-listing-title-sort="Added Variable Plots and VIF" data-listing-filename-sort="VIF_shiny.qmd">
 <td>
 <a href="./posts/VIF_Shiny/VIF_shiny.html" class="title listing-title">Added Variable Plots and VIF</a>
 </td>
@@ -431,7 +460,7 @@ No matching items
 <span class="listing-author">Haley Grant</span>
 </td>
 </tr>
-<tr data-index="1" data-listing-file-modified-sort="1717587124987" data-listing-reading-time-sort="11" data-listing-word-count-sort="2009" data-listing-title-sort="Least Squares Regression Visualization" data-listing-filename-sort="LeastSquares_shiny.qmd">
+<tr data-index="1" data-listing-file-modified-sort="1715801907000" data-listing-reading-time-sort="11" data-listing-word-count-sort="2009" data-listing-title-sort="Least Squares Regression Visualization" data-listing-filename-sort="LeastSquares_shiny.qmd">
 <td>
 <a href="./posts/LeastSquaresShiny/LeastSquares_shiny.html" class="title listing-title">Least Squares Regression Visualization</a>
 </td>
@@ -439,7 +468,7 @@ No matching items
 <span class="listing-author">Haley Grant</span>
 </td>
 </tr>
-<tr data-index="2" data-listing-file-modified-sort="1717587124988" data-listing-reading-time-sort="2" data-listing-word-count-sort="281" data-listing-title-sort="Logistic Function Visualization" data-listing-filename-sort="Logistic_shiny.qmd">
+<tr data-index="2" data-listing-file-modified-sort="1715801523000" data-listing-reading-time-sort="2" data-listing-word-count-sort="281" data-listing-title-sort="Logistic Function Visualization" data-listing-filename-sort="Logistic_shiny.qmd">
 <td>
 <a href="./posts/LogisticShiny/Logistic_shiny.html" class="title listing-title">Logistic Function Visualization</a>
 </td>
@@ -447,7 +476,7 @@ No matching items
 <span class="listing-author">Haley Grant</span>
 </td>
 </tr>
-<tr data-index="3" data-listing-file-modified-sort="1717587124988" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041" data-listing-title-sort="QQ Plot Visualization Tool" data-listing-filename-sort="QQshiny.qmd">
+<tr data-index="3" data-listing-file-modified-sort="1715801240000" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041" data-listing-title-sort="QQ Plot Visualization Tool" data-listing-filename-sort="QQshiny.qmd">
 <td>
 <a href="./posts/QQ_plot_shiny/QQshiny.html" class="title listing-title">QQ Plot Visualization Tool</a>
 </td>
@@ -455,7 +484,7 @@ No matching items
 <span class="listing-author">Haley Grant</span>
 </td>
 </tr>
-<tr data-index="4" data-listing-file-modified-sort="1717587124989" data-listing-reading-time-sort="10" data-listing-word-count-sort="1994" data-listing-title-sort="Sampling Distributions and Bootstrapping" data-listing-filename-sort="SampDist_shiny.qmd">
+<tr data-index="4" data-listing-file-modified-sort="1715801227000" data-listing-reading-time-sort="10" data-listing-word-count-sort="1994" data-listing-title-sort="Sampling Distributions and Bootstrapping" data-listing-filename-sort="SampDist_shiny.qmd">
 <td>
 <a href="./posts/SamplingDistShiny/SampDist_shiny.html" class="title listing-title">Sampling Distributions and Bootstrapping</a>
 </td>
@@ -701,6 +730,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

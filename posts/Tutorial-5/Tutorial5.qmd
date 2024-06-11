@@ -15,7 +15,8 @@ webr:
   cell-options:
     editor-font-scale: 0.85
 categories:
-    - code
+    - R code
+    - Data Visualization
 title-block-banner: "#a2cffe"
 ---
 

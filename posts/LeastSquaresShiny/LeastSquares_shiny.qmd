@@ -3,8 +3,9 @@ title: "Least Squares Regression Visualization"
 author: "Haley Grant"
 filters: 
   - shinylive
+categories:
+    - Regression
 ---
-
 
 ```{shinylive-r}
 #| standalone: true

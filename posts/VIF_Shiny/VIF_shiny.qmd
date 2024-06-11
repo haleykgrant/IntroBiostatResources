@@ -3,6 +3,8 @@ title: "Added Variable Plots and VIF"
 author: "Haley Grant"
 filters: 
   - shinylive
+categories:
+    - Regression
 ---
 
 ```{shinylive-r}

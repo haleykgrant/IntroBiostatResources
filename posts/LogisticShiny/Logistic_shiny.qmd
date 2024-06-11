@@ -3,8 +3,9 @@ title: "Logistic Function Visualization"
 author: "Haley Grant"
 filters: 
   - shinylive
+categories:
+    - Regression
 ---
-
 
 ```{shinylive-r}
 #| standalone: true

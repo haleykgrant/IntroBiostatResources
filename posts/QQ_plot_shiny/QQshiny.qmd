@@ -3,6 +3,8 @@ title: "QQ Plot Visualization Tool"
 author: "Haley Grant"
 filters: 
   - shinylive
+categories:
+    - Data Visualization
 ---
 
 ```{shinylive-r}

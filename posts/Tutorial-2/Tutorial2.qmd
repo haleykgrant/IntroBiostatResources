@@ -14,7 +14,7 @@ webr:
   packages: ['tidyverse']
   autoload-packages: false
 categories:
-    - code
+    - R code
 title-block-banner: "#a2cffe"
 ---
 
@@ -94,7 +94,7 @@ y = 3
 ::: {.callout-note collapse="true"}
 ## Note: `=` vs `<-`
 
-Sometimes you might see the operator `<-` (for example `x <- 2`) instead of the equals sign (`=`). This is an artifact of earlier versions of R when you had to use `<-` to assign values to objects; both work now and `=` is shorter so I used it here &#128578;
+Sometimes you might see the operator `<-` (for example `x <- 2`) instead of the equals sign (`=`). This is an artifact of earlier versions of R when you had to use `<-` to assign values to objects; both work now and `=` is shorter so I used it here 🙂
 :::
 
 Note that when you run this code, nothing happens! Or at least, that's what it looks like. If we were running this in RStudio, we would see in the upper right quadrant under the "Environment" tab that we now have two objects, x and y, that have the values 2 and 3 respectively. To see this here, we can print out the values:
@@ -375,7 +375,7 @@ The following description of R packages comes from [this R Basics Tutorial from 
 ::: {.callout-important collapse="true"}
 ## Note: Installing packages
 
-You should generally only need to install a package one time on your computer. Installing packages is just like downloading any other piece of software on your computer; once you've downloaded it once, you have it on your computer unless you delete it. 
+You should generally only need to install a package one time on your computer. Installing packages is just like downloading any other piece of software on your computer; once you've downloaded it once, you have it on your computer unless you delete it.
 
 Installing packages is different from loading packages, which we'll get to next.
 :::
@@ -453,7 +453,7 @@ One of the unique functions provided by the `tidyverse` is called the "pipe oper
 ::: {.callout-note collapse="true"}
 ## Note: `%>%` vs `|>`
 
-Recent updates to R also let you use `|>` as the pipe operator, but I'm old so I still use `%>%` &#128578;
+Recent updates to R also let you use `|>` as the pipe operator, but I'm old so I still use `%>%` 🙂
 :::
 
 To see an example of this, consider the following task:

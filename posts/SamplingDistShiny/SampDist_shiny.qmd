@@ -3,8 +3,9 @@ title: "Sampling Distributions and Bootstrapping"
 author: "Haley Grant"
 filters: 
   - shinylive
+categories:
+    - Statistical inference
 ---
-
 
 ```{shinylive-r}
 #| standalone: true
