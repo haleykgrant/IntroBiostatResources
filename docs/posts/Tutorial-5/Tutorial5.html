@@ -36,10 +36,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -278,7 +280,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"id":1,"code":"\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n\nload(\"census.rda\")","options":{"editor-max-height":"","warning":"true","autorun":"true","out-width":"700px","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"setup","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-1","message":"true","dpi":72,"fig-width":7,"out-height":""}},{"id":2,"code":"# show first few rows of census data\nhead(census)\n\n# show columns names\ncolnames(census)","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"700px","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-2","message":"true","dpi":72,"fig-width":7,"out-height":""}},{"id":3,"code":"# load the tidyverse to gain access to ggplot2 functions (and others)\n\nlibrary(tidyverse)","options":{"editor-max-height":"","warning":"false","autorun":"true","out-width":"700px","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-3","message":"true","dpi":72,"fig-width":7,"out-height":""}},{"id":4,"code":"# make a histogram of total_personal_income\ncensus %>% # supply data frame\n  ggplot(aes(x = total_personal_income)) + # only need to specify x axis since y axis will be the count in each bin\n  geom_histogram() # make a histogram","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-4","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":5,"code":"# make a histogram of total_personal_income with 50 bins\ncensus %>% # supply data frame\n  ggplot(aes(x = total_personal_income)) +\n  geom_histogram(bins = 50)","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-5","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":6,"code":"# make a histogram of total_personal_income with bins of size 10k\ncensus %>% # supply data frame\n  ggplot(aes(x = total_personal_income)) +\n  geom_histogram(binwidth = 10000)","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-6","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":7,"code":"# count NA rows in total_personal_income\nsum(is.na(census$total_personal_income))","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"700px","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-7","message":"true","dpi":72,"fig-width":7,"out-height":""}},{"id":8,"code":"# make a vector with logical values\nlogical_vector = c(TRUE, TRUE, FALSE, TRUE, FALSE)\n\n# take the sum\nsum(logical_vector)","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"700px","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-8","message":"true","dpi":72,"fig-width":7,"out-height":""}},{"id":9,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() # make a boxplot","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-9","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":10,"code":"# make bar plot of  marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status)) + # only need to give x axis since y axis is counts\n  geom_bar() # make a bar plot","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-10","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":11,"code":"# make a scatter plot of total_personal_income by age\ncensus %>% # supply data frame\n  ggplot(aes(x = age, y = total_personal_income)) + # x-axis is age, y-axis is total_personal_income\n  geom_point() # make a bar plot","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-11","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":12,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) # make a separate plot for each level of the variable `sex` in the data","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-12","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":13,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_grid( sex ~ race_general) # make a separate plot for each combination of the variables `sex` and `race_general` in the data","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-13","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":14,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex, scales = \"free_y\") # make a separate plot for each level of the variable `sex` in the data","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"70%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-14","message":"true","dpi":72,"fig-width":7,"out-height":"70%"}},{"id":15,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\")","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-15","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":16,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-16","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":17,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_classic()","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-17","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":18,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income, color = marital_status)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-18","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":19,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income, color = sex)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-19","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":20,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot(color = \"blue\") + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-20","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}},{"id":21,"code":"# make bar plot of  marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status)) + # only need to give x axis since y axis is counts\n  geom_bar(color = \"blue\") + # make a bar plot\n  labs(title = \"Changing `color` argument\")\n\n# make bar plot of  marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status)) + # only need to give x axis since y axis is counts\n  geom_bar(fill = \"blue\") + # make a bar plot\n  labs(title = \"Changing `fill` argument\")","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"70%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-21","message":"true","dpi":72,"fig-width":7,"out-height":"70%"}},{"id":22,"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw() + \n  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))","options":{"editor-max-height":"","warning":"true","autorun":"false","out-width":"80%","read-only":"false","editor-quick-suggestions":"false","results":"markup","classes":"","fig-height":5,"output":"true","fig-cap":"","context":"interactive","comment":"","editor-font-scale":"0.85","label":"unnamed-chunk-22","message":"true","dpi":72,"fig-width":7,"out-height":"80%"}}];
+globalThis.qwebrCellDetails = [{"options":{"results":"markup","dpi":72,"autorun":"true","label":"unnamed-chunk-1","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"","context":"setup","out-width":"700px"},"code":"\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n\nload(\"census.rda\")","id":1},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-2","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"","context":"interactive","out-width":"700px"},"code":"# show first few rows of census data\nhead(census)\n\n# show columns names\ncolnames(census)","id":2},{"options":{"results":"markup","dpi":72,"autorun":"true","label":"unnamed-chunk-3","warning":"false","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"","context":"interactive","out-width":"700px"},"code":"# load the tidyverse to gain access to ggplot2 functions (and others)\n\nlibrary(tidyverse)","id":3},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-4","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make a histogram of total_personal_income\ncensus %>% # supply data frame\n  ggplot(aes(x = total_personal_income)) + # only need to specify x axis since y axis will be the count in each bin\n  geom_histogram() # make a histogram","id":4},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-5","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make a histogram of total_personal_income with 50 bins\ncensus %>% # supply data frame\n  ggplot(aes(x = total_personal_income)) +\n  geom_histogram(bins = 50)","id":5},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-6","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make a histogram of total_personal_income with bins of size 10k\ncensus %>% # supply data frame\n  ggplot(aes(x = total_personal_income)) +\n  geom_histogram(binwidth = 10000)","id":6},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-7","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"","context":"interactive","out-width":"700px"},"code":"# count NA rows in total_personal_income\nsum(is.na(census$total_personal_income))","id":7},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-8","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"","context":"interactive","out-width":"700px"},"code":"# make a vector with logical values\nlogical_vector = c(TRUE, TRUE, FALSE, TRUE, FALSE)\n\n# take the sum\nsum(logical_vector)","id":8},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-9","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() # make a boxplot","id":9},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-10","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make bar plot of  marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status)) + # only need to give x axis since y axis is counts\n  geom_bar() # make a bar plot","id":10},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-11","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make a scatter plot of total_personal_income by age\ncensus %>% # supply data frame\n  ggplot(aes(x = age, y = total_personal_income)) + # x-axis is age, y-axis is total_personal_income\n  geom_point() # make a bar plot","id":11},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-12","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) # make a separate plot for each level of the variable `sex` in the data","id":12},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-13","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_grid( sex ~ race_general) # make a separate plot for each combination of the variables `sex` and `race_general` in the data","id":13},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-14","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"70%","context":"interactive","out-width":"70%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex, scales = \"free_y\") # make a separate plot for each level of the variable `sex` in the data","id":14},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-15","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\")","id":15},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-16","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","id":16},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-17","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_classic()","id":17},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-18","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income, color = marital_status)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","id":18},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-19","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income, color = sex)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","id":19},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-20","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot(color = \"blue\") + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw()","id":20},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-21","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"70%","context":"interactive","out-width":"70%"},"code":"# make bar plot of  marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status)) + # only need to give x axis since y axis is counts\n  geom_bar(color = \"blue\") + # make a bar plot\n  labs(title = \"Changing `color` argument\")\n\n# make bar plot of  marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status)) + # only need to give x axis since y axis is counts\n  geom_bar(fill = \"blue\") + # make a bar plot\n  labs(title = \"Changing `fill` argument\")","id":21},{"options":{"results":"markup","dpi":72,"autorun":"false","label":"unnamed-chunk-22","warning":"true","editor-quick-suggestions":"false","message":"true","output":"true","editor-font-scale":"0.85","editor-max-height":"","classes":"","read-only":"false","comment":"","fig-cap":"","fig-height":5,"fig-width":7,"out-height":"80%","context":"interactive","out-width":"80%"},"code":"# make box plot of total_personal_income across marital_status\ncensus %>% # supply data frame\n  ggplot(aes(x = marital_status, y = total_personal_income)) + # x axis is marital status, y axis is total_personal)income\n  geom_boxplot() + # make a boxplot\n  facet_wrap( ~ sex) + # make a separate plot for each combination of the variables `sex` and `race_general` in the data\n  labs(title = \"Personal Income by Marital Status\",\n       subtitle = \"Split by Sex\",\n       x = \"Marital Status\",\n       y = \"Total Personal Income ($)\") +\n  theme_bw() + \n  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))","id":22}];
 
 </script>
 <script type="module">
@@ -1120,7 +1122,7 @@ globalThis.qwebrExecuteCode = async function (
 <link rel="stylesheet" href="../../include/webex.css">
 </head>
 
-<body class="floating nav-fixed">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -1149,9 +1151,28 @@ globalThis.qwebrExecuteCode = async function (
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Tutorial 5: Data Visualization in R</li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
@@ -1182,6 +1203,11 @@ globalThis.qwebrExecuteCode = async function (
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
@@ -1938,6 +1964,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

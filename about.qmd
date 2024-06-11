@@ -9,4 +9,5 @@ about:
       href: https://github.com/haleykgrant/BIOST2041
 ---
 
-This is a landing page for R tutorials for BIOST 2041 and 2141.
+This is a landing page for R tutorials and shiny apps for introductory biostatistics courses taught by [Haley Grant](https://www.sph.pitt.edu/directory/haley-grant).
+
