@@ -1,4 +1,4 @@
-# BIOST2041
+# Intro Biostatistics Materials
 
 This is a landing page for R tutorials for BIOST 2041/2141. 
 
