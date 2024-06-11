@@ -195,7 +195,7 @@ ui &lt;- fluidPage(
                            fluidRow(
                              column(12, plotOutput("dataPlot1", height = "300px"))
                            ),
-                          p("Let's imagine splitting the data based on the value (here I rounded to the nearest whole number for plotting purposes) of x2. 
+                          p("Let's imagine splitting the data based on the value of x2. 
                             Here we are looking at the relationship between x1 and y for each unique value of x2 (holding x2 constant). We can think 
                             of the slope for x1 in the MLR y ~ x1 + x2 as a sort of average of the slopes in these various plots at each value of x2."),
                           
@@ -211,12 +211,15 @@ ui &lt;- fluidPage(
                           fluidRow(
                              column(12, plotOutput("dataPlot3", height = "300px"))
                            ),
-                          p("This is essentially what an added variable plot is. If we overlay all of the centered scatter plots above, we can see that there doesn't appear to be any relationship between x2 and x1 or x2 and y (the colors are scattered without a clear pattern). This is what we mean by \"removing the effects of x2.\" What we are visualizing now is the relationship between x1 and y, adjusted for x2 (the relationship between x1 and y that is completely independent of x2)."),
+                          p("This is similar to what an added variable plot is (if x2 is categorical, this is exactly what an added variable plot is; if it is continuous, we add a linearity constraint to the centering process). If we combine all of the centered scatter plots above, we can see that there doesn't appear to be any relationship between x2 and either x1 or y (the colors are scattered without a clear pattern). This is what we mean by \"removing the effects of x2.\" What we are visualizing now is the relationship between x1 and y, adjusted for x2 (the relationship between x1 and y that is completely independent of x2). The overall slope for x1 in the MLR is the slope in the added variable plot, which you can think of as a sort of average of the slopes across the panels in the plot above."),
+                          #fluidRow(
+                           #  column(12, plotOutput("dataPlot4", height = "300px"))
+                          # ),
                           fluidRow(
                              column(12, plotOutput("AVplot1", height = "300px"))),
                            strong("How does this relate to standard error?"),
-                           p("Remember that changing the variability in x impacted the standard error for our \u03B2 estimate. When two covariates, x1 and x2, are correlated, it means that some of the variability in x1 can be accounted for by changing x2 and vice versa. When we fit a multiple linear regression model we are looking at the association between each variable and the outcome, holding the other variable(s) constant. "),
-                           p("If x1 and x2 are correlated, we effectively limit the range of values for x1 when holding x2 constant and vice verse. If x1 and x2 are perfectly correlated, we cannot fix one variable while moving the other (changing one means the other must change as well)."),
+                           p("Remember that changing the variability in x impacted the standard error for our \u03B2 estimate. When we fit a multiple linear regression model we are looking at the association between each variable and the outcome, holding the other variable(s) constant. But if x1 and x2 are correlated, then for each fixed value of x2, the range of values we observe for x1 is smaller than the total amount of variability in x1 overall. So including correlated predictors in a MLR model results in higher standard errors for slope coefficients than if predictors were uncorrelated."),
+                           p(" If x1 and x2 are perfectly correlated, we cannot fix one variable while moving the other. Changing one means the other must change as well. In this case, when we fix the value of x2, we know exactly what x1 will be and there is no variability left in x1 (and vice versa), so the standard error for the slope coefficients for x1 and x2 will be infinity."),
                            p(),
                            
                            h3("VIF"),
@@ -237,11 +240,11 @@ server &lt;- function(input, output) {
   
   set.seed(23)
   N = 100
-  x1 = runif(n = N, max = 10)
+  x1 = runif(n = N, max = 5) %&gt;% round()
   y = 4.2 + 1.5*x1 + rnorm(n = N, sd = 1.3)
-  origx2&lt;-(3 + 0.5*x1 +rnorm(n = N, sd =1.1))
+  origx2&lt;-(3 + 0.5*x1 +rnorm(n = N, sd =1.2))  %&gt;% plyr::round_any(.,0.5)
   
-  vals&lt;-reactiveValues( x2=origx2,c=1,av.data=NULL,dt=data.frame(x1, x2 = origx2,y),cor = 0.5)
+  vals&lt;-reactiveValues( x2=origx2,c=1,av.data=NULL,dt=data.frame(x1, x2 = origx2,y),cor = 0.75)
   
   observeEvent({input$c},{ vals$c=input$c})
   
@@ -276,7 +279,7 @@ server &lt;- function(input, output) {
       geom_point() +
       theme_bw() + 
       labs(x = paste0(vals$c," * x")) + 
-      xlim(0, 30) + 
+      xlim(0, 15) + 
       geom_smooth(method = "lm", formula = y~x, se = F)
   })
   
@@ -303,7 +306,7 @@ server &lt;- function(input, output) {
       ggplot(aes(x = x1, y=y, color = x2)) + 
       geom_point() +
       theme_bw() + 
-      xlim(0, 10) +
+      xlim(0, 5) +
       scale_color_viridis_c(option="turbo") + 
       labs(title  = "Data colored by x2 value")
   })
@@ -311,34 +314,49 @@ server &lt;- function(input, output) {
   output$dataPlot2 &lt;- renderPlot({
     
     vals$dt %&gt;% 
-      mutate(x2_round = round(x2)) %&gt;%
-      ggplot(aes(x = x1, y=y, color = x2_round)) + 
+      ggplot(aes(x = x1, y=y, color = x2)) + 
       geom_point() +
       theme_bw() + 
-      xlim(0, 10) +
+      xlim(0, 5) +
       scale_color_viridis_c(option="turbo") + 
-      facet_wrap(.~x2_round)+
+      facet_wrap(.~x2)+
       labs(title  = "Data split by x2 value") + 
       geom_smooth(method = "lm", se = F, linewidth = 0.5) + 
-      labs(color = "x2\n(rounded)")
+      labs(color = "x2")
   })
   
     output$dataPlot3 &lt;- renderPlot({
     
     vals$dt %&gt;% 
-      mutate(x2_round = round(x2)) %&gt;%
-      ggplot(aes(x = x1, y=y, color = x2_round)) + 
+      ggplot(aes(x = x1, y=y, color = x2)) + 
       geom_point() +
       theme_bw() + 
-      xlim(0, 10) +
+      xlim(0, 5) +
       scale_color_viridis_c(option="turbo") + 
-      facet_wrap(.~x2_round)+
+      facet_wrap(.~x2)+
       labs(title  = "Data split by x2 value") + 
       geom_smooth(method = "lm", se = F, size = 0.5) + 
-      labs(color = "x2\n(rounded)")+  
-      geom_vline(data = vals$dt %&gt;% mutate(x2_round = round(x2)) %&gt;% group_by(x2_round) %&gt;% summarize(mean_x = mean(x1)), aes(xintercept = mean_x), linetype = "dashed", color = "black") +
-        geom_hline(data = vals$dt %&gt;% mutate(x2_round = round(x2)) %&gt;% group_by(x2_round) %&gt;% summarize(mean_y = mean(y)), aes(yintercept = mean_y), linetype = "dashed", color = "black") + 
+      labs(color = "x2")+  
+      geom_vline(data = vals$dt %&gt;%  group_by(x2) %&gt;% summarize(mean_x = mean(x1)), aes(xintercept = mean_x), linetype = "dashed", color = "black") +
+        geom_hline(data = vals$dt %&gt;% group_by(x2) %&gt;% summarize(mean_y = mean(y)), aes(yintercept = mean_y), linetype = "dashed", color = "black") + 
         theme(legend.position = "none")
+  })
+    
+        output$dataPlot4 &lt;- renderPlot({
+    
+   vals$dt %&gt;% 
+    group_by(x2) %&gt;% 
+    mutate(mean_x = mean(x1),
+           mean_y = mean(y)) %&gt;%
+    ggplot(aes(x = x1, y = y, color = x2)) + 
+    geom_point() +
+    theme_bw() + 
+    xlim(-0.5, 5.5) +
+    scale_color_viridis_c(option = "turbo") + 
+    labs(title = "Data split by x2 value", color = "x2") +  
+    geom_segment(aes(x = mean_x - 0.5, xend = mean_x + 0.5, y = mean_y, yend = mean_y, color = x2), linetype = "dashed") +
+    geom_segment(aes(x = mean_x, xend = mean_x, y = mean_y - 2.5, yend = mean_y + 2.5, color = x2), linetype = "dashed") +
+    theme(legend.position = "none")
   })
   
   output$AVplot1 &lt;- renderPlot({
@@ -350,8 +368,9 @@ server &lt;- function(input, output) {
       theme_bw() + 
       geom_smooth(method = "lm",color = "black", se = F,linewidth = 0.5) + 
       geom_point(aes(color = x2)) + 
+     # geom_smooth(method = "lm", aes(color = x2, group = x2), linewidth = 0.5, alpha = 0.1, se = F)+
       labs(x = "Residuals (x1 | x2)", y = "Residuals (Y | x2)",
-           title = "Adjusted Variable Plot",
+           title = "Added Variable Plot",
            subtitle = "Adjusting for x2") +
       scale_color_viridis_c(option="turbo") +
       geom_hline(yintercept = 0, linetype = "dashed", color = "black") + 
