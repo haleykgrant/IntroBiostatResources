@@ -106,7 +106,7 @@ x
 y 
 ```
 
-Cool! Now that `x` and `y` are placeholders for the numbers 2 and 3, we can use them just like numbers. For example, we can add them together, multiply them, divide, subtract, etc. If we want to save the value of `x + y` for later use, we can do that too!
+Cool! Now that `x` and `y` are placeholders for the numbers 2 and 3, we can use them just like numbers. For example, we can add them together, multiply them, divide, subtract, etc. If we want to save the value of `x + y` for later use, we can do that too! Below I've shown some examples of calculations you can do using these two variables. You may need to scroll down to see the output!
 
 ```{webr-r}
 # print x + y
@@ -149,7 +149,15 @@ In the example above, we were using numeric variables. However, there are many d
 -   **logical**: binary TRUE/FALSE
 -   **NA**: stand-in for missing values
 
-### Numeric
+If you aren't sure what type of data an R object is, you can use the following code:
+
+::: {style="text-align: center;"}
+[`class(name_of_object))`]{style="font-family: 'Monaco';"}
+:::
+
+where you would replace `name_of_object` with the name of the R object that you want to check the class (data type) of.
+
+### Numeric Data
 
 ```{webr-r}
 # save x_numeric object with the value 5
@@ -160,9 +168,10 @@ x_numeric
 class(x_numeric)
 ```
 
-### Character
-
 This is a number so we can use the same types of functions as we used above on the object `x_numeric` (adding, subtracting, etc.).
+
+### Character Data
+
 
 ```{webr-r}
 # save x_character object with the value "5"
@@ -182,7 +191,7 @@ This is a character. Even though it looks like a number, the quotation marks tel
 
 ```
 
-### Error messages
+#### Error messages
 
 Oh no! You should see the following error message:
 
@@ -194,7 +203,7 @@ This is how R is telling you that you're trying to apply a function that require
 
 **Exercise:** If you change `x_character` to `x_numeric` in the code above, you should see it works just fine!
 
-### Factor
+### Factor Data
 
 ```{webr-r}
 # save x_factor objects as a factor variable with the levels "5" and label this level "The number 5"
@@ -208,7 +217,7 @@ class(x_factor)
 
 Here we can see that `x_factor` is a factor variable. It may not be obvious why this is useful yet, but it should hopefully become clear as the semester goes on. Factors are essentially a way that you can pick the order that categorical variable levels are presented and give the variables nice names for things like printing in a plot.
 
-### Logical
+### Logical Data
 
 R has another type of data called "logical" values. These are binary TRUE/FALSE (can also abbreviate with T/F) that let you know if a statement is true or false. This can be really useful when we want to filter data. For example, if we want to filter data to everyone over the age of 50, we can check the logical variables to check if age is greater than or equal to 50.
 
@@ -218,13 +227,10 @@ In the example below we'll make a new variable to tell us if `x_numeric` from ab
 # save x_logical as a TRUE/FALSE statement
 # the `==` operator is R's way of saying "is the thing on the left equal to the thing on the right?"
 x_logical = (x_numeric == 5)
-
 # print value 
 x_logical
-
 # show variable type
 class(x_logical)
-
 
 ```
 
@@ -239,7 +245,6 @@ R has a special way of denoting missing values. In R, these show up as `NA` valu
 ```{webr-r}
 # save x_missing as NA value
 x_missing = NA
-
 # print value 
 x_missing
 ```
