@@ -90,7 +90,7 @@ list.files()
 The output should look something like this:
 
 ::: {style="text-align: center;"}
-[\[1\] "cdc_samp.csv" "census.rda" "dds.xlsx"]{style="font-family: 'Monaco'; font-weight: 500;"}
+[\[1\] "Rplots.pdf" "cdc_samp.csv" "census.rda" "dds.xlsx"]{style="font-family: 'Monaco'; font-weight: 500;"}
 :::
 
 This tells us that there are 4 files that we have access to in this directory:
@@ -102,7 +102,7 @@ This tells us that there are 4 files that we have access to in this directory:
 
 There are the data files that we will be working with in this tutorial.
 
-## Types of files
+## Types of Files
 
 The main types of files that we will work with in this class are:
 
@@ -123,7 +123,7 @@ The main types of files that we will work with in this class are:
 </style>
 ```
 | File Type    | Description                                                                                                                                | File Extension |
-|-----------|-------------------------------------------------|-----------|
+|--------------|--------------------------------------------|--------------|
 | CSV files    | This stands for "comma separated value". These are files that have rows with entries separated by commas to indicate the different columns | .csv           |
 | Excel files  | Files in Excel workbook/sheet format                                                                                                       | .xls or .xlsx  |
 | R data files | Files with saved R objects                                                                                                                 | .RData or .rda |
@@ -155,16 +155,16 @@ The syntax to use this function is:
 
 **Warning:** Naming the object is very important!
 
-If you forget to choose a name for your dataframe, R will read in the data and print it, but it won't save it as an object. If you just use `read_csv()` without the `name_for_data =` part, you won't be able to manipulate or analyze the data
+If you forget to choose a name for your data frame, R will read in the data and print it, but it won't save it as an object. If you just use `read_csv()` without the `name_for_data =` part, you won't be able to manipulate or analyze the data
 :::
 
 ::: callout-warning
 ## Duplicate names
 
-**Another warning:** If you read in two datasets and accidentally give them the same name, *the one you run second will overwrite the first one*! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new dataframes different names!
+**Another warning:** If you read in two data sets and accidentally give them the same name, *the one you run second will overwrite the first one*! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new data frames different names!
 :::
 
-Let's try reading in the "cdc_samp.csv" file and give the dataframe the name `cdc`.
+Let's try reading in the "cdc_samp.csv" file and give the data frame the name `cdc`. You may need to add an extra line of code to get this to work (think back to our last tutorial about R functions and packages).
 
 ```{webr-r}
 # read in the data file "cdc_samp.csv"
@@ -172,7 +172,7 @@ cdc = read_csv("cdc_samp.csv")
 ```
 
 ::: {.callout-tip collapse="true" icon="false"}
-## Hint (if you get an error)
+## Hint
 
 If you get the following error:
 
@@ -185,8 +185,8 @@ you forgot to load the tidyverse package!
 Add a line of code above your read_csv() line to load the tidyverse (`library(tidyverse)`).
 :::
 
-::: {.callout-note collapse="true" icon="false"}
-## Answer
+::: {.callout-tip collapse="true" icon="false"}
+## Solution
 
 ```{webr-r}
 #| warning: false
@@ -199,98 +199,18 @@ cdc = read_csv("cdc_samp.csv")
 ```
 :::
 
-### Viewing your data
+#### Making sure it worked
 
-Great! We've now read our first data file into R. But how do we know if it worked?
+Great! If you were able to get the code chunk above to run without any error messages, then the code should have worked and we should now have an R object named `cdc` in our environment that we can work with. 
 
-We're going to take a brief detour to talk about taking a first look at your data before we move on to importing data from other files types.
-
-#### The head() function
-
-In RStudio, you should be able to see a new object in your 'Environment' tab in the upper-right quadrant of your screen when you import a new data set. Since we're working on the web, we'll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is `head()` that shows us the top few entries of a data frame, vector, or list.
+If we were working in RStudio, we could check to make sure there is an object named `cdc` under the `Data` heading of the Environment tab (in the upper right-hand corner for most RStudio setups if you didn't change the panel layout). Since we aren't working in RStudio, we will use a function to make sure our `read_csv()` code worked. The function we will use is the `exists()` function and, as the name suggests, it just tells us if the object we are checking exists in our environment or not. It will return a logical value (`TRUE` if the object exists and `FALSE` if it does not). The function expects the name of the object in "quotation marks."
 
 ```{webr-r}
-# show top few rows of the data set `cdc`
-head(cdc)
+# check if the cdc data frame exists
+exists("cdc")
 
 ```
 
-::: {.callout-tip collapse="true" icon="false"}
-## Hint (if you get an error)
-
-If you get the following error:
-
-::: {style="text-align: center;"}
-[Error: object 'cdc' not found]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
-:::
-
-this is R's way of telling you that you don't currently have an object loaded into your environment called 'cdc'.
-
-When you see an error like this, you should make sure the code used to import the data worked properly and that you don't have any spelling errors (R is case sensitive so you have to be very careful to spell things exactly correctly).
-
-Make sure you were able to successfully run the code above with the `read_csv()` function without any errors before running this code block.
-:::
-
-Awesome! Here we see the top 6 rows of the `cdc` dataframe. There are 9 columns: [genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.]{style="font-family: Monaco;"}
-
-::: {.callout-note collapse="true" icon="false"}
-## `tail()` function
-
-If you want to look at the *last* few entries of an R object, there is a similar function to the `head()` function called `tail()`.
-:::
-
-#### The skim() function
-
-Another way we can start to take a look at the data is to use a function from the R package `skmir`. The function is called `skim` and gives us a nice overview of the contents included in our data.
-
-```{webr-r}
-#| warning: false
-#| context: interactive
-#| autorun: true
-# load skimr library
-library(skimr)
-```
-
-```{webr-r}
-# use the skim() function on the cdc data
-skim(cdc)
-
-```
-
-This function breaks our columns into groups based on the type of variable they are. Here we see that [genhlth]{style="font-family: Monaco;"} and [gender]{style="font-family: Monaco;"} are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1---more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.
-
-::: {.callout-note collapse="true"}
-## Understanding `skim()` output
-
-The columns for categorical variables are:
-
-| Attribute     | Description                                                             |
-|----------------|--------------------------------------------------------|
-| n_missing     | the number of rows with missing value (NA) in the corresponding columns |
-| complete_rate | proportion of rows that are not missing (not NAs)                       |
-| min           | the minimum character length of values in the column                    |
-| max           | the maximum character length of values in the column                    |
-| empty         | the number of empty characters in the column                            |
-| n_unique      | the number of unique values in the column                               |
-| whitespace    | the number of rows containing only white space in the column            |
-
-The columns for numeric variables are:
-
-| Attribute     | Description                                                               |
-|----------------|--------------------------------------------------------|
-| n_missing     | the number of rows with missing value (NA) in the corresponding columns   |
-| complete_rate | proportion of rows that are not missing (not NAs)                         |
-| mean          | the mean (average) value of the non-missing values in the column          |
-| sd            | the standard deviation of the non-missing values in the column            |
-| p0            | the minimum value observed in the column                                  |
-| p25           | the 25th percentile of values observed in the column                      |
-| p50           | the median (50th percentile) of values observed in the column             |
-| p75           | the 75th percentile of values observed in the column                      |
-| p100          | the maximum value observed in the column                                  |
-| hist          | a histogram showing the shape of the distribution of values in the column |
-:::
-
-Back to reading in data from various file types...
 
 ### Reading in an Excel file
 
@@ -317,13 +237,32 @@ library(readxl)
 # save the data contained in dds.xlsx under the name `dds`
 dds = read_excel("dds.xlsx")
 
-# make sure it worked by looking at the first few rows
-head(dds)
+
 ```
 
-Awesome! We can see that there are 6 columns in this data set: [id, age.cohort, age, gender, expenditure, ethnicity.]{style="font-family: Monaco;"}
+#### Exercise: 
 
-Once you have the `readxl` package, importing Excel files works just like reading in csv files!
+Try checking to see if this code worked like we did above by checking if an object called "dds" exists in our environment.
+
+```{webr-r}
+# check if the dds data frame exists
+
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Solution
+
+Remember to put `"dds"` in quotation marks!
+
+```{webr-r}
+#| warning: false
+
+# check if the dds data frame exists
+exists("dds")
+```
+:::
+
+Awesome! It seems to have worked! Once you have the `readxl` package, importing Excel files works just like reading in csv files!
 
 ### Importing R data files
 
@@ -354,7 +293,6 @@ Let's see an example of this using our 'census.rda' file.
 ```{webr-r}
 # load in the data
 # add verbose = TRUE so the object name gets printed
-
 load("census.rda", verbose = TRUE)
 
 ```
@@ -367,20 +305,115 @@ We can see the message:
 
 This is telling us that the object we loaded came with the name `census`. This is the name we should use to refer to that data object.
 
+```{webr-r}
+# check if the census data frame exists
+
+
+```
+
 ::: {.callout-note collapse="true"}
 ## Note: file names vs object names
 
 The name of the R object doesn't have to match with the file name like it did in this example. The file name "census.rda" and the object name `census` are two independent things. However, it can be helpful to have the file name and object name match, so they often will by convention.
 :::
 
-For example, we can take a look at the top few rows of data using the `head()` function again. This time we'll just look at the top 3 by adding the argument `n = 3`.
-
-```{webr-r}
-# look at top 3 rows of census data 
-head(census, n = 3)
-
-```
 
 ### Other file types
 
 There are other types of files that you may want to import into R. These include text files (.txt) and files from other statistical software packages like SAS (.sas7bdat) or stata (.dta). The syntax for reading in these files is very similar to reading in csv or Excel files so we won't go into these data types in detail. There are lots of helpful tutorials and R documentation online if you ever need them (for example, [this page](https://dk81.github.io/dkmathstats_site/ranalysis-readfile-types.html) goes through reading in files from multiple sources).
+
+
+## Viewing Your Data
+
+Great! We've now read our first data file into R. But how do we know if it worked?
+
+We're going to take a brief detour to talk about taking a first look at your data before we move on to importing data from other files types.
+
+### The head() function
+
+Again, in RStudio, you should be able to see a new object in your 'Environment' tab in the upper-right quadrant of your screen when you import a new data set. Since we're working on the web, we'll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is `head()` that shows us the top few entries of a data frame, vector, or list.
+
+```{webr-r}
+# show top few rows of the data set `cdc`
+head(cdc)
+
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Hint
+
+If you get the following error:
+
+::: {style="text-align: center;"}
+[Error: object 'cdc' not found]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
+:::
+
+this is R's way of telling you that you don't currently have an object loaded into your environment called 'cdc'.
+
+When you see an error like this, you should make sure the code used to import the data worked properly and that you don't have any spelling errors (R is case sensitive so you have to be very careful to spell things exactly correctly).
+
+Make sure you were able to successfully run the code above with the `read_csv()` function without any errors before running this code block.
+:::
+
+Awesome! Here we see the top 6 rows of the `cdc` data frame. There are 9 columns: [genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.]{style="font-family: Monaco;"}
+
+::: {.callout-note collapse="true"}
+## `tail()` function
+
+If you want to look at the *last* few entries of an R object, there is a similar function to the `head()` function called `tail()`.
+:::
+
+### The skim() function
+
+Another way we can start to take a look at the data is to use a function from the R package `skmir`. The function is called `skim` and gives us a nice overview of the contents included in our data.
+
+```{webr-r}
+#| warning: false
+#| context: interactive
+#| autorun: true
+# load skimr library
+library(skimr)
+```
+
+```{webr-r}
+# use the skim() function on the cdc data
+skim(cdc)
+
+```
+
+This function breaks our columns into groups based on the type of variable they are. Here we see that [genhlth]{style="font-family: Monaco;"} and [gender]{style="font-family: Monaco;"} are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1---more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.
+
+::: {.callout-note collapse="true"}
+## Understanding `skim()` output
+
+The columns for categorical variables are:
+
+| Attribute     | Description                                                             |
+|------------------|------------------------------------------------------|
+| n_missing     | the number of rows with missing value (NA) in the corresponding columns |
+| complete_rate | proportion of rows that are not missing (not NAs)                       |
+| min           | the minimum character length of values in the column                    |
+| max           | the maximum character length of values in the column                    |
+| empty         | the number of empty characters in the column                            |
+| n_unique      | the number of unique values in the column                               |
+| whitespace    | the number of rows containing only white space in the column            |
+
+The columns for numeric variables are:
+
+| Attribute     | Description                                                               |
+|------------------|------------------------------------------------------|
+| n_missing     | the number of rows with missing value (NA) in the corresponding columns   |
+| complete_rate | proportion of rows that are not missing (not NAs)                         |
+| mean          | the mean (average) value of the non-missing values in the column          |
+| sd            | the standard deviation of the non-missing values in the column            |
+| p0            | the minimum value observed in the column                                  |
+| p25           | the 25th percentile of values observed in the column                      |
+| p50           | the median (50th percentile) of values observed in the column             |
+| p75           | the 75th percentile of values observed in the column                      |
+| p100          | the maximum value observed in the column                                  |
+| hist          | a histogram showing the shape of the distribution of values in the column |
+:::
+
+### The View() function
+
+When we're working in RStudio, we can also use the `View()` function to look at an entire data frame. This will open up a spreadsheet-like data viewer in a new tab in RStudio where you can scroll through all the rows and columns in a data frame. We can't use this here or in R Markdown files (which can knit to PDF or HTML, for example) because it requires opening a new data viewer tab. It is a useful function when you're working in RStudio, though!
