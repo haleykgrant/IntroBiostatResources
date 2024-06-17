@@ -1,0 +1,444 @@
+---
+title: "Bootstrapping"
+author: "Haley Grant"
+format: 
+  html:
+    toc: true
+    toc-location: left
+engine: knitr
+filters: 
+  - webr
+webr:
+  packages: ['tidyverse']
+  autoload-packages: false
+categories:
+    - Bootstrapping
+    - Statistical inference
+title-block-banner: "#FC8888"
+---
+
+
+## Introduction
+
+The purpose of this recitation is to demonstrate the concept of bootstrapping and show how it relates to the concept of a sampling distribution.
+
+```{webr-r}
+#| context: setup
+library(tidyverse)
+```
+
+# The Population
+
+First, let's consider a Poisson distribution with a rate of lambda = 2.5
+
+To see what the distribution looks like we could plot the exact value of the probability mass function, or we could just simulate a very large number of draws from the distribution.
+
+##  Create data set with populaiton
+
+Fill in the following code with the appropriate parameters so that 'pop' is a sample of size 10000 drawn from a Poisson distribution with lambda = 2.5. We will treat this as our population for the remainder of the exercise.
+
+
+```{webr-r}
+set.seed(123) # set seed for consistent results
+
+# draw a sample of size 10,000 from Poisson(2.5)
+pop <- data.frame(x = rpois(n = , lambda = ) )
+
+
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Solution
+
+```{webr-r}
+#| autorun: true
+
+set.seed(123) # set seed for consistent results
+
+# draw a sample of size 10,000 from Poisson(2.5)
+pop <- data.frame(x = rpois(n = 10000 , lambda = 2.5) )
+
+
+```
+
+:::
+
+## Plot the Population
+
+Make a plot of the simulated data to display the population distribution. _Hint: think about the type of variable this is (quantitative/qualitative) and the types of plots that are used for this type of variable._
+
+
+```{webr-r}
+# make a plot of simulated data
+
+
+
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Solution
+```{webr-r}
+# make histogram
+pop %>%
+  ggplot(aes(x = x)) + 
+  geom_histogram(binwidth = 1, 
+                 color = "black", fill = "steelblue3") + # black outline with blue fill
+  theme_bw() +
+  labs(title = "Population of size 10,000")
+
+
+```
+:::
+
+##  Summary values on the population
+
+Calculate the mean, standard deviation, and variance in the population. Is it what you would expect?
+
+```{webr-r}
+# mean in population
+
+# variance in population
+
+# standard deviation in population
+
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Solution
+
+```{webr-r}
+
+# true mean in population 
+mean(pop$x)
+# true variance in population 
+var(pop$x)
+# true standard deviation in population 
+sd(pop$x)
+
+```
+
+This is what we would expect, since the population was drawn randomly from a Poisson distribution with lambda = 2.5 (the mean and variance of a Poisson distribution are equal to lambda). We observe a mean of 2.4759 and a variance of 2.449064, which are very close to 2.5. The standard deviation is the square root of the variance, about 1.565.
+
+:::
+
+# The Sample
+
+## Sample of size 100
+
+Fill in the code below so that 'samp' contains a sample of size 100 sampled without replacement from our population. 
+
+```{webr-r}
+set.seed(2468) # re-setting seed to make sure we get the same numbers
+# draw a sample of size 100 without replacement
+samp <- data.frame(x = sample(pop$x, size =  "SAMPLE SIZE HERE", replace = "ENTER VALUE HERE"))
+
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Solution
+
+```{webr-r}
+#| autorun: true
+
+set.seed(2468) # re-setting seed to make sure we get the same numbers
+# draw a sample of size 100 without replacement
+samp <- data.frame(x = sample(pop$x, size = 100, replace = FALSE))
+
+```
+
+:::
+
+## Plot the data.
+
+Make a plot to show the distribution of the sampled data.
+
+
+```{webr-r}
+# make a plot of the sample data
+
+
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Solution
+
+```{webr-r}
+# make a plot of the sample data
+samp %>%
+  ggplot(aes(x = x)) +
+  geom_histogram(color = "black", fill = "firebrick1", binwidth = 1) + 
+  theme_bw() + 
+  labs(title = "Sample of size 100")
+
+```
+
+The sample looks very similar to the population distribution, which is expected since we sampled randomly. The population has a few more extreme values (around 9, 10, 11, etc) than we observe in the sample. This also makes sense, given that these are rare observations and it's less likely to pull one of these randomly than to pull a value near the center of the distribution (around 2-3, for example).
+:::
+
+# The Bootstrap
+
+## Bootstrapped means
+
+Here I've included code to produce 10,000 bootstrap samples from our original sample and saved the mean from each bootstrap sample. You don't need to write the code for this-- I've done it for you. This code chunk is just so you can see how the code works. The procedure is:
+
+1. Resample with replacement from the original sample to get a new sample of size 100 (the same size as the original sample). This is a bootstrap sample.
+
+2. Calculate the mean value on the on the bootstrap sample.
+
+3. Repeat this process many times (I chose 10,000 in this example, but we just want it large enough that we can visualize the distribution of the means that we calculated in step 2).
+
+The result is a set of 10,000 (or whatever number of bootstrap iterations you chose to run) bootstrap means.
+
+```{webr-r}
+#| autorun: true
+set.seed(321) # re-setting seed to make sure we get the same numbers
+# empty data frame to store means  
+boot_10000 <- data.frame(mean=rep(NA, 10000))
+
+# bootstrap 10,000 samples each of size 100 (the same as our original sample size)
+for(i in 1:10000){
+  # sample with replacement from the SAMPLE (not the population)
+  samp_10000 <- sample(samp$x, size = 100, replace=TRUE)
+  # record the mean
+  boot_10000$mean[i] <- mean(samp_10000)
+}
+```
+
+
+## Plot the bootstrapped means
+
+Plot the distribution of the means of the bootstrapped samples. Describe the distribution. 
+
+Assuming the central limit theorem (CLT), what would we expect this distribution to be? Is our observed distribution close to what we would expect?
+
+```{webr-r}
+# plot the means from the 10,000 bootstrapped samples
+
+
+```
+
+```{webr-r}
+# calculate summary statistics (mean/sd/etc) for the boostrapped means
+
+
+```
+
+
+::: {.callout-tip collapse="true" icon="false"}
+## Solution
+
+```{webr-r}
+# plot the means from the 10,000 bootstrapped samples
+boot_10000 %>%
+  ggplot(aes(x = mean)) +
+  geom_histogram(color = "black", fill = "lightcoral", binwidth = .1) + 
+  theme_bw()
+```
+
+```{webr-r}
+# calculate summary statistics (mean/sd/etc) for the boostrapped means
+# calculate mean
+mean(boot_10000$mean)
+
+# calculated standard deviation of means (also called standard error)
+sd(boot_10000$mean)
+
+## Under the CLT, we would expect these to be 
+# mean
+mean(pop$x)
+
+# standard error
+sd(pop$x)/sqrt(nrow(samp))
+
+```
+
+The distribution appears approximately normal centered at around 2.5 (mean = 2.56) with a standard deviation of 0.17. This is very similar to what we would expect from the central limit theorem CLT, which tells us that the mean should be centered at the true population mean (our population had a mean of 2.48) and the standard error should be our population standard deviation/(root n) (1.56/sqrt(100) = 0.156).
+
+:::
+
+
+# Resampling from the population (sampling distribution)
+
+For this part of the recitation, you don't need to write any code. I've written all of the code for you-- I just want to use this part of the recitation to demonstrate the concept of a confidence interval and show how the bootstrap ties in.
+
+
+## Resample from population
+
+Now draw we're going 10000 samples of size 100 without replacement from the population and calculate the mean for each and a 95% confidence interval.
+
+We haven't learned the specific formula for confidence intervals yet so I have provided the code for you here.
+
+```{webr-r}
+#| autorun: true
+set.seed(1298) # re-setting seed to make sure we get the same numbers
+# empty data frame to store mean and bounds of confidence interval
+sampdist100 <- data.frame(mean=rep(NA, 10000), 
+                          lower = rep(NA, 10000), 
+                          upper = rep(NA, 10000))
+
+# resample 10000 times
+for(i in 1:10000){
+  # sample without replacement from the POPULATION
+  resamp_100 <- sample(pop$x, size = 100, replace = FALSE)
+  # calculate the mean
+  sampdist100$mean[i] <- mean(resamp_100)
+  # lower bound of confidence interval
+  sampdist100$lower[i] <- mean(resamp_100) - qt(0.975, df = 99)*sd(resamp_100)/sqrt(100)
+  # upper bound of confidence interval
+  sampdist100$upper[i] <- mean(resamp_100) + qt(0.975, df = 99)*sd(resamp_100)/sqrt(100)
+}
+
+```
+
+## Comparison: boostrap vs resampling from the population
+
+To compare the distribution obtained in part 4 to that obtained in part 2, we're going to plot the two distributions next to each other. Here I'm just showing the plot output, but you can toggle to the next tab to see the code that produced this plot if you're interested.
+
+:::  {.panel-tabset group="boostrapplots"}
+#### Plot
+```{webr-r}
+#| autorun: true
+#| context: output
+# plot the two next to each other using ggplot
+data.frame(x = c(sampdist100$mean, boot_10000$mean), 
+           sampling = rep(c("Resample from population", "Bootstrap"), each = 10000)) %>%
+  mutate(pop_mean = mean(pop$x),
+         samp_mean = mean(samp$x)) %>%
+  ggplot(aes(x = x, fill = sampling)) + # color by which method was used
+  geom_histogram(color = "black", binwidth = 0.1) + 
+  facet_wrap(.~ sampling, nrow = 2) + # separate plots
+  theme_bw() + 
+  labs(x = "Sample Means", fill = "Method") +
+  scale_fill_manual(values = c("lightcoral","skyblue")) + 
+  geom_vline(aes(xintercept = samp_mean, color = "Sample Mean", linetype = "Sample Mean" ), show.legend = TRUE) + # add a dashed vertical line at the original sample mean
+  geom_vline(aes(xintercept = pop_mean, color = "Population Mean", linetype = "Population Mean"), show.legend = TRUE) +# add a vertical line at the population mean 
+  scale_color_manual(name = "",
+                     values = c("Sample Mean" = "firebrick1", "Population Mean" = "blue")) +
+  scale_linetype_manual(name = "",
+                     values = c("Sample Mean" = 2, "Population Mean" = 1)) 
+
+```
+#### Plot Code
+````md
+```{webr-r}
+# plot the two next to each other using ggplot
+data.frame(x = c(sampdist100$mean, boot_10000$mean), 
+           sampling = rep(c("Resample from population", "Bootstrap"), each = 10000)) %>%
+  mutate(pop_mean = mean(pop$x),
+         samp_mean = mean(samp$x)) %>%
+  ggplot(aes(x = x, fill = sampling)) + # color by which method was used
+  geom_histogram(color = "black", binwidth = 0.1) + 
+  facet_wrap(.~ sampling, nrow = 2) + # separate plots
+  theme_bw() + 
+  labs(x = "Sample Means", fill = "Method") +
+  scale_fill_manual(values = c("lightcoral","skyblue")) + 
+  geom_vline(aes(xintercept = samp_mean, color = "Sample Mean", linetype = "Sample Mean" ), show.legend = TRUE) + # add a dashed vertical line at the original sample mean
+  geom_vline(aes(xintercept = pop_mean, color = "Population Mean", linetype = "Population Mean"), show.legend = TRUE) +# add a vertical line at the population mean 
+  scale_color_manual(name = "",
+                     values = c("Sample Mean" = "firebrick1", "Population Mean" = "blue")) +
+  scale_linetype_manual(name = "",
+                     values = c("Sample Mean" = 2, "Population Mean" = 1)) 
+
+```
+````
+:::
+
+Notice that the two distributions are fairly similar, though the bootstrap is centered at the sample mean observed in our data, while the distribution obtained from resampling from the actual population is centered near the true population mean (as expected). Both distributions are symmetric and they have similar spread.
+
+
+# Confidence intervals
+
+##  The boostrap confidence interval
+
+Here we will compute a 95% confidence interval for the bootstrapped sample means with 10,000 repetitions by taking the 2.5th percentile and the 97.5th percentile of the bootstrapped means that we got above. These two values will tell us the range of values that contains the middle 95% of the observed bootstrapped means.
+
+```{webr-r}
+# find 2.5% and 97.5% of the bootstrapped means
+quantile(boot_10000$mean, c(.025, .975))
+
+```
+
+This tells us that when we resampled (with replacement) samples of size 100 from our original sample, we obtained sample means between 2.08 and 2.78 in 9,500 of the 10,000 bootstrap samples (95% of the bootstrap iterations) and only 5% of the bootstrap samples gave us a mean outside of this range.
+
+## Comparing this to the theory-based confidence interval
+
+If we wanted to see what confidence interval we would get from our sample based on the equation, we can use the following code:
+
+```{webr-r}
+# confidence interval for our original sample
+mean(samp$x) + qt(c(0.025, 0.975), df = 99)*sd(samp$x)/sqrt(nrow(samp))
+
+```
+
+This is very similar to the bootstrap confidence interval we got and does contain the true population mean of 2.4759. The idea here is that the bootstrap empirically simulates a sampling distribution based on our sample, while the theory-based confidence interval uses a few sample statistics (the mean and standard deviation) and statistical theory to estimate the sampling distribution. Then both calculate boundaries between which 95% of the sample distribution lies.
+
+
+##  Coverage of resampled population means
+
+Next we are going to calculate the percentage of the confidence intervals from part 4 (the confidence intervals from resampling from the population) cover the true population mean.
+
+```{webr-r}
+# the population mean
+pop_mean = mean(pop$x)
+
+# proportion of intervals that overlap with the true population mean
+sampdist100 %>%
+  mutate(covers = lower <= pop_mean & upper >= pop_mean) %>%
+  summarise(percent = mean(covers))
+
+```
+
+We can see that almost exactly 95% of the confidence intervals constructed overlap with the true population mean. This is what we would expect based on the interpretation of a confidence interval.
+
+Here is a plot to show the first 200 confidence intervals we calculated above, where the color indicates if the interval covers the true mean or not. Think of each row (interval) as a different sample of size 100 and the 95% confidence interval we would calculate based on that sample. Statistical theory tells us that 95% of these intervals should cover the true population mean, and 5% will not. .
+
+:::  {.panel-tabset group="plotcis"}
+#### Plot
+```{webr-r}
+#| autorun: true
+#| context: output
+# plotting the first 200 intervals
+sampdist100 %>%
+  slice(1:200) %>%
+  mutate(pop_mean = mean(pop$x)) %>%
+  mutate(iteration = row_number()) %>%
+  mutate(covers = case_when(lower <= pop_mean & upper >= pop_mean ~ "Covers mean",
+                           lower > pop_mean | upper < pop_mean ~ "Does not cover mean")) %>%
+  ggplot(aes(x = mean, y = iteration, color = covers)) + 
+  geom_point(size = 0.5) + 
+  geom_errorbarh(aes(xmin=lower, xmax = upper), linewidth = 0.25) + 
+  theme_bw() + 
+  labs(color = element_blank(), x = "x") + 
+  geom_vline(aes(xintercept = pop_mean)) +  
+  scale_color_manual(values = c("navy","red"))
+```
+
+#### Plot Code
+````md
+
+```{webr-r}
+# plotting the first 200 intervals
+sampdist100 %>%
+  slice(1:200) %>%
+  mutate(pop_mean = mean(pop$x)) %>%
+  mutate(iteration = row_number()) %>%
+  mutate(covers = case_when(lower <= pop_mean & upper >= pop_mean ~ "Covers mean",
+                           lower > pop_mean | upper < pop_mean ~ "Does not cover mean")) %>%
+  ggplot(aes(x = mean, y = iteration, color = covers)) + 
+  geom_point(size = 0.5) + 
+  geom_errorbarh(aes(xmin=lower, xmax = upper), linewidth = 0.25) + 
+  theme_bw() + 
+  labs(color = element_blank(), x = "x") + 
+  geom_vline(aes(xintercept = pop_mean)) + 
+  scale_color_manual(values = c("navy","red"))
+```
+
+````
+:::
+
+In this set of 200 resampling iterations, we see that 9 out of 200 (4.5%) of the iterations produced a confidence interval that __did not__ contain the population mean, and the remaining 191 (95.5%) did contain the true mean. 
+
+In practice, we typically only have one sample. We have no way of knowing if our sample is one of the unlucky 5% of samples that doesn't produce a confidence interval that covers the true mean, but since in the long run most confidence intervals will cover the true mean, we say "we are 95% confident that our interval covers the true mean."
+
+
+

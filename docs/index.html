@@ -101,6 +101,34 @@ ul.task-list li input[type="checkbox"] {
   
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-Recitations .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-Recitations'] = new List('listing-Recitations', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
     const listingTargetEl = window.document.querySelector('#listing-shiny-apps .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
@@ -262,7 +290,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(10)</span></div><div class="category" data-category="Data Visualization">Data Visualization <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R code">R code <span class="quarto-category-count">(5)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Software installation">Software installation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Statistical inference">Statistical inference <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(11)</span></div><div class="category" data-category="Bootstrapping">Bootstrapping <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Data Visualization">Data Visualization <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R code">R code <span class="quarto-category-count">(5)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Software installation">Software installation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Statistical inference">Statistical inference <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-body" id="quarto-document-content">
 
@@ -414,6 +442,49 @@ Haley Grant
 </div>
 </div>
 </a>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div>
+</section>
+<section id="recitation-materials" class="level2">
+<h2 class="anchored" data-anchor-id="recitation-materials">Recitation Materials</h2>
+<div id="listing-Recitations" class="quarto-listing quarto-listing-container-default">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="Bootstrapping,Statistical inference" data-listing-file-modified-sort="1718651190319" data-listing-reading-time-sort="13" data-listing-word-count-sort="2527">
+<div class="thumbnail">
+<p><a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external"></a></p><a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external">Bootstrapping</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Bootstrapping'); return false;">
+Bootstrapping
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Statistical inference'); return false;">
+Statistical inference
+</div>
+</div>
+<div class="listing-description">
+<a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external">The purpose of this recitation is to demonstrate the concept of bootstrapping and show how it relates to the concept of a sampling distribution.</a>
+</div>
+</div>
+<div class="metadata">
+<p><a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external"></a></p><a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external">
+<div class="listing-author">
+Haley Grant
+</div>
+</a>
+</div>
 </div>
 </div>
 <div class="listing-no-matching d-none">

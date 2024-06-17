@@ -7,6 +7,12 @@ listing:
     categories: true
     sort-ui: false
     filter-ui: false
+  - id: Recitations
+    contents: "Recitation*.qmd"
+    type: default
+    categories: true
+    sort-ui: false
+    filter-ui: false
   - id: shiny-apps
     contents: "*shiny*.qmd"
     type: table
@@ -19,6 +25,11 @@ title-block-banner-color: "black"
 ## R Tutorials
 
 ::: {#Tutorials}
+:::
+
+## Recitation Materials
+
+::: {#Recitations}
 :::
 
 ## Shiny Apps
