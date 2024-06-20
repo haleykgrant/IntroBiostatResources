@@ -1,6 +1,7 @@
 ---
 title: "Tutorial 6: Data Summarization in R"
 author: "Haley Grant"
+image: calc2.png
 format: 
   html:
     toc: true
