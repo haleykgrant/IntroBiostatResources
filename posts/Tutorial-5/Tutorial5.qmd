@@ -14,9 +14,10 @@ webr:
   autoload-packages: false
   cell-options:
     editor-font-scale: 0.85
+    warning: false
 categories:
     - R code
-    - Data Visualization
+    - Exploratory Data Analysis (EDA)
 title-block-banner: "#a2cffe"
 ---
 
@@ -30,32 +31,31 @@ download.file(url.rda, "census.rda")
 load("census.rda")
 
 ```
+
 ## Introduction
 
 In this tutorial, we will cover data visualization in R using the `ggplot2` package (one of the packages included in the `tidyverse`). Specifically, we will learn about
 
-- General `ggplot` syntax
-- Types of plots
-  - histograms
-  - box plots
-  - bar plots
-  - scatter plots 
-- More `ggplot` aesthetic options
- 
- 
+-   General `ggplot` syntax
+-   Types of plots
+    -   histograms
+    -   box plots
+    -   bar plots
+    -   scatter plots
+-   More `ggplot` aesthetic options
+
 ## `ggplot` syntax
 
-The `ggplot2` package within the `tidyverse` suite of packages utilizes similar syntax to create multiple types of graphs. 
+The `ggplot2` package within the `tidyverse` suite of packages utilizes similar syntax to create multiple types of graphs.
 
 All `ggplot2` plots will begin with a call to the `ggplot()` functions, to which you will supply the data you will be using to make the plot and specify the variables (columns) you would like to use in the plot. We can then add extra features on top of this base plot using other `ggplot2` functions, strung together with the `+` symbol.
 
 I tend to use the following syntax:
 
-
 `{data_name} %>%`
 
-`ggplot(aes(x = {x_axis_variable_name}, y = {y_axis_varible_name})) +` 
-     
+`ggplot(aes(x = {x_axis_variable_name}, y = {y_axis_varible_name})) +`
+
 `geom_{PLOT_TYPE}()`
 
 The code in the brackets `{}` are the things you should change based on your data and the type of plot you want to make.
@@ -64,13 +64,13 @@ The important thing to note about this code is that any variable you want to use
 
 There are lots of different plots that `ggplot2` can make, each with a different function. Some common ones that we will use are:
 
-- `geom_histogram()`: makes a histogram
-- `geom_boxplot()`: makes a boxplot
-- `geom_bar()`: makes a bar plot
-- `geom_point()`: makes a scatterplot
-- `geom_qq()`: makes a quantile-quantile (QQ) plot
+-   `geom_histogram()`: makes a histogram
+-   `geom_boxplot()`: makes a boxplot
+-   `geom_bar()`: makes a bar plot
+-   `geom_point()`: makes a scatterplot
+-   `geom_qq()`: makes a quantile-quantile (QQ) plot
 
-Let's see some examples! We will use the `census.rda` data from  [Tutorial 3](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-3/Tutorial3.html). I have already loaded the data for you. Reminder: the data frame is saved under the name `census`. Here's a reminder of what the data look like:
+Let's see some examples! We will use the `census.rda` data from [Tutorial 3](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-3/Tutorial3.html). I have already loaded the data for you. Reminder: the data frame is saved under the name `census`. Here's a reminder of what the data look like:
 
 ```{webr-r}
 # show first few rows of census data
@@ -81,7 +81,6 @@ colnames(census)
 ```
 
 Since we are going to be using the `ggplot2` functions, we need to load the `tidyverse`! I'm going to have this code auto-run but make sure when you're working in RStudio that you type and run this line at the beginning of any R session/document that you want to use `tidyverse` functions for!
-
 
 ```{webr-r}
 #| warning: false
@@ -110,7 +109,6 @@ census %>% # supply data frame
 
 You should see a few messages shown in the output. These messages aren't errors (they aren't a problem), but it's good to know what they mean.
 
-
 The first message:
 
 ::: {style="text-align: center;"}
@@ -131,8 +129,7 @@ census %>% # supply data frame
 
 ```
 
-
-We could also specify the *size* of the bins, rather than the *number* of bins. For example, since this variable refers to annual income, maybe we would want to show bins of size \$10,000. Specifying the `binwidth` argument is highly data-dependent (we wouldn't want to use a bin size of 10,000 if the variable was height measured in inches, for example &#128578; ). Here's an example of specifying `binwidth`:
+We could also specify the *size* of the bins, rather than the *number* of bins. For example, since this variable refers to annual income, maybe we would want to show bins of size \$10,000. Specifying the `binwidth` argument is highly data-dependent (we wouldn't want to use a bin size of 10,000 if the variable was height measured in inches, for example 🙂 ). Here's an example of specifying `binwidth`:
 
 ```{webr-r}
 #| out-width: 80%
@@ -146,8 +143,7 @@ census %>% # supply data frame
 The other message is a warning message:
 
 ::: {style="text-align: center;"}
-[Warning: Removed 108 rows containing non-finite outside the scale range (\`stat_bin()\`)
-]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500; font-size: 12px;"}
+[Warning: Removed 108 rows containing non-finite outside the scale range (\`stat_bin()\`)]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500; font-size: 12px;"}
 :::
 
 This is R's way of telling us that some of the rows were removed and were not included in the plot. We can see that 108 observations (rows) were removed for plotting. This is generally because there are missing values. The `ggplot2` functions don't have any way of plotting missing values, so they get skipped in these plotting functions.
@@ -160,12 +156,13 @@ sum(is.na(census$total_personal_income))
 
 ```
 
-:::{.callout-note collapse="true"}
+::: {.callout-note collapse="true"}
 ## Sum of logical values
 
 Note here that `is.na(census$total_personal_income)` returns a vector of `TRUE/FALSE` (logical) values. When you take the sum of `TRUE/FALSE` values in R, it returns the number that are `TRUE`.
 
 For example:
+
 ```{webr-r}
 # make a vector with logical values
 logical_vector = c(TRUE, TRUE, FALSE, TRUE, FALSE)
@@ -173,7 +170,6 @@ logical_vector = c(TRUE, TRUE, FALSE, TRUE, FALSE)
 # take the sum
 sum(logical_vector)
 ```
-
 :::
 
 We can see from these histograms that we have a highly right-skewed variable. There are a lot of observations under \$100,000 (1e+05) and then a handful of observations all the way to over \$400,000.
@@ -181,7 +177,6 @@ We can see from these histograms that we have a highly right-skewed variable. Th
 ### Box plots
 
 Another way we can visualize quantitative data is using box plots. Box plots can be particularly helpful if you want to compare the distribution of a particular quantitative variable across different groups. For example, maybe we want to compare the distribution of `total_personal_income` across different levels of `marital_status`. We can do this with box plots.
-
 
 ```{webr-r}
 #| out-width: 80%
@@ -193,7 +188,7 @@ census %>% # supply data frame
 
 ```
 
-::: {.callout-note}
+::: callout-note
 Here we can see that the labels on the x-axis are overlapping, making it hard to read the plot. We'll get more into this later when we go over other aesthetic changes we can make to plots made with ggplot.
 :::
 
@@ -227,15 +222,11 @@ census %>% # supply data frame
 
 ```
 
-
-
-
-
 ## More `ggplot` aesthetic options
 
-So far we have only made basic plots using `ggplot2`, however this package makes it really easy to make much nicer looking plots without too much extra coding. We can do things like change the background color, add titles and subtitles, change the axis labels, and much more. I'll go over a few of these options but much more can be found online at resources like these: [ggplot tutorial](https://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html), [ggplot reference page ](https://ggplot2.tidyverse.org/articles/ggplot2.html)
+So far we have only made basic plots using `ggplot2`, however this package makes it really easy to make much nicer looking plots without too much extra coding. We can do things like change the background color, add titles and subtitles, change the axis labels, and much more. I'll go over a few of these options but much more can be found online at resources like these: [ggplot tutorial](https://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html), [ggplot reference page](https://ggplot2.tidyverse.org/articles/ggplot2.html)
 
-We will return to our side-by-side box plot example showing the total personal income by marital status to demonstrate how we can make the plot look a little nicer. 
+We will return to our side-by-side box plot example showing the total personal income by marital status to demonstrate how we can make the plot look a little nicer.
 
 ### Facets
 
@@ -265,7 +256,7 @@ census %>% # supply data frame
 
 ```
 
-::: {.callout-caution}
+::: callout-caution
 ## Caution: Busy plots
 
 Notice that this busied up the plot a lot. It's generally only a good idea to use multiple faceting variables if each only has a few (2-3) possible levels to make sure our figure is still interpretable.
@@ -276,11 +267,12 @@ Notice that this busied up the plot a lot. It's generally only a good idea to us
 
 Sometimes you'll notice that when you add facets to a plot, that not every facet takes up the full range of values on either the x-axis or y-axis, so the plots don't use space very effectively. If you want to change this, you can the following arguments to the `facet_wrap()` function:
 
-- `scales = "free_x` : to allow the x-axis to have different scales (ranges/degree of zoom) across the plots
-- `scales = "free_y` : to allow the y-axis to have different scales (ranges/degree of zoom) across the plots
-- `scales = "free` : to allow both the x- and y-axes to have different scales (ranges/degree of zoom) across the plots
+-   `scales = "free_x` : to allow the x-axis to have different scales (ranges/degree of zoom) across the plots
+-   `scales = "free_y` : to allow the y-axis to have different scales (ranges/degree of zoom) across the plots
+-   `scales = "free` : to allow both the x- and y-axes to have different scales (ranges/degree of zoom) across the plots
 
 Example:
+
 ```{webr-r}
 #| out-width: 70%
 #| out-height: 70%
@@ -291,7 +283,6 @@ census %>% # supply data frame
   facet_wrap( ~ sex, scales = "free_y") # make a separate plot for each level of the variable `sex` in the data
 
 ```
-
 :::
 
 ### Labels/titles
@@ -317,7 +308,7 @@ These labels are a lot nicer than the default labels!
 
 ### Background color
 
-Don't like the grey grid background? You can change it, too! I like to use a black and white grid background or sometimes just a plain white background. You can achieve this by adding `theme_bw()` or `theme_classic()` to the plot. There are many other options for plot themes that you can find here: _____
+Don't like the grey grid background? You can change it, too! I like to use a black and white grid background or sometimes just a plain white background. You can achieve this by adding `theme_bw()` or `theme_classic()` to the plot. There are many other options for plot themes that you can find here: \_\_\_\_\_
 
 #### Black and white grid with `theme_bw()`
 
@@ -359,7 +350,6 @@ census %>% # supply data frame
 
 You can also add color to plots to help display information. For example, maybe we want to color the box plots by marital status or by sex to further emphasize a comparison that we're trying to make. If you want to pick your own colors, see [this reference](https://r-graph-gallery.com/ggplot2-color.html) for more information about plot colors in `ggplot2`.
 
-
 #### Color by marital status
 
 ```{webr-r}
@@ -396,15 +386,13 @@ census %>% # supply data frame
 
 ```
 
-:::{.callout-warning }
+::: callout-warning
 ## Using color to display information
 
-Given that some people have trouble distinguishing color, it is best practice not to have color be the __only way__ in which information is portrayed.
+Given that some people have trouble distinguishing color, it is best practice not to have color be the **only way** in which information is portrayed.
 :::
 
-
-
-#### Static colors 
+#### Static colors
 
 You can also change colors without using variables from data. For example, you could make all of the box plots blue by including `color="blue"` to the `geom_boxplot()` function. If you are just trying to change the color but not trying to use color to indicate the value of a variable, put this argument doesn't need to go inside an `aes()` function. There are lots of colors to choose from in ggplot ([link](https://sape.inf.usi.ch/quick-reference/ggplot2/colour)).
 
@@ -424,7 +412,7 @@ census %>% # supply data frame
 
 ```
 
-:::{.callout-note collapse="true"}
+::: {.callout-note collapse="true"}
 ## `color` vs `fill`
 
 For some types of plots there is an additional argument `fill` that you can use to color parts of the plot. For example, in bar plots and histograms, changing the `color` argument will change the *outline color* of the bars while changing the `fill` argument will change the *color inside the bars*.
@@ -447,11 +435,9 @@ census %>% # supply data frame
   labs(title = "Changing `fill` argument")
 
 ```
-
 :::
 
 ### Formatting axis text
-
 
 As we noted before, the text on the x-axis of our box plots showing the different values of `marital_status` are overlapping, making it hard to read the plot. One way we can fix this is using the following code to rotate the text:
 
@@ -472,10 +458,10 @@ census %>% # supply data frame
 
 ```
 
-:::{.callout-tip}
+::: callout-tip
 ## Looking up technical code
 
-This code is starting to get pretty technical. You probably won't memorize this (I haven't! I look up how to do it every time I need to rotate axis labels, including just now while I was making this tutorial &#128578; ). 
+This code is starting to get pretty technical. You probably won't memorize this (I haven't! I look up how to do it every time I need to rotate axis labels, including just now while I was making this tutorial 🙂 ).
 
-__You aren't expected to know how to do this from memory__; you can use old example code or search online references/forums for help with this kind of thing. 
+**You aren't expected to know how to do this from memory**; you can use old example code or search online references/forums for help with this kind of thing.
 :::
