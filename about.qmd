@@ -9,4 +9,4 @@ about:
       href: https://github.com/haleykgrant/IntroBiostatResources
 ---
 
-This is a landing page for R tutorials and shiny apps for introductory biostatistics courses taught by [Haley Grant](https://www.sph.pitt.edu/directory/haley-grant).
+This is a landing page for R tutorials, course materials, and shiny apps for introductory biostatistics courses taught by [Haley Grant](https://www.sph.pitt.edu/directory/haley-grant).
