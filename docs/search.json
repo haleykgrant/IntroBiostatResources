@@ -18,7 +18,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "This is a landing page for R tutorials, course materials, and shiny apps for introductory biostatistics courses taught by Haley Grant."
+    "text": "This is a landing page for R tutorials, course materials, and shiny apps for introductory biostatistics courses taught by Haley Grant.\nThe tutorials on this site were made using webR to incorporate interactive coding exercises inside quarto documents. Documentation for how to use the quarto-webr extension can be found here. Shiny apps on the page are deployed using r-shinylive (also a quarto extension); documentation for which can be found here."
   },
   {
     "objectID": "posts/Tutorial-1/Tutorial1.html#welcome-to-the-installing-r-tutorial",
