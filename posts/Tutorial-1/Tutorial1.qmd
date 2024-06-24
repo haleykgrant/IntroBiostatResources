@@ -76,7 +76,7 @@ Watch this video for a description of the layout of the RStudio interface and a 
 
 {{< video https://www.youtube.com/watch?v=kfcX5DEMAp4 >}}
 
-### Making a BIOST 2041 folder and R Project
+### Making a class-specific folder and R Project
 
 I will be making a folder and project for this class where I will keep all of my notes and data sets. If you structure your folder the same way I do, all of my code should work seamlessly on your computer!
 

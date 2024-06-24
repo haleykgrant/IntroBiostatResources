@@ -6,8 +6,7 @@ about:
   links:
     - icon: github
       text: Github
-      href: https://github.com/haleykgrant/BIOST2041
+      href: https://github.com/haleykgrant/IntroBiostatResources
 ---
 
 This is a landing page for R tutorials and shiny apps for introductory biostatistics courses taught by [Haley Grant](https://www.sph.pitt.edu/directory/haley-grant).
-
