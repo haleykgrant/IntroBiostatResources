@@ -24,11 +24,11 @@ title-block-banner: "#a2cffe"
 
 By now you should have learned to install R and RStudio, learned a little about types of objects and functions in R, and learned to import data into R. If you're not sure about any of those, tutorials for each topic can be found here:
 
--   [Installing R and RStudio Tutorial](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-1/Tutorial1.html)
+-   [Installing R and RStudio Tutorial](https://haleykgrant.github.io/IntroBiostatResources/posts/Tutorial-1/Tutorial1.html)
 
--   [R Objects and Functions Tutorial](grant.github.io/BIOST2041/posts/Tutorial-2/Tutorial2.html)
+-   [R Objects and Functions Tutorial](grant.github.io/IntroBiostatResources/posts/Tutorial-2/Tutorial2.html)
 
--   [Importing Data into R Tutorial](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-3/Tutorial3.html)
+-   [Importing Data into R Tutorial](https://haleykgrant.github.io/IntroBiostatResources/posts/Tutorial-3/Tutorial3.html)
 
 ### Outline
 
@@ -39,7 +39,7 @@ In this tutorial, we're going to go over manipulating data frames in R, includin
 -   Updating variables
 -   Filtering data frames
 
-We're going to use the `cdc` data from [last time](https://haleykgrant.github.io/BIOST2041/posts/Tutorial-3/Tutorial3.html) in this tutorial as an example. Here's a reminder of how we read in that dataset (this code will automatically run when the webpage is ready):
+We're going to use the `cdc` data from [last time](https://haleykgrant.github.io/IntroBiostatResources/posts/Tutorial-3/Tutorial3.html) in this tutorial as an example. Here's a reminder of how we read in that dataset (this code will automatically run when the webpage is ready):
 
 ```{webr-r}
 #| context: setup
@@ -90,7 +90,7 @@ If we want to get a list of the names of the columns, we can use the `colnames()
 colnames(cdc)
 ```
 
-Here we can see the names of the 9 columns included in our data. Remember that R is case-sensitive so this can be a helpful function when you first start working with a data set. For example, if I was trying to refer to the column named `"age"` but I accidentally spelled it `"Age"`, R wouldn't understand which variable I was referring to. Checking the column names at the start can help avoid future confusion/frustration with misspellings &#128578;
+Here we can see the names of the 9 columns included in our data. Remember that R is case-sensitive so this can be a helpful function when you first start working with a data set. For example, if I was trying to refer to the column named `"age"` but I accidentally spelled it `"Age"`, R wouldn't understand which variable I was referring to. Checking the column names at the start can help avoid future confusion/frustration with misspellings 🙂
 
 ## Making a new column
 
