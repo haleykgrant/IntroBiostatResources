@@ -43,8 +43,12 @@ We're going to use the `cdc` data from [last time](https://haleykgrant.github.io
 
 ```{webr-r}
 #| context: setup
+
+dir.create("./data")
+
 url.csv <- "https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv"
-download.file(url.csv, "cdc_samp.csv")
+download.file(url.csv, "./data/cdc_samp.csv")
+
 ```
 
 ```{webr-r}
@@ -53,7 +57,7 @@ download.file(url.csv, "cdc_samp.csv")
 # load the tidyverse (remember we have to do this at the beginning of every new R session)
 library(tidyverse)
 # read in data from cdc_samp.csv
-cdc <- read_csv("cdc_samp.csv")
+cdc <- read_csv("data/cdc_samp.csv")
 
 # take a look at the top few rows of data
 head(cdc)

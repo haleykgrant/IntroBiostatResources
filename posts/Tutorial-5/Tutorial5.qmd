@@ -24,11 +24,12 @@ title-block-banner: "#a2cffe"
 ```{webr-r}
 #| context: setup
 
+dir.create("./data")
 
 url.rda <- "https://haleykgrant.github.io/tutorial_data/data/census.rda"
-download.file(url.rda, "census.rda")
+download.file(url.rda, "data/census.rda")
 
-load("census.rda")
+load("data/census.rda")
 
 ```
 

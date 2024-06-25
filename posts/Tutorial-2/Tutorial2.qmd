@@ -46,13 +46,15 @@ You may notice some lines of code that start with the pound sybmol, `#`, and sho
 
 ```
 
-**Exercise:** Try writing your own comment in the code chunk below!
+:::: {.callout-note icon=false appearance="simple"}
+#### Exercise: 
+
+Try writing your own comment in the code chunk below!
 
 ```{webr-r}
 
 
 ```
-
 ::: {.callout-tip collapse="true" icon="false"}
 ## Hint
 
@@ -67,6 +69,8 @@ Think about what the line of code should *start* with.
 # anything starting with the # sign is a comment
 ```
 :::
+
+::::
 
 {{< pagebreak >}}
 
@@ -183,11 +187,12 @@ class(x_character)
 
 This is a character. Even though it looks like a number, the quotation marks tell R that we don't want to treat this as the number 5. For example, maybe this is and identifier for hospital number 5 in a study. In this case, we probably don't want to do typical calculations as if this was the number 5.
 
-**Exercise:** See what happens when you try to multiply `x_character` by 2.
+
+For example, see what happens when you try to multiply `x_character` by 2.
 
 ```{webr-r}
 # try multiplying x_character by 2
-
+x_character * 2
 ```
 
 #### Error messages
@@ -200,7 +205,12 @@ Oh no! You should see the following error message:
 
 This is how R is telling you that you're trying to apply a function that requires a number to an object that isn't a number. R gives helpful error messages like this when you try to run code that doesn't work. Sometimes the language R uses is hard to understand, but you can always ask me or a TA what the error means, or search the error on Google!
 
-**Exercise:** If you change `x_character` to `x_numeric` in the code above, you should see it works just fine!
+:::: {.callout-note icon=false appearance="simple"}
+#### Exercise: 
+
+If you change `x_character` to `x_numeric` in the code above, you should see it works just fine! Try it out yourself!
+
+::::
 
 ### Factor Data
 
@@ -233,7 +243,12 @@ class(x_logical)
 
 ```
 
-**Exercise:** Try changing the value in the code above to check if `x_numeric` is equal to the number 4 to see how the value would change.
+:::: {.callout-note icon=false appearance="simple"}
+#### Exercise: 
+
+Try changing the value in the code above to check if `x_numeric` is equal to the number 4 to see how the value would change.
+
+::::
 
 ### Missing Values
 
@@ -248,7 +263,9 @@ x_missing = NA
 x_missing
 ```
 
-**Exercise:** Try multiplying the `x_missing` variable by 2 and see what happens.
+#### Exercise: 
+
+Try multiplying the `x_missing` variable by 2 and see what happens.
 
 ```{webr-r}
 # multiple x_missing by 2
@@ -332,6 +349,27 @@ unique(x_vector)
 length(x_vector)
 
 ```
+
+:::: {.callout-note icon=false appearance="simple"}
+#### Exercise: 
+The goal of the following line of code is to find and print the maximum value of the vector `x_vector`, but it has an error. __Can you find the mistake in the code? See if you can figure out how to fix it so the code returns the correct answer (the maximum value in the vector is 3).__
+
+```{webr-r}
+# show the maximum value in the vector named x_vector
+max("x_vector")
+```
+::: {.callout-tip collapse="true"}
+## Solution
+
+The problem with the code above is that I accidentally included the name of the vector object (`x_vector`) in quotation marks (`"x_vector"`). If you include the name of an object in quotation marks, R will just think it's a character string and not the name of a saved object in the directory. If you remove the quotation marks, the code should work as expected!
+
+```{webr-r}
+# show the maximum value in the vector named x_vector
+max(x_vector)
+
+```
+:::
+::::
 
 {{< pagebreak >}}
 
@@ -425,6 +463,8 @@ this means you are trying to load a package you haven't installed yet and you ne
 The R `tidyverse` package is a very useful suite of packages that make data manipulation and visualization clean and efficient. To see all of the packages included in the `tidyverse package` run the following code:
 
 ```{webr-r}
+#| warnings: false
+#| message: false
 # print the packages contained in the tidyverse
 tidyverse_packages()
 
@@ -448,7 +488,11 @@ This is R's way of telling you that you're trying to use a function that it does
 
 To give ourselves access to the functions from the `tidyverse` package, let's add the line of code `library(tidyverse)` before the line of code in the chunk above. That should fix the problem.
 
-**Exercise:** Add the line of code `library(tidyverse)` before the line of code in the chunk above and try rerunning the code chunk.
+:::: {.callout-note icon=false appearance="simple"}
+#### Exercise: 
+
+Add the line of code `library(tidyverse)` before the line of code in the chunk above and try rerunning the code chunk.
+::::
 
 ### The pipe operator from the tidyverse
 

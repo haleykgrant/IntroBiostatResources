@@ -281,7 +281,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"id":1,"code":"\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"cdc_samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"census.rda\")\n","options":{"fig-height":5,"context":"setup","message":"true","fig-width":7,"autorun":"true","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-1","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":2,"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-2","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":3,"code":"# print files in working directory\nlist.files()","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-3","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":4,"code":"# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"cdc_samp.csv\")","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-4","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":5,"code":"\n# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"cdc_samp.csv\")","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-5","output":"true","dpi":72,"warning":"false","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":6,"code":"# check if the cdc data frame exists\nexists(\"cdc\")","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-6","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":7,"code":"# load the readxl package \nlibrary(readxl)\n\n# save the data contained in dds.xlsx under the name `dds`\ndds = read_excel(\"dds.xlsx\")\n","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-7","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":8,"code":"# check if the dds data frame exists","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-8","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":9,"code":"\n# check if the dds data frame exists\nexists(\"dds\")","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-9","output":"true","dpi":72,"warning":"false","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":10,"code":"# load in the data\n# add verbose = TRUE so the object name gets printed\nload(\"census.rda\", verbose = TRUE)","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-10","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":11,"code":"# check if the census data frame exists\n","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-11","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":12,"code":"# show top few rows of the data set `cdc`\nhead(cdc)","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-12","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":13,"code":"# load skimr library\nlibrary(skimr)","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"true","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-13","output":"true","dpi":72,"warning":"false","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}},{"id":14,"code":"# use the skim() function on the cdc data\nskim(cdc)","options":{"fig-height":5,"context":"interactive","message":"true","fig-width":7,"autorun":"false","comment":"","read-only":"false","classes":"","editor-max-height":"","results":"markup","label":"unnamed-chunk-14","output":"true","dpi":72,"warning":"true","out-width":"700px","editor-font-scale":"0.85","editor-quick-suggestions":"false","fig-cap":"","out-height":""}}];
+globalThis.qwebrCellDetails = [{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-1","autorun":"true","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"setup","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":1,"code":"\ndir.create(\"./data\")\n\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"./data/cdc_samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"./data/dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"./data/census.rda\")\n"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-2","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":2,"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-3","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":3,"code":"# print files in working directory\nlist.files(\"/home/web_user\")"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-4","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":4,"code":"# print files in working directory\nlist.files()"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-5","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":5,"code":"# print files in data sub-directory\nlist.files(\"/home/web_user/data\")"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-6","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":6,"code":"# print files in data sub-directory\nlist.files(\"data\")"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-7","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":7,"code":"# print files in data sub-directory\nlist.files(\"/home/web_user/\", recursive = T)"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-8","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":8,"code":"# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"data/cdc_samp.csv\")"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-9","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"false","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":9,"code":"\n# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"data/cdc_samp.csv\")"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-10","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":10,"code":"# check if the cdc data frame exists\nexists(\"cdc\")"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-11","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":11,"code":"# load the readxl package \nlibrary(readxl)\n\n# save the data contained in dds.xlsx under the name `dds`\ndds = read_excel(\"data/dds.xlsx\")\n"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-12","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":12,"code":"# check if the dds data frame exists"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-13","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"false","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":13,"code":"\n# check if the dds data frame exists\nexists(\"dds\")"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-14","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":14,"code":"# load in the data\n# add verbose = TRUE so the object name gets printed\nload(\"data/census.rda\", verbose = TRUE)"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-15","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":15,"code":"# check if the census data frame exists\n"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-16","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":16,"code":"# show top few rows of the data set `cdc`\nhead(cdc)"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-17","autorun":"true","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"false","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":17,"code":"# load skimr library\nlibrary(skimr)"},{"options":{"editor-font-scale":"0.85","classes":"","fig-height":5,"label":"unnamed-chunk-18","autorun":"false","comment":"","fig-cap":"","read-only":"false","editor-max-height":"","message":"true","output":"true","warning":"true","context":"interactive","dpi":72,"editor-quick-suggestions":"false","results":"markup","out-width":"700px","out-height":"","fig-width":7},"id":18,"code":"# use the skim() function on the cdc data\nskim(cdc)"}];
 
 </script>
 <script type="module">
@@ -1214,10 +1214,11 @@ globalThis.qwebrExecuteCode = async function (
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#getting-set-up" id="toc-getting-set-up" class="nav-link" data-scroll-target="#getting-set-up">Getting Set Up</a>
+  <li><a href="#files-and-file-structures" id="toc-files-and-file-structures" class="nav-link" data-scroll-target="#files-and-file-structures">Files and File Structures</a>
   <ul class="collapse">
   <li><a href="#files-on-your-local-computer" id="toc-files-on-your-local-computer" class="nav-link" data-scroll-target="#files-on-your-local-computer">Files on your local computer</a></li>
   <li><a href="#checking-your-working-directory" id="toc-checking-your-working-directory" class="nav-link" data-scroll-target="#checking-your-working-directory">Checking your working directory</a></li>
+  <li><a href="#file-paths" id="toc-file-paths" class="nav-link" data-scroll-target="#file-paths">File paths</a></li>
   <li><a href="#list-files-in-working-directory" id="toc-list-files-in-working-directory" class="nav-link" data-scroll-target="#list-files-in-working-directory">List files in working directory</a></li>
   </ul></li>
   <li><a href="#types-of-files" id="toc-types-of-files" class="nav-link" data-scroll-target="#types-of-files">Types of Files</a></li>
@@ -1486,8 +1487,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <li>R data files</li>
 </ul>
 </section>
-<section id="getting-set-up" class="level2">
-<h2 class="anchored" data-anchor-id="getting-set-up">Getting Set Up</h2>
+<section id="files-and-file-structures" class="level2">
+<h2 class="anchored" data-anchor-id="files-and-file-structures">Files and File Structures</h2>
 <section id="files-on-your-local-computer" class="level3">
 <h3 class="anchored" data-anchor-id="files-on-your-local-computer">Files on your local computer</h3>
 <p>When you are working in R on your local computer and you want to import a data file into your R session for an analysis, you will need to tell R where it can find the data file. This is why I suggested creating a ‘data’ folder in your class folder. If you save all of the data files for this class in that folder, you can always use the same general syntax for telling R where your file is.</p>
@@ -1500,31 +1501,108 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>Try running the code in this block:</p>
 <div id="qwebr-insertion-location-2"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<p>You should see the output is</p>
+<p>You should see the output is:</p>
 <div style="text-align: center;">
-<p><span style="font-weight: 500;">“/home/web_user”</span></p>
+<p><span style="font-weight: 500; font-family : Menlo">"/home/web_user"</span></p>
 </div>
-<p>This is because we are working in R on the web. This is telling us that we are in a sub-directory of the “home” directory called “web_user”. That is, “web_user” is a directory (folder) inside the larger directory (folder) called “home”. You read file paths from left to right</p>
-<p>Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.</p>
+<p>This is because we are working in R on the web. This is telling us that we are in a sub-directory of the “home” directory called “web_user”. That is, “web_user” is a directory (folder) inside the larger directory (folder) called “home”. You read file paths from left to right.</p>
+<div style="color: purple;">
+<p><em>Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.</em></p>
+</div>
+</section>
+<section id="file-paths" class="level3">
+<h3 class="anchored" data-anchor-id="file-paths">File paths</h3>
+<p>File paths are a way of specifying the location of a file within a computer’s file system. There are two kinds of file paths, absolute paths and relative paths. Both can be useful in different situations.</p>
+<ul>
+<li><p><strong>Absolute file paths</strong> are file paths that start at the root node of your computer (often starting with something like “C:" in Windows and”/Users/” in Unix-like operating systems like macOS). Absolute paths can get fairly long if files are contained within many levels of sub-directories.</p></li>
+<li><p><strong>Relative file paths</strong> are paths that start at the current working directory, and are therefore often shorter than absolute paths.</p></li>
+</ul>
+<p>The function we used above, <code>getwd()</code>, prints absolute paths, so we are currently working in the “web_user” sub-directory of the root directory called “home”. The image below is a visual representation of the file structure.</p>
+<p><img src="file_structure.png" class="img-fluid" style="width:80.0%"></p>
 </section>
 <section id="list-files-in-working-directory" class="level3">
 <h3 class="anchored" data-anchor-id="list-files-in-working-directory">List files in working directory</h3>
-<p>To check the files that are present in our current directory, we can use the function <code>list.files()</code> to list out all of the files that are stored in the directory where we are currently working.</p>
+<p>To check the files that exist in our current directory, we can use the function <code>list.files()</code> to print a list of all the files that are stored in the directory where we are currently working. If we just want to print the current files we can run the function without giving it a file path (this will assume you want to list the files in your current directory). We could also input a file path to the function</p>
 <p>Try running the code in this block:</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Try running the line of code above with but remove the file path from inside the set of parentheses. Do you notice a difference?</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>There shouldn’t be any difference since we used the abosulte path to the current working directory!</p>
+<div id="qwebr-insertion-location-4"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+</div>
+</div>
+</div>
+</div>
 <p>The output should look something like this:</p>
 <div style="text-align: center;">
-<p><span style="font-family: 'Monaco'; font-weight: 500;">[1] “Rplots.pdf” “cdc_samp.csv” “census.rda” “dds.xlsx”</span></p>
+<p><span style="font-family: 'Monaco'; font-weight: 500; ">[1] "Rplots.pdf" "data"</span></p>
 </div>
-<p>This tells us that there are 4 files that we have access to in this directory:</p>
+<p>This tells us that there are 2 objects that we have access to in this directory:</p>
 <ul>
-<li>a file called “Rplots.pdf” that we won’t be working with</li>
+<li>a file called “Rplots.pdf”
+<ul>
+<li>we won’t be working with this file</li>
+</ul></li>
+<li>a folder called “data”
+<ul>
+<li>one clue that it’s a folder instead of a file is that it doesn’t have a file extension on the end</li>
+</ul></li>
+</ul>
+<p>If we want to see the files contained within the sub-folder “data”, we can pass the updated file path to the “data” folder by using the absolute path:</p>
+<div id="qwebr-insertion-location-5"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Equivalently, with Relative Path
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This code will give us the same output as above:</p>
+<div id="qwebr-insertion-location-6"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+</div>
+</div>
+</div>
+<p>Or we could add an argument to the original code that allows us to print files within subdirectoryies recursively.</p>
+<div id="qwebr-insertion-location-7"></div>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<p>All of these tell us that within the sub-folder called “data”, we have three files:</p>
+<ul>
 <li>a file called “cdc_samp.csv”</li>
 <li>a file called “census.rda”</li>
 <li>a file called “dds.xlsx”</li>
 </ul>
-<p>There are the data files that we will be working with in this tutorial.</p>
+<p>These are the data files that we will be working with in this tutorial.</p>
 </section>
 </section>
 <section id="types-of-files" class="level2">
@@ -1586,14 +1664,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <h2 class="anchored" data-anchor-id="importing-data">Importing Data</h2>
 <section id="reading-in-a-csv-file" class="level3">
 <h3 class="anchored" data-anchor-id="reading-in-a-csv-file">Reading in a csv file</h3>
-<p>To read in a csv file to R, we use the function <code>read.csv()</code>. There is a similar function in the <code>tidyverse</code> package called <code>read_csv()</code> that you could also use. We’ll go ahead and use the tidyverse version.</p>
+<p>To read in a csv file to R, we can use the function <code>read.csv()</code>. There is a similar function in the <code>tidyverse</code> package called <code>read_csv()</code> that we can also use. We’ll go ahead and use the tidyverse version.</p>
 <p>The syntax to use this function is:</p>
 <div style="text-align: center;">
 <p><code>name_for_data = read_csv("path_to_data")</code></p>
 </div>
 <ul>
 <li><p>Here <code>name_for_data</code> is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can’t start with a number).</p></li>
-<li><p><code>"path_to_data"</code> is the file path that will tell R where to look for your data. You will see more examples of this in class, but for this example, the files are in our working directory so we don’t need any long file paths to navigate through different directories.</p></li>
+<li><p><code>"path_to_data"</code> is the file path that will tell R where to look for your data. You can either provide the function with an absolute path to the file (starting with the root directory of your computer) or a relative path, starting at the current working directory. You will see more examples of this in class, but for this example, the files are all in our working directory so we don’t need any long file paths to navigate through different directories.</p></li>
 </ul>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1623,10 +1701,10 @@ Duplicate names
 </div>
 </div>
 <p>Let’s try reading in the “cdc_samp.csv” file and give the data frame the name <code>cdc</code>. You may need to add an extra line of code to get this to work (think back to our last tutorial about R functions and packages).</p>
-<div id="qwebr-insertion-location-4"></div>
+<div id="qwebr-insertion-location-8"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1635,7 +1713,7 @@ Hint
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>If you get the following error:</p>
 <div style="text-align: center;">
@@ -1647,7 +1725,7 @@ Hint
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1656,9 +1734,9 @@ Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="qwebr-insertion-location-5"></div>
+<div id="qwebr-insertion-location-9"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
 </div>
@@ -1667,7 +1745,7 @@ Solution
 <h4 class="anchored" data-anchor-id="making-sure-it-worked">Making sure it worked</h4>
 <p>Great! If you were able to get the code chunk above to run without any error messages, then the code should have worked and we should now have an R object named <code>cdc</code> in our environment that we can work with.</p>
 <p>If we were working in RStudio, we could check to make sure there is an object named <code>cdc</code> under the <code>Data</code> heading of the Environment tab (in the upper right-hand corner for most RStudio setups if you didn’t change the panel layout). Since we aren’t working in RStudio, we will use a function to make sure our <code>read_csv()</code> code worked. The function we will use is the <code>exists()</code> function and, as the name suggests, it just tells us if the object we are checking exists in our environment or not. It will return a logical value (<code>TRUE</code> if the object exists and <code>FALSE</code> if it does not). The function expects the name of the object in “quotation marks.”</p>
-<div id="qwebr-insertion-location-6"></div>
+<div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </section>
 </section>
@@ -1675,7 +1753,7 @@ Solution
 <h3 class="anchored" data-anchor-id="reading-in-an-excel-file">Reading in an Excel file</h3>
 <p>We’ve successfully read in a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we’re going to need to use a new package called the <code>readxl</code> package.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1684,7 +1762,7 @@ Reminder: Installing <code>readxl</code>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Remember that if you don’t have this package installed on your local computer, you’ll need to install it before you can load and use it. I’ve already installed it here, but remember that to install the package you can just run <code>install.packages("readxl")</code> in your console in R Studio.</p>
 </div>
@@ -1695,15 +1773,23 @@ Reminder: Installing <code>readxl</code>
 <p><code>name_for_data = read_excel("path_to_data")</code></p>
 </div>
 <p>Let’s try it using our ‘dds.xlsx’ file!</p>
-<div id="qwebr-insertion-location-7"></div>
+<div id="qwebr-insertion-location-11"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<section id="exercise" class="level4">
-<h4 class="anchored" data-anchor-id="exercise">Exercise:</h4>
-<p>Try checking to see if this code worked like we did above by checking if an object called “dds” exists in our environment.</p>
-<div id="qwebr-insertion-location-8"></div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Try checking to see if this code worked (like we did above) by checking if an object called “dds” exists in our environment.</p>
+<div id="qwebr-insertion-location-12"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1712,16 +1798,17 @@ Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Remember to put <code>"dds"</code> in quotation marks!</p>
-<div id="qwebr-insertion-location-9"></div>
+<div id="qwebr-insertion-location-13"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 </div>
 </div>
 </div>
+</div>
+</div>
 <p>Awesome! It seems to have worked! Once you have the <code>readxl</code> package, importing Excel files works just like reading in csv files!</p>
-</section>
 </section>
 <section id="importing-r-data-files" class="level3">
 <h3 class="anchored" data-anchor-id="importing-r-data-files">Importing R data files</h3>
@@ -1749,17 +1836,17 @@ load()
 </div>
 <p>This tells R to print out the name of the data object once it is loaded so we know what to call it.</p>
 <p>Let’s see an example of this using our ‘census.rda’ file.</p>
-<div id="qwebr-insertion-location-10"></div>
+<div id="qwebr-insertion-location-14"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>We can see the message:</p>
 <div style="text-align: center;">
 <p><span style="font-family: 'Monaco'; font-weight: 500; display: inline-block; text-align: left;">Loading objects:<br>&nbsp;&nbsp;census</span></p>
 </div>
 <p>This is telling us that the object we loaded came with the name <code>census</code>. This is the name we should use to refer to that data object.</p>
-<div id="qwebr-insertion-location-11"></div>
+<div id="qwebr-insertion-location-15"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1768,7 +1855,7 @@ Note: file names vs object names
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The name of the R object doesn’t have to match with the file name like it did in this example. The file name “census.rda” and the object name <code>census</code> are two independent things. However, it can be helpful to have the file name and object name match, so they often will by convention.</p>
 </div>
@@ -1787,10 +1874,10 @@ Note: file names vs object names
 <section id="the-head-function" class="level3">
 <h3 class="anchored" data-anchor-id="the-head-function">The head() function</h3>
 <p>Again, in RStudio, you should be able to see a new object in your ‘Environment’ tab in the upper-right quadrant of your screen when you import a new data set. Since we’re working on the web, we’ll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is <code>head()</code> that shows us the top few entries of a data frame, vector, or list.</p>
-<div id="qwebr-insertion-location-12"></div>
+<div id="qwebr-insertion-location-16"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -1799,7 +1886,7 @@ Hint
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>If you get the following error:</p>
 <div style="text-align: center;">
@@ -1813,7 +1900,7 @@ Hint
 </div>
 <p>Awesome! Here we see the top 6 rows of the <code>cdc</code> data frame. There are 9 columns: <span style="font-family: Monaco;">genhlth, exerany, hlthplan, smoke100, height, weight, wtdesire, age, gender.</span></p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1822,7 +1909,7 @@ Hint
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>If you want to look at the <em>last</em> few entries of an R object, there is a similar function to the <code>head()</code> function called <code>tail()</code>.</p>
 </div>
@@ -1832,13 +1919,13 @@ Hint
 <section id="the-skim-function" class="level3">
 <h3 class="anchored" data-anchor-id="the-skim-function">The skim() function</h3>
 <p>Another way we can start to take a look at the data is to use a function from the R package <code>skmir</code>. The function is called <code>skim</code> and gives us a nice overview of the contents included in our data.</p>
-<div id="qwebr-insertion-location-13"></div>
+<div id="qwebr-insertion-location-17"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-14"></div>
+<div id="qwebr-insertion-location-18"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>This function breaks our columns into groups based on the type of variable they are. Here we see that <span style="font-family: Monaco;">genhlth</span> and <span style="font-family: Monaco;">gender</span> are characters and the rest are being treated as numeric (even though it looks like we may have a few other binary variables that were coded as 0/1—more on this later). The summary information gives us a snapshot of the contents of each column in the data. More information about the specific sections of the output can be found below.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1847,7 +1934,7 @@ Understanding <code>skim()</code> output
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The columns for categorical variables are:</p>
 <table class="table">

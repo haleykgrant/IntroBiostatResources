@@ -20,17 +20,20 @@ categories:
 title-block-banner: "#a2cffe"
 ---
 
+
 ```{webr-r}
 #| context: setup
 
+dir.create("./data")
+
 url.csv <- "https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv"
-download.file(url.csv, "cdc_samp.csv")
+download.file(url.csv, "./data/cdc_samp.csv")
 
 url.xlsx <- "https://haleykgrant.github.io/tutorial_data/data/dds.xlsx"
-download.file(url.xlsx, "dds.xlsx")
+download.file(url.xlsx, "./data/dds.xlsx")
 
 url.rda <- "https://haleykgrant.github.io/tutorial_data/data/census.rda"
-download.file(url.rda, "census.rda")
+download.file(url.rda, "./data/census.rda")
 
 
 ```
@@ -43,7 +46,7 @@ In this tutorial, you will learn about working with data in R. In particular, th
 -   Excel files
 -   R data files
 
-## Getting Set Up
+## Files and File Structures
 
 ### Files on your local computer
 
@@ -66,41 +69,108 @@ getwd()
 
 ```
 
-You should see the output is
+You should see the output is:
 
 ::: {style="text-align: center;"}
-[\left"/home/web_user\right"]{style="font-weight: 500;"}
+[\left\"/home/web_user\right\"]{style="font-weight: 500; font-family : Menlo"}
 :::
 
-This is because we are working in R on the web. This is telling us that we are in a sub-directory of the "home" directory called "web_user". That is, "web_user" is a directory (folder) inside the larger directory (folder) called "home". You read file paths from left to right
+This is because we are working in R on the web. This is telling us that we are in a sub-directory of the "home" directory called "web_user". That is, "web_user" is a directory (folder) inside the larger directory (folder) called "home". You read file paths from left to right.
 
-Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.
+::: {style="color: purple;"}
+*Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.*
+:::
+
+### File paths
+
+File paths are a way of specifying the location of a file within a computer's file system. There are two kinds of file paths, absolute paths and relative paths. Both can be useful in different situations.
+
+- **Absolute file paths** are file paths that start at the root node of your computer (often starting with something like "C:\" in Windows and "/Users/" in Unix-like operating systems like macOS). Absolute paths can get fairly long if files are contained within many levels of sub-directories.
+
+- **Relative file paths** are paths that start at the current working directory, and are therefore often shorter than absolute paths.
+
+The function we used above, `getwd()`, prints absolute paths, so we are currently working in the "web_user" sub-directory of the root directory called "home". The image below is a visual representation of the file structure.
+
+![](file_structure){width=80%}
 
 ### List files in working directory
 
-To check the files that are present in our current directory, we can use the function `list.files()` to list out all of the files that are stored in the directory where we are currently working.
+To check the files that exist in our current directory, we can use the function `list.files()` to print a list of all the files that are stored in the directory where we are currently working. If we just want to print the current files we can run the function without giving it a file path (this will assume you want to list the files in your current directory). We could also input a file path to the function 
 
 Try running the code in this block:
+
+```{webr-r}
+# print files in working directory
+list.files("/home/web_user")
+```
+
+:::: {.callout-note icon=false appearance="simple"}
+#### Exercise: 
+
+Try running the line of code above with but remove the file path from inside the set of parentheses. Do you notice a difference?
+
+::: {.callout-tip collapse="true" icon="false"}
+## Solution
+
+There shouldn't be any difference since we used the abosulte path to the current working directory!
 
 ```{webr-r}
 # print files in working directory
 list.files()
 ```
 
+:::
+
+::::
+
+
 The output should look something like this:
 
 ::: {style="text-align: center;"}
-[\[1\] "Rplots.pdf" "cdc_samp.csv" "census.rda" "dds.xlsx"]{style="font-family: 'Monaco'; font-weight: 500;"}
+[\[1\] \"Rplots.pdf\" \"data\"]{style="font-family: 'Monaco'; font-weight: 500; "}
 :::
 
-This tells us that there are 4 files that we have access to in this directory:
+This tells us that there are 2 objects that we have access to in this directory:
 
--   a file called "Rplots.pdf" that we won't be working with
+* a file called "Rplots.pdf" 
+  + we won't be working with this file
+* a folder called "data" 
+  + one clue that it's a folder instead of a file is that it doesn't have a file extension on the end
+
+If we want to see the files contained within the sub-folder "data", we can pass the updated file path to the "data" folder by using the absolute path:
+
+```{webr-r}
+# print files in data sub-directory
+list.files("/home/web_user/data")
+
+```
+
+:::: {.callout-note icon=false collapse=true}
+## Equivalently, with Relative Path
+This code will give us the same output as above:
+
+```{webr-r}
+# print files in data sub-directory
+list.files("data")
+
+```
+::::
+
+Or we could add an argument to the original code that allows us to print files within subdirectoryies recursively.
+
+```{webr-r}
+# print files in data sub-directory
+list.files("/home/web_user/", recursive = T)
+
+```
+
+All of these tell us that within the sub-folder called "data", we have three files:
+
 -   a file called "cdc_samp.csv"
 -   a file called "census.rda"
 -   a file called "dds.xlsx"
 
-There are the data files that we will be working with in this tutorial.
+These are the data files that we will be working with in this tutorial.
 
 ## Types of Files
 
@@ -134,11 +204,13 @@ The three files we will read in today have the following names:
 -   "dds.xlsx" : an excel file with data from the department of disability services in California
 -   "census.rda": an R data file with data from the US census
 
+
+
 ## Importing Data
 
 ### Reading in a csv file
 
-To read in a csv file to R, we use the function `read.csv()`. There is a similar function in the `tidyverse` package called `read_csv()` that you could also use. We'll go ahead and use the tidyverse version.
+To read in a csv file to R, we can use the function `read.csv()`. There is a similar function in the `tidyverse` package called `read_csv()` that we can also use. We'll go ahead and use the tidyverse version.
 
 The syntax to use this function is:
 
@@ -148,7 +220,8 @@ The syntax to use this function is:
 
 -   Here `name_for_data` is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can't start with a number).
 
--   `"path_to_data"` is the file path that will tell R where to look for your data. You will see more examples of this in class, but for this example, the files are in our working directory so we don't need any long file paths to navigate through different directories.
+-   `"path_to_data"` is the file path that will tell R where to look for your data. You can either provide the function with an absolute path to the file (starting with the root directory of your computer) or a relative path, starting at the current working directory. You will see more examples of this in class, but for this example, the files are all in our working directory so we don't need any long file paths to navigate through different directories. 
+
 
 ::: callout-warning
 ## Assigning a name
@@ -168,7 +241,7 @@ Let's try reading in the "cdc_samp.csv" file and give the data frame the name `c
 
 ```{webr-r}
 # read in the data file "cdc_samp.csv"
-cdc = read_csv("cdc_samp.csv")
+cdc = read_csv("data/cdc_samp.csv")
 ```
 
 ::: {.callout-tip collapse="true" icon="false"}
@@ -195,7 +268,7 @@ Add a line of code above your read_csv() line to load the tidyverse (`library(ti
 library(tidyverse)
 
 # read in the data file "cdc_samp.csv"
-cdc = read_csv("cdc_samp.csv")
+cdc = read_csv("data/cdc_samp.csv")
 ```
 :::
 
@@ -235,14 +308,15 @@ Let's try it using our 'dds.xlsx' file!
 library(readxl)
 
 # save the data contained in dds.xlsx under the name `dds`
-dds = read_excel("dds.xlsx")
+dds = read_excel("data/dds.xlsx")
 
 
 ```
 
+:::: {.callout-note icon=false appearance="simple"}
 #### Exercise: 
 
-Try checking to see if this code worked like we did above by checking if an object called "dds" exists in our environment.
+Try checking to see if this code worked (like we did above) by checking if an object called "dds" exists in our environment.
 
 ```{webr-r}
 # check if the dds data frame exists
@@ -261,6 +335,8 @@ Remember to put `"dds"` in quotation marks!
 exists("dds")
 ```
 :::
+
+::::
 
 Awesome! It seems to have worked! Once you have the `readxl` package, importing Excel files works just like reading in csv files!
 
@@ -293,7 +369,7 @@ Let's see an example of this using our 'census.rda' file.
 ```{webr-r}
 # load in the data
 # add verbose = TRUE so the object name gets printed
-load("census.rda", verbose = TRUE)
+load("data/census.rda", verbose = TRUE)
 
 ```
 
