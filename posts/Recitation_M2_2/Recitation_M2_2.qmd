@@ -17,7 +17,6 @@ categories:
 title-block-banner: "#FC8888"
 ---
 
-
 ## Introduction
 
 The purpose of this recitation is to demonstrate the concept of bootstrapping and show how it relates to the concept of a sampling distribution.
@@ -33,10 +32,9 @@ First, let's consider a Poisson distribution with a rate of lambda = 2.5
 
 To see what the distribution looks like we could plot the exact value of the probability mass function, or we could just simulate a very large number of draws from the distribution.
 
-##  Create data set with populaiton
+## Create data set with populaiton
 
 Fill in the following code with the appropriate parameters so that 'pop' is a sample of size 10000 drawn from a Poisson distribution with lambda = 2.5. We will treat this as our population for the remainder of the exercise.
-
 
 ```{webr-r}
 set.seed(123) # set seed for consistent results
@@ -60,13 +58,11 @@ pop <- data.frame(x = rpois(n = 10000 , lambda = 2.5) )
 
 
 ```
-
 :::
 
 ## Plot the Population
 
-Make a plot of the simulated data to display the population distribution. _Hint: think about the type of variable this is (quantitative/qualitative) and the types of plots that are used for this type of variable._
-
+Make a plot of the simulated data to display the population distribution. *Hint: think about the type of variable this is (quantitative/qualitative) and the types of plots that are used for this type of variable.*
 
 ```{webr-r}
 # make a plot of simulated data
@@ -77,6 +73,7 @@ Make a plot of the simulated data to display the population distribution. _Hint:
 
 ::: {.callout-tip collapse="true" icon="false"}
 ## Solution
+
 ```{webr-r}
 # make histogram
 pop %>%
@@ -90,7 +87,7 @@ pop %>%
 ```
 :::
 
-##  Summary values on the population
+## Summary values on the population
 
 Calculate the mean, standard deviation, and variance in the population. Is it what you would expect?
 
@@ -118,14 +115,13 @@ sd(pop$x)
 ```
 
 This is what we would expect, since the population was drawn randomly from a Poisson distribution with lambda = 2.5 (the mean and variance of a Poisson distribution are equal to lambda). We observe a mean of 2.4759 and a variance of 2.449064, which are very close to 2.5. The standard deviation is the square root of the variance, about 1.565.
-
 :::
 
 # The Sample
 
 ## Sample of size 100
 
-Fill in the code below so that 'samp' contains a sample of size 100 sampled without replacement from our population. 
+Fill in the code below so that 'samp' contains a sample of size 100 sampled without replacement from our population.
 
 ```{webr-r}
 set.seed(2468) # re-setting seed to make sure we get the same numbers
@@ -145,13 +141,11 @@ set.seed(2468) # re-setting seed to make sure we get the same numbers
 samp <- data.frame(x = sample(pop$x, size = 100, replace = FALSE))
 
 ```
-
 :::
 
 ## Plot the data.
 
 Make a plot to show the distribution of the sampled data.
-
 
 ```{webr-r}
 # make a plot of the sample data
@@ -181,11 +175,11 @@ The sample looks very similar to the population distribution, which is expected 
 
 Here I've included code to produce 10,000 bootstrap samples from our original sample and saved the mean from each bootstrap sample. You don't need to write the code for this-- I've done it for you. This code chunk is just so you can see how the code works. The procedure is:
 
-1. Resample with replacement from the original sample to get a new sample of size 100 (the same size as the original sample). This is a bootstrap sample.
+1.  Resample with replacement from the original sample to get a new sample of size 100 (the same size as the original sample). This is a bootstrap sample.
 
-2. Calculate the mean value on the on the bootstrap sample.
+2.  Calculate the mean value on the on the bootstrap sample.
 
-3. Repeat this process many times (I chose 10,000 in this example, but we just want it large enough that we can visualize the distribution of the means that we calculated in step 2).
+3.  Repeat this process many times (I chose 10,000 in this example, but we just want it large enough that we can visualize the distribution of the means that we calculated in step 2).
 
 The result is a set of 10,000 (or whatever number of bootstrap iterations you chose to run) bootstrap means.
 
@@ -204,10 +198,9 @@ for(i in 1:10000){
 }
 ```
 
-
 ## Plot the bootstrapped means
 
-Plot the distribution of the means of the bootstrapped samples. Describe the distribution. 
+Plot the distribution of the means of the bootstrapped samples. Describe the distribution.
 
 Assuming the central limit theorem (CLT), what would we expect this distribution to be? Is our observed distribution close to what we would expect?
 
@@ -222,7 +215,6 @@ Assuming the central limit theorem (CLT), what would we expect this distribution
 
 
 ```
-
 
 ::: {.callout-tip collapse="true" icon="false"}
 ## Solution
@@ -253,14 +245,11 @@ sd(pop$x)/sqrt(nrow(samp))
 ```
 
 The distribution appears approximately normal centered at around 2.5 (mean = 2.56) with a standard deviation of 0.17. This is very similar to what we would expect from the central limit theorem CLT, which tells us that the mean should be centered at the true population mean (our population had a mean of 2.48) and the standard error should be our population standard deviation/(root n) (1.56/sqrt(100) = 0.156).
-
 :::
-
 
 # Resampling from the population (sampling distribution)
 
 For this part of the recitation, you don't need to write any code. I've written all of the code for you-- I just want to use this part of the recitation to demonstrate the concept of a confidence interval and show how the bootstrap ties in.
-
 
 ## Resample from population
 
@@ -294,8 +283,9 @@ for(i in 1:10000){
 
 To compare the distribution obtained in part 4 to that obtained in part 2, we're going to plot the two distributions next to each other. Here I'm just showing the plot output, but you can toggle to the next tab to see the code that produced this plot if you're interested.
 
-:::  {.panel-tabset group="boostrapplots"}
+::: {.panel-tabset group="boostrapplots"}
 #### Plot
+
 ```{webr-r}
 #| autorun: true
 #| context: output
@@ -318,8 +308,10 @@ data.frame(x = c(sampdist100$mean, boot_10000$mean),
                      values = c("Sample Mean" = 2, "Population Mean" = 1)) 
 
 ```
+
 #### Plot Code
-````md
+
+```` md
 ```{webr-r}
 # plot the two next to each other using ggplot
 data.frame(x = c(sampdist100$mean, boot_10000$mean), 
@@ -345,10 +337,9 @@ data.frame(x = c(sampdist100$mean, boot_10000$mean),
 
 Notice that the two distributions are fairly similar, though the bootstrap is centered at the sample mean observed in our data, while the distribution obtained from resampling from the actual population is centered near the true population mean (as expected). Both distributions are symmetric and they have similar spread.
 
-
 # Confidence intervals
 
-##  The boostrap confidence interval
+## The boostrap confidence interval
 
 Here we will compute a 95% confidence interval for the bootstrapped sample means with 10,000 repetitions by taking the 2.5th percentile and the 97.5th percentile of the bootstrapped means that we got above. These two values will tell us the range of values that contains the middle 95% of the observed bootstrapped means.
 
@@ -372,8 +363,7 @@ mean(samp$x) + qt(c(0.025, 0.975), df = 99)*sd(samp$x)/sqrt(nrow(samp))
 
 This is very similar to the bootstrap confidence interval we got and does contain the true population mean of 2.4759. The idea here is that the bootstrap empirically simulates a sampling distribution based on our sample, while the theory-based confidence interval uses a few sample statistics (the mean and standard deviation) and statistical theory to estimate the sampling distribution. Then both calculate boundaries between which 95% of the sample distribution lies.
 
-
-##  Coverage of resampled population means
+## Coverage of resampled population means
 
 Next we are going to calculate the percentage of the confidence intervals from part 4 (the confidence intervals from resampling from the population) cover the true population mean.
 
@@ -392,8 +382,9 @@ We can see that almost exactly 95% of the confidence intervals constructed overl
 
 Here is a plot to show the first 200 confidence intervals we calculated above, where the color indicates if the interval covers the true mean or not. Think of each row (interval) as a different sample of size 100 and the 95% confidence interval we would calculate based on that sample. Statistical theory tells us that 95% of these intervals should cover the true population mean, and 5% will not. .
 
-:::  {.panel-tabset group="plotcis"}
+::: {.panel-tabset group="plotcis"}
 #### Plot
+
 ```{webr-r}
 #| autorun: true
 #| context: output
@@ -414,7 +405,8 @@ sampdist100 %>%
 ```
 
 #### Plot Code
-````md
+
+```` md
 
 ```{webr-r}
 # plotting the first 200 intervals
@@ -432,16 +424,15 @@ sampdist100 %>%
   geom_vline(aes(xintercept = pop_mean)) + 
   scale_color_manual(values = c("navy","red"))
 ```
-
 ````
 :::
 
-In this set of 200 resampling iterations, we see that 9 out of 200 (4.5%) of the iterations produced a confidence interval that __did not__ contain the population mean, and the remaining 191 (95.5%) did contain the true mean. 
+In this set of 200 resampling iterations, we see that 9 out of 200 (4.5%) of the iterations produced a confidence interval that **did not** contain the population mean, and the remaining 191 (95.5%) did contain the true mean.
 
 In practice, we typically only have one sample. We have no way of knowing if our sample is one of the unlucky 5% of samples that doesn't produce a confidence interval that covers the true mean, but since in the long run most confidence intervals will cover the true mean, we say "we are 95% confident that our interval covers the true mean."
 
-
-
 # Word of caution
 
-Many students confuse the number of bootstrap iterations (in our example, N = 10,000) with the sample size drawn at each bootstrap iteration (in our example, n = 100). This distinction is __crucial__. The number of iterations is not pre-defined. We often want at least ~1,000 iterations to have a set of bootstrapped statistics (in our case, means) large enough to visualize the distribution and enough granularity to accurately calculate percentiles for confidence intervals, for example. In contrast, the sample size drawn at each bootstrap iteration __must be equal to the original sample size__. The goal of bootstrapping is to simulate the _sampling distribution from which your original sample was drawn_. Its aim is to quantify the uncertainty in the original sample by resampling to see how different the statistic (the mean) can be from sample to sample __of the same size__. If we artificially inflate the sample size, say in our example drawing bootstrap samples of size 500, this is __invalid__ we will artificially reduce the amount of variability in the sample statistic (the mean) if we pretend our original sample was 5 times larger than it actually was. 
+Many students confuse the number of bootstrap iterations (in our example, N = 10,000) with the sample size drawn at each bootstrap iteration (in our example, n = 100). This distinction is **crucial**. The number of iterations is not pre-defined. We often want at least \~1,000 iterations to have a set of bootstrapped statistics (in our case, means) large enough to visualize the distribution and enough granularity to accurately calculate percentiles for confidence intervals, for example. 
+
+In contrast, the sample size drawn at each bootstrap iteration **must be equal to the original sample size**. The goal of bootstrapping is to simulate the *sampling distribution from which your original sample was drawn*. Its aim is to quantify the uncertainty in the original sample by resampling to see how different the statistic (the mean) can be from sample to sample **of the same size**. If we artificially inflate the sample size, say in our example drawing bootstrap samples of size 500, this is **invalid** we will artificially reduce the amount of variability in the sample statistic (the mean) if we pretend our original sample was 5 times larger than it actually was.
