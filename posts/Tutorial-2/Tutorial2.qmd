@@ -35,7 +35,7 @@ In this tutorial I will introduce a handful of new concepts in R and example cod
 
 #### The 'Start over' button
 
-Each code chunk has a [<i style="font-size: 12px; position: absolute; top: 8px; left: 4px;" class="fa"></i>]{style="padding: 3px; position: relative;margin-right: 6px;"} button in the upper right corner that allows you to reset the code.If you make a mistake and want to start from scratch, hit this button!
+Each code chunk has a [<i style="font-size: 12px; relative: absolute; top: 8px; left: 4px;" class="fa"></i>]{style="padding: 3px; position: relative;margin-right: 2px;"} button in the upper right corner that allows you to reset the code.If you make a mistake and want to start from scratch, hit this button!
 
 #### Comments
 
