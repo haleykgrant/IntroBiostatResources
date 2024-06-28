@@ -25,19 +25,21 @@ ui <- fluidPage(
   
   # Show a plot of the generated distribution
   tabsetPanel(type = "tabs",
-              tabPanel("Changing the range of x",
+              tabPanel("Changing the variability in x",
                        sidebarLayout( 
                          sidebarPanel(
                            sliderInput("c", "Scaling Constant", 
                                        min = 0.1, max = 3,value = 1)),
                          mainPanel( 
                            strong("Description:"),
-                           p("The goal of this part of the app is to show you how changing the amount of variability in x impacts the standard error of our coefficient estimate for \u03B2. That is, if we increase or decrease the amount of variability in the predictor (x) relative to the amount of variability in the outcome (y), what happens to the standard error of the slope coefficient?"),
+                           p("The goal of this part of the app is to show you how changing the amount of variability in x impacts the standard error of our coefficient estimate for \u03B2. That is, if we increase or decrease the amount of variability in the predictor (x) relative to the amount of variability in the outcome (y), what happens to the standard error of the slope coefficient? "),
+                           p("We will demonstrate this by scaling x by a constant factor while keeping y the same."),
                            plotOutput("xplot",height = "300px"),
+                           textOutput("sd"),
                            textOutput("se"),
                            p(),
                            strong("What's the point?"),
-                           p("As we decrease the variability in the predictor, x, we increase our uncertainty (the standard error) in our estimate of \u03B2. Likewise, the standard error decreases if we increase the variability in x."
+                           p("As we decrease the variability in the predictor, x, we increase our uncertainty (the standard error) in our estimate of \u03B2. Likewise, the standard error decreases if we increase the variability in x. "
                            ),
                            strong("Example: changing units"),
                            p("As another example of this, imagine that the predictor x represents height. If we measure x in inches the variance or standard deviation of x will be smaller than if we measure x in centimeters, due to the difference in units. For example, a standard deviation of 2 inches would be equivalent to a standard deviation of about 5 centimeters. If we wanted to measure the association between height and shoe size, it makes sense that we would need a wider interval to describe our uncertainty in the expected change in shoe size for a one-inch change in height compared to the interval we need for the the expected change in shoe size for a one-centimeter change in height, since a one-inch change in height is a lot bigger! "
@@ -156,6 +158,12 @@ server <- function(input, output) {
     se = (summary(lm(y~x1c, data = dt ))$coef[2,2]) %>% 
       round(digits=5)
     print(paste0("Standard error for slope coefficient (\u03B2): ",se))
+  })
+  
+  output$sd <- renderText({
+    dt = data.frame(x1,y) %>% mutate(x1c = x1*vals$c)
+    sd = sd(dt$x1c) %>% round(digits = 5)
+    print(paste0("Standard deviation of (",vals$c,"x): ",sd))
   })
   
   output$corplot <- renderPlot({
