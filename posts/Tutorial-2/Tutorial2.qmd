@@ -39,7 +39,7 @@ Each code chunk has a [<i style="font-size: 12px; relative: absolute; top: 8px; 
 
 #### Comments
 
-You may notice some lines of code that start with the pound sybmol, `#`, and show up in a different color. These are called **comments**. R doesn't execute anything when it sees a comment, it's just a note to yourself or anyone else reading your code! It's good practice to add comments to your code at each line to help you remember what the code was meant to do, or to help someone else who is reading your code see what you were trying to do.
+You may notice some lines of code that start with the pound symbol, `#`, and show up in a different color. These are called **comments**. R doesn't execute anything when it sees a comment, it's just a note to yourself or anyone else reading your code! It's good practice to add comments to your code at each line to help you remember what the code was meant to do, or to help someone else who is reading your code see what you were trying to do.
 
 ```{r }
 # this is an example of a comment!

@@ -2,9 +2,9 @@ project:
   type: website
   output-dir: docs
 website:
-  title: BIOST2041
+  title: Intro Biostatistics Resources
   reader-mode: true
-  repo-url: https://github.com/haleykgrant/BIOST2041
+  repo-url: https://github.com/haleykgrant/IntroBiostatResources
   sidebar:
     style: "floating"
     search: true
@@ -12,7 +12,7 @@ website:
     right:
     - about.qmd
     - icon: github
-      href: https://github.com/haleykgrant/BIOST2041
+      href: https://github.com/haleykgrant/IntroBiostatResources
 format:
   html:
     theme:

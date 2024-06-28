@@ -20,7 +20,6 @@ categories:
 title-block-banner: "#a2cffe"
 ---
 
-
 ```{webr-r}
 #| context: setup
 
@@ -72,7 +71,7 @@ getwd()
 You should see the output is:
 
 ::: {style="text-align: center;"}
-[\left\"/home/web_user\right\"]{style="font-weight: 500; font-family : Menlo"}
+[\left"/home/web_user\right"]{style="font-weight: 500; font-family : Menlo"}
 :::
 
 This is because we are working in R on the web. This is telling us that we are in a sub-directory of the "home" directory called "web_user". That is, "web_user" is a directory (folder) inside the larger directory (folder) called "home". You read file paths from left to right.
@@ -85,17 +84,17 @@ This is because we are working in R on the web. This is telling us that we are i
 
 File paths are a way of specifying the location of a file within a computer's file system. There are two kinds of file paths, absolute paths and relative paths. Both can be useful in different situations.
 
-- **Absolute file paths** are file paths that start at the root node of your computer (often starting with something like "C:\" in Windows and "/Users/" in Unix-like operating systems like macOS). Absolute paths can get fairly long if files are contained within many levels of sub-directories.
+-   **Absolute file paths** are file paths that start at the root node of your computer (often starting with something like "C:" in Windows and"/Users/" in Unix-like operating systems like macOS). Absolute paths can get fairly long if files are contained within many levels of sub-directories.
 
-- **Relative file paths** are paths that start at the current working directory, and are therefore often shorter than absolute paths.
+-   **Relative file paths** are paths that start at the current working directory, and are therefore often shorter than absolute paths.
 
 The function we used above, `getwd()`, prints absolute paths, so we are currently working in the "web_user" sub-directory of the root directory called "home". The image below is a visual representation of the file structure.
 
-![](file_structure){width=80%}
+![](file_structure){width="80%"}
 
 ### List files in working directory
 
-To check the files that exist in our current directory, we can use the function `list.files()` to print a list of all the files that are stored in the directory where we are currently working. If we just want to print the current files we can run the function without giving it a file path (this will assume you want to list the files in your current directory). We could also input a file path to the function 
+To check the files that exist in our current directory, we can use the function `list.files()` to print a list of all the files that are stored in the directory where we are currently working. If we just want to print the current files we can run the function without giving it a file path (this will assume you want to list the files in your current directory). We could also input a file path to the function
 
 Try running the code in this block:
 
@@ -104,8 +103,8 @@ Try running the code in this block:
 list.files("/home/web_user")
 ```
 
-:::: {.callout-note icon=false appearance="simple"}
-#### Exercise: 
+::: {.callout-note icon="false" appearance="simple"}
+#### Exercise:
 
 Try running the line of code above with but remove the file path from inside the set of parentheses. Do you notice a difference?
 
@@ -118,24 +117,21 @@ There shouldn't be any difference since we used the abosulte path to the current
 # print files in working directory
 list.files()
 ```
-
 :::
-
-::::
-
+:::
 
 The output should look something like this:
 
 ::: {style="text-align: center;"}
-[\[1\] \"Rplots.pdf\" \"data\"]{style="font-family: 'Monaco'; font-weight: 500; "}
+[\[1\] "Rplots.pdf" "data"]{style="font-family: 'Monaco'; font-weight: 500; "}
 :::
 
 This tells us that there are 2 objects that we have access to in this directory:
 
-* a file called "Rplots.pdf" 
-  + we won't be working with this file
-* a folder called "data" 
-  + one clue that it's a folder instead of a file is that it doesn't have a file extension on the end
+-   a file called "Rplots.pdf"
+    -   we won't be working with this file
+-   a folder called "data"
+    -   one clue that it's a folder instead of a file is that it doesn't have a file extension on the end
 
 If we want to see the files contained within the sub-folder "data", we can pass the updated file path to the "data" folder by using the absolute path:
 
@@ -145,8 +141,9 @@ list.files("/home/web_user/data")
 
 ```
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon="false" collapse="true"}
 ## Equivalently, with Relative Path
+
 This code will give us the same output as above:
 
 ```{webr-r}
@@ -154,7 +151,7 @@ This code will give us the same output as above:
 list.files("data")
 
 ```
-::::
+:::
 
 Or we could add an argument to the original code that allows us to print files within subdirectoryies recursively.
 
@@ -193,7 +190,7 @@ The main types of files that we will work with in this class are:
 </style>
 ```
 | File Type    | Description                                                                                                                                | File Extension |
-|--------------|--------------------------------------------|--------------|
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------------|----------------|
 | CSV files    | This stands for "comma separated value". These are files that have rows with entries separated by commas to indicate the different columns | .csv           |
 | Excel files  | Files in Excel workbook/sheet format                                                                                                       | .xls or .xlsx  |
 | R data files | Files with saved R objects                                                                                                                 | .RData or .rda |
@@ -203,8 +200,6 @@ The three files we will read in today have the following names:
 -   "cdc_samp.csv" : a csv file with demographic data from the cdc
 -   "dds.xlsx" : an excel file with data from the department of disability services in California
 -   "census.rda": an R data file with data from the US census
-
-
 
 ## Importing Data
 
@@ -220,8 +215,7 @@ The syntax to use this function is:
 
 -   Here `name_for_data` is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can't start with a number).
 
--   `"path_to_data"` is the file path that will tell R where to look for your data. You can either provide the function with an absolute path to the file (starting with the root directory of your computer) or a relative path, starting at the current working directory. You will see more examples of this in class, but for this example, the files are all in our working directory so we don't need any long file paths to navigate through different directories. 
-
+-   `"path_to_data"` is the file path that will tell R where to look for your data. You can either provide the function with an absolute path to the file (starting with the root directory of your computer) or a relative path, starting at the current working directory. You will see more examples of this in class, but for this example, the files are all in our working directory so we don't need any long file paths to navigate through different directories.
 
 ::: callout-warning
 ## Assigning a name
@@ -274,7 +268,7 @@ cdc = read_csv("data/cdc_samp.csv")
 
 #### Making sure it worked
 
-Great! If you were able to get the code chunk above to run without any error messages, then the code should have worked and we should now have an R object named `cdc` in our environment that we can work with. 
+Great! If you were able to get the code chunk above to run without any error messages, then the code should have worked and we should now have an R object named `cdc` in our environment that we can work with.
 
 If we were working in RStudio, we could check to make sure there is an object named `cdc` under the `Data` heading of the Environment tab (in the upper right-hand corner for most RStudio setups if you didn't change the panel layout). Since we aren't working in RStudio, we will use a function to make sure our `read_csv()` code worked. The function we will use is the `exists()` function and, as the name suggests, it just tells us if the object we are checking exists in our environment or not. It will return a logical value (`TRUE` if the object exists and `FALSE` if it does not). The function expects the name of the object in "quotation marks."
 
@@ -283,7 +277,6 @@ If we were working in RStudio, we could check to make sure there is an object na
 exists("cdc")
 
 ```
-
 
 ### Reading in an Excel file
 
@@ -313,8 +306,8 @@ dds = read_excel("data/dds.xlsx")
 
 ```
 
-:::: {.callout-note icon=false appearance="simple"}
-#### Exercise: 
+::: {.callout-note icon="false" appearance="simple"}
+#### Exercise:
 
 Try checking to see if this code worked (like we did above) by checking if an object called "dds" exists in our environment.
 
@@ -335,8 +328,7 @@ Remember to put `"dds"` in quotation marks!
 exists("dds")
 ```
 :::
-
-::::
+:::
 
 Awesome! It seems to have worked! Once you have the `readxl` package, importing Excel files works just like reading in csv files!
 
@@ -393,11 +385,9 @@ This is telling us that the object we loaded came with the name `census`. This i
 The name of the R object doesn't have to match with the file name like it did in this example. The file name "census.rda" and the object name `census` are two independent things. However, it can be helpful to have the file name and object name match, so they often will by convention.
 :::
 
-
 ### Other file types
 
 There are other types of files that you may want to import into R. These include text files (.txt) and files from other statistical software packages like SAS (.sas7bdat) or stata (.dta). The syntax for reading in these files is very similar to reading in csv or Excel files so we won't go into these data types in detail. There are lots of helpful tutorials and R documentation online if you ever need them (for example, [this page](https://dk81.github.io/dkmathstats_site/ranalysis-readfile-types.html) goes through reading in files from multiple sources).
-
 
 ## Viewing Your Data
 
@@ -465,7 +455,7 @@ This function breaks our columns into groups based on the type of variable they 
 The columns for categorical variables are:
 
 | Attribute     | Description                                                             |
-|------------------|------------------------------------------------------|
+|---------------|-------------------------------------------------------------------------|
 | n_missing     | the number of rows with missing value (NA) in the corresponding columns |
 | complete_rate | proportion of rows that are not missing (not NAs)                       |
 | min           | the minimum character length of values in the column                    |
@@ -477,7 +467,7 @@ The columns for categorical variables are:
 The columns for numeric variables are:
 
 | Attribute     | Description                                                               |
-|------------------|------------------------------------------------------|
+|---------------|---------------------------------------------------------------------------|
 | n_missing     | the number of rows with missing value (NA) in the corresponding columns   |
 | complete_rate | proportion of rows that are not missing (not NAs)                         |
 | mean          | the mean (average) value of the non-missing values in the column          |
