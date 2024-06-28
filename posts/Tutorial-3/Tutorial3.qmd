@@ -190,7 +190,7 @@ The main types of files that we will work with in this class are:
 </style>
 ```
 | File Type    | Description                                                                                                                                | File Extension |
-|--------------|--------------------------------------------------------------------------------------------------------------------------------------------|----------------|
+|----------------|-----------------------------------------|----------------|
 | CSV files    | This stands for "comma separated value". These are files that have rows with entries separated by commas to indicate the different columns | .csv           |
 | Excel files  | Files in Excel workbook/sheet format                                                                                                       | .xls or .xlsx  |
 | R data files | Files with saved R objects                                                                                                                 | .RData or .rda |
@@ -455,7 +455,7 @@ This function breaks our columns into groups based on the type of variable they 
 The columns for categorical variables are:
 
 | Attribute     | Description                                                             |
-|---------------|-------------------------------------------------------------------------|
+|-------------------|-----------------------------------------------------|
 | n_missing     | the number of rows with missing value (NA) in the corresponding columns |
 | complete_rate | proportion of rows that are not missing (not NAs)                       |
 | min           | the minimum character length of values in the column                    |
@@ -467,7 +467,7 @@ The columns for categorical variables are:
 The columns for numeric variables are:
 
 | Attribute     | Description                                                               |
-|---------------|---------------------------------------------------------------------------|
+|-------------------|-----------------------------------------------------|
 | n_missing     | the number of rows with missing value (NA) in the corresponding columns   |
 | complete_rate | proportion of rows that are not missing (not NAs)                         |
 | mean          | the mean (average) value of the non-missing values in the column          |

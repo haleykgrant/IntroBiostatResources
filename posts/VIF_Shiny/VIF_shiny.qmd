@@ -39,7 +39,7 @@ ui <- fluidPage(
                            strong("What's the point?"),
                            p("As we decrease the variability in the predictor, x, we increase our uncertainty (the standard error) in our estimate of \u03B2. Likewise, the standard error decreases if we increase the variability in x."
                            ),
-                           strong("Trivial example: changing units"),
+                           strong("Example: changing units"),
                            p("As another example of this, imagine that the predictor x represents height. If we measure x in inches the variance or standard deviation of x will be smaller than if we measure x in centimeters, due to the difference in units. For example, a standard deviation of 2 inches would be equivalent to a standard deviation of about 5 centimeters. If we wanted to measure the association between height and shoe size, it makes sense that we would need a wider interval to describe our uncertainty in the expected change in shoe size for a one-inch change in height compared to the interval we need for the the expected change in shoe size for a one-centimeter change in height, since a one-inch change in height is a lot bigger! "
                            )
                          ))),
