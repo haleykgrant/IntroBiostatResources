@@ -108,7 +108,7 @@ list.files(path = "/home/web_user")
 
 Try running the line of code above with but remove everything from inside the set of parentheses. Do you notice a difference?
 
-::: {.callout-tip collapse="true" icon="false"}
+::: {.callout-tip collapse="true"}
 ## Solution
 
 There shouldn't be any difference since we used the absolute path to the current working directory!
@@ -238,7 +238,7 @@ Let's try reading in the "cdc_samp.csv" file and give the data frame the name `c
 cdc = read_csv(file = "data/cdc_samp.csv")
 ```
 
-::: {.callout-tip collapse="true" icon="false"}
+::: {.callout-warning collapse="true" icon="false"}
 ## Hint
 
 If you get the following error:
@@ -252,7 +252,7 @@ you forgot to load the tidyverse package!
 Add a line of code above your read_csv() line to load the tidyverse (`library(tidyverse)`).
 :::
 
-::: {.callout-tip collapse="true" icon="false"}
+::: {.callout-tip collapse="true"}
 ## Solution
 
 ```{webr-r}
@@ -316,7 +316,7 @@ Try checking to see if this code worked (like we did above) by checking if an ob
 
 ```
 
-::: {.callout-tip collapse="true" icon="false"}
+::: {.callout-tip collapse="true" }
 ## Solution
 
 Remember to put `"dds"` in quotation marks!
