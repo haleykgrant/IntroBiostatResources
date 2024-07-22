@@ -94,24 +94,24 @@ The function we used above, `getwd()`, prints absolute paths, so we are currentl
 
 ### List files in working directory
 
-To check the files that exist in our current directory, we can use the function `list.files()` to print a list of all the files that are stored in the directory where we are currently working. If we just want to print the current files we can run the function without giving it a file path (this will assume you want to list the files in your current directory). We could also input a file path to the function
+To check the files that exist in our current directory, we can use the function `list.files()` to print a list of all the files that are stored in the directory where we are currently working. If we just want to print the current files we can run the function without giving it a file path and just leave the inside of the parentheses blank (this will assume you want to list the files in your current directory). We could also input a file path to the function.
 
 Try running the code in this block:
 
 ```{webr-r}
 # print files in working directory
-list.files("/home/web_user")
+list.files(path = "/home/web_user")
 ```
 
 ::: {.callout-note icon="false" appearance="simple"}
 #### Exercise:
 
-Try running the line of code above with but remove the file path from inside the set of parentheses. Do you notice a difference?
+Try running the line of code above with but remove everything from inside the set of parentheses. Do you notice a difference?
 
 ::: {.callout-tip collapse="true" icon="false"}
 ## Solution
 
-There shouldn't be any difference since we used the abosulte path to the current working directory!
+There shouldn't be any difference since we used the absolute path to the current working directory!
 
 ```{webr-r}
 # print files in working directory
@@ -137,7 +137,7 @@ If we want to see the files contained within the sub-folder "data", we can pass 
 
 ```{webr-r}
 # print files in data sub-directory
-list.files("/home/web_user/data")
+list.files(path = "/home/web_user/data")
 
 ```
 
@@ -148,7 +148,7 @@ This code will give us the same output as above:
 
 ```{webr-r}
 # print files in data sub-directory
-list.files("data")
+list.files(path = "data")
 
 ```
 :::
@@ -157,7 +157,7 @@ Or we could add an argument to the original code that allows us to print files w
 
 ```{webr-r}
 # print files in data sub-directory
-list.files("/home/web_user/", recursive = T)
+list.files(path = "/home/web_user/", recursive = T)
 
 ```
 
@@ -210,7 +210,7 @@ To read in a csv file to R, we can use the function `read.csv()`. There is a sim
 The syntax to use this function is:
 
 ::: {style="text-align: center;"}
-`name_for_data = read_csv("path_to_data")`
+`name_for_data = read_csv(file = "path_to_data")`
 :::
 
 -   Here `name_for_data` is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can't start with a number).
@@ -235,7 +235,7 @@ Let's try reading in the "cdc_samp.csv" file and give the data frame the name `c
 
 ```{webr-r}
 # read in the data file "cdc_samp.csv"
-cdc = read_csv("data/cdc_samp.csv")
+cdc = read_csv(file = "data/cdc_samp.csv")
 ```
 
 ::: {.callout-tip collapse="true" icon="false"}
@@ -262,7 +262,7 @@ Add a line of code above your read_csv() line to load the tidyverse (`library(ti
 library(tidyverse)
 
 # read in the data file "cdc_samp.csv"
-cdc = read_csv("data/cdc_samp.csv")
+cdc = read_csv(file = "data/cdc_samp.csv")
 ```
 :::
 
