@@ -461,6 +461,22 @@ mean(x_vector)
 
 ```
 
+::: {.callout-caution collapse="true"}
+## Note: Argument Names
+
+Sometimes the functions we use will take multiple arguments, and sometimes they only need one. With all R functions, the arguments are given names. For example, technically the argument name for the function `mean()` is called `x`, which is just a placeholder for any R objects that you can calculate the mean for. If we wanted to be really technical, we could have used the following line of code:
+
+```{webr-r}
+# the mean of x_vector
+mean(x = x_vector)
+
+```
+I try to use argument names in functions that use multiple arguments, because if you don't assign the inputs to specific argument names, R has to assume that you've put the input in a certain order. Sometimes, if I'm only using the most basic argument (like `x` in the `mean()` function), I may forget to or choose not to include the name of the argument. 
+
+If you ever need help figuring out what arguments a certain function in R takes, you can use the 'Help' tab in R Studio (in the bottom right quadrant) or type `?function_name` in your R Console (for example, `?mean`). This will open a documentation page for the function and should include information about the argument names and the types of objects can be used as input for the function.
+
+:::
+
 {{< pagebreak >}}
 
 ## R Packages
@@ -521,23 +537,17 @@ and get an error message like this:
 this means you are trying to load a package you haven't installed yet and you need to run `install.packages("mypackage")` once first.
 :::
 
+
 ### The tidyverse package
 
 The R `tidyverse` package is a very useful suite of packages that make data manipulation and visualization clean and efficient. To see all of the packages included in the `tidyverse package` run the following code:
 
 ```{webr-r}
-#| warnings: false
-#| message: false
 # print the packages contained in the tidyverse
 tidyverse_packages()
 
 ```
 
-::: {.callout-warning collapse="true" icon="false"}
-## Hint
-
-This should produce an error when you first try to run it. Can you tell why?
-:::
 
 ### Error message
 
@@ -555,6 +565,30 @@ To give ourselves access to the functions from the `tidyverse` package, let's ad
 #### Exercise: 
 
 Add the line of code `library(tidyverse)` before the line of code in the chunk above and try rerunning the code chunk.
+
+:::: {.callout-tip collapse="true"}
+#### Solution
+
+```{webr-r}
+#| message: false
+#| warning: false
+# first load the library
+library(tidyverse)
+# print the packages contained in the tidyverse
+tidyverse_packages()
+
+```
+::::
+
+::: {.callout-caution collapse="true" icon="false"}
+## Note: Argument Names (continued)
+
+Just to reiterate the previous point about argument names, _technically_ the argument name used here in the `library()` function is called `package`. This is assumed to be the first argument, and we generally won't utilize any of the other arguments, which allow you to customize how you want to load a library and if you want anything printed when you load it, etc. But again, we could utilize the argument name like so:
+
+`library(package = tidyverse)`
+
+
+:::
 ::::
 
 ### The pipe operator from the tidyverse
