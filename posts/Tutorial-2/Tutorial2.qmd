@@ -55,14 +55,14 @@ Try writing your own comment in the code chunk below!
 
 
 ```
-::: {.callout-tip collapse="true" icon="false"}
+::: {.callout-warning collapse="true" icon="false"}
 ## Hint
 
 Think about what the line of code should *start* with.
 :::
 
-::: {.callout-note collapse="true" icon="false"}
-## Answer
+::: {.callout-tip collapse="true"}
+## Solution
 
 ```{webr-r}
 # this is a comment
@@ -74,7 +74,7 @@ Think about what the line of code should *start* with.
 
 {{< pagebreak >}}
 
-## R objects
+## R Objects
 
 The console in R (the bottom quadrant of the RStudio interface) can be used essentially as a calculator. We can do lots of operations in the console and have R print out the answer for us.
 
@@ -106,35 +106,76 @@ Note that when you run this code, nothing happens! Or at least, that's what it l
 ```{webr-r}
 # print x
 x 
-# print y
-y 
 ```
 
-Cool! Now that `x` and `y` are placeholders for the numbers 2 and 3, we can use them just like numbers. For example, we can add them together, multiply them, divide, subtract, etc. If we want to save the value of `x + y` for later use, we can do that too! Below I've shown some examples of calculations you can do using these two variables. You may need to scroll down to see the output!
+:::: {.callout-note icon=false appearance="simple"}
+#### Exercise: 
+The goal of the following line of code is to print the value of the object `y`, but it has an error. __Can you find the mistake in the code? See if you can figure out how to fix it so the code returns the correct answer (the value of `y` is 3).__
+
+```{webr-r}
+# print y 
+Y
+
+```
+::: {.callout-tip collapse="true"}
+## Solution
+
+The problem with the code above is that I used a capital `Y` instead of lowercase `y`. R is case-sensitive, so it won't assume you mean `y` if you type `Y`. This is something to be aware of in the future!
+
+```{webr-r}
+# print y 
+y
+
+```
+:::
+::::
+
+
+
+
+
+Cool! Now that `x` and `y` are placeholders for the numbers 2 and 3, we can use them just like numbers. For example, we can add them together, multiply them, divide, subtract, etc. If we want to save the value of `x + y` for later use, we can do that too! Below I've shown some examples of calculations you can do using these two variables.
+
+
+### Addition, subtraction, multiplication, division
+
+We can do simple arithmetic like adding, subtracting, multiplying, and dividing, using the symbols `+`, `-`, `*`, and `/`, respectively. I've shown addition and multiplication below, see if you can do subtraction and division!
 
 ```{webr-r}
 # print x + y
 x + y
+```
 
-# print x - y
-x - y
 
+```{webr-r}
 # print x times y
 x * y
+```
 
-# print x divided by y
-x / y
+### Powers
 
+We can take powers using the `^` operator:
 
+```{webr-r}
 # print x squared
 x^2
+```
 
+### Logarithm/Exponent
+
+To take the natural (base e) logarithm of a numeric object we can use the `log()` function. The inverse of this function is `exp()`, which calculates `e^x` :
+
+```{webr-r}
 # print the log (base e) of x 
 log(x)
 
 # print the exponentiated value of x (e^x)
 exp(x)
+```
 
+### Saving a new variable z
+
+```{webr-r}
 # save x + y as z
 z = x + y
 
@@ -250,6 +291,26 @@ Try changing the value in the code above to check if `x_numeric` is equal to the
 
 ::::
 
+:::: {.callout-note collapse="true"}
+#### Other Inequalities/Operators
+
+We saw above that the `==` operator is R's way of checking if an object is equal to some value. There some other useful operators such as:
+
+* `>`: "greater than"
+* `>=`: "greater than or equal to"
+* `<`: "less than"
+* `<=`: "less than or equal to"
+* `%in%`: "is an element of" (this will be helpful when we get to vectors later)
+
+Go ahead and play around with the code below to try different operators:
+
+```{webr-r}
+# try different operators here:
+x_numeric <= 5
+```
+
+::::
+
 ### Missing Values
 
 R has a special way of denoting missing values. In R, these show up as `NA` values. For example, if you have a data set with 100 individuals' height, weight, and age, if you weren't able to get the values measured for some of the individuals, those values should show up as `NA` values to indicate that they are missing.
@@ -263,21 +324,23 @@ x_missing = NA
 x_missing
 ```
 
+:::: {.callout-note icon=false appearance="simple"}
 #### Exercise: 
 
 Try multiplying the `x_missing` variable by 2 and see what happens.
 
 ```{webr-r}
-# multiple x_missing by 2
+# multiply x_missing by 2
 
 
 ```
 
 Generally any kind of functions applied to missing values return another `NA` value unless the function has a special way of handling missing values.
+::::
 
 #### The `is.na()` function
 
-There is a special function in R that can help you check if a value is a missing value. This funciton is `is.na()`. To see how it works, try running the code below:
+There is a special function in R that can help you check if a value is a missing value. This function is `is.na()`. To see how it works, try running the code below:
 
 ```{webr-r}
 # check if the next few things are NA values
@@ -470,7 +533,7 @@ tidyverse_packages()
 
 ```
 
-::: {.callout-tip collapse="true" icon="false"}
+::: {.callout-warning collapse="true" icon="false"}
 ## Hint
 
 This should produce an error when you first try to run it. Can you tell why?
@@ -510,7 +573,7 @@ We want to know how many unique values are contained in the vector `x_vector`.
 
 To do this, we can start by having R grab the unique values in `x_vector` using `unique(x_vector)`.This will give us a vector of the unique values in `x_vector`. Then, we can print the length of the output of `unique(x_vector)` to get the number of unique values.
 
-To do this, we could define a new intermediate vector called `x_unique` to hold the vector of unique values in `x_vector`, or we can just use multiple functions simulatneously by nesting the parentheses:
+To do this, we could define a new intermediate vector called `x_unique` to hold the vector of unique values in `x_vector`, or we can just use multiple functions simultaneously by nesting the parentheses:
 
 ```{webr-r}
 # take x_vector from earlier, 
@@ -556,4 +619,4 @@ Still long, but a lot easier to follow (at least I think so)!
 
 ## End of tutorial
 
-That's it! The next tutorial will be about reading in and manipulating data in R.
+That's it! The next tutorial will be about importing data into R.

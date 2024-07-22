@@ -33,7 +33,7 @@ load("data/census.rda")
 
 ```
 
-## Introduction
+# Introduction
 
 In this tutorial, we will cover data visualization in R using the `ggplot2` package (one of the packages included in the `tidyverse`). Specifically, we will learn about
 
@@ -92,7 +92,9 @@ library(tidyverse)
 
 ```
 
-### Histograms
+
+
+## Histograms
 
 A histogram is a visual representation of quantitative data in which the range of values is split into adjacent, non-overlapping intervals (or "bins") and the number of observations that fall into each interval is counted and depicted on the plot.
 
@@ -175,7 +177,7 @@ sum(logical_vector)
 
 We can see from these histograms that we have a highly right-skewed variable. There are a lot of observations under \$100,000 (1e+05) and then a handful of observations all the way to over \$400,000.
 
-### Box plots
+## Box plots
 
 Another way we can visualize quantitative data is using box plots. Box plots can be particularly helpful if you want to compare the distribution of a particular quantitative variable across different groups. For example, maybe we want to compare the distribution of `total_personal_income` across different levels of `marital_status`. We can do this with box plots.
 
@@ -193,7 +195,7 @@ census %>% # supply data frame
 Here we can see that the labels on the x-axis are overlapping, making it hard to read the plot. We'll get more into this later when we go over other aesthetic changes we can make to plots made with ggplot.
 :::
 
-### Bar plots
+## Bar plots
 
 A bar plot is a tool to visualize a categorical variable. It is similar to a histogram in that it shows the number of times each level of a variable is observed in a data set. For example, in the plot above we showed the distribution of personal income across marital status, but maybe we want to know how many people fell into each of these marital status categories. We can use a bar plot for this.
 
@@ -209,7 +211,7 @@ census %>% # supply data frame
 
 From this plot we can see that "Never married/single" is the most commonly observed marital status in our data, followed closely by "Married/spouse present". The status "Separated" was the last common, followed by "Married/spouse absent". The categories "Divorced" and "Widowed" were somewhere in between.
 
-### Scatter plots
+## Scatter plots
 
 A scatter plot is a way of visualizing the relationship between two numeric variables. For example, if we want to know how `total_personal_income` relates to `age` in this data set, we can use a scatter plot. Here is some example code to make a scatter plot:
 
