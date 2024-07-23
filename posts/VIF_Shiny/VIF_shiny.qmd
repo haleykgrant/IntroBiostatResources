@@ -1,5 +1,5 @@
 ---
-title: "Added Variable Plots and VIF"
+title: "Collinearity in MLR"
 author: "Haley Grant"
 filters: 
   - shinylive
@@ -35,6 +35,7 @@ ui <- fluidPage(
                            p("The goal of this part of the app is to show you how changing the amount of variability in x impacts the standard error of our coefficient estimate for \u03B2. That is, if we increase or decrease the amount of variability in the predictor (x) relative to the amount of variability in the outcome (y), what happens to the standard error of the slope coefficient? "),
                            p("We will demonstrate this by scaling x by a constant factor while keeping y the same."),
                            plotOutput("xplot",height = "300px"),
+                           textOutput("sd_orig"),
                            textOutput("sd"),
                            textOutput("se"),
                            p(),
@@ -164,6 +165,11 @@ server <- function(input, output) {
     dt = data.frame(x1,y) %>% mutate(x1c = x1*vals$c)
     sd = sd(dt$x1c) %>% round(digits = 5)
     print(paste0("Standard deviation of (",vals$c,"x): ",sd))
+  })
+  
+  output$sd_orig <- renderText({
+    sd = sd(x1) %>% round(digits = 5)
+    print(paste0("Standard deviation of x (original): ",sd))
   })
   
   output$corplot <- renderPlot({

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Haley Grant">
 
-<title>Intro Biostatistics Resources - Added Variable Plots and VIF</title>
+<title>Intro Biostatistics Resources - Collinearity in MLR</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -123,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Added Variable Plots and VIF</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Collinearity in MLR</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -136,7 +136,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Added Variable Plots and VIF</h1>
+      <h1 class="title">Collinearity in MLR</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">Regression</div>
               </div>
@@ -204,6 +204,7 @@ ui &lt;- fluidPage(
                            p("The goal of this part of the app is to show you how changing the amount of variability in x impacts the standard error of our coefficient estimate for \u03B2. That is, if we increase or decrease the amount of variability in the predictor (x) relative to the amount of variability in the outcome (y), what happens to the standard error of the slope coefficient? "),
                            p("We will demonstrate this by scaling x by a constant factor while keeping y the same."),
                            plotOutput("xplot",height = "300px"),
+                           textOutput("sd_orig"),
                            textOutput("sd"),
                            textOutput("se"),
                            p(),
@@ -333,6 +334,11 @@ server &lt;- function(input, output) {
     dt = data.frame(x1,y) %&gt;% mutate(x1c = x1*vals$c)
     sd = sd(dt$x1c) %&gt;% round(digits = 5)
     print(paste0("Standard deviation of (",vals$c,"x): ",sd))
+  })
+  
+  output$sd_orig &lt;- renderText({
+    sd = sd(x1) %&gt;% round(digits = 5)
+    print(paste0("Standard deviation of x (original): ",sd))
   })
   
   output$corplot &lt;- renderPlot({

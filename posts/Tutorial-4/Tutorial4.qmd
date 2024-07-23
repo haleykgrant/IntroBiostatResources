@@ -22,9 +22,9 @@ title-block-banner: "#a2cffe"
 
 ## Introduction
 
-By now you should have learned to install R and RStudio, learned a little about types of objects and functions in R, and learned to import data into R. If you're not sure about any of those, tutorials for each topic can be found here:
+By now you should have learned to install R and R Studio, learned a little about types of objects and functions in R, and learned to import data into R. If you're not sure about any of those, tutorials for each topic can be found here:
 
--   [Installing R and RStudio Tutorial](https://haleykgrant.github.io/IntroBiostatResources/posts/Tutorial-1/Tutorial1.html)
+-   [Installing R and R Studio Tutorial](https://haleykgrant.github.io/IntroBiostatResources/posts/Tutorial-1/Tutorial1.html)
 
 -   [R Objects and Functions Tutorial](grant.github.io/IntroBiostatResources/posts/Tutorial-2/Tutorial2.html)
 
@@ -44,10 +44,10 @@ We're going to use the `cdc` data from [last time](https://haleykgrant.github.io
 ```{webr-r}
 #| context: setup
 
-dir.create("./data")
+dir.create("./Data")
 
 url.csv <- "https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv"
-download.file(url.csv, "./data/cdc_samp.csv")
+download.file(url.csv, "./Data/cdc_samp.csv")
 
 ```
 
@@ -57,7 +57,7 @@ download.file(url.csv, "./data/cdc_samp.csv")
 # load the tidyverse (remember we have to do this at the beginning of every new R session)
 library(tidyverse)
 # read in data from cdc_samp.csv
-cdc <- read_csv("data/cdc_samp.csv")
+cdc = read_csv("Data/cdc_samp.csv")
 
 # take a look at the top few rows of data
 head(cdc)
@@ -87,7 +87,7 @@ This tells us that there are 60 rows (60 observations) and 9 columns (9 variable
 
 ### `colnames()` function
 
-If we want to get a list of the names of the columns, we can use the `colnames()` function in R, which will just print out the names of all of the columns in the data.
+If we want to get a list of all the column names in the dataset, we can use the `colnames()` function in R, which will just print out the names of all of the columns in the data.
 
 ```{webr-r}
 # print column names of cdc data
@@ -110,13 +110,14 @@ The syntax will be:
 
 You don't need to use a pre-existing column to make the new column (you could just type out a vector with the new column values), but we generally will be using pre-existing columns to make new columns.
 
-For example, we can see that there is a column called `"exerany"` in our data. This column indicates if the individual has exercised in the past month, where a `1` indicates if they have exercised in the past month and `0` indicates that they have not. This is a fairly common coding of binary variables, but unless you have the codebook readily available you wouldn't know for sure which response (yes/no) corresponds to which value (1/0). It can be helpful to make new variable that reads as "Yes"/"No" instead of 1/0 for clarity.
+For example, we can see that there is a column called `"exerany"` in our data. This column indicates if the individual has exercised in the past month, where a `1` indicates if they have exercised in the past month and `0` indicates that they have not. This is a fairly common coding of binary variables, but unless you have the codebook readily available, you wouldn't know for sure which response (yes/no) corresponds to which value (1/0). It can be helpful to make new variable that reads as "Yes"/"No" instead of 1/0 for clarity.
 
 We will make a new variable called `"exerany_f"` that is a factor variable that takes on the values `0` and `1` with the labels `"No exercise in past month"` and `"Exercise in past month"`, respectively. We will use the values from the `"exerany"` variable to help us make the new variable.
 
 ```{webr-r}
 # make new variable called exerany_f
-mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c("No exercise in past month", "Exercise in past month")) )
+mutate(exerany_f = factor(exerany, levels = c(0,1), 
+                          labels = c("No exercise in past month", "Exercise in past month")) )
 ```
 
 Oh no! Why did we get an error?
@@ -168,7 +169,7 @@ head(cdc_new, n = 3)
 
 ### Updating the old data frame
 
-If we don't want to make a new data frame with a new name, we can also just update the original `cdc` object by replacing `cdc_new` in the code above with `cdc`. This will overwrite the old `cdc` object with the updated data frame with the additional column.
+If we don't want to make a new data frame with a new name, we can also just update the original `cdc` object by replacing `cdc_new` in the code above with `cdc`. This will __overwrite__ the old `cdc` object with the updated data frame with the additional column (be careful when overwriting objects, especially if you're removing some entries of the data).
 
 ```{webr-r}
 # update cdc object
@@ -183,7 +184,7 @@ head(cdc, n = 3)
 
 ```
 
-Great! If we want to take a look at the new column, we can use a function in the `tidyverse` package called `select()` to select just a few columns to look at. Let's grab the original variable, `exerany`, and the new one, `exerany_f` and look at the first few entries to make sure we defined the new variable correctly.
+Great! If we want to take a look at the new column, we can use a function in the `tidyverse` package called `select()` to select just a few columns to look at. Let's grab the original variable, `exerany`, and the new one, `exerany_f`, and look at the first few entries to make sure we defined the new variable correctly.
 
 ```{webr-r}
 # look at exerany and exerany_f
@@ -228,7 +229,7 @@ Sometimes instead of making a new column, we just want to update an existing col
 
 This will overwrite the column with the new values.
 
-For example, let's say `"No exercise in the past month"` and `"Exercise in the past month"` are too long for our liking. Maybe we want to update this column so the values are just `"No exercise"` and `"Exercise"`. We can do this with the following code:
+For example, let's say the values `"No exercise in the past month"` and `"Exercise in the past month"` that we just created are too long for our liking. Maybe we want to update this column so the values are just `"No exercise"` and `"Exercise"`. We can do this with the following code:
 
 ```{webr-r}
 # update cdc object
@@ -242,7 +243,7 @@ cdc %>%
 
 ```
 
-Notice that now the same column as before `exerany_f` has been updated from what we originally created.
+Notice that now the same column as before `exerany_f` has been updated from what we originally created and now contains the shorter labels.
 
 ::: callout-warning
 ## Warning: Overwriting
@@ -254,7 +255,9 @@ If you make a mistake, this will overwrite the old column, so you won't have acc
 
 ## Filtering Data Frames
 
-Sometimes we only want to look at a subset of the rows (observations) in our data frame. For example, maybe I want to run an analysis using only individuals who have a `genhlth` value of `"excellent"` or individuals who are at least 30 years old. To do this, I can use the `filter()` function (also within the `dplyr` package from the `tidyverse`).
+Sometimes we only want to look at a subset of the rows (observations) in our data frame. 
+
+For example, maybe I want to run an analysis using only individuals who have a `genhlth` value of `"excellent"` or individuals who are at least 30 years old. To do this, I can use the `filter()` function (also within the `dplyr` package from the `tidyverse`).
 
 ```{webr-r}
 # filter to only people with excellent genhlth
