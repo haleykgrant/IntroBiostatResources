@@ -203,6 +203,7 @@ ui &lt;- fluidPage(
                            strong("Description:"),
                            p("The goal of this part of the app is to show you how changing the amount of variability in x impacts the standard error of our coefficient estimate for \u03B2. That is, if we increase or decrease the amount of variability in the predictor (x) relative to the amount of variability in the outcome (y), what happens to the standard error of the slope coefficient? "),
                            p("We will demonstrate this by scaling x by a constant factor while keeping y the same."),
+                           p("Below, I have simulated some data with predictor x and outcome y. Move the slider above to scale the values of x by a constant. The outcome y will stay the same--only x is changing. Notice how the standard error of the slope coefficient changes as we increase or decrease the variability in x."),
                            plotOutput("xplot",height = "300px"),
                            textOutput("sd_orig"),
                            textOutput("sd"),
@@ -333,7 +334,7 @@ server &lt;- function(input, output) {
   output$sd &lt;- renderText({
     dt = data.frame(x1,y) %&gt;% mutate(x1c = x1*vals$c)
     sd = sd(dt$x1c) %&gt;% round(digits = 5)
-    print(paste0("Standard deviation of (",vals$c,"x): ",sd))
+    print(paste0("Standard deviation of scaled x (",vals$c,"x): ",sd))
   })
   
   output$sd_orig &lt;- renderText({
