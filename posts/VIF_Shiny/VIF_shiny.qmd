@@ -41,11 +41,11 @@ ui <- fluidPage(
                            span(textOutput("sd"), style="font-weight:bold; color:green"),
                            span(textOutput("se"), style="font-weight:bold; color:blue"),
                            p(),
-                           strong("What's the point?"),
-                           p("As we decrease the variability in the predictor, x, we increase our uncertainty (the standard error) in our estimate of \u03B2. Likewise, the standard error decreases if we increase the variability in x. "
+                           strong("What's the trend?"),
+                           p("As we decrease the variability in the predictor, x, we increase our uncertainty (the standard error) in our estimate of \u03B2. Likewise, the standard error decreases if we increase the variability in x.  "
                            ),
-                           strong("Example: changing units"),
-                           p("As another example of this, imagine that the predictor x represents height. If we measure x in inches the variance or standard deviation of x will be smaller than if we measure x in centimeters, due to the difference in units. For example, a standard deviation of 2 inches would be equivalent to a standard deviation of about 5 centimeters. If we wanted to measure the association between height and shoe size, it makes sense that we would need a wider interval to describe our uncertainty in the expected change in shoe size for a one-inch change in height compared to the interval we need for the the expected change in shoe size for a one-centimeter change in height, since a one-inch change in height is a lot bigger! "
+                           strong("Intuition (example: changing units)"),
+                           p("As another example of this and to provide a bit more intuition for this phenomenon, imagine that the predictor x represents height and y represents shoe size. If we measure x in inches, the variance or standard deviation of x will be smaller than if we measure x in centimeters, due to the difference in units. For example, a standard deviation of 2 inches would be equivalent to a standard deviation of about 5 centimeters (the smaller the unit, the bigger the standard deviation measured in those units). If we wanted to measure the association between height and shoe size, it makes sense that we would need a wider interval to describe our uncertainty in the expected change in shoe size for a one-inch change in height compared to the interval we need for the the expected change in shoe size for a one-centimeter change in height, since a one-inch change in height is a lot bigger than a one-centimeter change! Again we see that the version of x that had the larger standard deviation (centimeters) resulted in the lower standard error for the slope estimate (and vice versa)."
                            )
                          ))),
               tabPanel("MLR and VIF",
@@ -60,7 +60,7 @@ ui <- fluidPage(
                            p("Here we've simulated some data with one outcome (y) and two predictors (x1 and x2). 
                              You can control the amount of correlation between x1 and x2 using the radio buttons on the left panel"),
                            h3("Plotting the data"),
-                           p("Here we can see the pairwise correlations and scatterplots between each set of variables in the data."),
+                           p("Here we can see the scatterplots between each pair of variables in the data."),
                            fluidRow(
                              column(12,  plotOutput("corplot",height = "300px"))),
                           p("Another way to visualize the data is to plot y by x1 and show x2 using color. Here we can see that as x1 changes, so does y. 
@@ -80,7 +80,7 @@ ui <- fluidPage(
                           
                            p(),
                           h3("Added Variable Plots"),
-                          p("Imagine now that we combine all of these plots together, but first we center them both in terms of x1 and y. "),
+                          p("Now imagine that we combine all of these plots together, but first we center them both in terms of x1 and y. "),
                           fluidRow(
                              column(12, plotOutput("dataPlot3", height = "300px"))
                            ),
