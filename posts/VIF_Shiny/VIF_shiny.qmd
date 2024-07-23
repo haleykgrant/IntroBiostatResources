@@ -37,6 +37,7 @@ ui <- fluidPage(
                            p("Below, I have simulated some data with predictor x and outcome y. Move the slider above to scale the values of x by a constant. The outcome y will stay the same--only x is changing. Notice how the standard error of the slope coefficient changes as we increase or decrease the variability in x."),
                            plotOutput("xplot",height = "300px"),
                            span(textOutput("sd_orig"), style="font-weight:bold"),
+                           span(textOutput("se_orig"), style="font-weight:bold"),
                            span(textOutput("sd"), style="font-weight:bold; color:green"),
                            span(textOutput("se"), style="font-weight:bold; color:blue"),
                            p(),
@@ -161,6 +162,14 @@ server <- function(input, output) {
       round(digits=5)
     print(paste0("Standard error for slope coefficient (\u03B2): ",se))
   })
+  
+  output$se_orig <- renderText({
+    dt = data.frame(x1,y) %>% mutate(x1c = x1*vals$c)
+    se = (summary(lm(y~x1, data = dt ))$coef[2,2]) %>% 
+      round(digits=5)
+    print(paste0("Standard error for original slope coefficient (\u03B2): ",se))
+  })
+  
   
   output$sd <- renderText({
     dt = data.frame(x1,y) %>% mutate(x1c = x1*vals$c)
