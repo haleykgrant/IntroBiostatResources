@@ -207,7 +207,7 @@ ui &lt;- fluidPage(
                            plotOutput("xplot",height = "300px"),
                            span(textOutput("sd_orig"), style="font-style:bold"),
                            span(textOutput("sd"), style="font-style:bold; color:green"),
-                           span(textOutput("sd"), style="font-style:bold; color:blue"),
+                           span(textOutput("se"), style="font-style:bold; color:blue"),
                            p(),
                            strong("What's the point?"),
                            p("As we decrease the variability in the predictor, x, we increase our uncertainty (the standard error) in our estimate of \u03B2. Likewise, the standard error decreases if we increase the variability in x. "
