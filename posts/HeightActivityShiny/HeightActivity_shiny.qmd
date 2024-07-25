@@ -30,8 +30,8 @@ ui <- fluidPage(
     mainPanel(
       plotlyOutput("dataPlot"),       # Interactive scatter plot for data points
       plotOutput("dataHist"),         # Histogram for data distribution
-      plotOutput("distPlot")         # Plot for sampling distribution of sample means
- 
+      plotOutput("distPlot") ,        # Plot for sampling distribution of sample means
+      tableOutput("stats")
     )
   )
 )
@@ -127,6 +127,12 @@ server <- function(input, output, session) {
       output$sampleMeans <- renderTable({
         data.frame(SampleMeans = sample_means)
       })
+      output$stats <- renderTable({
+       dt = data.frame(Mean = c(mean(data()[,1]),mean(sample_means)),
+                   SD = c(sd(data()[,1]),sd(sample_means)))
+       rownames(dt) <-c("Population", "Sample Means")
+       dt
+      }, bordered = T, rownames = T, align = "c")
     }
   })
 }
