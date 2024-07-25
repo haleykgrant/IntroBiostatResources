@@ -1,0 +1,136 @@
+---
+title: "Sampling Activity"
+author: "Haley Grant"
+filters: 
+  - shinylive
+categories:
+    - Regression
+---
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
+
+# ui.R
+library(shiny)
+library(plotly)
+library(tidyverse)  # Load tidyverse for data manipulation
+
+ui <- fluidPage(
+  titlePanel("Sampling Distribution with Data Point Removal"),
+  sidebarLayout(
+    sidebarPanel(
+      fileInput("file1", "Choose CSV File", accept = ".csv"),
+      textAreaInput("text", "Or paste data here (comma-separated):", rows = 3),
+      numericInput("sampleSize", "Sample size:", min = 1, value = 10),
+      numericInput("numSamples", "Number of resamples:", min = 1, value = 1000),
+      actionButton("update", "Draw Samples"),
+      actionButton("removePoint", "Remove Selected Point")
+    ),
+    mainPanel(
+      plotlyOutput("dataPlot"),       # Interactive scatter plot for data points
+      plotOutput("dataHist"),         # Histogram for data distribution
+      plotOutput("distPlot")         # Plot for sampling distribution of sample means
+ 
+    )
+  )
+)
+
+
+# server.R
+server <- function(input, output, session) {
+  data <- reactiveVal(data.frame())
+  
+  # Load data from file or text input
+  observeEvent(input$file1, {
+    req(input$file1)
+    df <- read.csv(input$file1$datapath)
+    data(df)
+  })
+  
+  observeEvent(input$text, {
+    if (input$text != "") {
+      df <- read.csv(text = input$text, header = TRUE)
+      data(df)
+    }
+  })
+  
+  selected_point <- reactiveVal(NULL)  # Initialize as NULL
+  
+  # Render scatter plot of data points
+  observe({
+    df <- data()
+    
+    output$dataPlot <- renderPlotly({
+      req(nrow(df) > 0)  # Ensure there is data to plot
+      
+      plot_ly(df %>% mutate(index = row_number()) %>% highlight_key(~index), x = seq_len(nrow(df)), y = ~df[, 1], type = 'scatter', mode = 'markers',
+              marker = list(color = '#1f77b4', size = 8),
+              text = ~paste("Index:", seq_len(nrow(df)), "<br>Value:", df[, 1]),
+              hoverinfo = "text") %>%
+        layout(title = "Data Points",
+               xaxis = list(title = "Index"),
+               yaxis = list(title = "Value")) %>%
+        highlight(on = "plotly_click",off = "plotly_doubleclick")
+    })
+    
+    # Render histogram of data distribution if data is available
+    output$dataHist <- renderPlot({
+      req(nrow(df) > 0)  # Ensure there is data to plot
+      hist(df[, 1], main = "Data Distribution", xlab = "Values", col = "lightgreen", border = "white",
+           breaks = 15)
+    })
+  })
+  
+  # Capture click event to select data point
+  observeEvent(event_data("plotly_click"), {
+    click_data <- event_data("plotly_click")
+    if (!is.null(click_data) && !is.null(click_data$pointNumber)) {
+      selected_point(click_data$pointNumber + 1)  # +1 to match R's 1-based indexing
+    }
+  })
+  
+  # Remove selected data point if one is selected
+  observeEvent(input$removePoint, {
+    selected <- selected_point()
+    req(!is.null(selected))  # Ensure a point is selected
+    df <- data()
+    if (nrow(df) > 0 && selected <= nrow(df)) {
+      df <- df[-selected, , drop = FALSE]
+      data(df)
+      selected_point(NULL)  # Clear the selection after removal
+    }
+  })
+  
+  # Generate sampling distribution of sample means if data is available
+  observeEvent(input$update, {
+    req(data())
+    req(nrow(data()) > 0)  # Check if there are rows in the data
+    req(input$sampleSize, input$numSamples)
+    
+    df <- data()
+    
+    if (ncol(df) > 0) {
+      sample_means <- numeric(input$numSamples)
+      
+      for (i in 1:input$numSamples) {
+        sample_data <- df[sample(nrow(df), input$sampleSize, replace = TRUE), ] %>% as.data.frame()
+        sample_means[i] <- mean(sample_data[, 1], na.rm = TRUE) # assuming the first column is the data of interest
+      }
+      
+      output$distPlot <- renderPlot({
+        hist(sample_means, breaks = 30, main = "Sampling Distribution of Sample Means",
+             xlab = "Sample Means", col = "lightblue", border = "white", 
+             xlim = c(min(data()[,1]), max(data()[,1])))
+      })
+      
+      output$sampleMeans <- renderTable({
+        data.frame(SampleMeans = sample_means)
+      })
+    }
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+```
