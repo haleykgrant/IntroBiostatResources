@@ -280,7 +280,7 @@ ui &lt;- fluidPage(
 # Define server logic required to draw a histogram
 server &lt;- function(input, output) {
   
-  set.seed(23)
+  set.seed(234)
   N = 150
   x1 = runif(n = N, max = 10) %&gt;% round()
   y = 4.2 + 1.5*x1 + rnorm(n = N, sd = 1.3)
@@ -295,7 +295,7 @@ server &lt;- function(input, output) {
   chol2 = chol(R2)
   finalx = newx %*% chol2 * sd(x1) + mean(x1)
   
-  x2 = finalx[,2]/1.5
+  x2 = finalx[,2]/1.9
  
 
 
@@ -312,7 +312,7 @@ server &lt;- function(input, output) {
   chol2 = chol(R2)
   finalx = newx %*% chol2 * sd(x1) + mean(x1)
   
-  x2 = finalx[,2]/1.5
+  x2 = finalx[,2]/1.9
   } else {x2 = cr * x1}
      
 
@@ -325,7 +325,7 @@ server &lt;- function(input, output) {
   #  } else{x2 = (3 + rnorm(n = N, sd =1))%&gt;% plyr::round_any(.,1) }
     
     vals$x2 = x2
-    vals$dt = data.frame(x1, x2 = vals$x2,y) %&gt;% mutate(r_x2 = round(vals$x2)) 
+    vals$dt = data.frame(x1, x2 = vals$x2,y) %&gt;% mutate(r_x2 = plyr::round_any(vals$x2, .5)) 
     vals$cor = as.numeric(input$cor1)
     
     
