@@ -51,7 +51,7 @@ ui <- fluidPage(
               tabPanel("MLR and VIF",
                        sidebarLayout( 
                          sidebarPanel(
-                           radioButtons("cor1", "Correlation betweel x1 and x2",
+                           radioButtons("cor1", "Correlation betweel x1 and x2 (approximate)",
                                         choices = c("-1","-0.75","0","0.75","1"),
                                         selected = "0.75")
                          ),
@@ -112,25 +112,51 @@ ui <- fluidPage(
 server <- function(input, output) {
   
   set.seed(23)
-  N = 100
+  N = 150
   x1 = runif(n = N, max = 10) %>% round()
   y = 4.2 + 1.5*x1 + rnorm(n = N, sd = 1.3)
-  origx2<-(3 + 0.5*x1 +rnorm(n = N, sd =1.2))  %>% plyr::round_any(.,1)
+  origx2<-(3 +rnorm(n = N, sd =.5)) 
   
-  vals<-reactiveValues( x2=origx2,c=1,av.data=NULL,dt=data.frame(x1, x2 = origx2,y),cor = 0.75)
+  X = cbind(scale(x1),scale(origx2))
+  c1 = var(X)
+  chol1 = solve(chol(c1))
+  newx = X %*% chol1 
+  R2 = matrix(c(1,0.75, 0.75, 1), nrow = 2)
+  
+  chol2 = chol(R2)
+  finalx = newx %*% chol2 * sd(x1) + mean(x1)
+  
+  x2 = finalx[,2]/1.5
+ 
+
+
+  vals<-reactiveValues( x2=x2,c=1,av.data=NULL,dt=data.frame(x1, x2 =x2,y),cor = 0.75)
   
   observeEvent({input$c},{ vals$c=input$c})
   
+   observeEvent({input$cor1},{ 
+     cr = as.numeric(input$cor1)
+     if(!cr%in%c(1,-1)){
+     
+    R2 = matrix(c(1,cr, cr, 1), nrow = 2)
   
-  observeEvent({input$cor1},{
-    if(input$cor1 == "1"){x2 = (3 + 0.5*x1 ) 
-    } else if(input$cor1 == "-1"){x2 = -(3 + 0.5*x1 ) 
-    } else if(input$cor1 == "-0.75"){x2 = -origx2
-    } else if(input$cor1 == "0.75"){x2 = origx2
-    } else{x2 = (3 + rnorm(n = N, sd =1))}
+  chol2 = chol(R2)
+  finalx = newx %*% chol2 * sd(x1) + mean(x1)
+  
+  x2 = finalx[,2]/1.5
+  } else {x2 = cr * x1}
+     
+
+  
+  #observeEvent({input$cor1},{
+  #  if(input$cor1 == "1"){x2 = (3 + 0.5*x1 ) 
+  #  } else if(input$cor1 == "-1"){x2 = -(3 + 0.5*x1 ) 
+  #  } else if(input$cor1 == "-0.75"){x2 = -origx2
+  #  } else if(input$cor1 == "0.75"){x2 = origx2
+  #  } else{x2 = (3 + rnorm(n = N, sd =1))%>% plyr::round_any(.,1) }
     
-    vals$x2=x2
-    vals$dt = data.frame(x1, x2 = vals$x2,y)
+    vals$x2 = x2
+    vals$dt = data.frame(x1, x2 = vals$x2,y) %>% mutate(r_x2 = round(vals$x2)) 
     vals$cor = as.numeric(input$cor1)
     
     
@@ -185,8 +211,8 @@ server <- function(input, output) {
   output$corplot <- renderPlot({
     
     #psych::pairs.panels(vals$dt, ellipses = F, hist.col = "skyblue1")
-     ggpairs(vals$dt, 
-         upper = list(continuous = wrap("blank")),
+     ggpairs(vals$dt %>% select(-r_x2), 
+        # upper = list(continuous = wrap("blank")),
         lower = list(continuous = "points"),
        diag = list(continuous = "densityDiag")) + 
       theme_bw()
@@ -206,50 +232,35 @@ server <- function(input, output) {
   output$dataPlot2 <- renderPlot({
     
     vals$dt %>% 
-      ggplot(aes(x = x1, y=y, color = x2)) + 
-      geom_point() +
+      ggplot(aes(x = x1, y=y)) + 
+      geom_point(aes(color = x2)) +
       theme_bw() + 
       xlim(0, 10) +
       scale_color_viridis_c(option="turbo") + 
-      facet_wrap(.~x2)+
+      facet_wrap(.~r_x2)+
       labs(title  = "Data split by x2 value") + 
-      geom_smooth(method = "lm", se = F, linewidth = 0.5) + 
+      geom_smooth(method = "lm", se = F, linewidth = 0.5, aes(color = r_x2)) + 
       labs(color = "x2")
   })
   
     output$dataPlot3 <- renderPlot({
     
     vals$dt %>% 
-      ggplot(aes(x = x1, y=y, color = x2)) + 
-      geom_point() +
+      ggplot(aes(x = x1, y=y)) + 
+      geom_point(aes(color = x2)) +
       theme_bw() + 
       xlim(0, 10) +
       scale_color_viridis_c(option="turbo") + 
-      facet_wrap(.~x2)+
+      facet_wrap(.~r_x2)+
       labs(title  = "Data split by x2 value") + 
-      geom_smooth(method = "lm", se = F, size = 0.5) + 
+      geom_smooth(method = "lm", se = F, size = 0.5, aes(color = r_x2)) + 
       labs(color = "x2")+  
-      geom_vline(data = vals$dt %>%  group_by(x2) %>% summarize(mean_x = mean(x1)), aes(xintercept = mean_x), linetype = "dashed", color = "black") +
-        geom_hline(data = vals$dt %>% group_by(x2) %>% summarize(mean_y = mean(y)), aes(yintercept = mean_y), linetype = "dashed", color = "black") + 
+      geom_vline(data = vals$dt %>%  group_by(r_x2) %>% summarize(mean_x = mean(x1)), aes(xintercept = mean_x), linetype = "dashed", color = "black") +
+        geom_hline(data = vals$dt %>% group_by(r_x2) %>% summarize(mean_y = mean(y)), aes(yintercept = mean_y), linetype = "dashed", color = "black") + 
         theme(legend.position = "none")
   })
     
-        output$dataPlot4 <- renderPlot({
     
-   vals$dt %>% 
-    group_by(x2) %>% 
-    mutate(mean_x = mean(x1),
-           mean_y = mean(y)) %>%
-    ggplot(aes(x = x1, y = y, color = x2)) + 
-    geom_point() +
-    theme_bw() + 
-    xlim(-1, 11) +
-    scale_color_viridis_c(option = "turbo") + 
-    labs(title = "Data split by x2 value", color = "x2") +  
-    geom_segment(aes(x = mean_x - 1, xend = mean_x + 1, y = mean_y, yend = mean_y, color = x2), linetype = "dashed") +
-    geom_segment(aes(x = mean_x, xend = mean_x, y = mean_y - 2.5, yend = mean_y + 2.5, color = x2), linetype = "dashed") +
-    theme(legend.position = "none")
-  })
   
   output$AVplot1 <- renderPlot({
     
