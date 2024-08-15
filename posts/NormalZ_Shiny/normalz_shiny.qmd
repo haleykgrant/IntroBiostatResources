@@ -1,0 +1,136 @@
+---
+title: "Standard Normal Distribution Visualization"
+author: "Haley Grant"
+filters: 
+  - shinylive
+categories:
+    - Probability Distributions
+    
+---
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 800
+#| 
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  titlePanel("Standard Normal Distribution Explorer"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons("toggle", "Choose Input:",
+                  choices = list("Z Statistic" = "z", "Probability" = "p")),
+      
+      conditionalPanel(
+        condition = "input.toggle == 'z'",
+        sliderInput("z_value", "Z Statistic:", min = -4, max = 4, value = 0, step = 0.01)
+      ),
+      
+      conditionalPanel(
+        condition = "input.toggle == 'p'",
+        sliderInput("p_value", "Probability:", min = 0, max = 1, value = 0.5, step = 0.01)
+      ),
+      
+      selectInput("prob_type", "Probability Type:",
+                  choices = list("P(Z < z)" = "less", 
+                                 "P(Z > z)" = "greater", 
+                                 "P(|Z| > z)" = "two_sided_outside",
+                                 "P(|Z| < z)" = "two_sided_inside"))
+    ),
+    
+    mainPanel(
+      plotOutput("distPlot")
+    )
+  )
+)
+
+
+
+
+
+server <- function(input, output) {
+  
+  # Reactive expression to calculate the Z or Probability based on input
+  calc_values <- reactive({
+    if (input$toggle == "z") {
+      p <- switch(input$prob_type,
+                  "less" = pnorm(input$z_value),
+                  "greater" = 1 - pnorm(input$z_value),
+                  "two_sided_outside" = 2 * (1 - pnorm(abs(input$z_value))),
+                  "two_sided_inside" = 1-(2 * (1 - pnorm(abs(input$z_value))) ))
+      return(list(z = input$z_value, p = p))
+    } else {
+      z <- switch(input$prob_type,
+                  "less" = qnorm(input$p_value),
+                  "greater" = qnorm(1 - input$p_value),
+                  "two_sided_outside" = qnorm(1 - input$p_value / 2),
+                  "two_sided_inside" = abs(qnorm( abs((1-input$p_value) / 2) )))
+      return(list(z = z, p = input$p_value))
+    }
+  })
+  
+  output$distPlot <- renderPlot({
+    values <- calc_values()
+    
+    x <- seq(-4, 4, length = 1000)
+    y <- dnorm(x)
+    
+    if(input$prob_type=="less"){
+    p <- ggplot(data.frame(x, y), aes(x, y)) +
+      geom_line() +
+      geom_area(data = data.frame(x = x[x <= values$z], y = y[x <= values$z]),
+                aes(x = x, y = y), fill = "blue", alpha = 0.3) +
+      geom_vline(xintercept = values$z, color = "red") +
+      ggtitle(paste("z =", round(values$z, 2), " | P =", round(values$p, 4))) +
+      theme_minimal()
+    } else if(input$prob_type=="greater"){
+      p <- ggplot(data.frame(x, y), aes(x, y)) +
+        geom_line() +
+        geom_area(data = data.frame(x = x[x >= values$z], y = y[x >= values$z]),
+                  aes(x = x, y = y), fill = "blue", alpha = 0.3) +
+        geom_vline(xintercept = values$z, color = "red") +
+        ggtitle(paste("z =", round(values$z, 2), " | P =", round(values$p, 4))) +
+        theme_minimal()
+      
+      } else if (input$prob_type=="two_sided_outside"){
+      p <- ggplot(data.frame(x, y), aes(x, y)) +
+        geom_line() +
+        geom_area(data = data.frame(x = x[x >= values$z  ], 
+                                    y = y[x >= values$z ]),
+                  aes(x = x, y = y), fill = "blue", alpha = 0.3) +
+        geom_area(data = data.frame(x = x[x <= -values$z  ], 
+                                    y = y[x <= -values$z ]),
+                  aes(x = x, y = y), fill = "blue", alpha = 0.3)+ 
+        geom_vline(xintercept = values$z, color = "red") +
+        geom_vline(xintercept = -values$z, color = "red") +
+        ggtitle(paste("z =", round(values$z, 2), " | P =", round(values$p, 4))) +
+        theme_minimal()
+      if(values$z!=0){p = p+
+        annotate("text", x = -values$z, y = - 0.02, 
+                 label = paste("-z =", round(-values$z, 2)), color = "red", vjust = -0.5, hjust = -.1)}
+      } else{
+        p <- ggplot(data.frame(x, y), aes(x, y)) +
+          geom_line() +
+          geom_area(data = data.frame(x = x[x <= values$z & x >= -values$z ], 
+                                      y = y[x <= values$z &x >= -values$z ]),
+                    aes(x = x, y = y), fill = "blue", alpha = 0.3) +
+          geom_vline(xintercept = values$z, color = "red") +
+          geom_vline(xintercept = -values$z, color = "red") +
+          ggtitle(paste("z =", round(values$z, 2), " | P =", round(values$p, 4))) +
+          theme_minimal() 
+        if(values$z!=0){p = p+
+          annotate("text", x = -values$z, y = - 0.02, 
+                   label = paste("-z =", round(-values$z, 2)), color = "red", vjust = -0.5, hjust = -.1)}
+    }
+    
+    p + labs(x = "Z") +
+      annotate("text", x = values$z, y = - 0.02, 
+               label = paste("z =", round(values$z, 2)), color = "red", vjust = -0.5,hjust = -.1)
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+```
