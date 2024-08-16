@@ -1,0 +1,130 @@
+---
+title: "Inference Visualization"
+author: "Haley Grant"
+filters: 
+  - shinylive
+categories:
+    - Sampling Distributions
+    - Statistical Inference
+---
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 1000
+ 
+library(shiny)
+library(ggplot2)
+
+# Define UI
+ui <- fluidPage(
+  titlePanel("Density and p-value Visualization"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("xbar", "Estimated Mean (x̄):", value = 98.450),
+      numericInput("s", "Standard Deviation (s):", value = 0.65),
+      numericInput("n", "Sample Size (n):", value = 43),
+      uiOutput("muSlider"),  # Use uiOutput for dynamic slider
+      numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.01, max = 0.25, step = 0.01)
+    ),
+    
+    mainPanel(
+      plotOutput("densityPlot"),
+      textOutput("distance"),
+      textOutput("distanceSE"),
+      textOutput("pValueText")
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output, session) {
+  
+  # Dynamically update the slider input for mu based on xbar, s, and n
+  output$muSlider <- renderUI({
+    se <- input$s / sqrt(input$n)
+    min_mu <- round(input$xbar - 4 * se, digits = 2)
+    max_mu <- round(input$xbar + 4 * se, digits = 2)
+    
+    sliderInput("mu", "True Mean (μ):", min = min_mu, max = max_mu, value = input$xbar - se, step = 0.01)
+  })
+  
+  output$densityPlot <- renderPlot({
+    # Calculate standard error
+    se <- input$s / sqrt(input$n)
+    
+    # Calculate the z statistic
+    z <- (input$xbar - input$mu) / se
+    
+    # Calculate p-value
+    p_value <- 2 * (1 - pnorm(abs(z)))
+    
+    # Define the color based on p-value and alpha
+    tail_color <- ifelse(p_value < input$alpha, "red", "blue")
+    
+    # Generate x values for the plot
+    x_values <- seq(input$xbar - 5*se, input$xbar + 5*se, length.out = 1000)
+    
+    # Calculate y values for the density function
+    y_values <- dnorm(x_values, mean = input$mu, sd = se)
+    
+    # Generate the plot
+    p <- ggplot(data.frame(x = x_values, y = y_values), aes(x = x)) +
+      geom_line(aes(y = y), color = "darkgrey", size = 0.6) +
+      
+      # Shade the left tail
+      geom_area(data = subset(data.frame(x = x_values, y = y_values), x <= min(input$xbar, 2*input$mu-input$xbar)),
+                aes(x = x, y = y), fill = tail_color, alpha = 0.3) +
+      
+      # Shade the right tail
+      geom_area(data = subset(data.frame(x = x_values, y = y_values), x >= max(input$xbar, 2*input$mu-input$xbar)),
+                aes(x = x, y = y), fill = tail_color, alpha = 0.3) +
+      
+      # Add vertical lines for xbar and mu
+      geom_vline(xintercept = input$xbar, linetype = "dashed", color = "cornflowerblue", size = 0.75) +
+      geom_vline(xintercept = input$mu, linetype = "dashed", color = "darkorange2", size = 0.75) +
+      
+      # Add line segment to show the distance between xbar and mu
+      geom_segment(aes(x = input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", size = .75,
+                   arrow = grid::arrow(angle = 90, ends = "both", length = unit(.1, "inches"))) +
+      geom_segment(aes(x = 2*input$mu-input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", 
+                   size = .75, arrow = grid::arrow(angle = 90,ends = "both",length = unit(.1, "inches")) )+
+      
+      # Add labels for xbar and mu
+      annotate("text", x = input$xbar, y = -0.1, label = "x̄", color= "cornflowerblue", hjust = -0.2, size = 5) +
+      annotate("text", x = input$mu, y = -0.1, label = "μ", color = "darkorange2",  hjust = 1.2, size = 5) +
+      
+      labs(title = "Normal Density with Selected Mean",
+           x = "Value",
+           y = "Density") +
+      theme_minimal()
+    
+    print(p)
+  })
+  
+  output$distance <- renderText({
+    paste0("Distance of x̄ from μ: ", round(abs(input$mu - input$xbar), 4))
+  })
+  
+  output$distanceSE <- renderText({
+    paste0("Distance in standard errors: ", round(abs(input$mu - input$xbar)/(input$s/sqrt(input$n)), 4))
+  })
+  
+  output$pValueText <- renderText({
+    # Calculate standard error
+    se <- input$s / sqrt(input$n)
+    
+    # Calculate the z statistic
+    z <- (input$xbar - input$mu) / se
+    
+    # Calculate p-value
+    p_value <- 2 * (1 - pnorm(abs(z)))
+    
+    # Display p-value
+    paste0("Probability of getting x̄ this extreme : ", round(p_value, 4))
+  })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
