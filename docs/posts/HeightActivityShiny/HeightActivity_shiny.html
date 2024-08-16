@@ -178,93 +178,109 @@ ul.task-list li input[type="checkbox"] {
 
 
 <pre class="shinylive-r" data-engine="r"><code>#| standalone: true
-#| viewerHeight: 600
+#| viewerHeight: 1000
 
 # ui.R
 library(shiny)
 library(plotly)
-library(tidyverse)  # Load tidyverse for data manipulation
+library(tidyverse)
 
 ui &lt;- fluidPage(
-  titlePanel("Sampling Distribution with Data Point Removal"),
+  titlePanel("Sampling Distribution Simulation"),
   sidebarLayout(
     sidebarPanel(
       fileInput("file1", "Choose CSV File", accept = ".csv"),
-      textAreaInput("text", "Or paste data here (comma-separated):", rows = 3),
+      uiOutput("columnSelectUI"),  # Dropdown for selecting the column
       numericInput("sampleSize", "Sample size:", min = 1, value = 10),
       numericInput("numSamples", "Number of resamples:", min = 1, value = 1000),
-      actionButton("update", "Draw Samples"),
-      actionButton("removePoint", "Remove Selected Point")
+      actionButton("update", "Draw Samples")
       
-    
-      ),
+    ),
     mainPanel(
-     fluidRow(
-       splitLayout(cellWidths = c("50%", "50%"), 
-                   plotlyOutput("dataPlot"), # Interactive scatter plot for data points
-                    plotOutput("dataHist"))# Histogram for data distribution
-                          )     
-     ,         
-     conditionalPanel(
-        condition = "input.update &gt;= 1",
+      fluidRow(
+        conditionalPanel("output.showHeader==true" ,
+                         h3("Original Data Distriubtion", align = "center")),
+        splitLayout(cellWidths = c("50%", "50%"), 
+                    plotlyOutput("dataPlot"),  # Interactive scatter plot for data points
+                    plotOutput("dataHist"))    # Histogram for data distribution
+      ),
+      actionButton("removePoint", "Remove Selected Point"),
+      conditionalPanel(
+        condition = "output.showSimPanel == true", 
+        h3("Simulated Samples",align = "center"),
         numericInput("index", "Index of resample to plot", value = 1, min = 1, max = 1000)
-   ), 
-    fluidRow(
-       splitLayout(cellWidths = c("50%", "50%"), cellArgs = list(align = "center",style = "vertical-align: middle"),
-     plotOutput("samplePlot", width = "80%", height = "325px") ,# plot of specific sample 
-       plotOutput("distPlot") )),        # Plot for sampling distribution of sample means
-      tableOutput("stats")
+      ,
+      fluidRow(
+        splitLayout(cellWidths = c("50%", "50%"), cellArgs = list(align = "center", style = "vertical-align: middle"),
+                    plotOutput("samplePlot", width = "80%", height = "325px"),  # Plot of specific sample 
+                    plotOutput("distPlot"))   # Plot for sampling distribution of sample means
+      ),
+      tableOutput("stats"))
     )
   )
 )
 
-
-# server.R
 server &lt;- function(input, output, session) {
   data &lt;- reactiveVal(data.frame())
+  counter &lt;- reactiveVal(0)
+  showSimPanel &lt;- reactiveVal(FALSE)
+  showHeader &lt;- reactiveVal(FALSE)
   
-  # Load data from file or text input
   observeEvent(input$file1, {
     req(input$file1)
     df &lt;- read.csv(input$file1$datapath)
     data(df)
+    
+    counter(0)
+    showSimPanel(FALSE)  # Hide the Simulated Samples section
+    showHeader(TRUE)
+    # Update the dropdown with column names after data is loaded
+    updateSelectInput(session, "colName", choices = colnames(df))
+     updateNumericInput(session, "index", value = 1)
+     
+    # Clear any previous plots or outputs
+  output$samplePlot &lt;- renderPlot({ NULL })
+  output$distPlot &lt;- renderPlot({ NULL })
+  output$sampleMeans &lt;- renderTable({ NULL })
+  output$stats &lt;- renderTable({ NULL })
+  })
+ output$showHeader &lt;- reactive({
+    showHeader()
   })
   
-  observeEvent(input$text, {
-    if (input$text != "") {
-      df &lt;- read.csv(text = input$text, header = TRUE)
-      data(df)
-    }
+  outputOptions(output, "showHeader", suspendWhenHidden = FALSE) 
+  
+  # UI for selecting the column
+  output$columnSelectUI &lt;- renderUI({
+    req(ncol(data()) &gt; 0)  # Ensure there are columns in the data
+    selectInput("colName", "Select Column:", choices = colnames(data()), selected = colnames(data())[1])
   })
   
   selected_point &lt;- reactiveVal(NULL)  # Initialize as NULL
   
-  # Render scatter plot of data points
   observe({
     df &lt;- data()
+    req(input$colName %in% colnames(df))  # Ensure the column name exists
     
     output$dataPlot &lt;- renderPlotly({
       req(nrow(df) &gt; 0)  # Ensure there is data to plot
-      
-      plot_ly(df %&gt;% mutate(index = row_number()) %&gt;% highlight_key(~index), x = seq_len(nrow(df)), y = ~df[, 1], type = 'scatter', mode = 'markers',
+      plot_ly(df %&gt;% mutate(index = row_number()) %&gt;% highlight_key(~index), x = seq_len(nrow(df)),
+              y = ~df[[input$colName]], type = 'scatter', mode = 'markers',
               marker = list(color = '#1f77b4', size = 8),
-              text = ~paste("Index:", seq_len(nrow(df)), "&lt;br&gt;Value:", df[, 1]),
+              text = ~paste("Index:", seq_len(nrow(df)), "&lt;br&gt;Value:", df[[input$colName]]),
               hoverinfo = "text") %&gt;%
-        layout(title = "Data Points",
+        layout(title = paste0("Data Points: ", input$colName),
                xaxis = list(title = "Index"),
                yaxis = list(title = "Value")) %&gt;%
-        highlight(on = "plotly_click",off = "plotly_doubleclick")
+        highlight(on = "plotly_click", off = "plotly_doubleclick")
     })
     
-    # Render histogram of data distribution if data is available
     output$dataHist &lt;- renderPlot({
       req(nrow(df) &gt; 0)  # Ensure there is data to plot
-      hist(df[, 1], main = "Data Distribution", xlab = "Values", col = "lightgreen", border = "white",
-           breaks = 15)
+      hist(df[[input$colName]], main = paste0("Population Distribution\n n = ", nrow(df)), xlab = "Values", col = "lightgreen", border = "white", breaks = 15)
     })
   })
   
-  # Capture click event to select data point
   observeEvent(event_data("plotly_click"), {
     click_data &lt;- event_data("plotly_click")
     if (!is.null(click_data) &amp;&amp; !is.null(click_data$pointNumber)) {
@@ -272,7 +288,6 @@ server &lt;- function(input, output, session) {
     }
   })
   
-  # Remove selected data point if one is selected
   observeEvent(input$removePoint, {
     selected &lt;- selected_point()
     req(!is.null(selected))  # Ensure a point is selected
@@ -284,60 +299,85 @@ server &lt;- function(input, output, session) {
     }
   })
   
-  # Generate sampling distribution of sample means if data is available
-  observeEvent(input$update, {
+  observeEvent(input$update,{
+    counter(counter()+1)
+    showSimPanel(TRUE) 
+  })
+   
+
+  observeEvent({input$numSamples 
+    input$removePoint 
+    input$sampleSize 
+    input$colName},{
+  counter(0) 
+    showSimPanel(FALSE) 
+    updateNumericInput(session, "index", value = 1)
+    })
+
+
+
+output$showSimPanel &lt;- reactive({
+    showSimPanel()
+  })
+  
+  outputOptions(output, "showSimPanel", suspendWhenHidden = FALSE) 
+  observeEvent(counter(), {
+    if(counter()&gt;0){
     req(data())
     req(nrow(data()) &gt; 0)  # Check if there are rows in the data
-    req(input$sampleSize, input$numSamples)
-    
+    req(input$sampleSize, input$numSamples, input$colName)
     df &lt;- data()
     
     if (ncol(df) &gt; 0) {
       sample_means &lt;- numeric(input$numSamples)
       samples &lt;- vector(length = input$numSamples, mode = "list")
       for (i in 1:input$numSamples) {
-        sample_data &lt;- df[sample(nrow(df), input$sampleSize, replace = TRUE), ] %&gt;% as.data.frame()
+        sample_data &lt;- df[sample(nrow(df), input$sampleSize, replace = TRUE), input$colName] %&gt;% as.data.frame()
         samples[i] &lt;- sample_data 
-        sample_means[i] &lt;- mean(sample_data[, 1], na.rm = TRUE) # assuming the first column is the data of interest
+        sample_means[i] &lt;- mean(sample_data[,1],na.rm=T)
       }
       
       output$samplePlot &lt;- renderPlot({
-        samples[[input$index]] %&gt;% 
-          data.frame() %&gt;% 
-          ggplot(aes(x=.)) + 
-          geom_dotplot(fill = "indianred1", color = "white") + 
-          theme_classic() + 
-          labs(x = "Values", title = paste0("Re-sample index: ", input$index)) + 
-          xlim(c(min(data()[,1]), max(data()[,1]))) + 
+        samples[[input$index]] %&gt;%
+          data.frame() %&gt;%
+          ggplot(aes(x = .)) +
+          geom_dotplot(fill = "indianred1", color = "white") +
+          theme_classic() +
+          labs(x = "Values", title = paste0("Re-sample index: ", input$index)) +
+          xlim(c(min(data()[[input$colName]]), max(data()[[input$colName]]))) +
           theme(axis.text.y = element_blank(),
-                axis.title.y = element_blank(), 
-                axis.ticks = element_blank()) + 
-          geom_vline(xintercept = mean( samples[[input$index]] ),
+                axis.title.y = element_blank(),
+                axis.ticks = element_blank()) +
+          geom_vline(xintercept = mean(samples[[input$index]]),
                      alpha = 0.5, color = "indianred1")
-        
-     
       })
       
       output$distPlot &lt;- renderPlot({
-        hist(sample_means, breaks = 25, main = "Sampling Distribution of Sample Means",
-             xlab = "Sample Means", col = "lightblue", border = "white", 
-             xlim = c(min(data()[,1]), max(data()[,1])))
+        req(input$sampleSize &gt; 0)
+        hist(sample_means,
+             breaks = seq(from = min(data()[[input$colName]]), to = max(data()[[input$colName]]),
+                          length.out = round(15 * log(input$sampleSize))),
+             main = "Sampling Distribution of Sample Means",
+             xlab = "Sample Means", col = "lightblue", border = "white",
+             xlim = c(min(data()[[input$colName]]), max(data()[[input$colName]])))
       })
       
       output$sampleMeans &lt;- renderTable({
         data.frame(SampleMeans = sample_means)
       })
+      
       output$stats &lt;- renderTable({
-       dt = data.frame(Mean = c(mean(data()[,1]),mean(sample_means)),
-                   SD = c(sd(data()[,1]),sd(sample_means)))
-       rownames(dt) &lt;-c("Population", "Sample Means")
-       dt
+        dt = data.frame(Mean = c(mean(data()[[input$colName]]), mean(sample_means)),
+                        SD = c(sd(data()[[input$colName]]), sd(sample_means)))
+        rownames(dt) &lt;- c("Population", "Sample Means")
+        dt
       }, bordered = T, rownames = T, align = "c")
-    }
+    } }
   })
 }
 
 shinyApp(ui = ui, server = server)
+
 </code></pre>
 
 
