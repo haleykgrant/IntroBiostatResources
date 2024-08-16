@@ -195,11 +195,24 @@ ui &lt;- fluidPage(
       numericInput("numSamples", "Number of resamples:", min = 1, value = 1000),
       actionButton("update", "Draw Samples"),
       actionButton("removePoint", "Remove Selected Point")
-    ),
+      
+    
+      ),
     mainPanel(
-      plotlyOutput("dataPlot"),       # Interactive scatter plot for data points
-      plotOutput("dataHist"),         # Histogram for data distribution
-      plotOutput("distPlot") ,        # Plot for sampling distribution of sample means
+     fluidRow(
+       splitLayout(cellWidths = c("50%", "50%"), 
+                   plotlyOutput("dataPlot"), # Interactive scatter plot for data points
+                    plotOutput("dataHist"))# Histogram for data distribution
+                          )     
+     ,         
+     conditionalPanel(
+        condition = "input.update &gt;= 1",
+        numericInput("index", "Index of resample to plot", value = 1, min = 1, max = 1000)
+   ), 
+    fluidRow(
+       splitLayout(cellWidths = c("50%", "50%"), cellArgs = list(align = "center",style = "vertical-align: middle"),
+     plotOutput("samplePlot", width = "80%", height = "325px") ,# plot of specific sample 
+       plotOutput("distPlot") )),        # Plot for sampling distribution of sample means
       tableOutput("stats")
     )
   )
@@ -281,14 +294,32 @@ server &lt;- function(input, output, session) {
     
     if (ncol(df) &gt; 0) {
       sample_means &lt;- numeric(input$numSamples)
-      
+      samples &lt;- vector(length = input$numSamples, mode = "list")
       for (i in 1:input$numSamples) {
         sample_data &lt;- df[sample(nrow(df), input$sampleSize, replace = TRUE), ] %&gt;% as.data.frame()
+        samples[i] &lt;- sample_data 
         sample_means[i] &lt;- mean(sample_data[, 1], na.rm = TRUE) # assuming the first column is the data of interest
       }
       
+      output$samplePlot &lt;- renderPlot({
+        samples[[input$index]] %&gt;% 
+          data.frame() %&gt;% 
+          ggplot(aes(x=.)) + 
+          geom_dotplot(fill = "indianred1", color = "white") + 
+          theme_classic() + 
+          labs(x = "Values", title = paste0("Re-sample index: ", input$index)) + 
+          xlim(c(min(data()[,1]), max(data()[,1]))) + 
+          theme(axis.text.y = element_blank(),
+                axis.title.y = element_blank(), 
+                axis.ticks = element_blank()) + 
+          geom_vline(xintercept = mean( samples[[input$index]] ),
+                     alpha = 0.5, color = "indianred1")
+        
+     
+      })
+      
       output$distPlot &lt;- renderPlot({
-        hist(sample_means, breaks = 30, main = "Sampling Distribution of Sample Means",
+        hist(sample_means, breaks = 25, main = "Sampling Distribution of Sample Means",
              xlab = "Sample Means", col = "lightblue", border = "white", 
              xlim = c(min(data()[,1]), max(data()[,1])))
       })
