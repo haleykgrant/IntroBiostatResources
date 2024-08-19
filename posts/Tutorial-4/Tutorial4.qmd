@@ -94,11 +94,11 @@ If we want to get a list of all the column names in the dataset, we can use the 
 colnames(cdc)
 ```
 
-Here we can see the names of the 9 columns included in our data. Remember that R is case-sensitive so this can be a helpful function when you first start working with a data set. For example, if I was trying to refer to the column named `"age"` but I accidentally spelled it `"Age"`, R wouldn't understand which variable I was referring to. Checking the column names at the start can help avoid future confusion/frustration with misspellings 🙂
+Here we can see the names of the 9 columns included in our data. Remember that R is case-sensitive so this can be a helpful function when you first start working with a data set. For example, if I was trying to refer to the column named `"age"` but I accidentally spelled it with a capital A, `"Age"`, R wouldn't understand which variable I was referring to. Checking the column names at the start can help avoid future confusion/frustration with misspellings 🙂
 
 ## Making a new column
 
-As with most things in R, there are multiple ways to make new columns in a data frame. I will be using the `tidyverse` syntax and functions to do this, but there are other ways.
+As with most things in R, there are multiple ways to make new columns in a data frame. I will be using the `tidyverse` syntax and functions to do this, but there are other ways to do this.
 
 The function in the `tidyverse` (and specifically, the `dplyr` package) to make a new column is `mutate()`.
 
@@ -110,15 +110,17 @@ The syntax will be:
 
 You don't need to use a pre-existing column to make the new column (you could just type out a vector with the new column values), but we generally will be using pre-existing columns to make new columns.
 
-For example, we can see that there is a column called `"exerany"` in our data. This column indicates if the individual has exercised in the past month, where a `1` indicates if they have exercised in the past month and `0` indicates that they have not. This is a fairly common coding of binary variables, but unless you have the codebook readily available, you wouldn't know for sure which response (yes/no) corresponds to which value (1/0). It can be helpful to make new variable that reads as "Yes"/"No" instead of 1/0 for clarity.
+For example, we can see that there is a column called `"exerany"` in our data. This column indicates if the individual has exercised in the past month, where a `1` indicates that they have exercised in the past month and `0` indicates that they have not. This is a fairly common coding of binary variables, but unless you have the codebook readily available, you wouldn't know for sure which response (yes/no) corresponds to which value (1/0). It can be helpful to make new variable that reads as "Yes"/"No" instead of 1/0 for clarity and to make sure we don't accidentally treat this categorical variable as a numeric variable in later analyses.
 
-We will make a new variable called `"exerany_f"` that is a factor variable that takes on the values `0` and `1` with the labels `"No exercise in past month"` and `"Exercise in past month"`, respectively. We will use the values from the `"exerany"` variable to help us make the new variable.
+We will make a new factor variable called `"exerany_f"` that takes on the values `0` and `1` with the labels `"No exercise in past month"` and `"Exercise in past month"`, respectively. We will use the values from the `"exerany"` variable to help us make the new variable.
 
 ```{webr-r}
 # make new variable called exerany_f
 mutate(exerany_f = factor(exerany, levels = c(0,1), 
                           labels = c("No exercise in past month", "Exercise in past month")) )
 ```
+
+### Columns names vs object names
 
 Oh no! Why did we get an error?
 
@@ -128,14 +130,16 @@ Let's take a look at the error message:
 [Error: object 'exerany' not found]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
 :::
 
-This error message is telling us that there isn't an object called `'exerany'` that R can find. This is because `'exerany'` is the name of a column in our data frame `cdc`, not a standalone object.
+This error message is telling us that there isn't an object called `'exerany'` that R can find. This is because `'exerany'` is the name of a column in our data frame `cdc`, not a standalone object within our R environment.
 
 To fix this error, we just need to tell R where to look for the variable called `'exerany'`.
 
 ```{webr-r}
 # make new variable called exerany_f
-cdc %>% # tell R where to look
-  mutate(exerany_f = factor(exerany, levels = c(0,1), labels = c("No exercise in past month", "Exercise in past month")) )
+cdc %>% # tell R where to look (starting in the cdc data frame)
+  mutate(exerany_f = factor(exerany, 
+                            levels = c(0,1), 
+                            labels = c("No exercise in past month", "Exercise in past month")) )
 ```
 
 Notice that this printed out a data frame that now has 10 columns instead of the previous 9. The new column is the variable we just made, `'exerany_f'`. You can't see it because there is a limit to the number of columns printed, but there is a line telling us that there is `1 more variable: exerany_f <fct>`, which means there is also a factor variable called `exerany_f` that isn't being shown in the printed output.
@@ -148,7 +152,7 @@ colnames(cdc)
 
 ```
 
-Basically, mutate will add a new column and return a dataset (that then gets printed in your output). If you want to save the new variable to be able to use it later, we have to either update the cdc data frame or save this as a new data frame.
+Basically, mutate will add a new column to your data frame and return a data frame (that then gets printed in your output). If you want to _save_ the new variable to be able to use it later, we have to either update the cdc data frame or save this as a new data frame.
 
 ### Saving a new data frame
 
@@ -162,8 +166,6 @@ cdc_new = cdc %>%
 # print names of columns of cdc_new
 colnames(cdc_new)
 
-# view first few rows of cdc_new
-head(cdc_new, n = 3)
 
 ```
 
@@ -179,8 +181,6 @@ cdc = cdc %>%
 # print names of columns of cdc
 colnames(cdc)
 
-# view first few rows of cdc_new
-head(cdc, n = 3)
 
 ```
 
@@ -206,7 +206,7 @@ Another way to grab a specific column from a data frame is to use the `$` symbol
 
 This will grab the column and treat it as a vector.
 
-For example, if we want to grab the new column, `exerany_f`, and the old column, `exerany`, and take a look at the last few entries using the `tail()` function.
+For example, if we want to grab the new column, `exerany_f`, and the old column, `exerany`, and take a look at the last few entries, we can use the `tail()` function after grabbing the desired column:
 
 ```{webr-r}
 # last few entries of exerany_f column in the cdc data frame
@@ -224,7 +224,7 @@ tail(cdc$exerany)
 Sometimes instead of making a new column, we just want to update an existing column. We can use the `mutate()` function for this too. The syntax this time will be:
 
 ::: {style="text-align: center;"}
-`mutate(existin_column = some_function(existing_column))`
+`mutate(existing_column = some_function(existing_column))`
 :::
 
 This will overwrite the column with the new values.
@@ -259,12 +259,16 @@ Sometimes we only want to look at a subset of the rows (observations) in our dat
 
 For example, maybe I want to run an analysis using only individuals who have a `genhlth` value of `"excellent"` or individuals who are at least 30 years old. To do this, I can use the `filter()` function (also within the `dplyr` package from the `tidyverse`).
 
+In this code chunk, I filter so that I am only left with observations who have a "`genhlth` value of `"excellent"`:
+
 ```{webr-r}
 # filter to only people with excellent genhlth
 cdc %>%
-  filter(genhlth=="excellent") # only keep if genhlth is equal to (==) "excellent"
+  filter(genhlth == "excellent") # only keep if genhlth is equal to (==) "excellent"
 
 ```
+
+In this code chunk, I filter so that I am only left with observations whose age is at least 30: 
 
 ```{webr-r}
 # filter to only people who are at least 30 years old
@@ -310,3 +314,6 @@ head(cdc_30y)
 ```
 
 Now if we want to run any further analysis using just the subset of individuals who were at least 30 years old or had "excellent" general health condition, we can use `cdc_30y` or `cdc_excellent`, respectively. This can be helpful if you want to run multiple analyses on the same subset of observations but still want access to the full data set too.
+
+
+

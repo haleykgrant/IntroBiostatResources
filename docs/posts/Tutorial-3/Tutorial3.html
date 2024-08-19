@@ -8,7 +8,7 @@
 
 <meta name="author" content="Haley Grant">
 
-<title>Intro Biostatistics Resources - Tutorial 3: Importing Data in R</title>
+<title>Intro Biostatistics Resources - Tutorial 3: Importing Data into R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -281,7 +281,7 @@ globalThis.qwebrCustomizedWebROptions = {
 };
 
 // Store cell data
-globalThis.qwebrCellDetails = [{"code":"\ndir.create(\"./Data\")\n\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"./Data/cdc_samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"./Data/dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"./Data/census.rda\")\n","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"true","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"setup","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-1","fig-cap":"","out-height":""},"id":1},{"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-2","fig-cap":"","out-height":""},"id":2},{"code":"# print files in working directory\nlist.files(path = \"/home/web_user\")","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-3","fig-cap":"","out-height":""},"id":3},{"code":"# print files in working directory\nlist.files()","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-4","fig-cap":"","out-height":""},"id":4},{"code":"# print files in data sub-directory\nlist.files(path = \"/home/web_user/Data\")","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-5","fig-cap":"","out-height":""},"id":5},{"code":"# print files in data sub-directory\nlist.files(path = \"Data\")","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-6","fig-cap":"","out-height":""},"id":6},{"code":"# print files in data sub-directory\nlist.files(path = \"/home/web_user/\", recursive = T)","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-7","fig-cap":"","out-height":""},"id":7},{"code":"# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"Data/cdc_samp.csv\")","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-8","fig-cap":"","out-height":""},"id":8},{"code":"# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"Data/cdc_samp.csv\")","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"false","editor-max-height":"","comment":"","label":"unnamed-chunk-9","fig-cap":"","out-height":""},"id":9},{"code":"# check if the cdc data frame exists\nexists(\"cdc\")","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-10","fig-cap":"","out-height":""},"id":10},{"code":"# load the readxl package \nlibrary(readxl)\n\n# save the data contained in dds.xlsx under the name `dds`\ndds = read_excel(\"Data/dds.xlsx\")\n","options":{"fig-height":5,"message":"false","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-11","fig-cap":"","out-height":""},"id":11},{"code":"# check if the dds data frame exists\n","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-12","fig-cap":"","out-height":""},"id":12},{"code":"# check if the dds data frame exists\nexists(\"dds\")","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"false","editor-max-height":"","comment":"","label":"unnamed-chunk-13","fig-cap":"","out-height":""},"id":13},{"code":"# load in the data\n# add verbose = TRUE so the object name gets printed\nload(\"Data/census.rda\", verbose = TRUE)","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-14","fig-cap":"","out-height":""},"id":14},{"code":"# check if the census data frame exists\n","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-15","fig-cap":"","out-height":""},"id":15},{"code":"# show top few rows of the data set `cdc`\nhead(cdc)","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-16","fig-cap":"","out-height":""},"id":16},{"code":"# load skimr library\nlibrary(skimr)","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"true","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"false","editor-max-height":"","comment":"","label":"unnamed-chunk-17","fig-cap":"","out-height":""},"id":17},{"code":"# use the skim() function on the cdc data\nskim(cdc)","options":{"fig-height":5,"message":"true","classes":"","output":"true","editor-quick-suggestions":"false","autorun":"false","fig-width":7,"out-width":"700px","editor-font-scale":"0.85","read-only":"false","dpi":72,"context":"interactive","results":"markup","warning":"true","editor-max-height":"","comment":"","label":"unnamed-chunk-18","fig-cap":"","out-height":""},"id":18}];
+globalThis.qwebrCellDetails = [{"id":1,"options":{"out-height":"","comment":"","context":"setup","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-1","autorun":"true","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"\ndir.create(\"./Data\")\n\nurl.csv <- \"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\"\ndownload.file(url.csv, \"./Data/cdc_samp.csv\")\n\nurl.xlsx <- \"https://haleykgrant.github.io/tutorial_data/data/dds.xlsx\"\ndownload.file(url.xlsx, \"./Data/dds.xlsx\")\n\nurl.rda <- \"https://haleykgrant.github.io/tutorial_data/data/census.rda\"\ndownload.file(url.rda, \"./Data/census.rda\")\n"},{"id":2,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-2","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# check your current working directory\n# there shouldn't be anything between the two parentheses here\ngetwd()"},{"id":3,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-3","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# print files in working directory\nlist.files(path = \"/home/web_user\")"},{"id":4,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-4","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# print files in working directory\nlist.files()"},{"id":5,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-5","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# print files in data sub-directory\nlist.files(path = \"/home/web_user/Data\")"},{"id":6,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-6","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# print files in data sub-directory\nlist.files(path = \"Data\")"},{"id":7,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-7","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# print files in data sub-directory\nlist.files(path = \"/home/web_user/\", recursive = T)"},{"id":8,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-8","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"\n# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"Data/cdc_samp.csv\")"},{"id":9,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"false","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-9","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# load tidyverse package first\nlibrary(tidyverse)\n\n# read in the data file \"cdc_samp.csv\"\ncdc = read_csv(\"Data/cdc_samp.csv\")"},{"id":10,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-10","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# check if the cdc data frame exists\nexists(\"cdc\")"},{"id":11,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-11","autorun":"false","message":"false","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# load the readxl package \nlibrary(readxl)\n\n# save the data contained in dds.xlsx under the name `dds`\ndds = read_excel(\"Data/dds.xlsx\")\n"},{"id":12,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-12","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# check if the dds data frame exists\n"},{"id":13,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"false","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-13","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# check if the dds data frame exists\nexists(\"dds\")"},{"id":14,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-14","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# load in the data\n# add verbose = TRUE so the object name gets printed\nload(\"Data/census.rda\", verbose = TRUE)"},{"id":15,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-15","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# check if the census data frame exists\n"},{"id":16,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-16","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# show top few rows of the data set `cdc`\nhead(cdc)"},{"id":17,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"false","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-17","autorun":"true","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# load skimr library\nlibrary(skimr)"},{"id":18,"options":{"out-height":"","comment":"","context":"interactive","editor-quick-suggestions":"false","dpi":72,"classes":"","warning":"true","read-only":"false","fig-height":5,"fig-width":7,"output":"true","label":"unnamed-chunk-18","autorun":"false","message":"true","fig-cap":"","editor-max-height":"","out-width":"700px","results":"markup","editor-font-scale":"0.85"},"code":"# use the skim() function on the cdc data\nskim(cdc)"}];
 
 </script>
 <script type="module">
@@ -1166,7 +1166,7 @@ globalThis.qwebrExecuteCode = async function (
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Tutorial 3: Importing Data in R</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Tutorial 3: Importing Data into R</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -1179,7 +1179,7 @@ globalThis.qwebrExecuteCode = async function (
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Tutorial 3: Importing Data in R</h1>
+      <h1 class="title">Tutorial 3: Importing Data into R</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">R code</div>
               </div>
@@ -1224,8 +1224,8 @@ globalThis.qwebrExecuteCode = async function (
   <li><a href="#types-of-files" id="toc-types-of-files" class="nav-link" data-scroll-target="#types-of-files">Types of Files</a></li>
   <li><a href="#importing-data" id="toc-importing-data" class="nav-link" data-scroll-target="#importing-data">Importing Data</a>
   <ul class="collapse">
-  <li><a href="#reading-in-a-csv-file" id="toc-reading-in-a-csv-file" class="nav-link" data-scroll-target="#reading-in-a-csv-file">Reading in a csv file</a></li>
-  <li><a href="#reading-in-an-excel-file" id="toc-reading-in-an-excel-file" class="nav-link" data-scroll-target="#reading-in-an-excel-file">Reading in an Excel file</a></li>
+  <li><a href="#importing-a-csv-file" id="toc-importing-a-csv-file" class="nav-link" data-scroll-target="#importing-a-csv-file">Importing a csv file</a></li>
+  <li><a href="#importing-an-excel-file" id="toc-importing-an-excel-file" class="nav-link" data-scroll-target="#importing-an-excel-file">Importing an Excel file</a></li>
   <li><a href="#importing-r-data-files" id="toc-importing-r-data-files" class="nav-link" data-scroll-target="#importing-r-data-files">Importing R data files</a></li>
   <li><a href="#other-file-types" id="toc-other-file-types" class="nav-link" data-scroll-target="#other-file-types">Other file types</a></li>
   </ul></li>
@@ -1507,14 +1507,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>This is because we are working in R on the web. This is telling us that we are in a sub-directory of the “home” directory called “web_user”. That is, “web_user” is a directory (folder) inside the larger directory (folder) called “home”. You read file paths from left to right.</p>
 <div style="color: purple;">
-<p><em>Try running this in your Console in R Studio on your computer, and you should see a file path that corresponds to the file structure on your computer.</em></p>
+<p><em>Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.</em></p>
 </div>
 </section>
 <section id="file-paths" class="level3">
 <h3 class="anchored" data-anchor-id="file-paths">File paths</h3>
 <p>File paths are a way of specifying the location of a file within a computer’s file system. There are two kinds of file paths, absolute paths and relative paths. Both can be useful in different situations.</p>
 <ul>
-<li><p><strong>Absolute file paths</strong> are file paths that start at the root node of your computer (often starting with something like “C:” in Windows and”/Users/” in Unix-like operating systems like macOS). Absolute paths can get fairly long if files are contained within many levels of sub-directories.</p></li>
+<li><p><strong>Absolute file paths</strong> are file paths that start at the root node of your computer (often starting with something like “C:” in Windows and “/Users/” in Unix-like operating systems like macOS). Absolute paths can get fairly long if files are contained within many levels of sub-directories.</p></li>
 <li><p><strong>Relative file paths</strong> are paths that start at the current working directory, and are therefore often shorter than absolute paths.</p></li>
 </ul>
 <p>The function we used above, <code>getwd()</code>, prints absolute paths, so we are currently working in the “web_user” sub-directory of the root directory called “home”. The image below is a visual representation of the file structure.</p>
@@ -1522,7 +1522,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </section>
 <section id="list-files-in-working-directory" class="level3">
 <h3 class="anchored" data-anchor-id="list-files-in-working-directory">List files in working directory</h3>
-<p>To check the files that exist in our current directory, we can use the function <code>list.files()</code> to print a list of all the files that are stored in the directory where we are currently working. If we just want to print the current files we can run the function without giving it a file path and just leave the inside of the parentheses blank (this will assume you want to list the files in your current directory). We could also input a file path to the function.</p>
+<p>To check the files that exist in our current directory, we can use the function <code>list.files()</code> to print a list of all the files that are stored in the directory where we are currently working. If we just want to print the files in our working directory, we can run the function without giving it a file path and just leave the inside of the parentheses blank (this will assume you want to list the files in your current directory). We could also input a file path to the function.</p>
 <p>Try running the code in this block:</p>
 <div id="qwebr-insertion-location-3"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
@@ -1565,11 +1565,11 @@ Solution
 <ol type="1">
 <li>A folder called “Data”
 <ul>
-<li>one clue that it’s a folder instead of a file is that it doesn’t have a file extension (like “.pdf”) on the end</li>
+<li>One clue that it’s a folder instead of a file is that it doesn’t have a file extension (like “.pdf”) on the end</li>
 </ul></li>
 <li>A file called “Rplots.pdf”
 <ul>
-<li>we won’t be working with this file</li>
+<li>We won’t be working with this file</li>
 </ul></li>
 </ol>
 <p>If we want to see the files contained within the sub-folder “Data”, we can add this to the end of our absolute file path within the <code>path</code> argument:</p>
@@ -1653,25 +1653,25 @@ Equivalently, with Relative Path
 </tr>
 </tbody>
 </table>
-<p>The three files we will read in today have the following names:</p>
+<p>The three files we will use today have the following names:</p>
 <ul>
-<li>“cdc_samp.csv” : a csv file with demographic data from the cdc</li>
-<li>“dds.xlsx” : an excel file with data from the department of disability services in California</li>
-<li>“census.rda”: an R data file with data from the US census</li>
+<li>“cdc_samp.csv” : a csv file with demographic data from the CDC</li>
+<li>“dds.xlsx” : an Excel file with data from the Department of Disability Services in California</li>
+<li>“census.rda”: an R data file with data from the US Census Bureau</li>
 </ul>
 </section>
 <section id="importing-data" class="level2">
 <h2 class="anchored" data-anchor-id="importing-data">Importing Data</h2>
-<section id="reading-in-a-csv-file" class="level3">
-<h3 class="anchored" data-anchor-id="reading-in-a-csv-file">Reading in a csv file</h3>
-<p>To read in a csv file to R, we can use the function <code>read.csv()</code>. There is a similar function in the <code>tidyverse</code> package called <code>read_csv()</code> that we can also use. We’ll go ahead and use the tidyverse version.</p>
+<section id="importing-a-csv-file" class="level3">
+<h3 class="anchored" data-anchor-id="importing-a-csv-file">Importing a csv file</h3>
+<p>To import a csv file to R, we can use the function <code>read.csv()</code>. There is a similar function in the <code>tidyverse</code> package called <code>read_csv()</code> that we can also use. We’ll go ahead and use the tidyverse version.</p>
 <p>The syntax to use this function is:</p>
 <div style="text-align: center;">
 <p><code>name_for_data = read_csv("path_to_data")</code></p>
 </div>
 <ul>
-<li><p>Here <code>name_for_data</code> is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can’t start with a number).</p></li>
-<li><p><code>"path_to_data"</code> is the file path that will tell R where to look for your data. You can either provide the function with an absolute path to the file (starting with the root directory of your computer) or a relative path, starting at the current working directory. You will see more examples of this in class, but for this example, the files are all in our working directory so we don’t need any long file paths to navigate through different directories.</p></li>
+<li><p>Here <code>name_for_data</code> is any name you choose to call the data frame object that you will be creating with the <code>read_csv()</code> function. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits–for example, the name can’t start with a number).</p></li>
+<li><p><code>"path_to_data"</code> is the file path that will tell R where to look for your data. You can either provide the function with an absolute path to the file (starting with the root directory of your computer) or a relative path, starting at the current working directory.</p></li>
 </ul>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1684,7 +1684,7 @@ Assigning a name
 </div>
 <div class="callout-body-container callout-body">
 <p><strong>Warning:</strong> Naming the object is very important!</p>
-<p>If you forget to choose a name for your data frame, R will read in the data and print it, but it won’t save it as an object. If you just use <code>read_csv()</code> without the <code>name_for_data =</code> part, you won’t be able to manipulate or analyze the data</p>
+<p>If you forget to choose a name for your data frame, R will import the data and print it, but it won’t save it as an object. If you just use <code>read_csv()</code> without the <code>name_for_data =</code> part, you won’t be able to manipulate or analyze the data.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -1697,7 +1697,7 @@ Duplicate names
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Another warning:</strong> If you read in two data sets and accidentally give them the same name, <em>the one you run second will overwrite the first one</em>! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new data frames different names!</p>
+<p><strong>Another warning:</strong> If you import two data sets and accidentally give them the same name, <em>the one you import second will overwrite the first one</em>! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new data frames new names!</p>
 </div>
 </div>
 <p>Let’s try reading in the “cdc_samp.csv” file and give the data frame the name <code>cdc</code>. You may need to add an extra line of code to get this to work (think back to our last tutorial about R functions and packages).</p>
@@ -1744,15 +1744,15 @@ Solution
 <section id="making-sure-it-worked" class="level4">
 <h4 class="anchored" data-anchor-id="making-sure-it-worked">Making sure it worked</h4>
 <p>Great! If you were able to get the code chunk above to run without any error messages, then the code should have worked and we should now have an R object named <code>cdc</code> in our environment that we can work with.</p>
-<p>If we were working in R Studio, we could check to make sure there is an object named <code>cdc</code> under the <code>Data</code> heading of the Environment tab (in the upper right-hand corner for most R Studio setups if you didn’t change the panel layout). Since we aren’t working in R Studio, we will use a function to make sure our <code>read_csv()</code> code worked. The function we will use is the <code>exists()</code> function and, as the name suggests, it just tells us if the object we are checking exists in our environment or not. It will return a logical value (<code>TRUE</code> if the object exists and <code>FALSE</code> if it does not). The function expects the name of the object in “quotation marks.”</p>
+<p>If we were working in RStudio, we could check to make sure there is an object named <code>cdc</code> under the “Data” heading of the Environment tab (in the upper right-hand corner for most RStudio setups if you didn’t change the panel layout). Since we aren’t working in RStudio, we will use a function to make sure our <code>read_csv()</code> code worked. The function we will use is the <code>exists()</code> function and, as the name suggests, it just tells us if the object we are checking exists in our environment or not. It will return a logical value <code>TRUE</code> if the object exists and <code>FALSE</code> if it does not. The function expects the name of the object in “quotation marks.”</p>
 <div id="qwebr-insertion-location-10"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>If you were able to run the code above, the output here should be TRUE. If your output says FALSE, go back to the previous section and make sure you can run the code without producing any errors.</p>
 </section>
 </section>
-<section id="reading-in-an-excel-file" class="level3">
-<h3 class="anchored" data-anchor-id="reading-in-an-excel-file">Reading in an Excel file</h3>
-<p>We’ve successfully read in a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we’re going to need to use a new package called the <code>readxl</code> package.</p>
+<section id="importing-an-excel-file" class="level3">
+<h3 class="anchored" data-anchor-id="importing-an-excel-file">Importing an Excel file</h3>
+<p>We’ve successfully imported a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we’re going to need to use a new package called the <code>readxl</code> package.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1765,7 +1765,7 @@ Reminder: Installing <code>readxl</code>
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Remember that if you don’t have this package installed on your local computer, you’ll need to install it before you can load and use it. I’ve already installed it here, but remember that to install the package you can just run <code>install.packages("readxl")</code> in your console in R Studio.</p>
+<p>Remember that if you don’t have this package installed on your local computer, you’ll need to install it once before you can load and use it. I’ve already installed it here, but remember that to install the package you can just run <code>install.packages("readxl")</code> in your console in RStudio.</p>
 </div>
 </div>
 </div>
@@ -1809,11 +1809,11 @@ Solution
 </div>
 </div>
 </div>
-<p>Once again, this should output the logical value TRUE if the code worked properly. Once you have the <code>readxl</code> package, importing Excel files works just like reading in csv files!</p>
+<p>Once again, this should output the logical value TRUE if the code worked properly. Once you have the <code>readxl</code> package, importing Excel files works just like importing csv files!</p>
 </section>
 <section id="importing-r-data-files" class="level3">
 <h3 class="anchored" data-anchor-id="importing-r-data-files">Importing R data files</h3>
-<p>There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. <strong>The syntax is slightly different for these kinds of files.</strong></p>
+<p>There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. <strong>The syntax is slightly different for this kind of file.</strong></p>
 <p>The syntax for importing an R data file is:</p>
 <div style="text-align: center;">
 <p><code>load("path_to_data")</code></p>
@@ -1870,10 +1870,10 @@ Note: file names vs object names
 </section>
 <section id="viewing-your-data" class="level2">
 <h2 class="anchored" data-anchor-id="viewing-your-data">Viewing Your Data</h2>
-<p>Great! We’ve now read our first data files into R. But how do we see the data we imported?</p>
+<p>Great! We’ve now imported our first few data files into R. But how do we see the data we imported?</p>
 <section id="the-head-function" class="level3">
 <h3 class="anchored" data-anchor-id="the-head-function">The head() function</h3>
-<p>Again, in R Studio, you should be able to see a new object in your ‘Environment’ tab in the upper-right quadrant of your screen when you import a new data set. Within this tab, there is an option to view the data by clicking the small white box that appears next to the object name. Since we’re working on the web, we’ll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is <code>head()</code> that shows us the top few entries of a data frame, vector, or list.</p>
+<p>Again, in RStudio, you should be able to see a new object in your ‘Environment’ tab in the upper-right quadrant of your screen when you import a new data set. Within this tab, there is an option to view the data by clicking the small white box that appears next to the object name. Since we’re working on the web, we’ll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is <code>head()</code> that shows us the top few entries of a data frame, vector, or list.</p>
 <div id="qwebr-insertion-location-16"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <div class="callout callout-style-default callout-caution no-icon callout-titled">
@@ -2040,7 +2040,7 @@ Understanding <code>skim()</code> output
 </section>
 <section id="the-view-function" class="level3">
 <h3 class="anchored" data-anchor-id="the-view-function">The View() function</h3>
-<p>When we’re working in R Studio, we can also use the <code>View()</code> function to look at an entire data frame. This will open up a spreadsheet-like data viewer in a new tab in R Studio where you can scroll through all the rows and columns in a data frame. We can’t use this here or in R Markdown files (which can knit to PDF or HTML, for example) because it requires opening a new data viewer tab. It is a useful function when you’re working in R Studio, though!</p>
+<p>When we’re working in RStudio, we can also use the <code>View()</code> function to look at an entire data frame. This will open up a spreadsheet-like data viewer in a new tab in RStudio where you can scroll through all the rows and columns in a data frame. We can’t use this here or in R Markdown files (which can knit to PDF or HTML, for example) because it requires opening a new data viewer tab. It is a useful function when you’re working interactively in RStudio, though!</p>
 
 
 </section>

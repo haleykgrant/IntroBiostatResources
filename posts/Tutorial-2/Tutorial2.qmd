@@ -31,8 +31,13 @@ In this tutorial, you will learn about working with objects in R. In particular,
 
 #### Running the code chunks in this tutorial
 
-In this tutorial I will introduce a handful of new concepts in R and example code to demonstrate how the code works. When you get to a code chunk (an example of a code chunk is shown below), you can edit the code in the chunk if necessary and run the code to see the output by either hitting the "run code" button or by placing your cursor in the code chunk you want to execute and hitting `command (⌘) + return (↩)` (on mac) or `Ctrl + Enter` (on windows). 
+In this tutorial I will introduce a handful of new concepts in R and will include example code to demonstrate how the code works. When you get to a code chunk (an example of a code chunk is shown below), you can edit the code in the chunk if necessary and run the code to see the output by either hitting the "Run Code" button or by placing your cursor in the code chunk you want to execute and typing `command (⌘) + return (↩)` (on mac) or `Ctrl + Enter` (on windows). 
 
+__Sometimes certain code chunks will require output from previous code chunks. I have tried to mark these within the tutorial, but if you ever get any errors, go back and make sure you haven't skipped any sections.__
+
+#### Code output
+
+If a code chunk produces output, you will see it appear below the code chunk after you execute (run) the code in the chunk. If there are multiple lines of code that produce output, you will see the output appear in order below the code chunk if you hit the "Run Code" button. You can also execute each line separately using the keystrokes mentioned above.
 
 #### The 'Start over' button
 
@@ -40,7 +45,7 @@ Each code chunk has a [<i style="font-size: 12px; relative: absolute; top: 8px; 
 
 #### Comments
 
-You may notice some lines of code that start with the pound symbol, `#`, and show up in a different color. These are called **comments**. R doesn't execute anything when it sees a comment. Comments are just notes to yourself or anyone else reading your code! It's good practice to add comments to your code at each line to help you remember what the code was meant to do, or to help someone else who may be reading your code understand what the code is supposed to be doing.
+You may notice some lines of code that start with the pound symbol, `#`, and show up in a different text color inside the code chunks. These are called **comments**. R doesn't execute anything when it sees a comment. Comments are just notes to yourself or anyone else reading your code! It's good practice to add comments to your code at each line to help you remember what the code was meant to do, or to help someone else who may be reading your code understand what the code is supposed to be doing.
 
 ```{r }
 # this is an example of a comment!
@@ -60,6 +65,8 @@ Try writing your own comment in the code chunk below!
 ## Hint
 
 Think about what the line of code should *start* with.
+
+If you hit "Run Code" you should see that nothing is executed.
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -77,14 +84,16 @@ Think about what the line of code should *start* with.
 
 ## R Objects
 
-One very basic function of R is that it can be used essentially as a calculator. For example, if we want to check what `2+3` is, we can run the code:
+One very basic function of R is that it can be used essentially as a calculator. For example, if we want to check what `2 + 3` is, we can run the code:
+
+*Note: the spaces I included in this line of code aren't necessary, but I like to add white space into R code for readability. White spaces generally only matter in R if they are part of character strigns (which we'll get to later)*
 
 ```{webr-r}
 # add 2 + 3
 2 + 3
 ```
 
-When you run the code above, it should print out the number 5 (the [1] on the left just indicates that this is the first line of output, which can be helpful later if R code produces more than one line of output). 
+When you run the code above, it should print out the number 5 (the [1] on the left just indicates that this is the first line of output, which can be helpful later if R code produces more than one line of output). You can try changing the numbers in this code chunk to see how this changes the output.
 
 That's great, but maybe I don't want to have to re-type that line of code every time I want to use those numbers. This is where R objects come in. For example, maybe I have a variable that I want to call `x` that will hold the number 2 and a different variable called `y` that will hold the number 3.  To do this, run the following chunk of code:
 
@@ -109,7 +118,7 @@ Note that when you run this code, nothing seems to happen! Or at least, that's w
 x 
 ```
 
-:::: {.callout-important icon=false collapse=true}
+:::: {.callout-important collapse=true}
 ## If you get an error
 If you get an error that looks like this
 
@@ -226,8 +235,10 @@ where you would replace `name_of_object` with the name of the R object that you 
 ```{webr-r}
 # save x_numeric object with the value 5
 x_numeric = 5
+
 # print value
 x_numeric
+
 # print out the type of variable
 class(x_numeric)
 ```
@@ -239,8 +250,10 @@ This is a number so we can use the same types of functions as we used above on t
 ```{webr-r}
 # save x_character object with the value "5"
 x_character = "5"
+
 # print value
 x_character
+
 # print out the type of variable
 class(x_character)
 ```
@@ -263,7 +276,7 @@ Oh no! You should see the following error message:
 [Error: non-numeric argument to binary operator]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
 :::
 
-This is how R is telling you that you're trying to apply a function that requires a number to an object that isn't a number. R gives helpful error messages like this when you try to run code that doesn't work. Sometimes the language R uses is hard to understand, but you can always ask me or a TA what the error means, or search the error on Google!
+This is R's way of telling you that you're trying to apply a function that requires a number to an object that isn't a number. R gives helpful error messages like this when you try to run code that doesn't work. Sometimes the language R uses is hard to understand, but you can always ask me or a TA what the error means, or search the error on Google!
 
 :::: {.callout-note icon=false appearance="simple"}
 #### Exercise: 
@@ -276,14 +289,16 @@ If you change `x_character` to `x_numeric` in the code above, you should see it 
 
 Factor variables are __categorical variables__ that can either be numeric or character strings. Sometimes we get data that are coded with numbers even though the underlying variable is categorical. For example, we often code No/Yes variables as 0/1. Or maybe we have three levels of health insurance status: public, private, and uninsured. We may label these categories as 1, 2, and 3, but these numbers are just used for convenience, not because "private insurance" has anything to do with the number 2. 
 
-In these cases, it can be helpful to convert variables to factors. Turning the variable into a factor means R will treat the variable as categorical rather than as a number. We also have the option to choose an _order_ for the variable and we can give the variables nicer, more readable _labels_, which can both come in handy when making plots and tables from the data. We can accomplish these two tasks using the `levels` and `labels` arguments, respectively.
+In these cases, it can be helpful to convert variables to factors. Turning the variable into a factor means R will treat the variable as categorical rather than as a number. We also have the option to choose an __order__ for the variable and we can give the variables nicer, more readable __labels__, which can both come in handy when making plots and tables from the data. We can accomplish these two tasks using the `levels` and `labels` arguments, respectively.
 
 ```{webr-r}
 # save x_factor objects as a factor variable with the levels "5" and label this level "The number 5"
 x_factor = factor(x = x_numeric levels = 5,
                   labels = "The number 5")
+
 # print value
 x_factor
+
 # print out the type of variable
 class(x_factor)
 
@@ -294,7 +309,7 @@ Here we can see that `x_factor` is a factor variable. The value of x was origina
 
 ### Logical Data
 
-R has another type of data called "logical" values. These are binary TRUE/FALSE (can also abbreviate with T/F) that let you know if a statement is true or false. This can be really useful when we want to filter data. For example, if we want to filter data to everyone over the age of 50, we can use logical variables to check if age is greater than 50.
+R has another type of data called "logical" values. These are binary `TRUE`/`FALSE` (can also abbreviate with `T`/`F`) that let you know if a statement is true or false. This can be really useful when we want to filter data. For example, if we want to filter data to everyone over the age of 50, we can use logical variables to check if the age variable is greater than 50.
 
 In the example below we'll make a new variable to tell us if `x_numeric` from above is equal to the number 5.
 
@@ -302,8 +317,10 @@ In the example below we'll make a new variable to tell us if `x_numeric` from ab
 # save x_logical as a TRUE/FALSE statement
 # the `==` operator is R's way of saying "is the thing on the left equal to the thing on the right?"
 x_logical = (x_numeric == 5)
+
 # print value 
 x_logical
+
 # show variable type
 class(x_logical)
 
@@ -315,6 +332,28 @@ class(x_logical)
 Try changing the value in the code above to check if `x_numeric` is equal to the number 4 to see how the value would change.
 
 ::::
+
+:::: {.callout-warning icon=false}
+#### Note: White spaces and case in character objects
+
+Recall that I mentioned above that adding extra white spaces in R generally doesn't impact your code (but can help with readability). One instance where white spaces do matter is inside characters. Run the code below to see an example of this:
+
+```{webr-r}
+# check if "5" (without space) is equal to " 5" (with a space)
+"5" == " 5"
+```
+
+Notice here that the statement is false, these two characters are not equal (because one has an extra space).
+
+__R is also case-sensitive:__
+
+```{webr-r}
+# example of R being case-sensitive
+"five" == "Five"
+
+```
+::::
+
 
 :::: {.callout-note collapse="true"}
 #### Other Inequalities/Operators
@@ -340,7 +379,7 @@ x_numeric <= 5
 
 R has a special way of denoting missing values. In R, these show up as `NA` values. For example, if you have a data set with 100 individuals' height, weight, and age, if you weren't able to get the values measured for some of the individuals, those values should show up as `NA` values to indicate that they are missing.
 
-**Note:** this is different from `"NA"` the character. R will change the color of `NA` when you type it in your code to show that this is a special kind of variable.
+**Note:** this is different from `"NA"` the character. R will change the text color of `NA` when you type it in your code to show that this is a special kind of variable.
 
 ```{webr-r}
 # save x_missing as NA value
@@ -384,7 +423,7 @@ is.na(x_numeric)
 
 We don't have to save values in R individually. We can also save a bunch of values (numbers, characters, factors, etc.) together in something called a __vector__.
 
-We can make these types of objects in R using the `c()` function (this stands for "concatenate") to put a bunch of values together in a vector, separated by a comma. The values within a vector can be any type (numeric, character, logical, factor, etc.), but they must all be the __same type__, i.e. all numeric, all character, etc. (except for missing values).
+We can make this type of R object using the `c()` function (this stands for "concatenate") to put a bunch of values together in a vector, separated by a comma. The values within a vector can be any type (numeric, character, logical, factor, etc.), but they must all be the __same type__, i.e. all numeric, all character, etc. (except for missing values).
 
 ```{webr-r}
 # make a vector with the values -1, 1, 2, 3, 1, 2, 3
@@ -433,7 +472,7 @@ unique(x_vector)
 #### Print the length of the vector
 
 ```{webr-r}
-# show the length of the vector
+# show the length (number of entries) of the vector
 length(x_vector)
 
 ```
@@ -490,14 +529,14 @@ mean(x_vector)
 ::: {.callout-note collapse="true"}
 ## Note: Argument Names
 
-Sometimes the functions we use will take multiple arguments, and sometimes they only need one. With all R functions, the arguments are given names. For example, technically the argument name for the function `mean()` is called `x`, which is just a placeholder for any R objects that you can calculate the mean for. If we wanted to be really technical, we could have used the following line of code:
+Sometimes the functions we use will take multiple arguments, and sometimes they only need one. With all R functions, the arguments are given names. For example, technically the argument name for the function `mean()` is called `x`, which is just a placeholder for any R objects that you can calculate the mean of. If we wanted to be really technical, we could have used the following line of code:
 
 ```{webr-r}
 # the mean of x_vector
 mean(x = x_vector)
 
 ```
-I try to use argument names in functions that use multiple arguments, because if you don't assign the inputs to specific argument names, R has to assume that you've put the input in a certain order. Sometimes, if I'm only using the most basic argument (like `x` in the `mean()` function), I may forget to or choose not to include the name of the argument to make the code simpler. 
+I try to use argument names in functions that use multiple arguments, because if you don't assign the inputs to specific argument names, R has to assume that you've put the input in a specific order. Sometimes, if I'm only using the most basic argument (like `x` in the `mean()` function), I may forget to or choose not to include the name of the argument to make the code simpler. 
 
 If you ever need help figuring out what arguments a certain function in R takes, you can use the 'Help' tab in R Studio (in the bottom right quadrant) or type `?function_name` in your R Console (for example, `?mean`). This will open a documentation page for the function and should include information about the argument names and the types of objects can be used as input for the function.
 
@@ -529,7 +568,7 @@ Installing packages is different from loading packages, which we'll get to next.
 
 ### Loading Packages
 
-Just because you installed an R package once, doesn't mean you want to use it for every task you do in R. Because of this, R will automatically load a small set of default packages when you launch a new session, but you'll need to tell it if you want to use any additional packages. To load a library that isn't loaded by default, we use the following code:
+Just because you installed an R package once, doesn't mean you want to use it for every task you do in R. Because of this, R will only automatically load a small set of default packages when you launch a new session. Other than the small set of default packages, you'll need to tell it if you want to use any additional packages. To load a library that isn't loaded by default, we use the following code:
 
 ::: {style="text-align: center;"}
 `library(package_name)`
@@ -576,7 +615,7 @@ this means you are trying to load a package you haven't installed yet and you ne
 
 ### The tidyverse package
 
-The R `tidyverse` package is a very useful suite of packages that make data manipulation and visualization clean and efficient. To see all of the packages included in the `tidyverse` package run the following code:
+The R `tidyverse` package is a very useful suite of packages that make data manipulation and visualization clean and efficient. To see all of the packages included in the `tidyverse` package run the following code to print the names of all packages within the `tidyverse` suite:
 
 ```{webr-r}
 # print the packages contained in the tidyverse
@@ -593,7 +632,7 @@ Oh no! We got another error message. You should see the following error:
 [Error: could not find function "tidyverse_packages"]{style="color: #db4133; font-family: 'Monaco'; font-weight: 500;"}
 :::
 
-This is R's way of telling you that you're trying to use a function that it doesn't have access to. The `tidyverse_packages()` function comes from the `tidyverse` package. I have already installed the `tidyverse` for you in the setup of this tutorial, but I didn't load it. 
+This is R's way of telling you that you're trying to use a function that it doesn't have access to. The `tidyverse_packages()` function comes from the `tidyverse` package. __I have already installed the `tidyverse` for you in the setup of this tutorial, but I didn't load it. __
 
 To give ourselves access to the functions from the `tidyverse` package, let's add the line of code `library(tidyverse)` before the line of code in the chunk above. That should fix the problem.
 
@@ -632,13 +671,13 @@ To see an example of this, consider the following task:
 
 We want to know how many unique values are contained in the vector `x_vector`.
 
-To do this, we can start by having R grab the unique values in `x_vector` using `unique(x_vector)`. This will give us a vector of the unique values in `x_vector`. Then, we can print the length of the output of `unique(x_vector)` to get the number of unique values.
+To do this, we can start by having R tell us the unique values in `x_vector` using `unique(x_vector)`. This will give us a vector of the unique values in `x_vector`. Then, we can print the length of the output of `unique(x_vector)` using the `length()` function. This will print out the number of entries in the vector of unique entries of `x_vector`.
 
 To do this, we can use multiple functions simultaneously by nesting the parentheses:
 
 ```{webr-r}
 # take x_vector from earlier, 
-# grab the unique values,
+# find the unique values,
 # then show the length of the unique values to count the number of unique values
 length(unique(x_vector))
 

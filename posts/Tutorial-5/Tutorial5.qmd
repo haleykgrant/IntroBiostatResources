@@ -92,8 +92,6 @@ library(tidyverse)
 
 ```
 
-
-
 ## Histograms
 
 A histogram is a visual representation of quantitative data in which the range of values is split into adjacent, non-overlapping intervals (or "bins") and the number of observations that fall into each interval is counted and depicted on the plot.

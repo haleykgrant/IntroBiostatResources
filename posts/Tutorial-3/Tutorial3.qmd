@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 3: Importing Data in R"
+title: "Tutorial 3: Importing Data into R"
 author: "Haley Grant"
 image: spreadsheet.jpg
 format: 
@@ -77,14 +77,14 @@ You should see the output is:
 This is because we are working in R on the web. This is telling us that we are in a sub-directory of the "home" directory called "web_user". That is, "web_user" is a directory (folder) inside the larger directory (folder) called "home". You read file paths from left to right.
 
 ::: {style="color: purple;"}
-*Try running this in your Console in R Studio on your computer, and you should see a file path that corresponds to the file structure on your computer.*
+*Try running this in your Console in RStudio on your computer, and you should see a file path that corresponds to the file structure on your computer.*
 :::
 
 ### File paths
 
 File paths are a way of specifying the location of a file within a computer's file system. There are two kinds of file paths, absolute paths and relative paths. Both can be useful in different situations.
 
--   **Absolute file paths** are file paths that start at the root node of your computer (often starting with something like "C:" in Windows and"/Users/" in Unix-like operating systems like macOS). Absolute paths can get fairly long if files are contained within many levels of sub-directories.
+-   **Absolute file paths** are file paths that start at the root node of your computer (often starting with something like "C:" in Windows and "/Users/" in Unix-like operating systems like macOS). Absolute paths can get fairly long if files are contained within many levels of sub-directories.
 
 -   **Relative file paths** are paths that start at the current working directory, and are therefore often shorter than absolute paths.
 
@@ -94,7 +94,7 @@ The function we used above, `getwd()`, prints absolute paths, so we are currentl
 
 ### List files in working directory
 
-To check the files that exist in our current directory, we can use the function `list.files()` to print a list of all the files that are stored in the directory where we are currently working. If we just want to print the current files we can run the function without giving it a file path and just leave the inside of the parentheses blank (this will assume you want to list the files in your current directory). We could also input a file path to the function.
+To check the files that exist in our current directory, we can use the function `list.files()` to print a list of all the files that are stored in the directory where we are currently working. If we just want to print the files in our working directory, we can run the function without giving it a file path and just leave the inside of the parentheses blank (this will assume you want to list the files in your current directory). We could also input a file path to the function.
 
 Try running the code in this block:
 
@@ -129,10 +129,10 @@ The output should look something like this:
 This tells us that there are 2 objects that we have access to in this directory:
 
 1. A folder called "Data"
-    -   one clue that it's a folder instead of a file is that it doesn't have a file extension (like ".pdf") on the end
+    -   One clue that it's a folder instead of a file is that it doesn't have a file extension (like ".pdf") on the end
     
 2. A file called "Rplots.pdf"
-    -   we won't be working with this file
+    -   We won't be working with this file
 
 
 If we want to see the files contained within the sub-folder "Data", we can add this to the end of our absolute file path within the `path` argument:
@@ -198,17 +198,17 @@ The main types of files that we will work with in this class are:
 | R data files | Files with saved R objects                                                                                                                 | .RData or .rda |
 
 
-The three files we will read in today have the following names:
+The three files we will use today have the following names:
 
--   "cdc_samp.csv" : a csv file with demographic data from the cdc
--   "dds.xlsx" : an excel file with data from the department of disability services in California
--   "census.rda": an R data file with data from the US census
+-   "cdc_samp.csv" : a csv file with demographic data from the CDC
+-   "dds.xlsx" : an Excel file with data from the Department of Disability Services in California
+-   "census.rda": an R data file with data from the US Census Bureau
 
 ## Importing Data
 
-### Reading in a csv file
+### Importing a csv file
 
-To read in a csv file to R, we can use the function `read.csv()`. There is a similar function in the `tidyverse` package called `read_csv()` that we can also use. We'll go ahead and use the tidyverse version.
+To import a csv file to R, we can use the function `read.csv()`. There is a similar function in the `tidyverse` package called `read_csv()` that we can also use. We'll go ahead and use the tidyverse version.
 
 The syntax to use this function is:
 
@@ -216,27 +216,28 @@ The syntax to use this function is:
 `name_for_data = read_csv("path_to_data")`
 :::
 
--   Here `name_for_data` is any name you choose to call the data frame. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits, for example the name can't start with a number).
+-   Here `name_for_data` is any name you choose to call the data frame object that you will be creating with the `read_csv()` function. It can be helpful to give it a name that is relevant to the data, but you can call it whatever you want (with some limits--for example, the name can't start with a number).
 
--   `"path_to_data"` is the file path that will tell R where to look for your data. You can either provide the function with an absolute path to the file (starting with the root directory of your computer) or a relative path, starting at the current working directory. You will see more examples of this in class, but for this example, the files are all in our working directory so we don't need any long file paths to navigate through different directories.
+-   `"path_to_data"` is the file path that will tell R where to look for your data. You can either provide the function with an absolute path to the file (starting with the root directory of your computer) or a relative path, starting at the current working directory. 
 
 ::: callout-warning
 ## Assigning a name
 
 **Warning:** Naming the object is very important!
 
-If you forget to choose a name for your data frame, R will read in the data and print it, but it won't save it as an object. If you just use `read_csv()` without the `name_for_data =` part, you won't be able to manipulate or analyze the data
+If you forget to choose a name for your data frame, R will import the data and print it, but it won't save it as an object. If you just use `read_csv()` without the `name_for_data =` part, you won't be able to manipulate or analyze the data.
 :::
 
 ::: callout-warning
 ## Duplicate names
 
-**Another warning:** If you read in two data sets and accidentally give them the same name, *the one you run second will overwrite the first one*! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new data frames different names!
+**Another warning:** If you import two data sets and accidentally give them the same name, *the one you import second will overwrite the first one*! Sometimes this is useful; for example, if you just want to make a change to a dataset (more on this later). But be careful and when in doubt, give new data frames new names!
 :::
 
 Let's try reading in the "cdc_samp.csv" file and give the data frame the name `cdc`. You may need to add an extra line of code to get this to work (think back to our last tutorial about R functions and packages).
 
 ```{webr-r}
+
 # read in the data file "cdc_samp.csv"
 cdc = read_csv("Data/cdc_samp.csv")
 ```
@@ -272,7 +273,7 @@ cdc = read_csv("Data/cdc_samp.csv")
 
 Great! If you were able to get the code chunk above to run without any error messages, then the code should have worked and we should now have an R object named `cdc` in our environment that we can work with.
 
-If we were working in R Studio, we could check to make sure there is an object named `cdc` under the `Data` heading of the Environment tab (in the upper right-hand corner for most R Studio setups if you didn't change the panel layout). Since we aren't working in R Studio, we will use a function to make sure our `read_csv()` code worked. The function we will use is the `exists()` function and, as the name suggests, it just tells us if the object we are checking exists in our environment or not. It will return a logical value (`TRUE` if the object exists and `FALSE` if it does not). The function expects the name of the object in "quotation marks."
+If we were working in RStudio, we could check to make sure there is an object named `cdc` under the "Data" heading of the Environment tab (in the upper right-hand corner for most RStudio setups if you didn't change the panel layout). Since we aren't working in RStudio, we will use a function to make sure our `read_csv()` code worked. The function we will use is the `exists()` function and, as the name suggests, it just tells us if the object we are checking exists in our environment or not. It will return a logical value `TRUE` if the object exists and `FALSE` if it does not. The function expects the name of the object in "quotation marks."
 
 ```{webr-r}
 # check if the cdc data frame exists
@@ -282,14 +283,14 @@ exists("cdc")
 
 If you were able to run the code above, the output here should be TRUE. If your output says FALSE, go back to the previous section and make sure you can run the code without producing any errors.
 
-### Reading in an Excel file
+### Importing an Excel file
 
-We've successfully read in a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we're going to need to use a new package called the `readxl` package.
+We've successfully imported a csv file, but what if we get a different file type? For example, a lot of people store data in Excel. Can R handle those files? Yep! But we're going to need to use a new package called the `readxl` package.
 
 ::: {.callout-warning collapse="true"}
 ## Reminder: Installing `readxl`
 
-Remember that if you don't have this package installed on your local computer, you'll need to install it before you can load and use it. I've already installed it here, but remember that to install the package you can just run `install.packages("readxl")` in your console in R Studio.
+Remember that if you don't have this package installed on your local computer, you'll need to install it once before you can load and use it. I've already installed it here, but remember that to install the package you can just run `install.packages("readxl")` in your console in RStudio.
 :::
 
 Once we have the `readxl` package loaded, the syntax is very similar to `read_csv()` from above. There are a few different functions that could work from this package, but the most generic one is `read_excel()`. The syntax is:
@@ -335,11 +336,11 @@ exists("dds")
 :::
 :::
 
-Once again, this should output the logical value TRUE if the code worked properly. Once you have the `readxl` package, importing Excel files works just like reading in csv files!
+Once again, this should output the logical value TRUE if the code worked properly. Once you have the `readxl` package, importing Excel files works just like importing csv files!
 
 ### Importing R data files
 
-There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. **The syntax is slightly different for these kinds of files.**
+There is one other type of file that we will use from time to time in this class. This is a special kind of file called an R data file that saves R objects. **The syntax is slightly different for this kind of file.**
 
 The syntax for importing an R data file is:
 
@@ -396,12 +397,12 @@ There are other types of files that you may want to import into R. These include
 
 ## Viewing Your Data
 
-Great! We've now read our first data files into R. But how do we see the data we imported?
+Great! We've now imported our first few data files into R. But how do we see the data we imported?
 
 
 ### The head() function
 
-Again, in R Studio, you should be able to see a new object in your 'Environment' tab in the upper-right quadrant of your screen when you import a new data set. Within this tab, there is an option to view the data by clicking the small white box that appears next to the object name. Since we're working on the web, we'll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is `head()` that shows us the top few entries of a data frame, vector, or list.
+Again, in RStudio, you should be able to see a new object in your 'Environment' tab in the upper-right quadrant of your screen when you import a new data set. Within this tab, there is an option to view the data by clicking the small white box that appears next to the object name. Since we're working on the web, we'll go ahead and use a different function to take a look at the top few rows of the dataset. The function that will allow us to do this is `head()` that shows us the top few entries of a data frame, vector, or list.
 
 ```{webr-r}
 # show top few rows of the data set `cdc`
@@ -486,4 +487,4 @@ The columns for numeric variables are:
 
 ### The View() function
 
-When we're working in R Studio, we can also use the `View()` function to look at an entire data frame. This will open up a spreadsheet-like data viewer in a new tab in R Studio where you can scroll through all the rows and columns in a data frame. We can't use this here or in R Markdown files (which can knit to PDF or HTML, for example) because it requires opening a new data viewer tab. It is a useful function when you're working in R Studio, though!
+When we're working in RStudio, we can also use the `View()` function to look at an entire data frame. This will open up a spreadsheet-like data viewer in a new tab in RStudio where you can scroll through all the rows and columns in a data frame. We can't use this here or in R Markdown files (which can knit to PDF or HTML, for example) because it requires opening a new data viewer tab. It is a useful function when you're working interactively in RStudio, though!
