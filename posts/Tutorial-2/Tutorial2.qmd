@@ -382,7 +382,7 @@ class(x_factor)
 
 ```
 
-Here we can see that `x_factor` is a factor variable. Now instead of showing up as numbers 1 through 5, we see the labels from the Likert scale.
+Here we can see that `x_factor` is a vector of factor variables. Now instead of showing up as numbers 1 through 5, we see the labels from the Likert scale. Our original vector was `1, 2, 3, 4, 5, 2, 4` which correspond to: `Strongly Agree, Agree, Neutral, Disagree, Strongly Disagree, Agree, Disagree`. This is the order that is showing up in `x_factor`. We can also see all possible levels printed when we print our vector of factor variables.
 
 ### Logical Data
 
