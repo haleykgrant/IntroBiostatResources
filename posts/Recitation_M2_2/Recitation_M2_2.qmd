@@ -12,7 +12,6 @@ webr:
   packages: ['tidyverse']
   autoload-packages: false
 categories:
-    - Bootstrapping
     - Statistical Inference
 title-block-banner: "#FC8888"
 ---
