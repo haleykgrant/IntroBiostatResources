@@ -13,7 +13,7 @@ webr:
   autoload-packages: false
 categories:
     - Bootstrapping
-    - Statistical inference
+    - Statistical Inference
 title-block-banner: "#FC8888"
 ---
 
@@ -433,6 +433,6 @@ In practice, we typically only have one sample. We have no way of knowing if our
 
 # Word of caution
 
-Many students confuse the number of bootstrap iterations (in our example, N = 10,000) with the sample size drawn at each bootstrap iteration (in our example, n = 100). This distinction is **crucial**. The number of iterations is not pre-defined. We often want at least \~1,000 iterations to have a set of bootstrapped statistics (in our case, means) large enough to visualize the distribution and enough granularity to accurately calculate percentiles for confidence intervals, for example. 
+Many students confuse the number of bootstrap iterations (in our example, N = 10,000) with the sample size drawn at each bootstrap iteration (in our example, n = 100). This distinction is **crucial**. The number of iterations is not pre-defined. We often want at least \~1,000 iterations to have a set of bootstrapped statistics (in our case, means) large enough to visualize the distribution and enough granularity to accurately calculate percentiles for confidence intervals, for example.
 
 In contrast, the sample size drawn at each bootstrap iteration **must be equal to the original sample size**. The goal of bootstrapping is to simulate the *sampling distribution from which your original sample was drawn*. Its aim is to quantify the uncertainty in the original sample by resampling to see how different the statistic (the mean) can be from sample to sample **of the same size**. If we artificially inflate the sample size, say in our example drawing bootstrap samples of size 500, this is **invalid** we will artificially reduce the amount of variability in the sample statistic (the mean) if we pretend our original sample was 5 times larger than it actually was.
