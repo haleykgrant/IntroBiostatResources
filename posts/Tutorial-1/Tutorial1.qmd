@@ -15,8 +15,7 @@ filters:
 webr:
   packages: ['tidyverse']
 categories:
-    - Software installation
-    - R code
+    - R Tutorials
 title-block-banner: "#a2cffe"
 ---
 

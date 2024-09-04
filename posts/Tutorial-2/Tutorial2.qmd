@@ -14,7 +14,7 @@ webr:
   packages: ['tidyverse']
   autoload-packages: false
 categories:
-    - R code
+    - R Tutorials
 title-block-banner: "#a2cffe"
 ---
 

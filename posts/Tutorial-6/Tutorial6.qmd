@@ -17,7 +17,7 @@ webr:
     warning: false
     out-width: "90%"
 categories:
-    - R code
+    - R Tutorials
     - Exploratory Data Analysis (EDA)
 title-block-banner: "#a2cffe"
 ---
