@@ -85,42 +85,42 @@ server <- function(input, output) {
      mx <- ifelse(l$val<1, 2 + 5*sqrt(2*10^2/500), rvmax$lim[l$val] )
 
       if(input$sides == "2-tailed"){
-      ct = sqrt(2*input$sd^2/input$n)*qnorm(1-(input$alpha/2))
-      ctl = -sqrt(2*input$sd^2/input$n)*qnorm(1-(input$alpha/2))}
+      ct = sqrt(input$sd^2/input$n)*qnorm(1-(input$alpha/2))
+      ctl = -sqrt(input$sd^2/input$n)*qnorm(1-(input$alpha/2))}
       
       if(input$sides =="1-tailed"){
-        ct = sqrt(2*input$sd^2/input$n)*qnorm(1-(input$alpha))
+        ct = sqrt(input$sd^2/input$n)*qnorm(1-(input$alpha))
         ctl =-Inf
       }
       
-        funcShaded <- function(x) {
-          y <- dnorm(x, mean = input$diff, sd = sqrt(2*input$sd^2/input$n))
+        funcShaded <- function(x,ct,ctl) {
+          y <- dnorm(x, mean = input$diff, sd = sqrt(input$sd^2/input$n))
           y[x < ct] <- NA
           return(y)
         }
-        funcShadedRej <- function(x) {
-          y <- dnorm(x, mean = 0, sd = sqrt(2*input$sd^2/input$n))
+        funcShadedRej <- function(x,ct,ctl) {
+          y <- dnorm(x, mean = 0, sd = sqrt(input$sd^2/input$n))
           y[x < ct & x>ctl] <- NA
           return(y)
         }
       
-     p1 <- ggplot(data.frame(x = rep(c(mn,mx),2)), 
+     p1 <- ggplot(data.frame(x =c(seq(mn,mx,by=0.00001),ct,ctl)), 
                     aes(x = x))+
-        stat_function(fun = dnorm, args = list(mean = 0, sd = sqrt(2*input$sd^2/input$n)),
+        stat_function(fun = dnorm, args = list(mean = 0, sd = sqrt(input$sd^2/input$n)),
                       aes(color = "Null"))+
-        stat_function(fun = dnorm, args = list(mean = input$diff, sd = sqrt(2*input$sd^2/input$n)),
+        stat_function(fun = dnorm, args = list(mean = input$diff, sd = sqrt(input$sd^2/input$n)),
                       aes(color =  "Alternative"))+
         theme_bw()+
         labs(color = "Hypothesis")+
-        geom_vline(xintercept = ct, linetype = 2, size = 0.7, color = "darkcyan")+
+        geom_vline(xintercept = ct, linetype = 2, linewidth = 0.8, color = "darkcyan")+
         xlab(expression(mu[A]-mu[0]))+
         labs( y = "Density", fill = element_blank())+
-        stat_function(fun=funcShaded, geom="area", aes(fill = "Power"), alpha=0.5)+
-       stat_function(fun=funcShadedRej, geom="area", aes(fill = "Rejection Region"), alpha=0.25)+
+        stat_function(fun=funcShaded, geom="area", aes(fill = "Power"), alpha=0.5,args = list(ct=ct,ctl=ctl))+
+       stat_function(fun=funcShadedRej, geom="area", aes(fill = "Rejection Region"), alpha=0.25,args = list(ct=ct,ctl=ctl))+
        theme(legend.text = element_text(size = 10))
 
      if(input$sides == "2-tailed"){
-       p1 <- p1+ geom_vline(xintercept = ctl, linetype = 2, size = 0.7,color = "darkcyan")
+       p1 <- p1+ geom_vline(xintercept = ctl, linetype = 2,  linewidth =0.8,color = "darkcyan")
      }
      p1
 
@@ -156,18 +156,18 @@ server <- function(input, output) {
        ctl =-Inf
      }
      
-     funcShaded <- function(x) {
+     funcShaded <- function(x,ct,ctl) {
        y <- dnorm(x, mean = input$diff, sd = sqrt(input$sd^2/input$n))
        y[x < ct] <- NA
        return(y)
      }
-     funcShadedRej <- function(x) {
+     funcShadedRej <- function(x,ct,ctl) {
        y <- dnorm(x, mean = 0, sd = sqrt(input$sd^2/input$n))
        y[x < ct & x>ctl] <- NA
        return(y)
      }
      
-     p1 <- ggplot(data.frame(x = rep(c(mn,mx),2)), 
+     p2 <- ggplot(data.frame(x = rep(seq(mn,mx,by=0.00001))), 
                   aes(x = x))+
        stat_function(fun = dnorm, args = list(mean = 0, sd = sqrt(input$sd^2/input$n)),
                      aes(color = "Null"))+
@@ -175,17 +175,17 @@ server <- function(input, output) {
                      aes(color =  "Alternative"))+
        theme_bw()+
        labs(color = "Hypothesis")+
-       geom_vline(xintercept = ct, linetype = 2, size = 0.7, color = "darkcyan")+
+       geom_vline(xintercept = ct, linetype = 2, size = 0.8, color = "darkcyan")+
        xlab(expression(mu[A]-mu[0]))+
        labs( y = "Density", fill = element_blank())+
-       stat_function(fun=funcShaded, geom="area", aes(fill = "Power"), alpha=0.5)+
-       stat_function(fun=funcShadedRej, geom="area", aes(fill = "Rejection Region"), alpha=0.25)+
+       stat_function(fun=funcShaded, geom="area", aes(fill = "Power"), alpha=0.5,args = list(ct=ct,ctl=ctl))+
+       stat_function(fun=funcShadedRej, geom="area", aes(fill = "Rejection Region"), alpha=0.25,args = list(ct=ct,ctl=ctl))+
        theme(legend.text = element_text(size = 10))
      
      if(input$sides == "2-tailed"){
-       p1 <- p1+ geom_vline(xintercept = ctl, linetype = 2, size = 0.7,color = "darkcyan")
+       p2 <- p2 + geom_vline(xintercept = ctl, linetype = 2, size = 0.8,color = "darkcyan")
      }
-     p1
+     p2
      
    })
    
