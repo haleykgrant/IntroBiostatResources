@@ -183,6 +183,7 @@ ul.task-list li input[type="checkbox"] {
  
 library(shiny)
 library(ggplot2)
+library(tidyverse)
 
 # Define UI
 ui &lt;- fluidPage(
@@ -191,10 +192,11 @@ ui &lt;- fluidPage(
   sidebarLayout(
     sidebarPanel(
       numericInput("xbar", "Sample Mean (x̄):", value = 98.450),
-      numericInput("s", "Sample Standard Deviation (s):", value = 0.65),
+      numericInput("s", "Sample Standard Deviation (s):", value = 0.62),
       numericInput("n", "Sample Size (n):", value = 43),
       uiOutput("muSlider"),  # Use uiOutput for dynamic slider
       numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.01, max = 0.25, step = 0.01),
+      selectInput("sides", "1- vs 2-sided",choices = c("1-sided (upper)","1-sided (lower)","2-sided"),selected = "2-sided"),
       actionButton("ci", "Show/Hide Confidence Interval")
     ),
     
@@ -233,14 +235,27 @@ server &lt;- function(input, output, session) {
     z &lt;- (input$xbar - input$mu) / se
     
     # Calculate p-value
-    p_value &lt;- 2 * (1 - pnorm(abs(z)))
+    if(input$sides=="2-sided"){
+      p_value &lt;- 2 * (1 - pnorm(abs(z)))
+    } else if(input$sides=="1-sided (upper)"){ 
+      p_value &lt;-  pnorm(z,lower.tail = F)} else{p_value &lt;-  pnorm(z)}
     
     # Define the color based on p-value and alpha
     tail_color &lt;- ifelse(p_value &lt; input$alpha, "red", "blue")
     
     # Generate x values for the plot
     x_values &lt;- seq(input$xbar - 5*se, input$xbar + 5*se, length.out = 1000)
+    if(input$sides=="2-sided"){
+      shade_vals1 = x_values[x_values&lt;=min(input$xbar, 2*input$mu-input$xbar)]
+    } else if(input$sides=="1-sided (upper)"){ 
+      shade_vals1 = NA
+    } else{shade_vals1 = x_values[x_values&lt;=input$xbar]}
     
+    if(input$sides=="2-sided"){
+      shade_vals2 = x_values[ x_values&gt;=max(input$xbar, 2*input$mu-input$xbar)]
+    } else if(input$sides=="1-sided (upper)"){ 
+      shade_vals2 = x_values[x_values&gt;=input$xbar]
+    } else{shade_vals2 = NA}
     # Calculate y values for the density function
     y_values &lt;- dnorm(x_values, mean = input$mu, sd = se)
     
@@ -249,36 +264,49 @@ server &lt;- function(input, output, session) {
       geom_line(aes(y = y), color = "darkgrey", size = 0.6) +
       
       # Shade the left tail
-      geom_area(data = subset(data.frame(x = x_values, y = y_values), x &lt;= min(input$xbar, 2*input$mu-input$xbar)),
+      geom_area(data = data.frame(x = x_values, y = y_values)%&gt;% filter( x %in% shade_vals1),
                 aes(x = x, y = y), fill = tail_color, alpha = 0.3) +
       
       # Shade the right tail
-      geom_area(data = subset(data.frame(x = x_values, y = y_values), x &gt;= max(input$xbar, 2*input$mu-input$xbar)),
+      geom_area(data = data.frame(x = x_values, y = y_values)%&gt;% filter( x %in% shade_vals2),
                 aes(x = x, y = y), fill = tail_color, alpha = 0.3) +
-      
+      geom_segment(aes(x = input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", size = .75,
+                            arrow = grid::arrow(angle = 90, ends = "both", length = unit(.1, "inches"))) +
       # Add vertical lines for xbar and mu
       geom_vline(xintercept = input$xbar, linetype = "dashed", color = "cornflowerblue", size = 0.75) +
       geom_vline(xintercept = input$mu, linetype = "dashed", color = "darkorange2", size = 0.75) +
-      
-      # Add line segment to show the distance between xbar and mu
+        # Add line segment to show the distance between xbar and mu
       geom_segment(aes(x = input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", size = .75,
-                   arrow = grid::arrow(angle = 90, ends = "both", length = unit(.1, "inches"))) +
-      geom_segment(aes(x = 2*input$mu-input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", 
-                   size = .75, arrow = grid::arrow(angle = 90,ends = "both",length = unit(.1, "inches")) )+
-      
+                       arrow = grid::arrow(angle = 90, ends = "both", length = unit(.1, "inches"))) +
       # Add labels for xbar and mu
       annotate("text", x = input$xbar, y = -0.1, label = "x̄", color= "cornflowerblue", hjust = -0.2, size = 5) +
       annotate("text", x = input$mu, y = -0.1, label = "μ", color = "darkorange2",  hjust = 1.2, size = 5) +
-      
       labs(title = "Normal Density with Selected Mean",
            x = "Value",
            y = "Density") +
       theme_minimal() + ylim(-max(y_values)/16, max(y_values))
+      
+    if(input$sides == "2-sided"){
+      # Add line segment to show the distance between xbar and mu
+       p &lt;- p + geom_segment(aes(x = 2*input$mu-input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", 
+                     size = .75, arrow = grid::arrow(angle = 90,ends = "both",length = unit(.1, "inches")) )
+    }
+    
     
     if(showCI()){
-      p &lt;- p + 
-        geom_segment(aes(x = input$xbar +qnorm(input$alpha/2)*se, y = -max(y_values)/16, xend = input$xbar -qnorm(input$alpha/2)*se, yend = -max(y_values)/16),lineend = "square", color = "blue", alpha = 0.3,
-                   size = .75 )
+      if(input$sides=="2-sided"){
+        p &lt;- p + 
+          geom_segment(aes(x = input$xbar +qnorm(input$alpha/2)*se, y = -max(y_values)/16, xend = input$xbar -qnorm(input$alpha/2)*se, yend = -max(y_values)/16),lineend = "square", color = "blue", alpha = 0.3,
+                       size = .75 )
+      } else if(input$sides=="1-sided (upper)"){
+        p &lt;- p + 
+          geom_segment(aes(x = input$xbar -qnorm(input$alpha,lower.tail = F)*se, y = -max(y_values)/16, xend = Inf, yend = -max(y_values)/16),lineend = "square", color = "blue", alpha = 0.3,
+                       size = .75 )
+      } else{
+        p &lt;- p + 
+          geom_segment(aes(x = input$xbar + qnorm(input$alpha,lower.tail = F)*se, y = -max(y_values)/16, xend = -Inf, yend = -max(y_values)/16),lineend = "square", color = "blue", alpha = 0.3,
+                       size = .75 )
+      }
     }
     
     print(p)
@@ -300,7 +328,10 @@ server &lt;- function(input, output, session) {
     z &lt;- (input$xbar - input$mu) / se
     
     # Calculate p-value
-    p_value &lt;- 2 * (1 - pnorm(abs(z)))
+    if(input$sides=="2-sided"){
+      p_value &lt;- 2 * (1 - pnorm(abs(z)))
+    } else if(input$sides=="1-sided (upper)"){ 
+      p_value &lt;-  pnorm(z,lower.tail = F)} else{p_value &lt;-  pnorm(z)}
     
     # Display p-value
     paste0("Probability of getting x̄ this extreme : ", round(p_value, 4))
@@ -308,7 +339,9 @@ server &lt;- function(input, output, session) {
 }
 
 # Run the application 
-shinyApp(ui = ui, server = server)</code></pre>
+shinyApp(ui = ui, server = server)
+
+</code></pre>
 
 
 
