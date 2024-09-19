@@ -218,7 +218,7 @@ server &lt;- function(input, output, session) {
     min_mu &lt;- round(input$xbar - 4 * se, digits = 2)
     max_mu &lt;- round(input$xbar + 4 * se, digits = 2)
     
-    sliderInput("mu", "True Mean (μ):", min = min_mu, max = max_mu, value = input$xbar - se, step = 0.01)
+    sliderInput("mu", "Possible Mean Value (μ):", min = min_mu, max = max_mu, value = input$xbar - se, step = 0.01)
   })
   
   showCI &lt;- reactiveVal(FALSE)

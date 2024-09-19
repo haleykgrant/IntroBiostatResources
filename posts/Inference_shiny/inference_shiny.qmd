@@ -49,7 +49,7 @@ server <- function(input, output, session) {
     min_mu <- round(input$xbar - 4 * se, digits = 2)
     max_mu <- round(input$xbar + 4 * se, digits = 2)
     
-    sliderInput("mu", "True Mean (μ):", min = min_mu, max = max_mu, value = input$xbar - se, step = 0.01)
+    sliderInput("mu", "Possible Mean Value (μ):", min = min_mu, max = max_mu, value = input$xbar - se, step = 0.01)
   })
   
   showCI <- reactiveVal(FALSE)
