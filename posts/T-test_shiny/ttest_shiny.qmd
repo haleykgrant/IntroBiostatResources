@@ -1,0 +1,246 @@
+---
+title: "Least Squares Regression Visualization"
+author: "Haley Grant"
+filters: 
+  - shinylive
+categories:
+    - Statistical Inference
+---
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 800
+
+library(shiny)
+library(ggplot2)
+library(extraDistr)
+library(bslib)
+library(bsicons)
+
+ui <- page_sidebar(
+  theme = bs_theme(bootswatch = "materia"),
+                   titlePanel("T-test Visualization"),
+ sidebar = sidebar(
+    numericInput("n", "Sample size (n):", value = 30, min = 2),
+    numericInput("mu0", HTML("Null hypothesis mean (&mu;<sub>0</sub>):"), value = 0),
+    numericInput("mu_true", HTML("True mean (&mu;<sub>true</sub>):"), value = 0), # True mean input
+    numericInput("sigma", "Population standard deviation (σ):", value = 1),
+    numericInput("alpha", "Significance level (α):", value = 0.05),
+    radioButtons("test_type", "Test Type:", choices = list("One-sided" = "one", "Two-sided" = "two"),
+                selected = "two"),
+    actionButton("draw", "Draw Sample"),
+    actionButton("toggleAltPlot", "Show/Hide Alternative Distribution"),  # Button to toggle alternative plot
+    actionButton("toggleCI", "Show/Hide C.I. & Rejection Region")  # Button to toggle CI and rejection region
+  
+  )
+  ,
+    
+      card(
+        card_header("Sample"),
+        height = "550px",
+        fluidRow(
+          column(6,
+                 style = "justify-content: center; align-items: center",  # Center vertically and control height
+                 uiOutput("sample_stats")  # Summary stats on the left
+          ), 
+          column(6, 
+                 plotOutput("samplePlot", height = "175px")  # Sample plot on the right, fixed height
+          )
+      ),
+      
+      ),
+      card( 
+        card_header("Test Statistic"),
+      plotOutput("densityPlot", height = "500px")),  # Larger density plot below
+     card(card_header("Sample Mean"), plotOutput("meanDensityPlot", height = "500px") ) # New density plot for sample mean
+    )
+  
+
+
+
+server <- function(input, output, session) {
+  # Reactive values to track the sample, alternative plot visibility, and plot data
+  sample_data <- reactiveVal(NULL)
+  plot_data <- reactiveValues(
+    t_stat = NULL,
+    sample_mean = NULL,
+    sample_sd = NULL,
+    x_limits_null = NULL,
+    mean_x_limits = NULL
+  )
+  showAlt <- reactiveVal(FALSE)
+  
+  observeEvent(input$toggleAltPlot, {
+    showAlt(!showAlt())
+  })
+  
+  showCI <- reactiveVal(FALSE)
+  
+  observeEvent(input$toggleCI, {
+    showCI(!showCI())  # Toggle CI and rejection region visibility
+  })
+  
+  
+  observeEvent(input$draw, {
+    # Create a bimodal sample using the true mean (µ_true)
+    n1 <- floor(input$n / 2)
+    n2 <- input$n - n1
+    sample1 <- rnorm(n1, mean = input$mu_true - 0.5, sd = (4 * input$sigma - 1) / 4)  # First mode
+    sample2 <- rnorm(n2, mean = input$mu_true + 0.5, sd = (4 * input$sigma - 1) / 4)  # Second mode
+    sample <- c(sample1, sample2)
+    
+    sample_data(sample)  # Store sample data
+    
+    # Store plot-specific values in reactiveValues
+    plot_data$sample_mean <- mean(sample)
+    plot_data$sample_sd <- sd(sample)
+    plot_data$t_stat <- (plot_data$sample_mean - input$mu0) / (plot_data$sample_sd / sqrt(input$n))  # t-statistic
+    
+    # Dynamically set x-axis limits for density plots, based on current input values
+    plot_data$x_limits_null <- c(
+      qt(0.0001, df = input$n - 1),
+      qt(0.9999, df = input$n - 1) + (input$mu_true - input$mu0) / (plot_data$sample_sd / sqrt(input$n))
+    )
+    plot_data$mean_x_limits <- c(
+      qnorm(0.0001, mean = input$mu0, sd = (input$sigma / sqrt(input$n))),
+      qnorm(0.9999, mean = input$mu_true, sd = (input$sigma / sqrt(input$n)))
+    )
+    
+    # Render the summary statistics in the left panel
+    output$sample_stats <- renderUI({
+      summary_stats <- data.frame(
+        Statistic = c("Sample Mean", "Sample Standard Deviation", "Estimated Standard Error", "T-test Statistic"),
+        Value = c(
+          round(plot_data$sample_mean, 3),
+          round(plot_data$sample_sd, 3),
+          round(plot_data$sample_sd / sqrt(input$n), 3),
+          paste0("<span style='color:springgreen4;'>", round(plot_data$t_stat, 3), "</span>")
+        ),
+        stringsAsFactors = FALSE
+      )
+      
+      HTML(
+        paste0("<table style='border-collapse: collapse; width: 100%;font-size: 16px;'>",
+               "<tr><th style='text-align: center; border: 1px solid black;'>Statistic</th>",
+               "<th style='text-align: center; border: 1px solid black;'>Value</th></tr>",
+               paste0("<tr><td style='text-align: center; border: 1px solid black;'>", summary_stats$Statistic, "</td>",
+                      "<td style='text-align: center;border: 1px solid black;'>", summary_stats$Value, "</td></tr>",
+                      collapse = ""), 
+               "</table>")
+      )
+    })
+    
+    # Plot for the t-test statistic distribution
+    output$densityPlot <- renderPlot({
+      # Base plot for the null hypothesis density
+      p <- ggplot(data.frame(x = plot_data$x_limits_null), aes(x)) +
+        stat_function(fun = dt, args = list(df = input$n - 1), color = "firebrick2") +
+        geom_vline(xintercept = plot_data$t_stat, color = "springgreen4", linetype = "dashed") +
+        geom_text(aes(x = plot_data$t_stat, label = paste("T =", round(plot_data$t_stat, 2)), y = 0), 
+                  color = "springgreen4", angle = 90, vjust = 0, hjust = 0, size = 4.5) +
+        labs(title = "Test Statistic Distribution under Null Hypothesis", 
+             x = "T statistic", y = "Density") + theme_classic()
+      
+      # Show rejection region if the toggle is on
+      if (showCI()) {
+        alpha <- input$alpha
+        test_type <- input$test_type
+        
+        if (test_type == "two") {
+          # Calculate critical t-values for two-sided test
+          critical_value_low <- qt(alpha / 2, df = input$n - 1)
+          critical_value_high <- qt(1 - alpha / 2, df = input$n - 1)
+          
+          # Add shaded rejection regions using geom_rect
+          p <- p + geom_rect(aes(xmin = -Inf, xmax = critical_value_low, ymin = 0, ymax = Inf), 
+                             fill = "red", alpha = 0.05) + 
+            geom_rect(aes(xmin = critical_value_high, xmax = Inf, ymin = 0, ymax = Inf), 
+                      fill = "red", alpha = 0.05) 
+           
+          
+        } else {
+          # One-sided test
+          critical_value_low <- qt(1-alpha, df = input$n - 1)
+          
+          # Add a shaded rejection region for one-sided test
+          p <- p + geom_rect(aes(xmin = critical_value_low, xmax = Inf, ymin = 0, ymax = Inf), 
+                             fill = "red", alpha = 0.05)
+        }
+      }
+      
+      # Add the alternative distribution if showAlt is toggled on
+      if (showAlt()) {
+        p <- p + stat_function(fun = dlst, args = list(mu = (input$mu_true-input$mu0) / (plot_data$sample_sd / sqrt(input$n)), 
+                                                       df = input$n - 1),
+                               color = "lightblue", alpha = 0.7) + 
+          labs(title = "Test Statistics: Null vs Alternative")
+      }
+      
+      p  # Return the plot
+    })
+    
+    
+    # Plot for the sample histogram
+    output$samplePlot <- renderPlot({
+      ggplot(data.frame(sample = sample_data()), aes(x = sample)) + 
+        geom_histogram(bins = 10, fill = "lightblue", color = "black") + 
+        labs(title = paste0("Sample (µ = ", input$mu_true,")"),  
+             x = "Sample Values", y = "Frequency") + theme_classic()
+    })
+    
+    # Plot for the expected sample mean distribution
+    output$meanDensityPlot <- renderPlot({
+      # Set appropriate limits for the expected sample mean density plot
+      mean_x_limits <- c(qnorm(0.0001, mean = input$mu0, sd = (input$sigma / sqrt(input$n))),
+                         qnorm(0.9999, mean = input$mu_true, sd = (input$sigma / sqrt(input$n))))
+      
+      se <- plot_data$sample_sd / sqrt(input$n)
+      alpha <- input$alpha
+      test_type <- input$test_type
+      
+      if (test_type == "one") {
+        ci_low <- plot_data$sample_mean - qt(1-alpha, df = input$n-1)*se
+        ci_high <- Inf  # For one-sided, CI extends to infinity on the right side
+      } else {
+        ci_low <- plot_data$sample_mean - qt(1-alpha/2, df = input$n-1)*se
+        ci_high <- plot_data$sample_mean + qt(1-alpha/2, df = input$n-1)*se
+      }
+      
+      p <- ggplot(data.frame(x = plot_data$mean_x_limits), aes(x)) + 
+        stat_function(fun = dnorm, args = list(mean = input$mu0, sd = input$sigma / sqrt(input$n)), color = "firebrick2") + 
+        geom_vline(xintercept = plot_data$sample_mean, color = "orange3", linetype = "dashed") + 
+        geom_text(aes(x = plot_data$sample_mean, label = paste("X̄ =", round(plot_data$sample_mean, 2)), y = 0), 
+                  color = "orange3", angle = 90, vjust = 0, hjust = 0, size = 4.5) +
+        
+        labs(title = "Distribution of Sample Mean",
+             x = "Sample Mean (X̄)", y = "Density") + theme_classic()
+      
+      # Show confidence interval if the toggle is on
+      if (showCI()) {
+        p <- p + geom_segment(aes(x = ci_low, xend = ci_high, y = 0, yend = 0), 
+                              color = "purple", size = 2) + 
+          geom_rect(aes(xmin = ci_low, xmax = ci_high, ymin = 0, ymax = Inf), 
+                    fill = "purple", alpha = 0.05) +
+          geom_vline(aes(xintercept = input$mu0), color = "firebrick1", linetype = 2)
+        
+      }
+      
+      # Add alternative distribution if showAlt is TRUE
+      if (showAlt()) {
+        p <- p + stat_function(fun = dnorm, args = list(mean = input$mu_true, sd = input$sigma / sqrt(input$n)), 
+                               color = "lightblue", alpha = 0.7) + 
+          labs(title = "Sample Mean: Null vs Alternative")
+      }
+      
+      p  # Return the plot
+    })
+    
+    
+  })
+}
+
+
+shinyApp(ui = ui, server = server)
+
+
+```
