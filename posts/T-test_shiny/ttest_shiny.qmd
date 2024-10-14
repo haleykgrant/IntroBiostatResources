@@ -28,12 +28,11 @@ ui <- page_sidebar(
     numericInput("alpha", "Significance level (α):", value = 0.05),
     radioButtons("test_type", "Test Type:", choices = list("One-sided" = "one", "Two-sided" = "two"),
                 selected = "two"),
-    actionButton("draw", "Draw Sample"),
     actionButton("toggleAltPlot", "Show/Hide Alternative Distribution"),  # Button to toggle alternative plot
     actionButton("toggleCI", "Show/Hide C.I. & Rejection Region")  # Button to toggle CI and rejection region
   
   )
-  ,
+  ,    actionButton("draw", "Draw Sample"),
     
       card(
         card_header("Sample"),
