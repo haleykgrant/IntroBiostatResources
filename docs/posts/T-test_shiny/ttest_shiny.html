@@ -217,11 +217,12 @@ ui &lt;- page_sidebar(
       ),
       
       ),
+ 
+     card(card_header("Sample Mean"), plotOutput("meanDensityPlot", height = "500px") ) # New density plot for sample mean
+    ),
       card( 
         card_header("Test Statistic"),
-      plotOutput("densityPlot", height = "500px")),  # Larger density plot below
-     card(card_header("Sample Mean"), plotOutput("meanDensityPlot", height = "500px") ) # New density plot for sample mean
-    )
+      plotOutput("densityPlot", height = "500px"))  # Larger density plot below
   
 
 
