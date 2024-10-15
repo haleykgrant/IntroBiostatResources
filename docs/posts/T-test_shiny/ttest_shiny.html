@@ -188,44 +188,43 @@ library(bsicons)
 
 ui &lt;- page_sidebar(
   theme = bs_theme(bootswatch = "materia"),
-                   titlePanel("T-test Visualization"),
- sidebar = sidebar(
+  titlePanel("T-test Visualization"),
+  sidebar = sidebar(
     numericInput("n", "Sample size (n):", value = 30, min = 2),
     numericInput("mu0", HTML("Null hypothesis mean (&amp;mu;&lt;sub&gt;0&lt;/sub&gt;):"), value = 0),
     numericInput("mu_true", HTML("True mean (&amp;mu;&lt;sub&gt;true&lt;/sub&gt;):"), value = 0), # True mean input
     numericInput("sigma", "Population standard deviation (σ):", value = 1),
     numericInput("alpha", "Significance level (α):", value = 0.05),
     radioButtons("test_type", "Test Type:", choices = list("One-sided" = "one", "Two-sided" = "two"),
-                selected = "two"),
+                 selected = "two"),
     actionButton("toggleAltPlot", "Show/Hide Alternative Distribution"),  # Button to toggle alternative plot
     actionButton("toggleCI", "Show/Hide C.I. &amp; Rejection Region")  # Button to toggle CI and rejection region
-  
+    
   )
   ,    actionButton("draw", "Draw Sample"),
-    
-      card(
-        card_header("Sample"),
-        height = "550px",
-        fluidRow(
-          column(6,
-                 style = "justify-content: center; align-items: center",  # Center vertically and control height
-                 uiOutput("sample_stats")  # Summary stats on the left
-          ), 
-          column(6, 
-                 plotOutput("samplePlot", height = "175px")  # Sample plot on the right, fixed height
-          )
-      ),
-      
-      ),
- 
-     card(card_header("Sample Mean"), plotOutput("meanDensityPlot", height = "500px") ) # New density plot for sample mean
-    ),
-      card( 
-        card_header("Test Statistic"),
-      plotOutput("densityPlot", height = "500px"))  # Larger density plot below
   
+  card(
+    card_header("Sample"),
+    height = "550px",
+    fluidRow(
+      column(6,
+             style = "justify-content: center; align-items: center",  # Center vertically and control height
+             uiOutput("sample_stats")  # Summary stats on the left
+      ), 
+      column(6, 
+             plotOutput("samplePlot", height = "175px")  # Sample plot on the right, fixed height
+      )
+    ),
+    
+  ),
+  
+  card(card_header("Sample Mean"), plotOutput("meanDensityPlot", height = "500px") ), # New density plot for sample mean
+card( 
+  card_header("Test Statistic"),
+  plotOutput("densityPlot", height = "500px"))  # Larger density plot below
 
 
+)
 
 server &lt;- function(input, output, session) {
   # Reactive values to track the sample, alternative plot visibility, and plot data
@@ -305,8 +304,8 @@ server &lt;- function(input, output, session) {
       p &lt;- ggplot(data.frame(x = plot_data$x_limits_null), aes(x)) +
         stat_function(fun = dt, args = list(df = input$n - 1), color = "firebrick2") +
         geom_vline(xintercept = plot_data$t_stat, color = "springgreen4", linetype = "dashed") +
-        geom_text(aes(x = plot_data$t_stat, label = paste("T =", round(plot_data$t_stat, 2)), y = 0), 
-                  color = "springgreen4", angle = 90, vjust = 0, hjust = 0, size = 4.5) +
+        geom_text(aes(x = plot_data$t_stat, label = paste("T =", round(plot_data$t_stat, 2)), y = Inf), 
+                  color = "springgreen4", angle = 90, vjust = 0, hjust = 1, size = 4.5) +
         labs(title = "Test Statistic Distribution under Null Hypothesis", 
              x = "T statistic", y = "Density") + theme_classic()
       
@@ -325,7 +324,7 @@ server &lt;- function(input, output, session) {
                              fill = "red", alpha = 0.05) + 
             geom_rect(aes(xmin = critical_value_high, xmax = Inf, ymin = 0, ymax = Inf), 
                       fill = "red", alpha = 0.05) 
-           
+          
           
         } else {
           # One-sided test
@@ -378,8 +377,8 @@ server &lt;- function(input, output, session) {
       p &lt;- ggplot(data.frame(x = plot_data$mean_x_limits), aes(x)) + 
         stat_function(fun = dnorm, args = list(mean = input$mu0, sd = input$sigma / sqrt(input$n)), color = "firebrick2") + 
         geom_vline(xintercept = plot_data$sample_mean, color = "orange3", linetype = "dashed") + 
-        geom_text(aes(x = plot_data$sample_mean, label = paste("X̄ =", round(plot_data$sample_mean, 2)), y = 0), 
-                  color = "orange3", angle = 90, vjust = 0, hjust = 0, size = 4.5) +
+        geom_text(aes(x = plot_data$sample_mean, label = paste("X̄ =", round(plot_data$sample_mean, 2)), y = Inf), 
+                  color = "orange3", angle = 90, vjust = 0, hjust = 1, size = 4.5) +
         
         labs(title = "Distribution of Sample Mean",
              x = "Sample Mean (X̄)", y = "Density") + theme_classic()
@@ -410,6 +409,7 @@ server &lt;- function(input, output, session) {
 
 
 shinyApp(ui = ui, server = server)
+
 
 </code></pre>
 
