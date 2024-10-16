@@ -139,6 +139,15 @@ server <- function(input, output, session) {
         labs(title = "Test Statistic Distribution under Null Hypothesis", 
              x = "T statistic", y = "Density") + theme_classic()
       
+       # Add alternative distribution if showAlt is TRUE
+        if (showAlt()) {
+          p <- p + stat_function(fun = dlst, args = list(mu = input$mu_true/(plot_data$sample_sd/sqrt(input$n)), df = input$n-1), 
+                                 color = "lightblue", alpha = 0.7) + 
+            labs(title = "Sample Mean: Null vs Alternative")
+          
+          
+        }
+      
       # Show rejection region if the toggle is on
       if (showCI()) {
         alpha <- input$alpha
@@ -223,7 +232,10 @@ server <- function(input, output, session) {
           p <- p + stat_function(fun = dnorm, args = list(mean = input$mu_true, sd = input$sigma / sqrt(input$n)), 
                                  color = "lightblue", alpha = 0.7) + 
             labs(title = "Sample Mean: Null vs Alternative")
+          
+          
         }
+        
         
         p  # Return the plot
       })
