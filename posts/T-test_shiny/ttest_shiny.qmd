@@ -143,7 +143,7 @@ server <- function(input, output, session) {
         if (showAlt()) {
           p <- p + stat_function(fun = dlst, args = list(mu = input$mu_true/(plot_data$sample_sd/sqrt(input$n)), df = input$n-1), 
                                  color = "lightblue", alpha = 0.7) + 
-            labs(title = "Sample Mean: Null vs Alternative")
+            labs(title = "Test Statistic Distribution: Null vs Alternative")
           
           
         }
