@@ -220,8 +220,11 @@ ui &lt;- page_sidebar(
   card(card_header("Sample Mean"), plotOutput("meanDensityPlot", height = "500px") ), # New density plot for sample mean
   card( 
     card_header("Test Statistic"),
-    plotOutput("densityPlot", height = "500px"))  # Larger density plot below
-  
+    plotOutput("densityPlot", height = "500px")),  # Larger density plot below
+  card(card_header("Power"),
+       height = "250px",
+       card_body(
+       textOutput("power")))
   
 )
 
@@ -308,14 +311,14 @@ server &lt;- function(input, output, session) {
         labs(title = "Test Statistic Distribution under Null Hypothesis", 
              x = "T statistic", y = "Density") + theme_classic()
       
-       # Add alternative distribution if showAlt is TRUE
-        if (showAlt()) {
-          p &lt;- p + stat_function(fun = dlst, args = list(mu = input$mu_true/(plot_data$sample_sd/sqrt(input$n)), df = input$n-1), 
-                                 color = "lightblue", alpha = 0.7) + 
-            labs(title = "Test Statistic Distribution: Null vs Alternative")
-          
-          
-        }
+      # Add alternative distribution if showAlt is TRUE
+      if (showAlt()) {
+        p &lt;- p + stat_function(fun = dlst, args = list(mu = input$mu_true/(plot_data$sample_sd/sqrt(input$n)), df = input$n-1), 
+                               color = "lightblue", alpha = 0.7) + 
+          labs(title = "Test Statistic Distribution: Null vs Alternative")
+        
+        
+      }
       
       # Show rejection region if the toggle is on
       if (showCI()) {
@@ -345,77 +348,114 @@ server &lt;- function(input, output, session) {
           p &lt;- p + geom_rect(aes(xmin = critical_value_low, xmax = Inf, ymin = 0, ymax = Inf), 
                              fill = "red", alpha = 0.05)
         } }
-        p
-      })
-      
-      # Plot for the sample histogram
-      output$samplePlot &lt;- renderPlot({
-        ggplot(data.frame(sample = sample_data()), aes(x = sample)) + 
-          geom_histogram(bins = 10, fill = "lightblue", color = "black") + 
-          labs(title = paste0("Sample (µ = ", input$mu_true,")"),  
-               x = "Sample Values", y = "Frequency") + theme_classic()
-      })
-      
-      # Plot for the expected sample mean distribution
-      output$meanDensityPlot &lt;- renderPlot({
-        # Set appropriate limits for the expected sample mean density plot
-        mean_x_limits &lt;- c(qnorm(0.0001, mean = input$mu0, sd = (input$sigma / sqrt(input$n))),
-                           qnorm(0.9999, mean = input$mu_true, sd = (input$sigma / sqrt(input$n))))
-        
-        se &lt;- plot_data$sample_sd / sqrt(input$n)
-        alpha &lt;- input$alpha
-        test_type &lt;- input$test_type
-        
-        if (test_type == "one left") {
-          ci_high&lt;- plot_data$sample_mean + qt(1-alpha, df = input$n-1)*se
-          ci_low &lt;- -Inf  # For one-sided, CI extends to infinity on the right side
-        } else if (test_type == "one right"){
-          ci_low &lt;- plot_data$sample_mean - qt(1-alpha, df = input$n-1)*se
-          ci_high &lt;- Inf  # For one-sided, CI extends to infinity on the right side
-        } else {
-          ci_low &lt;- plot_data$sample_mean - qt(1-alpha/2, df = input$n-1)*se
-          ci_high &lt;- plot_data$sample_mean + qt(1-alpha/2, df = input$n-1)*se
-        }
-        
-        p &lt;- ggplot(data.frame(x = plot_data$mean_x_limits), aes(x)) + 
-          stat_function(fun = dnorm, args = list(mean = input$mu0, sd = input$sigma / sqrt(input$n)), color = "firebrick2") + 
-          geom_vline(xintercept = plot_data$sample_mean, color = "orange3", linetype = "dashed") + 
-          geom_text(aes(x = plot_data$sample_mean, label = paste("X̄ =", round(plot_data$sample_mean, 2)), y = Inf), 
-                    color = "orange3", angle = 90, vjust = 0, hjust = 1, size = 4.5) +
-          
-          labs(title = "Distribution of Sample Mean",
-               x = "Sample Mean (X̄)", y = "Density") + theme_classic()
-        
-        # Show confidence interval if the toggle is on
-        if (showCI()) {
-          p &lt;- p + geom_segment(aes(x = ci_low, xend = ci_high, y = 0, yend = 0), 
-                                color = "purple", size = 2) + 
-            geom_rect(aes(xmin = ci_low, xmax = ci_high, ymin = 0, ymax = Inf), 
-                      fill = "purple", alpha = 0.05) +
-            geom_vline(aes(xintercept = input$mu0), color = "firebrick1", linetype = 2)
-          
-        }
-        
-        # Add alternative distribution if showAlt is TRUE
-        if (showAlt()) {
-          p &lt;- p + stat_function(fun = dnorm, args = list(mean = input$mu_true, sd = input$sigma / sqrt(input$n)), 
-                                 color = "lightblue", alpha = 0.7) + 
-            labs(title = "Sample Mean: Null vs Alternative")
-          
-          
-        }
-        
-        
-        p  # Return the plot
-      })
-      
-      
+      p
     })
-  }
+    
+    # Plot for the sample histogram
+    output$samplePlot &lt;- renderPlot({
+      ggplot(data.frame(sample = sample_data()), aes(x = sample)) + 
+        geom_histogram(bins = 10, fill = "lightblue", color = "black") + 
+        labs(title = paste0("Sample (µ = ", input$mu_true,")"),  
+             x = "Sample Values", y = "Frequency") + theme_classic()
+    })
+    
+    # Plot for the expected sample mean distribution
+    output$meanDensityPlot &lt;- renderPlot({
+      # Set appropriate limits for the expected sample mean density plot
+      mean_x_limits &lt;- c(qnorm(0.0001, mean = input$mu0, sd = (input$sigma / sqrt(input$n))),
+                         qnorm(0.9999, mean = input$mu_true, sd = (input$sigma / sqrt(input$n))))
+      
+      se &lt;- plot_data$sample_sd / sqrt(input$n)
+      alpha &lt;- input$alpha
+      test_type &lt;- input$test_type
+      
+      if (test_type == "one left") {
+        ci_high&lt;- plot_data$sample_mean + qt(1-alpha, df = input$n-1)*se
+        ci_low &lt;- -Inf  # For one-sided, CI extends to infinity on the right side
+      } else if (test_type == "one right"){
+        ci_low &lt;- plot_data$sample_mean - qt(1-alpha, df = input$n-1)*se
+        ci_high &lt;- Inf  # For one-sided, CI extends to infinity on the right side
+      } else {
+        ci_low &lt;- plot_data$sample_mean - qt(1-alpha/2, df = input$n-1)*se
+        ci_high &lt;- plot_data$sample_mean + qt(1-alpha/2, df = input$n-1)*se
+      }
+      
+      p &lt;- ggplot(data.frame(x = plot_data$mean_x_limits), aes(x)) + 
+        stat_function(fun = dnorm, args = list(mean = input$mu0, sd = input$sigma / sqrt(input$n)), color = "firebrick2") + 
+        geom_vline(xintercept = plot_data$sample_mean, color = "orange3", linetype = "dashed") + 
+        geom_text(aes(x = plot_data$sample_mean, label = paste("X̄ =", round(plot_data$sample_mean, 2)), y = Inf), 
+                  color = "orange3", angle = 90, vjust = 0, hjust = 1, size = 4.5) +
+        
+        labs(title = "Distribution of Sample Mean",
+             x = "Sample Mean (X̄)", y = "Density") + theme_classic()
+      
+      # Show confidence interval if the toggle is on
+      if (showCI()) {
+        p &lt;- p + geom_segment(aes(x = ci_low, xend = ci_high, y = 0, yend = 0), 
+                              color = "purple", size = 2) + 
+          geom_rect(aes(xmin = ci_low, xmax = ci_high, ymin = 0, ymax = Inf), 
+                    fill = "purple", alpha = 0.05) +
+          geom_vline(aes(xintercept = input$mu0), color = "firebrick1", linetype = 2)
+        
+      }
+      
+      # Add alternative distribution if showAlt is TRUE
+      if (showAlt()) {
+        p &lt;- p + stat_function(fun = dnorm, args = list(mean = input$mu_true, sd = input$sigma / sqrt(input$n)), 
+                               color = "lightblue", alpha = 0.7) + 
+          labs(title = "Sample Mean: Null vs Alternative")
+        
+        
+      }
+      
+      
+      p  # Return the plot
+    })
+    
+    
+  })
+  
+  calc_power &lt;- reactive({
+    if(input$mu0 == input$mu_true) {
+      return("Power is not well-defined under the null hypothesis")
+    } else {
+      # Map test type to appropriate alternative hypothesis for power.t.test()
+      sides &lt;- switch(input$test_type,
+                      "two" = "two.sided",
+                      "one left" = "one.sided",
+                      "one right" = "one.sided")
+      
+      # Calculate power
+      pwr &lt;- power.t.test(delta = abs(input$mu_true - input$mu0), 
+                          n = input$n, 
+                          sd = input$sigma, 
+                          sig.level = input$alpha, 
+                          type = "one.sample", 
+                          alternative = sides)$power
+      
+      # Return power value as a string
+      return(paste0("Power: ", round(pwr, digits = 4)))
+    }
+  })
+  
+  # Output power as text
+  output$power &lt;- renderText({
+    calc_power()  # Use the reactive expression to get the power
+  })
+  
+  # Trigger power calculation on app startup (using an observer)
+  observe({
+    output$power &lt;- renderText({
+      calc_power()
+    })
+  })
   
   
-  shinyApp(ui = ui, server = server)
+}
 
+
+
+shinyApp(ui = ui, server = server)
 
 </code></pre>
 
