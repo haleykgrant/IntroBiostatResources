@@ -1,0 +1,146 @@
+---
+title: "ANOVA"
+author: "Haley Grant"
+filters: 
+  - shinylive
+categories:
+    - Statistical Inference
+---
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
+#| 
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  titlePanel("ANOVA Simulation"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("n_groups", "Number of Groups", value = 4, min = 2),
+      uiOutput("group_mean_sliders"),
+      numericInput("n_per_group", "Sample Size per Group", value = 30, min = 5),
+      numericInput("within_var", "Within Group Variability (SD)", value = 5, min = 1),
+      actionButton("draw_sample", "Draw Sample"),
+      radioButtons("plot_type", "Select Plot Type:",
+                   choices = c("Density Plots" = "density", "Boxplots" = "boxplot"),
+                   selected = "boxplot")
+    ),
+    
+    mainPanel(
+      plotOutput("combined_plot"),
+      textOutput("anova_result"),
+      plotOutput("f_dist_plot")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  
+  # Dynamically generate sliders for group means based on number of groups
+  output$group_mean_sliders <- renderUI({
+    lapply(1:input$n_groups, function(i) {
+      sliderInput(paste0("mean_", i), paste0("Mean for Group ", i), 
+                  min = -10, max = 10, value = 2, step = 0.1)
+    })
+  })
+  
+  # Population data sampling large size (e.g., 10,000 per group)
+  pop_data <- reactive({
+    means <- sapply(1:input$n_groups, function(i) input[[paste0("mean_", i)]])
+    group <- rep(1:input$n_groups, each = 10000)
+    values <- unlist(lapply(1:input$n_groups, function(i) {
+      rnorm(10000, mean = means[i], sd = input$within_var)
+    }))
+    data.frame(group = as.factor(group), values = values)
+  })
+  
+  # Reactive for sample data
+  sample_data <- eventReactive(input$draw_sample, {
+    means <- sapply(1:input$n_groups, function(i) input[[paste0("mean_", i)]])
+    group <- rep(1:input$n_groups, each = input$n_per_group)
+    values <- unlist(lapply(1:input$n_groups, function(i) {
+      rnorm(input$n_per_group, mean = means[i], sd = input$within_var)
+    }))
+    data.frame(group = as.factor(group), values = values)
+  })
+  
+  # Combined plot for population and sample distributions
+  output$combined_plot <- renderPlot({
+    
+    if (input$plot_type == "density") {
+    p <- ggplot(pop_data(), aes(x = values, fill = group)) +
+      geom_density(alpha = 0.4) +
+      facet_wrap(~ group, ncol = 1) +
+      labs(title = "Population Distributions", y = "Density", x = "Values") +
+      theme_minimal() +
+      theme(legend.position = "none")
+    } else{
+      p <- ggplot(pop_data(), aes(y = values, x=group, color = group)) +
+        geom_boxplot(alpha = 0.4) +
+        labs(title = "Population Distributions", y = "Values", x = "Group") +
+        theme_minimal() +
+        theme(legend.position = "none")
+    }
+    
+    if (input$draw_sample > 0) {
+      req(sample_data())
+      if (input$plot_type == "density") {
+        p <- p +
+          geom_histogram(data = sample_data(), aes(x = values, fill = group, y = ..density..), 
+                         color = "black", alpha = 0.6, position = "identity", bins = 30)  +
+          geom_vline(aes(xintercept = mean(values)), data = sample_data(), 
+                    linetype = "dashed", color = "blue", size = 1) +
+          labs(subtitle = "+ Sample Distributions")
+      } else {
+        p <- p +
+          geom_boxplot(data = sample_data(), aes(x = group, y = values, fill = group), color = "black", 
+                       alpha = 0.7, position = position_dodge(width = 0.8))+
+          geom_hline(aes(yintercept = mean(values)), data = sample_data(), 
+                     linetype = "dashed", color = "blue", size = 1) +
+          labs(subtitle = "+ Sample Distributions")
+      }
+    }
+    
+    print(p)
+  })
+  
+  # Perform ANOVA and display F statistic
+  output$anova_result <- renderText({
+    req(sample_data())
+    fit <- aov(values ~ group, data = sample_data())
+    anova_res <- summary(fit)
+    f_stat <- anova_res[[1]]$`F value`[1]
+    p_value <- anova_res[[1]]$`Pr(>F)`[1]
+    paste("ANOVA F-statistic:", round(f_stat, 3), "with p-value:", round(p_value, 3))
+  })
+  
+  # Plot F distribution with shaded p-value
+  output$f_dist_plot <- renderPlot({
+    req(sample_data())
+    fit <- aov(values ~ group, data = sample_data())
+    f_stat <- summary(fit)[[1]]$`F value`[1]
+    df1 <- input$n_groups - 1
+    df2 <- input$n_groups * (input$n_per_group - 1)
+    
+    x <- seq(0, max(10, f_stat + 1), length.out = 500)
+    f_dist <- df(x, df1, df2)
+    
+    ggplot(data.frame(x = x, y = f_dist), aes(x = x, y = y)) +
+      geom_line() +
+      geom_area(data = data.frame(x = x[x >= f_stat], y = f_dist[x >= f_stat]), 
+                aes(x = x, y = y), fill = "red", alpha = 0.5) +
+      geom_vline(xintercept = f_stat, linetype = "dashed", color = "forestgreen") +
+      labs(title = "F Distribution", x = "F value", y = "Density") +
+      annotate("text", x = f_stat + 0.3, y = max(f_dist)/2, 
+               label = paste("F =", round(f_stat, 3)), color = "forestgreen") +
+      theme_bw()
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+
+```
