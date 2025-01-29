@@ -10,7 +10,6 @@
       "/posts/Tutorial-6/Tutorial6.html",
       "/posts/Recitation_M2_2/Recitation_M2_2.html",
       "/posts/ANOVA_Shiny/ANOVA_shiny.html",
-      "/posts/VIF_Shiny/VIF_shiny.html",
       "/posts/Proportions-shiny/Proportions_shiny.html",
       "/posts/Inference_shiny/inference_shiny.html",
       "/posts/LeastSquaresShiny/LeastSquares_shiny.html",
@@ -21,7 +20,7 @@
       "/posts/SamplingDistShiny/SampDist_shiny.html",
       "/posts/NormalZ_Shiny/normalz_shiny.html",
       "/posts/T-test_shiny/ttest_shiny.html",
-      "/posts/VIF_shiny2/vif2_shiny.html"
+      "/posts/VIF_shiny/VIF_shiny.html"
     ]
   }
 ]
