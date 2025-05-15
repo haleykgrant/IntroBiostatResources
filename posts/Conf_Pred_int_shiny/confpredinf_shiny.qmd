@@ -1,0 +1,183 @@
+---
+title: "Confidence Intervals and Prediction Intervals"
+author: "Haley Grant"
+image: "cipi.png"
+description: "App to demonstrate intuition behind confidence vs prediction intervals"
+filters: 
+  - shinylive
+categories:
+    - Statistical Inference
+---
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 600
+
+
+library(shiny)
+library(tidyverse)
+library(cowplot)
+
+
+# Define UI for application with tabs
+ui <- fluidPage(
+  
+  # Application title
+  titlePanel("Regression: Confidence and Prediction Intervals"),
+  
+  tabsetPanel(
+    tabPanel("Confidence Interval for Regression Line",
+             sidebarLayout(
+               sidebarPanel(
+                 sliderInput("slope", "True Slope", min = -2, max = 2, value = 0, step = .01),
+                 sliderInput("intercept", "True Intercept", min = -10, max = 10, value = 0, step = .01),
+                 sliderInput("slopetry", "Slope to try", min = -2, max = 2, value = 0, step = .01),
+                 sliderInput("intercepttry", "Intercept to try", min = -10, max = 10, value = 0, step = .01),
+                 numericInput("alpha", "Significance Level", value = 0.05, min = 0, max = 1),
+                 numericInput("n", "Sample size", min = 1, max = 1000, value = 30)
+               ),
+               
+               # Show a plot of the generated distribution
+               mainPanel(
+                 plotOutput("slopePlot")
+               )
+             )
+    ),
+    tabPanel("Confidence vs Prediction Intervals",
+             sidebarLayout(
+               sidebarPanel(
+                 numericInput("xval", "Choose X value", value = 25, min = 18, max = 40, step = 1),
+                 radioButtons("interval_type", "Confidence vs Prediction Interval",
+                              c("Confidence Interval" = "ci", "Prediction Interval" = "pi"),
+                              selected = "ci")
+               ),
+               
+               # Show a plot of the generated distribution
+               mainPanel(
+                 plotOutput("intervalPlot")
+               )
+             )
+    )
+  )
+)
+
+
+server <- function(input, output, session) {
+  
+  vals <- reactive({
+    x <- runif(input$n, min = 18, max = 40)
+    y <- input$intercept + input$slope * x + rnorm(input$n, sd = 2)
+    data.frame(x = x, y = y)
+  
+  })
+  
+  
+  observe({
+    # Fit the regression model with current slope and intercept
+    mdl <- lm(y ~ x, data = vals())
+    se_estimates <- sqrt(diag(vcov(mdl)))
+    
+    # Default values if standard errors are NaN or NULL
+    slope_se <- ifelse(is.na(se_estimates["x"]), 0.1, se_estimates["x"])
+    intercept_se <- ifelse(is.na(se_estimates["(Intercept)"]), 1, se_estimates["(Intercept)"])
+    
+    # Minimum range width to avoid too narrow sliders
+    slope_min <- max(input$slope - 2 * slope_se, input$slope - 0.5) %>% round(digits = 3)
+    slope_max <- min(input$slope + 2 * slope_se, input$slope + 0.5) %>% round(digits = 3)
+    intercept_min <- max(input$intercept - 2 * intercept_se, input$intercept - 5) %>% round(digits = 3)
+    intercept_max <- min(input$intercept + 2 * intercept_se, input$intercept + 5) %>% round(digits = 3)
+    
+    # Step size calculation
+    slope_step <- max(slope_se / 10, 0.001) %>% round(digits = 4)
+    intercept_step <- max(intercept_se / 10, 0.05) %>% round(digits = 4)
+    
+    # Update sliders with dynamic range and step
+    updateSliderInput(session, "slopetry", 
+                      min = slope_min, 
+                      max = slope_max, 
+                      step = slope_step, 
+                      value = input$slope)
+    
+    updateSliderInput(session, "intercepttry", 
+                      min = intercept_min, 
+                      max = intercept_max, 
+                      step = intercept_step, 
+                      value = input$intercept)
+  })
+  
+  # Plot for Slope Comparison
+  output$slopePlot <- renderPlot({
+    mdl <- lm(y ~ x, data = vals())
+    coef_estimates <- coef(mdl)
+    coef_cov <- vcov(mdl)
+    
+    user_coef <- c(input$intercepttry, input$slopetry)
+    delta <- user_coef - coef_estimates
+    mahalanobis_dist <- t(delta) %*% solve(coef_cov) %*% delta
+    
+    critical_value <- qchisq(1 - input$alpha, df = 2)
+    within_ci <- as.numeric(mahalanobis_dist) <= critical_value
+    clr <- if (within_ci) "blue" else "red"
+    
+    ggplot(vals(), aes(x = x, y = y)) +
+      geom_point() +
+      geom_smooth(method = "lm", formula = y ~ x, level = 1 - input$alpha, color = "black") +
+      geom_abline(slope = input$slopetry, intercept = input$intercepttry, color = clr, linetype = "dashed") +
+      labs(title = "Regression Line and Confidence Interval",
+           x = "X", y = "Y") +
+      theme_bw()
+  })
+  
+  # Plot for Interval Comparison
+  output$intervalPlot <- renderPlot({
+    
+    mdl <- lm(y ~ x, data = vals())
+    pred <- predict(mdl, newdata = data.frame(x = input$xval), 
+                    interval = "predict", level = 1 - input$alpha)
+    conf <- predict(mdl, newdata = data.frame(x = input$xval), 
+                    interval = "confidence", level = 1 - input$alpha)
+    
+    mean_y <- pred[1]
+    
+    if (input$interval_type == "ci") {
+      sd_y <- (conf[3] - conf[2]) /(2 * qnorm(1 - input$alpha / 2))
+      clr <- "purple3"
+      ymn <- conf[2]
+      ymx <- conf[3]
+    } else {
+      sd_y <- (pred[3] - pred[2]) / (2 * qnorm(1 - input$alpha / 2))
+      clr <- "magenta"
+      ymn <- pred[2]
+      ymx <- pred[3]
+    }
+    
+    p <- ggplot(vals(), aes(x = x, y = y)) +
+      geom_point() +
+      geom_smooth(method = "lm", formula = y ~ x, level = 1 - input$alpha, color = "black") +
+      geom_errorbar(aes(x = input$xval, ymin = ymn, ymax = ymx), color = clr, width = 0.2) +
+      geom_point(aes(x = input$xval, y = pred[1]), color = "purple", size = 3) +
+      labs(title = "Regression Line and Confidence/Prediction Intervals",
+           x = "X", y = "Y") +
+      theme_bw() + 
+      geom_vline(aes(xintercept = input$xval), color = "purple",
+                     linewidth = 0.5, linetype = 2) 
+      
+      
+  
+  
+    
+    y_density <- axis_canvas(p, axis = "y", coord_flip = TRUE) +
+      geom_function(fun = dnorm, args = list(mean = pred[1], sd = sd_y), color = clr) +
+      coord_flip()
+    
+    # Create the combined plot
+    combined_plot <- insert_yaxis_grob(p, y_density, position = "right")
+    
+    # Show the result
+    ggdraw(combined_plot)
+  })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
