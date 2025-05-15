@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Haley Grant">
+<meta name="description" content="App to visualize statistical power">
 
 <title>Intro Biostatistics Resources - Power and Sample Size</title>
 <style>
@@ -43,9 +44,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <meta name="shinylive:serviceworker_dir" content="../..">
-<script src="../../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/load-shinylive-sw.js" type="module"></script>
-<script src="../../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/run-python-blocks.js" type="module"></script>
-<link href="../../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/shinylive.css" rel="stylesheet">
+<script src="../../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="../../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/run-python-blocks.js" type="module"></script>
+<link href="../../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/shinylive.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -137,7 +138,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Power and Sample Size</h1>
-                                <div class="quarto-categories">
+                  <div>
+        <div class="description">
+          App to visualize statistical power
+        </div>
+      </div>
+                          <div class="quarto-categories">
                 <div class="quarto-category">Sampling Distributions</div>
                 <div class="quarto-category">Statistical Inference</div>
               </div>
@@ -178,7 +184,10 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<pre class="shinylive-r" data-engine="r"><code>#| standalone: true
+<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
 #| viewerHeight: 1000
  
 library(shiny)
