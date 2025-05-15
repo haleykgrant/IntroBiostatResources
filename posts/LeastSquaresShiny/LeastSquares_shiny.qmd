@@ -1,6 +1,8 @@
 ---
 title: "Least Squares Regression Visualization"
 author: "Haley Grant"
+image: "ols.png"
+description: "App to visualize the method of least squares"
 filters: 
   - shinylive
 categories:

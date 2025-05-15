@@ -152,7 +152,7 @@ colnames(cdc)
 
 ```
 
-Basically, mutate will add a new column to your data frame and return a data frame (that then gets printed in your output). If you want to _save_ the new variable to be able to use it later, we have to either update the cdc data frame or save this as a new data frame.
+Basically, mutate will add a new column to your data frame and return a data frame (that then gets printed in your output). If you want to *save* the new variable to be able to use it later, we have to either update the cdc data frame or save this as a new data frame.
 
 ### Saving a new data frame
 
@@ -171,7 +171,7 @@ colnames(cdc_new)
 
 ### Updating the old data frame
 
-If we don't want to make a new data frame with a new name, we can also just update the original `cdc` object by replacing `cdc_new` in the code above with `cdc`. This will __overwrite__ the old `cdc` object with the updated data frame with the additional column (be careful when overwriting objects, especially if you're removing some entries of the data).
+If we don't want to make a new data frame with a new name, we can also just update the original `cdc` object by replacing `cdc_new` in the code above with `cdc`. This will **overwrite** the old `cdc` object with the updated data frame with the additional column (be careful when overwriting objects, especially if you're removing some entries of the data).
 
 ```{webr-r}
 # update cdc object
@@ -255,7 +255,7 @@ If you make a mistake, this will overwrite the old column, so you won't have acc
 
 ## Filtering Data Frames
 
-Sometimes we only want to look at a subset of the rows (observations) in our data frame. 
+Sometimes we only want to look at a subset of the rows (observations) in our data frame.
 
 For example, maybe I want to run an analysis using only individuals who have a `genhlth` value of `"excellent"` or individuals who are at least 30 years old. To do this, I can use the `filter()` function (also within the `dplyr` package from the `tidyverse`).
 
@@ -268,7 +268,7 @@ cdc %>%
 
 ```
 
-In this code chunk, I filter so that I am only left with observations whose age is at least 30: 
+In this code chunk, I filter so that I am only left with observations whose age is at least 30:
 
 ```{webr-r}
 # filter to only people who are at least 30 years old
@@ -314,6 +314,3 @@ head(cdc_30y)
 ```
 
 Now if we want to run any further analysis using just the subset of individuals who were at least 30 years old or had "excellent" general health condition, we can use `cdc_30y` or `cdc_excellent`, respectively. This can be helpful if you want to run multiple analyses on the same subset of observations but still want access to the full data set too.
-
-
-

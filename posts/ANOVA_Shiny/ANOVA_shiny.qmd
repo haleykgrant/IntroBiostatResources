@@ -1,6 +1,8 @@
 ---
 title: "ANOVA"
 author: "Haley Grant"
+image: "anova.png"
+description: "App to demonstrate intuition behind ANOVA"
 filters: 
   - shinylive
 categories:

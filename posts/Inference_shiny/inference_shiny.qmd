@@ -1,6 +1,8 @@
 ---
 title: "Inference Visualization"
 author: "Haley Grant"
+image: "inference.png"
+description: "App to visualize the relationship between confidence intervals and hypothesis testing"
 filters: 
   - shinylive
 categories:

@@ -1,6 +1,8 @@
 ---
 title: "Collinearity in MLR"
 author: "Haley Grant"
+image: "vif.png"
+description: "App to demonstrate how collinearity leads to variance inflation"
 filters: 
   - shinylive
 categories:

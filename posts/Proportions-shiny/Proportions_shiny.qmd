@@ -1,6 +1,8 @@
 ---
 title: "Inference For Proportions"
 author: "Haley Grant"
+image: "proportion.png"
+description: "App to visualize Z-test and exact binomial tests for proportions"
 filters: 
   - shinylive
 categories:

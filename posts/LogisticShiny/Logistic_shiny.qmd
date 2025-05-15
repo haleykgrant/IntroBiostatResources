@@ -1,6 +1,8 @@
 ---
 title: "Logistic Function Visualization"
 author: "Haley Grant"
+image: "logit.png"
+description: "App to show the relationship between log odds and probability (logistic regression)"
 filters: 
   - shinylive
 categories:

@@ -1,6 +1,8 @@
 ---
 title: "Power and Sample Size"
 author: "Haley Grant"
+image: "power.png"
+description: "App to visualize statistical power"
 filters: 
   - shinylive
 categories:

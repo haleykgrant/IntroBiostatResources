@@ -1,6 +1,8 @@
 ---
 title: "Sampling Activity"
+image: "samp.png"
 author: "Haley Grant"
+description: "In-class activity to simulate a sampling distribution"
 filters: 
   - shinylive
 categories:

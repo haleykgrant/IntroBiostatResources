@@ -1,6 +1,8 @@
 ---
 title: "Sampling Distributions and Bootstrapping"
 author: "Haley Grant"
+image: "boot.png"
+description: "App to visualize bootstrapping"
 filters: 
   - shinylive
 categories:

@@ -1,6 +1,8 @@
 ---
 title: "QQ Plot Visualization Tool"
 author: "Haley Grant"
+image: "qq.png"
+description: "App to understand QQ plots"
 filters: 
   - shinylive
 categories:

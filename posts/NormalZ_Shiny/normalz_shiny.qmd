@@ -1,11 +1,12 @@
 ---
 title: "Standard Normal Distribution Visualization"
 author: "Haley Grant"
+image: "z.png"
+description: "App to visualize standard normal probabilities and quantiles"
 filters: 
   - shinylive
 categories:
     - Probability Distributions
-    
 ---
 
 ```{shinylive-r}

@@ -1,11 +1,15 @@
 ---
 title: "T Test Visualization"
 author: "Haley Grant"
+image: "tst.png"
+description: "App to show intuition behind t-tests"  
 filters: 
   - shinylive
 categories:
     - Statistical Inference
 ---
+
+
 
 ```{shinylive-r}
 #| standalone: true
@@ -35,7 +39,7 @@ ui <- page_sidebar(
   
   card(
     card_header("Sample"),
-    height = "550px",
+    height = "750px",
     fluidRow(
       column(6,
              style = "justify-content: center; align-items: center",  # Center vertically and control height
@@ -135,7 +139,7 @@ server <- function(input, output, session) {
     output$densityPlot <- renderPlot({
       # Base plot for the null hypothesis density
       p <- ggplot(data.frame(x = plot_data$x_limits_null), aes(x)) +
-        stat_function(fun = dt, args = list(df = input$n - 1), color = "firebrick2") +
+        stat_function(fun = stats::dt, args = list(df = input$n - 1), color = "firebrick2") +
         geom_vline(xintercept = plot_data$t_stat, color = "springgreen4", linetype = "dashed") +
         geom_text(aes(x = plot_data$t_stat, label = paste("T =", round(plot_data$t_stat, 2)), y = Inf), 
                   color = "springgreen4", angle = 90, vjust = 0, hjust = 1, size = 4.5) +
@@ -212,7 +216,7 @@ server <- function(input, output, session) {
       }
       
       p <- ggplot(data.frame(x = plot_data$mean_x_limits), aes(x)) + 
-        stat_function(fun = dnorm, args = list(mean = input$mu0, sd = input$sigma / sqrt(input$n)), color = "firebrick2") + 
+        stat_function(fun = stats::dnorm, args = list(mean = input$mu0, sd = input$sigma / sqrt(input$n)), color = "firebrick2") + 
         geom_vline(xintercept = plot_data$sample_mean, color = "orange3", linetype = "dashed") + 
         geom_text(aes(x = plot_data$sample_mean, label = paste("X̄ =", round(plot_data$sample_mean, 2)), y = Inf), 
                   color = "orange3", angle = 90, vjust = 0, hjust = 1, size = 4.5) +
