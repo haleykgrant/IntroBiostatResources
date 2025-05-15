@@ -6,7 +6,7 @@ description: "App to demonstrate how collinearity leads to variance inflation"
 filters: 
   - shinylive
 categories:
-  - regression
+  - Regression
 ---
 
 ```{shinylive-r}

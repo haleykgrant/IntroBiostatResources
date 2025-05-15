@@ -6,8 +6,16 @@ website:
   reader-mode: true
   repo-url: https://github.com/haleykgrant/IntroBiostatResources
   sidebar:
-    style: "floating"
+    style: "docked"
     search: true
+    contents:
+      - text: Home
+        href: index.qmd
+        contents:       
+          - text: Tutorials
+            href: index.qmd#Tutorials
+          - text: Shiny Apps
+            href: index.qmd#shiny-apps
   navbar:
     right:
     - about.qmd

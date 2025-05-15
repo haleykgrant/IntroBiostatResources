@@ -8,3 +8,41 @@
 .quarto-grid .card-body p {
   display: none !important;
 }
+/* Remove wrapper padding/margins and set 100% width/height */
+
+/* Make shinylive container fill the viewport */
+.shinylive-container {
+  height: 100vh !important;
+  width: 100vw !important;
+  background-color: #f8f9fa;  /* Optional subtle gray background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Wrapper that contains the iframe/app */
+div.shinylive-wrapper,
+div.output-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  width: 100% !important;
+}
+
+/* App iframe should fill the wrapper */
+iframe.app-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+/* Ensure full viewport is used */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+

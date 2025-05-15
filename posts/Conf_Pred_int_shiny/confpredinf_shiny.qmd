@@ -7,6 +7,7 @@ filters:
   - shinylive
 categories:
     - Statistical Inference
+    - Regression
 ---
 
 ```{shinylive-r}

@@ -7,12 +7,12 @@ listing:
     categories: true
     sort-ui: false
     filter-ui: false
-  - id: Recitations
-    contents: "Recitation*.qmd"
-    type: default
-    categories: true
-    sort-ui: false
-    filter-ui: false
+#  - id: Recitations
+#    contents: "Recitation*.qmd"
+#    type: default
+#    categories: true
+#    sort-ui: false
+#    filter-ui: false
   - id: shiny-apps
     contents: "*shiny*.qmd"
     type: grid
@@ -27,12 +27,11 @@ title-block-banner-color: "black"
 ::: {#Tutorials}
 :::
 
-## Recitation Materials
 
-::: {#Recitations}
-:::
 
 ## Shiny Apps
 
 ::: {#shiny-apps}
 :::
+
+

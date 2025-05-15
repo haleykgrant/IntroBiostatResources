@@ -6,12 +6,12 @@ description: "App to visualize regression with multiple predictors; adjusting fo
 filters: 
   - shinylive
 categories:
-  - regression
+  - Regression
 ---
 
 ```{shinylive-r}
 #| standalone: true
-#| viewerHeight: 600
+#| viewerHeight: 100vh
 library(shiny)
 library(ggplot2)
 library(plotly)

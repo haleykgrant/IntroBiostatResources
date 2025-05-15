@@ -6,7 +6,7 @@ description: "App to demonstrate underlying mechanism of LOESS smoother"
 filters: 
   - shinylive
 categories:
-    - Statistical Inference
+    - Regression
 ---
 
 ```{shinylive-r}

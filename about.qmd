@@ -11,4 +11,4 @@ about:
 
 This is a landing page for R tutorials, course materials, and shiny apps for introductory biostatistics courses taught by [Haley Grant](https://www.sph.pitt.edu/directory/haley-grant).
 
-The tutorials on this site were made using webR to incorporate interactive coding exercises inside quarto documents. Documentation for how to use the `quarto-webr` extension can be found [here](https://quarto-webr.thecoatlessprofessor.com/). Shiny apps on the page are deployed using `r-shinylive` (also a quarto extension); documentation for which can be found [here](https://github.com/coatless-quarto/r-shinylive-demo). 
+The tutorials on this site were made using webR to incorporate interactive coding exercises inside quarto documents. Documentation for how to use the `quarto-webr` extension can be found [here](https://quarto-webr.thecoatlessprofessor.com/). Shiny apps on the page are deployed using `r-shinylive` (also a quarto extension); documentation for which can be found [here](https://github.com/coatless-quarto/r-shinylive-demo).

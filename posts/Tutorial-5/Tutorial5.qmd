@@ -18,7 +18,6 @@ webr:
 categories:
     - R Tutorials
     - Exploratory Data Analysis (EDA)
-    - Data Visualization
 title-block-banner: "#a2cffe"
 ---
 

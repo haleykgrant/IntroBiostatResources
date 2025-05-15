@@ -6,7 +6,7 @@ description: "App to understand QQ plots"
 filters: 
   - shinylive
 categories:
-    - Data Visualization
+    - Probability Distributions
 ---
 
 ```{shinylive-r}

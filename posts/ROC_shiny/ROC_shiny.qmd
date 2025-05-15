@@ -6,7 +6,7 @@ description: "App to visualize ROC curves, sensitivity, and specificity"
 filters: 
   - shinylive
 categories:
-  - regression
+  - Regression
 ---
 
 ```{shinylive-r}

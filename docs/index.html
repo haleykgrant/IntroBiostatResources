@@ -101,34 +101,6 @@ ul.task-list li input[type="checkbox"] {
   
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-Recitations .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-Recitations'] = new List('listing-Recitations', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
     const listingTargetEl = window.document.querySelector('#listing-shiny-apps .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
@@ -208,7 +180,7 @@ window.Quarto = {
 <link rel="stylesheet" href="include/webex.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -251,7 +223,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Intro Biostatistics Resources</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -279,18 +251,45 @@ window.Quarto = {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
         </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Home</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html#Tutorials" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorials</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html#shiny-apps" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shiny Apps</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(23)</span></div><div class="category" data-category="Data Visualization">Data Visualization <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Exploratory Data Analysis (EDA)">Exploratory Data Analysis (EDA) <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Probability Distributions">Probability Distributions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R Tutorials">R Tutorials <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Sampling Distributions">Sampling Distributions <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Statistical Inference">Statistical Inference <span class="quarto-category-count">(9)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(3)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(22)</span></div><div class="category" data-category="Exploratory Data Analysis (EDA)">Exploratory Data Analysis (EDA) <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Probability Distributions">Probability Distributions <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R Tutorials">R Tutorials <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(7)</span></div><div class="category" data-category="Sampling Distributions">Sampling Distributions <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Statistical Inference">Statistical Inference <span class="quarto-category-count">(7)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-body" id="quarto-document-content">
 
@@ -410,7 +409,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="R Tutorials,Exploratory Data Analysis (EDA),Data Visualization" data-listing-file-modified-sort="1725474461170" data-listing-reading-time-sort="17" data-listing-word-count-sort="3250">
+<div class="g-col-1" data-index="4" data-categories="R Tutorials,Exploratory Data Analysis (EDA)" data-listing-file-modified-sort="1747320611966" data-listing-reading-time-sort="17" data-listing-word-count-sort="3250">
 <a href="./posts/Tutorial-5/Tutorial5.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -426,9 +425,6 @@ R Tutorials
 </div>
 <div class="listing-category" onclick="window.quartoListingCategory('Exploratory Data Analysis (EDA)'); return false;">
 Exploratory Data Analysis (EDA)
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Data Visualization'); return false;">
-Data Visualization
 </div>
 </div>
 <div class="card-text listing-description">
@@ -479,51 +475,11 @@ No matching items
 </div>
 </div>
 </section>
-<section id="recitation-materials" class="level2">
-<h2 class="anchored" data-anchor-id="recitation-materials">Recitation Materials</h2>
-<div id="listing-Recitations" class="quarto-listing quarto-listing-container-default">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="Statistical Inference" data-listing-file-modified-sort="1725474549688" data-listing-reading-time-sort="14" data-listing-word-count-sort="2755">
-<div class="thumbnail">
-<p><a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external"></a></p><a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external">Bootstrapping</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
-Statistical Inference
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external">The purpose of this recitation is to demonstrate the concept of bootstrapping and show how it relates to the concept of a sampling distribution.</a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external"></a></p><a href="./posts/Recitation_M2_2/Recitation_M2_2.html" class="no-external">
-<div class="listing-author">
-Haley Grant
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-</section>
 <section id="shiny-apps" class="level2">
 <h2 class="anchored" data-anchor-id="shiny-apps">Shiny Apps</h2>
 <div id="listing-shiny-apps" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="Statistical Inference" data-listing-file-modified-sort="1747255302752" data-listing-reading-time-sort="6" data-listing-word-count-sort="1160">
+<div class="g-col-1" data-index="0" data-categories="Statistical Inference" data-listing-file-modified-sort="1747320135054" data-listing-reading-time-sort="6" data-listing-word-count-sort="1160">
 <a href="./posts/ANOVA_Shiny/ANOVA_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -550,7 +506,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="regression" data-listing-file-modified-sort="1747256919213" data-listing-reading-time-sort="20" data-listing-word-count-sort="3944">
+<div class="g-col-1" data-index="1" data-categories="Regression" data-listing-file-modified-sort="1747320057842" data-listing-reading-time-sort="20" data-listing-word-count-sort="3944">
 <a href="./posts/VIF_shiny/VIF_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -561,8 +517,8 @@ Haley Grant
 Collinearity in MLR
 </h5>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('regression'); return false;">
-regression
+<div class="listing-category" onclick="window.quartoListingCategory('Regression'); return false;">
+Regression
 </div>
 </div>
 <div class="card-text listing-description">
@@ -577,7 +533,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="Statistical Inference" data-listing-file-modified-sort="1747276790345" data-listing-reading-time-sort="9" data-listing-word-count-sort="1787">
+<div class="g-col-1" data-index="2" data-categories="Statistical Inference,Regression" data-listing-file-modified-sort="1747320358512" data-listing-reading-time-sort="9" data-listing-word-count-sort="1787">
 <a href="./posts/Conf_Pred_int_shiny/confpredinf_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -590,6 +546,9 @@ Confidence Intervals and Prediction Intervals
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
 Statistical Inference
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Regression'); return false;">
+Regression
 </div>
 </div>
 <div class="card-text listing-description">
@@ -664,7 +623,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="Statistical Inference" data-listing-file-modified-sort="1747315643792" data-listing-reading-time-sort="9" data-listing-word-count-sort="1800">
+<div class="g-col-1" data-index="5" data-categories="Regression" data-listing-file-modified-sort="1747320360500" data-listing-reading-time-sort="9" data-listing-word-count-sort="1800">
 <a href="./posts/LOESS_shiny/loess_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -675,8 +634,8 @@ Haley Grant
 LOESS Smoother
 </h5>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
-Statistical Inference
+<div class="listing-category" onclick="window.quartoListingCategory('Regression'); return false;">
+Regression
 </div>
 </div>
 <div class="card-text listing-description">
@@ -745,7 +704,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="8" data-categories="regression" data-listing-file-modified-sort="1747315724374" data-listing-reading-time-sort="16" data-listing-word-count-sort="3011">
+<div class="g-col-1" data-index="8" data-categories="Regression" data-listing-file-modified-sort="1747320073116" data-listing-reading-time-sort="16" data-listing-word-count-sort="3011">
 <a href="./posts/MLR_shiny/MLR_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -756,8 +715,8 @@ Haley Grant
 Multiple Linear Regression
 </h5>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('regression'); return false;">
-regression
+<div class="listing-category" onclick="window.quartoListingCategory('Regression'); return false;">
+Regression
 </div>
 </div>
 <div class="card-text listing-description">
@@ -802,7 +761,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="10" data-categories="Data Visualization" data-listing-file-modified-sort="1747255041279" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041">
+<div class="g-col-1" data-index="10" data-categories="Probability Distributions" data-listing-file-modified-sort="1747320596896" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041">
 <a href="./posts/QQ_plot_shiny/QQshiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -813,8 +772,8 @@ Haley Grant
 QQ Plot Visualization Tool
 </h5>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Data Visualization'); return false;">
-Data Visualization
+<div class="listing-category" onclick="window.quartoListingCategory('Probability Distributions'); return false;">
+Probability Distributions
 </div>
 </div>
 <div class="card-text listing-description">
@@ -829,7 +788,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="11" data-categories="regression" data-listing-file-modified-sort="1747315261650" data-listing-reading-time-sort="8" data-listing-word-count-sort="1572">
+<div class="g-col-1" data-index="11" data-categories="Regression" data-listing-file-modified-sort="1747320279416" data-listing-reading-time-sort="8" data-listing-word-count-sort="1572">
 <a href="./posts/ROC_shiny/ROC_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -840,8 +799,8 @@ Haley Grant
 ROC Curves
 </h5>
 <div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('regression'); return false;">
-regression
+<div class="listing-category" onclick="window.quartoListingCategory('Regression'); return false;">
+Regression
 </div>
 </div>
 <div class="card-text listing-description">
