@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Haley Grant">
+<meta name="description" content="App to demonstrate intuition behind ANOVA">
 
 <title>Intro Biostatistics Resources - ANOVA</title>
 <style>
@@ -137,7 +138,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">ANOVA</h1>
-                                <div class="quarto-categories">
+                  <div>
+        <div class="description">
+          App to demonstrate intuition behind ANOVA
+        </div>
+      </div>
+                          <div class="quarto-categories">
                 <div class="quarto-category">Statistical Inference</div>
               </div>
                   </div>
@@ -177,7 +183,10 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<pre class="shinylive-r" data-engine="r"><code>#| standalone: true
+<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
 #| viewerHeight: 600
 #| 
 library(shiny)
