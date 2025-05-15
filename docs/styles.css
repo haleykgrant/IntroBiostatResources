@@ -1,1 +1,10 @@
 /* css styles */
+
+
+
+/* Completely hide all card descriptions in grid listings */
+.quarto-grid .card-text,
+.quarto-grid .listing-description,
+.quarto-grid .card-body p {
+  display: none !important;
+}

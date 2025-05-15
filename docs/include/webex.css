@@ -118,3 +118,9 @@ input.webex-solveme.webex-correct,
   margin: 1em 0;
 }
 
+/* Hide preview/excerpt text in listing grid cards */
+
+.quarto-grid .card-text,
+.quarto-grid .listing-description {
+  display: none !important;
+}

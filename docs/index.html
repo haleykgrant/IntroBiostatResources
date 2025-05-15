@@ -136,9 +136,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
+      valueNames: ['listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-title","listing-author"],
+      searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -290,7 +290,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(19)</span></div><div class="category" data-category="Data Visualization">Data Visualization <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Exploratory Data Analysis (EDA)">Exploratory Data Analysis (EDA) <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Probability Distributions">Probability Distributions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R Tutorials">R Tutorials <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Sampling Distributions">Sampling Distributions <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Statistical Inference">Statistical Inference <span class="quarto-category-count">(7)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(23)</span></div><div class="category" data-category="Data Visualization">Data Visualization <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Exploratory Data Analysis (EDA)">Exploratory Data Analysis (EDA) <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Probability Distributions">Probability Distributions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R Tutorials">R Tutorials <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Sampling Distributions">Sampling Distributions <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Statistical Inference">Statistical Inference <span class="quarto-category-count">(9)</span></div><div class="category" data-category="regression">regression <span class="quarto-category-count">(3)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-body" id="quarto-document-content">
 
@@ -521,136 +521,450 @@ No matching items
 </section>
 <section id="shiny-apps" class="level2">
 <h2 class="anchored" data-anchor-id="shiny-apps">Shiny Apps</h2>
-<div id="listing-shiny-apps" class="quarto-listing quarto-listing-container-table">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-     <select id="listing-shiny-apps-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-shiny-apps'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-       <option value="" disabled="" selected="" hidden="">Order By</option>
-       <option value="index" data-direction="asc">Default</option>
-         <option value="listing-title-sort" data-direction="asc">
-          Title
-        </option>
-         <option value="listing-author" data-direction="asc">
-          Author
-        </option>
-     </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
+<div id="listing-shiny-apps" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="Statistical Inference" data-listing-file-modified-sort="1747255302752" data-listing-reading-time-sort="6" data-listing-word-count-sort="1160">
+<a href="./posts/ANOVA_Shiny/ANOVA_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/ANOVA_Shiny/anova.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+ANOVA
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
+Statistical Inference
 </div>
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-<a class="sort" data-sort="listing-title-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Title</a>
-</th>
-<th>
-<a class="sort" data-sort="listing-author" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Author</a>
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-categories="Statistical Inference" data-listing-file-modified-sort="1737422979079" data-listing-reading-time-sort="6" data-listing-word-count-sort="1160" data-listing-title-sort="ANOVA" data-listing-filename-sort="ANOVA_shiny.qmd">
-<td>
-<a href="./posts/ANOVA_Shiny/ANOVA_shiny.html" class="title listing-title">ANOVA</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="1" data-categories="regression" data-listing-file-modified-sort="1738687008256" data-listing-reading-time-sort="20" data-listing-word-count-sort="3944" data-listing-title-sort="Collinearity in MLR" data-listing-filename-sort="VIF_shiny.qmd">
-<td>
-<a href="./posts/VIF_shiny/VIF_shiny.html" class="title listing-title">Collinearity in MLR</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="2" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1730847686766" data-listing-reading-time-sort="14" data-listing-word-count-sort="2706" data-listing-title-sort="Inference For Proportions" data-listing-filename-sort="Proportions_shiny.qmd">
-<td>
-<a href="./posts/Proportions-shiny/Proportions_shiny.html" class="title listing-title">Inference For Proportions</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="3" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1726763818695" data-listing-reading-time-sort="8" data-listing-word-count-sort="1500" data-listing-title-sort="Inference Visualization" data-listing-filename-sort="inference_shiny.qmd">
-<td>
-<a href="./posts/Inference_shiny/inference_shiny.html" class="title listing-title">Inference Visualization</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="4" data-categories="Regression" data-listing-file-modified-sort="1729105444951" data-listing-reading-time-sort="11" data-listing-word-count-sort="2009" data-listing-title-sort="Least Squares Regression Visualization" data-listing-filename-sort="LeastSquares_shiny.qmd">
-<td>
-<a href="./posts/LeastSquaresShiny/LeastSquares_shiny.html" class="title listing-title">Least Squares Regression Visualization</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="5" data-categories="Regression" data-listing-file-modified-sort="1718138994425" data-listing-reading-time-sort="2" data-listing-word-count-sort="281" data-listing-title-sort="Logistic Function Visualization" data-listing-filename-sort="Logistic_shiny.qmd">
-<td>
-<a href="./posts/LogisticShiny/Logistic_shiny.html" class="title listing-title">Logistic Function Visualization</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="6" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1726673474794" data-listing-reading-time-sort="10" data-listing-word-count-sort="1967" data-listing-title-sort="Power and Sample Size" data-listing-filename-sort="power_shiny.qmd">
-<td>
-<a href="./posts/power_Shiny/power_shiny.html" class="title listing-title">Power and Sample Size</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="7" data-categories="Data Visualization" data-listing-file-modified-sort="1718139064529" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041" data-listing-title-sort="QQ Plot Visualization Tool" data-listing-filename-sort="QQshiny.qmd">
-<td>
-<a href="./posts/QQ_plot_shiny/QQshiny.html" class="title listing-title">QQ Plot Visualization Tool</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="8" data-categories="Sampling Distributions" data-listing-file-modified-sort="1723842788632" data-listing-reading-time-sort="9" data-listing-word-count-sort="1652" data-listing-title-sort="Sampling Activity" data-listing-filename-sort="HeightActivity_shiny.qmd">
-<td>
-<a href="./posts/HeightActivityShiny/HeightActivity_shiny.html" class="title listing-title">Sampling Activity</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="9" data-categories="Statistical Inference" data-listing-file-modified-sort="1725474270390" data-listing-reading-time-sort="10" data-listing-word-count-sort="1994" data-listing-title-sort="Sampling Distributions and Bootstrapping" data-listing-filename-sort="SampDist_shiny.qmd">
-<td>
-<a href="./posts/SamplingDistShiny/SampDist_shiny.html" class="title listing-title">Sampling Distributions and Bootstrapping</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="10" data-categories="Probability Distributions" data-listing-file-modified-sort="1723757205250" data-listing-reading-time-sort="8" data-listing-word-count-sort="1490" data-listing-title-sort="Standard Normal Distribution Visualization" data-listing-filename-sort="normalz_shiny.qmd">
-<td>
-<a href="./posts/NormalZ_Shiny/normalz_shiny.html" class="title listing-title">Standard Normal Distribution Visualization</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-<tr data-index="11" data-categories="Statistical Inference" data-listing-file-modified-sort="1729041236951" data-listing-reading-time-sort="16" data-listing-word-count-sort="3059" data-listing-title-sort="T Test Visualization" data-listing-filename-sort="ttest_shiny.qmd">
-<td>
-<a href="./posts/T-test_shiny/ttest_shiny.html" class="title listing-title">T Test Visualization</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-</tbody>
-</table>
+</div>
+<div class="card-text listing-description">
+App to demonstrate intuition behind ANOVA
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="regression" data-listing-file-modified-sort="1747256919213" data-listing-reading-time-sort="20" data-listing-word-count-sort="3944">
+<a href="./posts/VIF_shiny/VIF_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/VIF_shiny/vif.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Collinearity in MLR
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('regression'); return false;">
+regression
+</div>
+</div>
+<div class="card-text listing-description">
+App to demonstrate how collinearity leads to variance inflation
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="Statistical Inference" data-listing-file-modified-sort="1747255779637" data-listing-reading-time-sort="9" data-listing-word-count-sort="1793">
+<a href="./posts/Conf_Pred_int_shiny/confpredinf_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/Conf_Pred_int_shiny/cipi.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Confidence Intervals and Prediction Intervals
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
+Statistical Inference
+</div>
+</div>
+<div class="card-text listing-description">
+App to demonstrate intuition behind confidence vs prediction intervals
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="3" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1747254994856" data-listing-reading-time-sort="14" data-listing-word-count-sort="2706">
+<a href="./posts/Proportions-shiny/Proportions_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/Proportions-shiny/proportion.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Inference For Proportions
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Sampling Distributions'); return false;">
+Sampling Distributions
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
+Statistical Inference
+</div>
+</div>
+<div class="card-text listing-description">
+App to visualize Z-test and exact binomial tests for proportions
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="4" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1747254809914" data-listing-reading-time-sort="8" data-listing-word-count-sort="1500">
+<a href="./posts/Inference_shiny/inference_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/Inference_shiny/inference.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Inference Visualization
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Sampling Distributions'); return false;">
+Sampling Distributions
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
+Statistical Inference
+</div>
+</div>
+<div class="card-text listing-description">
+App to visualize the relationship between confidence intervals and hypothesis testing
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="5" data-categories="Statistical Inference" data-listing-file-modified-sort="1747276412050" data-listing-reading-time-sort="9" data-listing-word-count-sort="1800">
+<a href="./posts/LOESS_shiny/loess_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/LOESS_shiny/loess.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+LOESS SMoother
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
+Statistical Inference
+</div>
+</div>
+<div class="card-text listing-description">
+App to demonstrate underlying mechanism of LOESS smoother
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="6" data-categories="Regression" data-listing-file-modified-sort="1747254845039" data-listing-reading-time-sort="11" data-listing-word-count-sort="2009">
+<a href="./posts/LeastSquaresShiny/LeastSquares_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/LeastSquaresShiny/ols.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Least Squares Regression Visualization
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Regression'); return false;">
+Regression
+</div>
+</div>
+<div class="card-text listing-description">
+App to visualize the method of least squares
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="7" data-categories="Regression" data-listing-file-modified-sort="1747254879818" data-listing-reading-time-sort="2" data-listing-word-count-sort="281">
+<a href="./posts/LogisticShiny/Logistic_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/LogisticShiny/logit.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Logistic Function Visualization
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Regression'); return false;">
+Regression
+</div>
+</div>
+<div class="card-text listing-description">
+App to show the relationship between log odds and probability (logistic regression)
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="8" data-categories="regression" data-listing-file-modified-sort="1747276754934" data-listing-reading-time-sort="16" data-listing-word-count-sort="3011">
+<a href="./posts/MLR_shiny/MLR_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/MLR_shiny/mlr.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Multiple Linear Regression
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('regression'); return false;">
+regression
+</div>
+</div>
+<div class="card-text listing-description">
+App to visualize regression with multiple predictors; adjusting for other covariates
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="9" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1747254965484" data-listing-reading-time-sort="10" data-listing-word-count-sort="1967">
+<a href="./posts/power_Shiny/power_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/power_Shiny/power.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Power and Sample Size
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Sampling Distributions'); return false;">
+Sampling Distributions
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
+Statistical Inference
+</div>
+</div>
+<div class="card-text listing-description">
+App to visualize statistical power
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="10" data-categories="Data Visualization" data-listing-file-modified-sort="1747255041279" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041">
+<a href="./posts/QQ_plot_shiny/QQshiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/QQ_plot_shiny/qq.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+QQ Plot Visualization Tool
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Data Visualization'); return false;">
+Data Visualization
+</div>
+</div>
+<div class="card-text listing-description">
+App to understand QQ plots
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="11" data-categories="regression" data-listing-file-modified-sort="1747256708713" data-listing-reading-time-sort="8" data-listing-word-count-sort="1572">
+<a href="./posts/ROC_shiny/ROC_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/ROC_shiny/roc.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+ROC Curves
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('regression'); return false;">
+regression
+</div>
+</div>
+<div class="card-text listing-description">
+App to visualize ROC curves, sensitivity, and specificity
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="12" data-categories="Sampling Distributions" data-listing-file-modified-sort="1747254781833" data-listing-reading-time-sort="9" data-listing-word-count-sort="1652">
+<a href="./posts/HeightActivityShiny/HeightActivity_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/HeightActivityShiny/samp.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Sampling Activity
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Sampling Distributions'); return false;">
+Sampling Distributions
+</div>
+</div>
+<div class="card-text listing-description">
+In-class activity to simulate a sampling distribution
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="13" data-categories="Statistical Inference" data-listing-file-modified-sort="1747255066796" data-listing-reading-time-sort="10" data-listing-word-count-sort="1994">
+<a href="./posts/SamplingDistShiny/SampDist_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/SamplingDistShiny/boot.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Sampling Distributions and Bootstrapping
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
+Statistical Inference
+</div>
+</div>
+<div class="card-text listing-description">
+App to visualize bootstrapping
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="14" data-categories="Probability Distributions" data-listing-file-modified-sort="1747254912857" data-listing-reading-time-sort="8" data-listing-word-count-sort="1490">
+<a href="./posts/NormalZ_Shiny/normalz_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/NormalZ_Shiny/z.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Standard Normal Distribution Visualization
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Probability Distributions'); return false;">
+Probability Distributions
+</div>
+</div>
+<div class="card-text listing-description">
+App to visualize standard normal probabilities and quantiles
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="15" data-categories="Statistical Inference" data-listing-file-modified-sort="1747255102557" data-listing-reading-time-sort="16" data-listing-word-count-sort="3059">
+<a href="./posts/T-test_shiny/ttest_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./posts/T-test_shiny/tst.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+T Test Visualization
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
+Statistical Inference
+</div>
+</div>
+<div class="card-text listing-description">
+App to show intuition behind t-tests
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
 <div class="listing-no-matching d-none">
 No matching items
 </div>

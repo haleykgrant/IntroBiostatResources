@@ -15,7 +15,7 @@ listing:
     filter-ui: false
   - id: shiny-apps
     contents: "*shiny*.qmd"
-    type: table
+    type: grid
     categories: true
 page-layout: full
 title-block-banner: rainbow.jpg
