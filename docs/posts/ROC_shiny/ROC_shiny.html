@@ -392,7 +392,7 @@ server &lt;- function(input, output, session) {
     roc_obj &lt;- roc(df$TrueLabel, df$Score, direction = input$roc_direction)
     ggroc(roc_obj) +
       geom_vline(xintercept = input$threshold, linetype = "dashed", color = "black") +
-      labs(title = "ROC Curve", x = "1 - Specificity", y = "Sensitivity") +
+      labs(title = "ROC Curve", x = "Specificity", y = "Sensitivity") +
       theme_minimal() +
       geom_segment(aes(x = 1, xend = 0, y = 0, yend = 1), color="darkgrey", linetype="dashed")
     

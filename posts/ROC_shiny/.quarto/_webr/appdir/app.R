@@ -135,6 +135,8 @@ server <- function(input, output, session) {
   
   output$prob_plot <- renderPlot({
     df <- processed_data()
+    if(input$roc_direction == "<"){clrs = list(H = "blue",L = "red")
+    } else {clrs = list(L = "blue",H = "red")}
     ggplot(df, aes(x = reorder(factor(ID), Score), y = Score,  color = Type)) +
       geom_point() +
       geom_hline(yintercept = input$threshold, color = "black", linetype = "dashed", size = 1) +
@@ -143,13 +145,15 @@ server <- function(input, output, session) {
       theme_classic() +
       theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
       annotate("rect", xmin = -Inf, xmax = Inf, ymin = input$threshold, ymax = 1, 
-               fill = "blue", alpha = 0.2) + 
+               fill = clrs$H, alpha = 0.1) + 
       annotate("rect", xmin = -Inf, xmax = Inf, ymax = input$threshold, ymin = 0, 
-               fill = "red", alpha = 0.2) 
+               fill = clrs$L, alpha = 0.1) 
   })
   
   output$split_plot <- renderPlot({
     df <- processed_data()
+    if(input$roc_direction == "<"){clrs = list(H = "blue",L = "red")
+    } else {clrs = list(L = "blue",H = "red")}
     ggplot(df, aes(x = reorder(factor(ID), Score), y = Score,  color = Type)) +
       geom_point() +
       geom_hline(yintercept = input$threshold, color = "black", linetype = "dashed", size = 1) +
@@ -159,9 +163,9 @@ server <- function(input, output, session) {
       theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
       facet_wrap(~label, scales = "free_x") + 
       annotate("rect", xmin = -Inf, xmax = Inf, ymin = input$threshold, ymax = 1, 
-               fill = "blue", alpha = 0.2) + 
+               fill = clrs$H, alpha = 0.1) + 
       annotate("rect", xmin = -Inf, xmax = Inf, ymax = input$threshold, ymin = 0, 
-               fill = "red", alpha = 0.2) 
+               fill = clrs$L, alpha = 0.11) 
   })
   
   output$roc_plot <- renderPlot({
@@ -170,7 +174,7 @@ server <- function(input, output, session) {
     roc_obj <- roc(df$TrueLabel, df$Score, direction = input$roc_direction)
     ggroc(roc_obj) +
       geom_vline(xintercept = input$threshold, linetype = "dashed", color = "black") +
-      labs(title = "ROC Curve", x = "1 - Specificity", y = "Sensitivity") +
+      labs(title = "ROC Curve", x = "Specificity", y = "Sensitivity") +
       theme_minimal() +
       geom_segment(aes(x = 1, xend = 0, y = 0, yend = 1), color="darkgrey", linetype="dashed")
     
