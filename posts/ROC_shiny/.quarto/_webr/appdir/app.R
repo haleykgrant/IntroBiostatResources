@@ -135,25 +135,33 @@ server <- function(input, output, session) {
   
   output$prob_plot <- renderPlot({
     df <- processed_data()
-    ggplot(df, aes(x = reorder(factor(ID), Score), y = Score, fill = Type)) +
-      geom_col() +
+    ggplot(df, aes(x = reorder(factor(ID), Score), y = Score,  color = Type)) +
+      geom_point() +
       geom_hline(yintercept = input$threshold, color = "black", linetype = "dashed", size = 1) +
-      scale_fill_manual(values = c("TP" = "blue", "TN" = "red", "FP" = "#f08080", "FN" = "#add8e6")) +
-      labs(x = "ID", y = "Predicted Probability", fill = "Type") +
+      scale_color_manual(values = c("TP" = "blue", "TN" = "red", "FP" = "#f08080", "FN" = "#add8e6")) +
+      labs(x = "Subject", y = "Predicted Probability", fill = "Type") +
       theme_classic() +
-      theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
+      theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
+      annotate("rect", xmin = -Inf, xmax = Inf, ymin = input$threshold, ymax = 1, 
+               fill = "blue", alpha = 0.2) + 
+      annotate("rect", xmin = -Inf, xmax = Inf, ymax = input$threshold, ymin = 0, 
+               fill = "red", alpha = 0.2) 
   })
   
   output$split_plot <- renderPlot({
     df <- processed_data()
-    ggplot(df, aes(x = reorder(factor(ID), Score), y = Score, fill = Type)) +
-      geom_col() +
+    ggplot(df, aes(x = reorder(factor(ID), Score), y = Score,  color = Type)) +
+      geom_point() +
       geom_hline(yintercept = input$threshold, color = "black", linetype = "dashed", size = 1) +
-      scale_fill_manual(values = c("TP" = "blue", "TN" = "red", "FP" = "#f08080", "FN" = "#add8e6")) +
-      labs(x = "Score", y = "Predicted Probability", fill = "Type") +
+      scale_color_manual(values = c("TP" = "blue", "TN" = "red", "FP" = "#f08080", "FN" = "#add8e6")) +
+      labs(x = "Subject", y = "Predicted Probability", fill = "Type") +
       theme_classic() +
       theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
-      facet_wrap(~label, scales = "free_x")
+      facet_wrap(~label, scales = "free_x") + 
+      annotate("rect", xmin = -Inf, xmax = Inf, ymin = input$threshold, ymax = 1, 
+               fill = "blue", alpha = 0.2) + 
+      annotate("rect", xmin = -Inf, xmax = Inf, ymax = input$threshold, ymin = 0, 
+               fill = "red", alpha = 0.2) 
   })
   
   output$roc_plot <- renderPlot({
