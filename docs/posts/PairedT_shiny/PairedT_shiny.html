@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Haley Grant">
-<meta name="description" content="App to demonstrate intuition behind ANOVA">
+<meta name="description" content="App to the variance of the difference of two sample means when data are correlated vs uncorrelated">
 
-<title>Intro Biostatistics Resources - ANOVA</title>
+<title>Intro Biostatistics Resources - Paired vs Unpaired T: Variance</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -124,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">ANOVA</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Paired vs Unpaired T: Variance</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -137,10 +137,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">ANOVA</h1>
+      <h1 class="title">Paired vs Unpaired T: Variance</h1>
                   <div>
         <div class="description">
-          App to demonstrate intuition behind ANOVA
+          App to the variance of the difference of two sample means when data are correlated vs uncorrelated
         </div>
       </div>
                           <div class="quarto-categories">
@@ -215,137 +215,150 @@ ul.task-list li input[type="checkbox"] {
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
 #| viewerHeight: 600
-#| 
+
+
+
 library(shiny)
 library(ggplot2)
+library(MASS)      # for mvrnorm
+library(patchwork) # for combining plots
 
 ui &lt;- fluidPage(
-  titlePanel("ANOVA Simulation"),
-  
+  titlePanel("Paired vs Unpaired T-Tests"),
   sidebarLayout(
     sidebarPanel(
-      numericInput("n_groups", "Number of Groups", value = 4, min = 2),
-      uiOutput("group_mean_sliders"),
-      numericInput("n_per_group", "Sample Size per Group", value = 30, min = 5),
-      numericInput("within_var", "Within Group Variability (SD)", value = 5, min = 1),
-      actionButton("draw_sample", "Draw Sample"),
-      radioButtons("plot_type", "Select Plot Type:",
-                   choices = c("Density Plots" = "density", "Boxplots" = "boxplot"),
-                   selected = "boxplot")
+      sliderInput("rho", "Correlation (ρ):", min = -1, max = 1, value = 0, step = 0.1),
+      sliderInput("vr","Variance Ratio", value = 1, min = 0.25, max = 2, step = .25),
+      actionButton("draw", "Draw One Sample"),
+      actionButton("draw100", "Draw 100 Samples"),
+      actionButton("reset", "Reset")
     ),
-    
     mainPanel(
-      plotOutput("combined_plot"),
-      textOutput("anova_result"),
-      plotOutput("f_dist_plot")
+      plotOutput("plots", height = "600px")
     )
   )
 )
 
 server &lt;- function(input, output, session) {
+  set.seed(123)
+  # Fixed means &amp; SDs
+  mu1 &lt;- 2;  sd1 &lt;- 1
+  mu2 &lt;- 5;  sd2 &lt;- 1
   
-  # Dynamically generate sliders for group means based on number of groups
-  output$group_mean_sliders &lt;- renderUI({
-    lapply(1:input$n_groups, function(i) {
-      sliderInput(paste0("mean_", i), paste0("Mean for Group ", i), 
-                  min = -10, max = 10, value = 2, step = 0.1)
-    })
-  })
+
   
-  # Population data sampling large size (e.g., 10,000 per group)
-  pop_data &lt;- reactive({
-    means &lt;- sapply(1:input$n_groups, function(i) input[[paste0("mean_", i)]])
-    group &lt;- rep(1:input$n_groups, each = 10000)
-    values &lt;- unlist(lapply(1:input$n_groups, function(i) {
-      rnorm(10000, mean = means[i], sd = input$within_var)
-    }))
-    data.frame(group = as.factor(group), values = values)
-  })
+  vals &lt;- reactiveValues(
+    draws1 = numeric(),
+    draws2 = numeric(),
+    diffs  = numeric()
+  )
   
-  # Reactive for sample data
-  sample_data &lt;- eventReactive(input$draw_sample, {
-    means &lt;- sapply(1:input$n_groups, function(i) input[[paste0("mean_", i)]])
-    group &lt;- rep(1:input$n_groups, each = input$n_per_group)
-    values &lt;- unlist(lapply(1:input$n_groups, function(i) {
-      rnorm(input$n_per_group, mean = means[i], sd = input$within_var)
-    }))
-    data.frame(group = as.factor(group), values = values)
-  })
-  
-  # Combined plot for population and sample distributions
-  output$combined_plot &lt;- renderPlot({
+  # Draw one sample
+  observeEvent(input$draw, {
+    mu &lt;- c(mu1, mu2)
+    sd2 &lt;- sqrt(sd1^2 * input$vr)
+    sigma &lt;- matrix(c(sd1^2, input$rho * sd1 * sd2,
+                      input$rho * sd1 * sd2, sd2^2), 2, 2)
     
-    if (input$plot_type == "density") {
-    p &lt;- ggplot(pop_data(), aes(x = values, fill = group)) +
-      geom_density(alpha = 0.4) +
-      facet_wrap(~ group, ncol = 1) +
-      labs(title = "Population Distributions", y = "Density", x = "Values") +
-      theme_minimal() +
-      theme(legend.position = "none")
-    } else{
-      p &lt;- ggplot(pop_data(), aes(y = values, x=group, color = group)) +
-        geom_boxplot(alpha = 0.4) +
-        labs(title = "Population Distributions", y = "Values", x = "Group") +
-        theme_minimal() +
-        theme(legend.position = "none")
+    new_draw &lt;- MASS::mvrnorm(n = 1, mu = mu, Sigma = sigma)
+    
+    vals$draws1 &lt;- new_draw[1]
+    vals$draws2 &lt;- new_draw[2]
+    vals$diffs  &lt;- c(vals$diffs, new_draw[1] - new_draw[2])
+  })
+  
+  # Draw 100 samples
+  observeEvent(input$draw100, {
+    mu &lt;- c(mu1, mu2)
+    sd2 &lt;- sqrt(sd1^2 * input$vr)
+    sigma &lt;- matrix(c(sd1^2, input$rho * sd1 * sd2,
+                      input$rho * sd1 * sd2, sd2^2), 2, 2)
+    
+    bulk_draws &lt;- MASS::mvrnorm(n = 100, mu = mu, Sigma = sigma)
+    bulk_diffs &lt;- bulk_draws[,1] - bulk_draws[,2]
+    
+    vals$diffs &lt;- c(vals$diffs, bulk_diffs)
+  })
+  
+  # Reset everything
+  observeEvent(input$reset, {
+    vals$draws1 &lt;- numeric()
+    vals$draws2 &lt;- numeric()
+    vals$diffs  &lt;- numeric()
+  })
+  
+  output$plots &lt;- renderPlot({
+    sd2 &lt;- sqrt(sd1^2 * input$vr)
+    # Theoretical SD of the difference given correlation
+    diff_sd &lt;- sqrt(sd1^2 + sd2^2 - 2 * input$rho * sd1 * sd2)
+    x_range &lt;- seq(min(mu1 - 4*sd1, mu2 - 4*sd2),
+                   max(mu1 + 4*sd1, mu2 + 4*sd2),
+                   length.out = 600)
+    
+    # Data for the two theoretical normals
+    df &lt;- rbind(
+      data.frame(x = x_range, y = dnorm(x_range, mean = mu1, sd = sd1), dist = "x̄1"),
+      data.frame(x = x_range, y = dnorm(x_range, mean = mu2, sd = sd2), dist = "x̄2")
+    )
+    
+    # Top panel: curves + optional points &amp; segment
+    p1 &lt;- ggplot(df, aes(x, y, color = dist)) +
+      geom_line(linewidth = 1.2) +
+      scale_color_manual(values = c("navy","steelblue1")) + 
+      {
+        if (length(vals$draws1) &gt; 0) {
+          list(
+            geom_segment(aes(
+              x = vals$draws1,
+              xend = vals$draws2,
+              y = 0, yend = 0
+            ), color = "firebrick1", linewidth = 0.75, inherit.aes = FALSE),
+            geom_point(aes(x = vals$draws1, y = 0), color = "navy", size = 3, inherit.aes = FALSE),
+            geom_point(aes(x = vals$draws2, y = 0), color = "steelblue1", size = 3, inherit.aes = FALSE)
+          )
+        }
+      } +
+      theme_minimal(base_size = 14) +
+      labs(x = "Value", y = "Density", color = "Distribution") 
+    
+    # Bottom panel: dot plot of differences
+    if (length(vals$diffs) &gt; 0) {
+     if(input$rho==0){cr = "Uncorrelated"
+     } else if(input$rho &gt; 0) {cr = "Positively Correlated"
+     } else {cr = "Negatively Correlated"}
+      n_points &lt;- length(vals$diffs)
+      binwidth &lt;- 0.2
+      
+      # Parameters for theoretical difference distribution
+      mu_diff &lt;- mu1 - mu2
+      sd_diff &lt;- sqrt(sd1^2 + sd2^2 - 2 * input$rho * sd1 * sd2)
+      sd_diff0 &lt;- sqrt(sd1^2 + sd2^2 )
+      # Maximum expected count occurs at the mode (center of normal)
+      expected_max &lt;- n_points * dnorm(mu_diff, mean = mu_diff, sd = sd_diff) * binwidth
+      
+      # Add a small margin
+      y_max &lt;- ceiling(expected_max) + ceiling(sqrt(n_points))
+      if(y_max==Inf) {y_max = n_points + ceiling(n_points/50) }
+      # Histogram
+     p2 &lt;-  ggplot() +
+        geom_histogram(aes(x = vals$diffs), binwidth = binwidth, fill = "firebrick1", color = "black") +
+        coord_cartesian(
+          xlim = c(mu_diff + -4*sd_diff0 - binwidth, mu_diff + 4*sd_diff0 + binwidth),
+          ylim = c(0, y_max)  # y-axis expands in steps
+        ) +
+        theme_minimal(base_size = 14) +
+        labs(x = "x̄₁ - x̄₂", y = "Count", title =paste0("Correlation: ", cr))
+     
+
+    } else {
+      p2 &lt;- ggplot() + theme_void() + ggtitle("No differences yet")
     }
     
-    if (input$draw_sample &gt; 0) {
-      req(sample_data())
-      if (input$plot_type == "density") {
-        p &lt;- p +
-          geom_histogram(data = sample_data(), aes(x = values, fill = group, y = ..density..), 
-                         color = "black", alpha = 0.6, position = "identity", bins = 30)  +
-          geom_vline(aes(xintercept = mean(values)), data = sample_data(), 
-                    linetype = "dashed", color = "blue", size = 1) +
-          labs(subtitle = "+ Sample Distributions")
-      } else {
-        p &lt;- p +
-          geom_boxplot(data = sample_data(), aes(x = group, y = values, fill = group), color = "black", 
-                       alpha = 0.7, position = position_dodge(width = 0.8))+
-          geom_hline(aes(yintercept = mean(values)), data = sample_data(), 
-                     linetype = "dashed", color = "blue", size = 1) +
-          labs(subtitle = "+ Sample Distributions")
-      }
-    }
-    
-    print(p)
-  })
-  
-  # Perform ANOVA and display F statistic
-  output$anova_result &lt;- renderText({
-    req(sample_data())
-    fit &lt;- aov(values ~ group, data = sample_data())
-    anova_res &lt;- summary(fit)
-    f_stat &lt;- anova_res[[1]]$`F value`[1]
-    p_value &lt;- anova_res[[1]]$`Pr(&gt;F)`[1]
-    paste("ANOVA F-statistic:", round(f_stat, 3), "with p-value:", round(p_value, 3))
-  })
-  
-  # Plot F distribution with shaded p-value
-  output$f_dist_plot &lt;- renderPlot({
-    req(sample_data())
-    fit &lt;- aov(values ~ group, data = sample_data())
-    f_stat &lt;- summary(fit)[[1]]$`F value`[1]
-    df1 &lt;- input$n_groups - 1
-    df2 &lt;- input$n_groups * (input$n_per_group - 1)
-    
-    x &lt;- seq(0, max(10, f_stat + 1), length.out = 500)
-    f_dist &lt;- df(x, df1, df2)
-    
-    ggplot(data.frame(x = x, y = f_dist), aes(x = x, y = y)) +
-      geom_line() +
-      geom_area(data = data.frame(x = x[x &gt;= f_stat], y = f_dist[x &gt;= f_stat]), 
-                aes(x = x, y = y), fill = "red", alpha = 0.5) +
-      geom_vline(xintercept = f_stat, linetype = "dashed", color = "forestgreen") +
-      labs(title = "F Distribution", x = "F value", y = "Density") +
-      annotate("text", x = f_stat + 0.3, y = max(f_dist)/2, 
-               label = paste("F =", round(f_stat, 3)), color = "forestgreen") +
-      theme_bw()
+    p1 / p2
   })
 }
 
-shinyApp(ui = ui, server = server)
+shinyApp(ui, server)
 
 </code></pre>
 
