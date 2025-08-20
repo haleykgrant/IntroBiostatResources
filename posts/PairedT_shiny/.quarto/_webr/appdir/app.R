@@ -1,0 +1,142 @@
+library(shiny)
+library(ggplot2)
+library(MASS)      # for mvrnorm
+library(patchwork) # for combining plots
+
+ui <- fluidPage(
+  titlePanel("Paired vs Unpaired T-Tests"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("rho", "Correlation (ρ):", min = -1, max = 1, value = 0, step = 0.1),
+      sliderInput("vr","Variance Ratio", value = 1, min = 0.25, max = 2, step = .25),
+      actionButton("draw", "Draw One Sample"),
+      actionButton("draw100", "Draw 100 Samples"),
+      actionButton("reset", "Reset")
+    ),
+    mainPanel(
+      plotOutput("plots", height = "600px")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  set.seed(123)
+  # Fixed means & SDs
+  mu1 <- 2;  sd1 <- 1
+  mu2 <- 5;  sd2 <- 1
+  
+
+  
+  vals <- reactiveValues(
+    draws1 = numeric(),
+    draws2 = numeric(),
+    diffs  = numeric()
+  )
+  
+  # Draw one sample
+  observeEvent(input$draw, {
+    mu <- c(mu1, mu2)
+    sd2 <- sqrt(sd1^2 * input$vr)
+    sigma <- matrix(c(sd1^2, input$rho * sd1 * sd2,
+                      input$rho * sd1 * sd2, sd2^2), 2, 2)
+    
+    new_draw <- MASS::mvrnorm(n = 1, mu = mu, Sigma = sigma)
+    
+    vals$draws1 <- new_draw[1]
+    vals$draws2 <- new_draw[2]
+    vals$diffs  <- c(vals$diffs, new_draw[1] - new_draw[2])
+  })
+  
+  # Draw 100 samples
+  observeEvent(input$draw100, {
+    mu <- c(mu1, mu2)
+    sd2 <- sqrt(sd1^2 * input$vr)
+    sigma <- matrix(c(sd1^2, input$rho * sd1 * sd2,
+                      input$rho * sd1 * sd2, sd2^2), 2, 2)
+    
+    bulk_draws <- MASS::mvrnorm(n = 100, mu = mu, Sigma = sigma)
+    bulk_diffs <- bulk_draws[,1] - bulk_draws[,2]
+    
+    vals$diffs <- c(vals$diffs, bulk_diffs)
+  })
+  
+  # Reset everything
+  observeEvent(input$reset, {
+    vals$draws1 <- numeric()
+    vals$draws2 <- numeric()
+    vals$diffs  <- numeric()
+  })
+  
+  output$plots <- renderPlot({
+    sd2 <- sqrt(sd1^2 * input$vr)
+    # Theoretical SD of the difference given correlation
+    diff_sd <- sqrt(sd1^2 + sd2^2 - 2 * input$rho * sd1 * sd2)
+    x_range <- seq(min(mu1 - 4*sd1, mu2 - 4*sd2),
+                   max(mu1 + 4*sd1, mu2 + 4*sd2),
+                   length.out = 600)
+    
+    # Data for the two theoretical normals
+    df <- rbind(
+      data.frame(x = x_range, y = dnorm(x_range, mean = mu1, sd = sd1), dist = "x̄1"),
+      data.frame(x = x_range, y = dnorm(x_range, mean = mu2, sd = sd2), dist = "x̄2")
+    )
+    
+    # Top panel: curves + optional points & segment
+    p1 <- ggplot(df, aes(x, y, color = dist)) +
+      geom_line(linewidth = 1.2) +
+      scale_color_manual(values = c("navy","steelblue1")) + 
+      {
+        if (length(vals$draws1) > 0) {
+          list(
+            geom_segment(aes(
+              x = vals$draws1,
+              xend = vals$draws2,
+              y = 0, yend = 0
+            ), color = "firebrick1", linewidth = 0.75, inherit.aes = FALSE),
+            geom_point(aes(x = vals$draws1, y = 0), color = "navy", size = 3, inherit.aes = FALSE),
+            geom_point(aes(x = vals$draws2, y = 0), color = "steelblue1", size = 3, inherit.aes = FALSE)
+          )
+        }
+      } +
+      theme_minimal(base_size = 14) +
+      labs(x = "Value", y = "Density", color = "Distribution") 
+    
+    # Bottom panel: dot plot of differences
+    if (length(vals$diffs) > 0) {
+     if(input$rho==0){cr = "Uncorrelated"
+     } else if(input$rho > 0) {cr = "Positively Correlated"
+     } else {cr = "Negatively Correlated"}
+      n_points <- length(vals$diffs)
+      binwidth <- 0.2
+      
+      # Parameters for theoretical difference distribution
+      mu_diff <- mu1 - mu2
+      sd_diff <- sqrt(sd1^2 + sd2^2 - 2 * input$rho * sd1 * sd2)
+      sd_diff0 <- sqrt(sd1^2 + sd2^2 )
+      # Maximum expected count occurs at the mode (center of normal)
+      expected_max <- n_points * dnorm(mu_diff, mean = mu_diff, sd = sd_diff) * binwidth
+      
+      # Add a small margin
+      y_max <- ceiling(expected_max) + ceiling(sqrt(n_points))
+      if(y_max==Inf) {y_max = n_points + ceiling(n_points/50) }
+      # Histogram
+     p2 <-  ggplot() +
+        geom_histogram(aes(x = vals$diffs), binwidth = binwidth, fill = "firebrick1", color = "black") +
+        coord_cartesian(
+          xlim = c(mu_diff + -4*sd_diff0 - binwidth, mu_diff + 4*sd_diff0 + binwidth),
+          ylim = c(0, y_max)  # y-axis expands in steps
+        ) +
+        theme_minimal(base_size = 14) +
+        labs(x = "x̄₁ - x̄₂", y = "Count", title =paste0("Correlation: ", cr))
+     
+
+    } else {
+      p2 <- ggplot() + theme_void() + ggtitle("No differences yet")
+    }
+    
+    p1 / p2
+  })
+}
+
+shinyApp(ui, server)
+

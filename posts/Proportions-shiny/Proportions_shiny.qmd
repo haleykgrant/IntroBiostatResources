@@ -241,6 +241,7 @@ server <- function(input, output, session) {
     # Generate the plot
     
     p <- data.frame(x = x_values, y = y_values) %>%
+      filter(y >= 4.025758e-73) %>%
       mutate(extreme = x %in% c(shade_vals1,shade_vals2)) %>%
       ggplot(., aes(x = x)) +
       geom_bar(aes(y = y, fill = extreme), stat = "identity") +
