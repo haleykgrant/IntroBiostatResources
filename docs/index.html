@@ -109,7 +109,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 18,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
@@ -289,7 +290,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(24)</span></div><div class="category" data-category="Exploratory Data Analysis (EDA)">Exploratory Data Analysis (EDA) <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Probability Distributions">Probability Distributions <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R Tutorials">R Tutorials <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(8)</span></div><div class="category" data-category="Sampling Distributions">Sampling Distributions <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Statistical Inference">Statistical Inference <span class="quarto-category-count">(8)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(25)</span></div><div class="category" data-category="Exploratory Data Analysis (EDA)">Exploratory Data Analysis (EDA) <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Probability Distributions">Probability Distributions <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R Tutorials">R Tutorials <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(8)</span></div><div class="category" data-category="Sampling Distributions">Sampling Distributions <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Statistical Inference">Statistical Inference <span class="quarto-category-count">(9)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-body" id="quarto-document-content">
 
@@ -301,7 +302,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="r-tutorials">R Tutorials</h2>
 <div id="listing-Tutorials" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="R Tutorials" data-listing-file-modified-sort="1725474459521" data-listing-reading-time-sort="3" data-listing-word-count-sort="481">
+<div class="g-col-1" data-index="0" data-categories="R Tutorials" data-listing-file-modified-sort="1757081036341" data-listing-reading-time-sort="3" data-listing-word-count-sort="497">
 <a href="./posts/Tutorial-1/Tutorial1.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -479,7 +480,7 @@ No matching items
 <h2 class="anchored" data-anchor-id="shiny-apps">Shiny Apps</h2>
 <div id="listing-shiny-apps" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="Statistical Inference" data-listing-file-modified-sort="1755272180022" data-listing-reading-time-sort="6" data-listing-word-count-sort="1160">
+<div class="g-col-1" data-index="0" data-categories="Statistical Inference" data-listing-file-modified-sort="1758410060233" data-listing-reading-time-sort="6" data-listing-word-count-sort="1160">
 <a href="./posts/ANOVA_Shiny/ANOVA_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -977,10 +978,40 @@ Haley Grant
 </div>
 </a>
 </div>
+<div class="g-col-1" data-index="18" data-categories="Statistical Inference" data-listing-file-modified-sort="1759346453665" data-listing-reading-time-sort="6" data-listing-word-count-sort="1023">
+<a href="./posts/t_alt_shiny/t_alt_shiny.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img data-src="./posts/t_alt_shiny/t_alt.png" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+T under null vs alt
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Statistical Inference'); return false;">
+Statistical Inference
+</div>
+</div>
+<div class="card-text listing-description">
+App to demonstrate distribution of test statistics under null and alternative
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Haley Grant
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
 </div>
 <div class="listing-no-matching d-none">
 No matching items
 </div>
+<nav id="shiny-apps-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div>
 
 

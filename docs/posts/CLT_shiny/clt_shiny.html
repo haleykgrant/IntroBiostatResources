@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Haley Grant">
+<meta name="description" content="App to demonstrate sampling distributions and CLT">
 
-<title>Intro Biostatistics Resources - Tutorial 1: Installing R and RStudio</title>
+<title>Intro Biostatistics Resources - Central Limit Theorem</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -42,7 +43,6 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/quarto-contrib/alpine-3.12/buttons.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,19 +70,13 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<style>
-
-      .quarto-title-block .quarto-title-banner {
-        background: #a2cffe;
-      }
-</style>
 
 
 <link rel="stylesheet" href="../../styles.css">
 <link rel="stylesheet" href="../../include/webex.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-sidebar docked nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -125,7 +119,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Tutorial 1: Installing R and RStudio</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Central Limit Theorem</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -135,12 +129,17 @@ ul.task-list li input[type="checkbox"] {
   </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Tutorial 1: Installing R and RStudio</h1>
-                                <div class="quarto-categories">
-                <div class="quarto-category">R Tutorials</div>
+      <h1 class="title">Central Limit Theorem</h1>
+                  <div>
+        <div class="description">
+          App to demonstrate sampling distributions and CLT
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Statistical Inference</div>
               </div>
                   </div>
   </div>
@@ -195,34 +194,10 @@ ul.task-list li input[type="checkbox"] {
   </li>
     </ul>
     </div>
-    <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#welcome-to-the-installing-r-tutorial" id="toc-welcome-to-the-installing-r-tutorial" class="nav-link active" data-scroll-target="#welcome-to-the-installing-r-tutorial">Welcome to the Installing R Tutorial</a>
-  <ul class="collapse">
-  <li><a href="#outline" id="toc-outline" class="nav-link" data-scroll-target="#outline">Outline</a></li>
-  </ul></li>
-  <li><a href="#install-r" id="toc-install-r" class="nav-link" data-scroll-target="#install-r">Install R</a>
-  <ul class="collapse">
-  <li><a href="#how-to-install-r" id="toc-how-to-install-r" class="nav-link" data-scroll-target="#how-to-install-r">How to install R</a></li>
-  </ul></li>
-  <li><a href="#install-rstudio" id="toc-install-rstudio" class="nav-link" data-scroll-target="#install-rstudio">Install RStudio</a>
-  <ul class="collapse">
-  <li><a href="#how-to-install-rstudio" id="toc-how-to-install-rstudio" class="nav-link" data-scroll-target="#how-to-install-rstudio">How to install RStudio</a></li>
-  </ul></li>
-  <li><a href="#r-projects" id="toc-r-projects" class="nav-link" data-scroll-target="#r-projects">R Projects</a>
-  <ul class="collapse">
-  <li><a href="#guide-to-rstudio-ide-and-r-projects" id="toc-guide-to-rstudio-ide-and-r-projects" class="nav-link" data-scroll-target="#guide-to-rstudio-ide-and-r-projects">Guide to RStudio IDE and R Projects</a></li>
-  <li><a href="#making-a-class-specific-folder-and-r-project" id="toc-making-a-class-specific-folder-and-r-project" class="nav-link" data-scroll-target="#making-a-class-specific-folder-and-r-project">Making a class-specific folder and R Project</a></li>
-  </ul></li>
-  </ul>
-</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    </div>
+    
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -230,83 +205,197 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="cell">
-<style type="text/css">
-.quiz-box {
-    background-color: #f0f0f0; /* Gray background color */
-    padding: 10px; /* Padding around the quiz box */
-    border-radius: 5px; /* Rounded corners */
+<pre class="{r-shinylive}"><code>
+library(shiny)
+library(tidyverse)
+library(gganimate)
+library(plyr)  #
+
+ui &lt;- fluidPage(
+  titlePanel("Sampling Distributions"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("dist", "Population distribution:",
+                  choices = c("Normal", "Uniform", "Skewed")),
+      sliderInput("n", "Sample size (n):", min = 1, max = 50, value = 10),
+      radioButtons("samples", "Number of samples:",
+                   choices = c("1 sample (animated)" = "animate",
+                               "1,000 samples" = "sampling1000",
+                               "10,000 samples" = "sampling10000")),
+      actionButton("go", "Draw sample(s)"),
+      actionButton("reset", "Reset")
+    ),
+    
+    mainPanel(
+      h4("Population"),
+      plotOutput("pop", height = "200px"),
+      fluidRow(
+        column(6, h4("Sample"), 
+               conditionalPanel(
+                 condition = "input.samples == 'animate'",
+                 imageOutput("anim", height = "250px")
+               ),
+               conditionalPanel(
+                 condition = "input.samples != 'animate'",
+                 plotOutput("lastSamplePlot", height = "250px")
+               )
+        ),
+        column(6, h4("Sample Means"), plotOutput("means", height = "250px"))
+      ),
+      hr(),
+      h4("Summary Statistics"),
+      fluidRow(
+        column(6, offset = 3,  # centers the 6-width column
+               tableOutput("summary")
+        )
+      )
+    )
+  )
+)
+
+server &lt;- function(input, output, session) {
+  
+  # save sample means and population distribution
+  rv &lt;- reactiveValues(means = numeric(), pop = NULL, last_sample = numeric())
+  
+
+  gen_population &lt;- reactive({
+    switch(input$dist,
+           "Normal"  = rnorm(200000, 0, 1),
+           "Uniform" = runif(200000, -2, 2),
+           "Skewed"  = rexp(200000, rate = 1.5) )
+  })
+  
+  observeEvent(input$dist, {
+    # population
+    rv$pop &lt;- gen_population()  
+    # sample means
+    rv$means &lt;- numeric()       
+    # one sample
+    rv$last_sample &lt;- NULL      
+  })
+  
+  output$pop &lt;- renderPlot({
+    req(rv$pop)
+    if (is.null(rv$pop)) {
+      rv$pop &lt;- gen_population()
+    }
+   # plot population
+    data.frame(x = rv$pop) %&gt;%
+      ggplot(aes(x = x)) + 
+      geom_histogram(fill = "lavender",color="black") + 
+      theme_minimal() +
+      theme(axis.text.y = element_blank()) + 
+      labs(x = element_blank(), y = element_blank())
+  })
+  
+
+  
+  observeEvent(input$go, {
+  
+    # draw one sample
+    sample_y &lt;- sample(rv$pop, input$n)
+    rv$last_sample &lt;- sample_y
+    
+    # save data
+    df &lt;- data.frame(id = 1:input$n, x = sample_y)
+    df_rep &lt;- lapply(1:input$n, function(i)
+      df[df$id &lt;= i, ] %&gt;% mutate(frame = i)) %&gt;% ldply()
+    
+    # animated plot
+    outfile &lt;- tempfile(fileext = ".gif")
+    mn = round(mean(df$x), digits = 3)
+    s = round(sd(df$x), digits = 3)
+    p &lt;- ggplot(df_rep, aes(x = x)) +
+      geom_dotplot( fill = "steelblue") +
+      xlim(min(rv$pop), max(rv$pop)) +
+      theme_classic() +
+      transition_manual(frame) + 
+      labs(x = element_blank(), y = element_blank()) + 
+      theme(axis.text.y = element_blank())
+    
+    animate(p, nframes = input$n, fps = 3, renderer = gifski_renderer(outfile, loop = F))
+    
+    output$anim &lt;- renderImage({
+      list(src = outfile, contentType = "image/gif", width = 300, height = 250,res = 150)
+    }, deleteFile = TRUE)
+    
+   
+    # update means
+      if (input$samples == "animate") {
+      rv$means &lt;- c(rv$means, mean(sample_y))
+    } else if (input$samples == "sampling1000") {
+      new_means &lt;- replicate(1000 -1, mean(sample(rv$pop, input$n)))
+      rv$last_sample &lt;- sample(rv$pop, input$n)
+      rv$means &lt;- c(rv$means, new_means, mean(rv$last_sample))
+    } else if (input$samples == "sampling10000") {
+      new_means &lt;- replicate(10000 -1, mean(sample(rv$pop, input$n)))
+      rv$last_sample &lt;- sample(rv$pop, input$n)
+      rv$means &lt;- c(rv$means, new_means, mean(rv$last_sample))
+    } 
+    
+  })
+  
+  # reset plots
+  observeEvent(input$reset, {
+    rv$means &lt;- numeric()
+    rv$last_sample &lt;- numeric()
+  })
+  
+  # sample means plot
+  output$means &lt;- renderPlot({
+    req(rv$means)
+    req(rv$pop)
+    mm &lt;- round(mean(rv$means), digits = 3)
+    ms &lt;- round(sd(rv$means), digits = 3)
+    ggplot(data.frame(means = rv$means), aes(x = means)) +
+      geom_histogram(bins = 30, fill = "firebrick2",color = "black") +
+      theme_minimal() +
+      theme(axis.text.y = element_blank(),
+            axis.ticks.y = element_blank()) + 
+      ylim(0, max(20,ceiling(length(rv$means)/5))) + 
+      xlim(mean(rv$pop)-4*sd(rv$pop)/sqrt(input$n),mean(rv$pop)+4*sd(rv$pop)/sqrt(input$n))  +
+      labs(x=element_blank(),y=element_blank())
+      
+  })
+  
+  # one sample plot
+  output$lastSamplePlot &lt;- renderPlot({
+    req(rv$last_sample)
+    
+    df &lt;- data.frame(x = rv$last_sample)
+    
+    ggplot(df, aes(x = x)) +
+      geom_dotplot(fill = "steelblue") +
+      xlim(min(rv$pop), max(rv$pop)) +
+      theme_classic() +
+      labs(x = "", y = "") +
+      theme(axis.text.y = element_blank())
+  })
+  # summary table w/ mean and sd
+  output$summary &lt;- renderTable({
+    req(rv$pop)
+    req(rv$last_sample)
+    req(rv$means)
+  
+    data.frame(
+      Type = c("Population", "Last Sample", "Sample Means"),
+      Mean = c(mean(rv$pop),
+             mean(rv$last_sample),
+             mean(rv$means)),
+      SD = c(sd(rv$pop),
+           sd(rv$last_sample),
+           if(length(rv$means) &gt; 1) sd(rv$means) else NA)
+  )
+})
 }
-</style>
-</div>
-<section id="welcome-to-the-installing-r-tutorial" class="level2">
-<h2 class="anchored" data-anchor-id="welcome-to-the-installing-r-tutorial">Welcome to the Installing R Tutorial</h2>
-<p>This tutorial was developed based on <a href="https://github.com/rstudio/learnr/tree/main/inst/tutorials/ex-setup-r/ex-setup-r.Rmd">this resource</a>. The goal is to make sure you have R and Rstudio installed on your computer and make sure you have a folder set up for this class to make your semester go smoother.</p>
-<section id="outline" class="level3">
-<h3 class="anchored" data-anchor-id="outline">Outline</h3>
-<p>This tutorial will help you set up your computer to use R. It is for you if you need to:</p>
-<ul>
-<li>Install R on your computer</li>
-<li>Install the RStudio IDE</li>
-<li>Get set up with R projects</li>
-</ul>
-<p>You can skip this tutorial if you’ve already done these things.</p>
-</section>
-</section>
-<section id="install-r" class="level2">
-<h2 class="anchored" data-anchor-id="install-r">Install R</h2>
-<section id="how-to-install-r" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-install-r">How to install R</h3>
-<div style="padding:68.19% 0 0 0;position:relative;">
-<iframe src="https://player.vimeo.com/video/415501284?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Install R and RStudio">
-</iframe>
-</div>
-<script src="https://player.vimeo.com/api/player.js"></script>
-<p>If you need to download R, head over to <a href="http://cloud.r-project.org">the CRAN website to download R</a>.</p>
-<p>If you’ve already done this, we’ll move to the next step!</p>
-</section>
-</section>
-<section id="install-rstudio" class="level2">
-<h2 class="anchored" data-anchor-id="install-rstudio">Install RStudio</h2>
-<section id="how-to-install-rstudio" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-install-rstudio">How to install RStudio</h3>
-<p>RStudio is an Integrated Development Environment (IDE) for R. What does that mean? Well, if you think of R as a language, which it is, you can think of RStudio as a program that helps you write and work in the language. RStudio makes programming in R much easier and I suggest that you use it!</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://player.vimeo.com/video/203516968" frameborder="0" title="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
-<p>If you need to download RStudio, head over to <a href="www.rstudio.com/download">the RStudio website</a> to download RStudio. There are also some helpful tutorials on this website!</p>
-<p>If you’ve already done this, we’ll move to the next step!</p>
-</section>
-</section>
-<section id="r-projects" class="level2">
-<h2 class="anchored" data-anchor-id="r-projects">R Projects</h2>
-<p>R projects make it easy to keep files relating to the same content organized. I recommend making a folder and an R project for this class. This will allow you to keep all of your data files, notes, and homowork code in one (organized) place on your computer.</p>
-<section id="guide-to-rstudio-ide-and-r-projects" class="level3">
-<h3 class="anchored" data-anchor-id="guide-to-rstudio-ide-and-r-projects">Guide to RStudio IDE and R Projects</h3>
-<p>Watch this video for a description of the layout of the RStudio interface and a demonstration for how to create an R project on your computer.</p>
-<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/kfcX5DEMAp4" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-</section>
-<section id="making-a-class-specific-folder-and-r-project" class="level3">
-<h3 class="anchored" data-anchor-id="making-a-class-specific-folder-and-r-project">Making a class-specific folder and R Project</h3>
-<p>I will be making a folder and project for this class where I will keep all of my notes and data sets. If you structure your folder the same way I do, all of my code should work seamlessly on your computer!</p>
-<div class="quiz-box">
-<p><strong>Check In</strong></p>
-Have you created a folder (directory) and an R project for this class on your computer?
-<div id="radio_CYZILBMREC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_CYZILBMREC" value="answer"> <span>Yes!</span></label><label><input type="radio" autocomplete="off" name="radio_CYZILBMREC" value=""> <span>Not yet</span></label>
-</div>
-</div>
-<p>I also like to keep things organized into sub-folders. For my BIOST 2041 folder, I have the following sub-folders:</p>
-<ul>
-<li>Data</li>
-<li>Labs</li>
-<li>Notes</li>
-<li>Recitation</li>
-</ul>
-<p>I keep all data files for the class in “Data” and then files with code and instructions in their corresponding assignment section.</p>
-<p>That’s it! The next tutorial will be about using data types, using functions, and downloading packages in R.</p>
+
+shinyApp(ui, server)
+
+</code></pre>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script>
@@ -1073,5 +1162,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="../../site_libs/quarto-contrib/alpine-3.12/alpine@3.12.min.js"></script>
 </body></html>

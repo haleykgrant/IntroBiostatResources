@@ -1,0 +1,105 @@
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  titlePanel("t-test statistics under Null vs Alternative"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("delta", "True mean difference (δ):",
+                  min = -2, max = 2, value = 0, step = 0.1),
+      numericInput("n", "Sample size:", value = 30, min = 5),
+      numericInput("alpha", "Alpha:", value = 0.05, min = 0.001, max = 1),
+      radioButtons("sides", "One vs. two-sided:", 
+                   choices = c("Two-sided","One-sided (<)", "One-sided (>)"),
+                   selected = "Two-sided")
+    ),
+    
+    mainPanel(
+      plotOutput("distPlot")
+    )
+  )
+)
+
+server <- function(input, output) {
+  
+  simData <- reactive({
+    n <- input$n
+    nsim <- 5000
+    delta <- input$delta
+    
+    # Simulate alternative distribution
+    alt_t <- replicate(nsim, {
+      x <- rnorm(n, mean = delta, sd = 1)
+      t.test(x, mu = 0)$statistic
+    })
+    
+    # Critical values under null
+    if (input$sides == "Two-sided") {
+      crit_lo <- qt(input$alpha/2, df = n-1)
+      crit_hi <- qt(1 - input$alpha/2, df = n-1)
+ 
+    } else if (input$sides == "One-sided (<)") {
+      crit_lo <- qt(input$alpha, df = n-1)
+      crit_hi <- Inf
+   
+    } else {
+      crit_lo <- -Inf
+      crit_hi <- qt(1 - input$alpha, df = n-1)
+     
+    }
+    
+    data.frame(alt_t = alt_t, n = n,
+               crit_lo = crit_lo, crit_hi = crit_hi)
+  })
+  
+  output$distPlot <- renderPlot({
+    sims <- simData()
+    n <- sims$n[1]
+    mn <- min(-3, min(sims$alt_t))
+    mx <- max(3, max(sims$alt_t))
+    
+    subt <- ifelse(input$delta == 0, "Under null", 
+                   paste0("Under alternative with difference: ", input$delta))
+    ch = sims$crit_hi[1]
+    cl = sims$crit_lo[1]
+    
+    p <- ggplot(sims, aes(x = alt_t)) +
+      geom_histogram(aes(y = ..density..), fill = "lightblue",
+                     binwidth = 0.2, alpha = 0.6, color = "white") +
+      stat_function(fun = function(x) dt(x, df = n - 1),
+                    color = "blue", size = 0.9, 
+                    data = data.frame(alt_t = seq(mn, mx, by = .1))) +
+    
+      stat_function(fun = function(x) dt(x, df = n-1),
+                    xlim = c(ch, mx),
+                    geom = "area", fill = "red", alpha = 0.2,
+                    data = data.frame(alt_t = seq(mn, mx, by = .1))) +
+      stat_function(fun = function(x) dt(x, df = n-1),
+                    xlim = c(mn, cl),
+                    geom = "area", fill = "red", alpha = 0.2, 
+                    data = data.frame(alt_t = seq(mn, mx, by = .1))) +
+      labs(title = "t-statistic Distribution",
+           subtitle = subt,
+           x = "t statistic",
+           y = "Density") +
+      coord_cartesian(xlim = c(mn, mx)) +
+      theme_minimal(base_size = 14)
+      
+      if(input$sides == "Two-sided"){ 
+        p = p +       
+          geom_vline(xintercept = ch, color = "red") + 
+         geom_vline(xintercept = cl, color = "red")
+      } else if(input$sides == "One-sided (<)"){
+        p = p +       
+          geom_vline(xintercept = cl, color = "red")
+      } else {
+        p = p +       
+        geom_vline(xintercept = ch, color = "red")}
+      
+      p
+  })
+}
+
+
+shinyApp(ui = ui, server = server)

@@ -25,7 +25,8 @@
       "/posts/HeightActivityShiny/HeightActivity_shiny.html",
       "/posts/SamplingDistShiny/SampDist_shiny.html",
       "/posts/NormalZ_Shiny/normalz_shiny.html",
-      "/posts/T-test_shiny/ttest_shiny.html"
+      "/posts/T-test_shiny/ttest_shiny.html",
+      "/posts/t_alt_shiny/t_alt_shiny.html"
     ]
   }
 ]
