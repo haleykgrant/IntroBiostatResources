@@ -1,5 +1,5 @@
 library(shiny)
-library(ggplot2)
+library(tidyverse)
 library(MASS)      # for mvrnorm
 library(patchwork) # for combining plots
 
@@ -14,7 +14,8 @@ ui <- fluidPage(
       actionButton("reset", "Reset")
     ),
     mainPanel(
-      plotOutput("plots", height = "600px")
+      plotOutput("plots", height = "600px"),
+      tableOutput("vars")
     )
   )
 )
@@ -25,7 +26,7 @@ server <- function(input, output, session) {
   mu1 <- 2;  sd1 <- 1
   mu2 <- 5;  sd2 <- 1
   
-
+  
   
   vals <- reactiveValues(
     draws1 = numeric(),
@@ -81,8 +82,8 @@ server <- function(input, output, session) {
       data.frame(x = x_range, y = dnorm(x_range, mean = mu2, sd = sd2), dist = "x̄2")
     )
     
-     df.x1 = df %>% filter(dist == "x̄1")
-     df.x2 = df %>% filter(dist != "x̄1")
+    df.x1 = df %>% filter(dist == "x̄1")
+    df.x2 = df %>% filter(dist != "x̄1")
     # Top panel: curves + optional points & segment
     p1 <- ggplot(df, aes(x, y, color = dist)) +
       geom_line(linewidth = 1.2) +
@@ -98,7 +99,7 @@ server <- function(input, output, session) {
             geom_point(aes(x = vals$draws1, y = 0), color = "navy", size = 3, inherit.aes = FALSE),
             geom_point(aes(x = vals$draws2, y = 0), color = "steelblue1", size = 3, inherit.aes = FALSE), 
             geom_segment(aes(x = vals$draws1, xend = vals$draws1, yend = df.x1$y[which.min(abs(df.x1$x - vals$draws1))], y = 0), color = "navy") ,
-           geom_segment(aes(x = vals$draws2, xend = vals$draws2, yend = df.x2$y[which.min(abs(df.x2$x - vals$draws2))], y = 0), color = "steelblue1")
+            geom_segment(aes(x = vals$draws2, xend = vals$draws2, yend = df.x2$y[which.min(abs(df.x2$x - vals$draws2))], y = 0), color = "steelblue1")
           )
         }
       } +
@@ -107,9 +108,9 @@ server <- function(input, output, session) {
     
     # Bottom panel: dot plot of differences
     if (length(vals$diffs) > 0) {
-     if(input$rho==0){cr = "Uncorrelated"
-     } else if(input$rho > 0) {cr = "Positively Correlated"
-     } else {cr = "Negatively Correlated"}
+      if(input$rho==0){cr = "Uncorrelated"
+      } else if(input$rho > 0) {cr = "Positively Correlated"
+      } else {cr = "Negatively Correlated"}
       n_points <- length(vals$diffs)
       binwidth <- 0.2
       
@@ -124,7 +125,7 @@ server <- function(input, output, session) {
       y_max <- ceiling(expected_max) + ceiling(sqrt(n_points))
       if(y_max==Inf) {y_max = n_points + ceiling(n_points/50) }
       # Histogram
-     p2 <-  ggplot() +
+      p2 <-  ggplot() +
         geom_histogram(aes(x = vals$diffs), binwidth = binwidth, fill = "firebrick1", color = "black") +
         coord_cartesian(
           xlim = c(mu_diff + -4*sd_diff0 - binwidth, mu_diff + 4*sd_diff0 + binwidth),
@@ -132,15 +133,23 @@ server <- function(input, output, session) {
         ) +
         theme_minimal(base_size = 14) +
         labs(x = "x̄₁ - x̄₂", y = "Count", title =paste0("Correlation: ", cr))
-     
-
+      
+      
     } else {
       p2 <- ggplot() + theme_void() + ggtitle("No differences yet")
     }
     
     p1 / p2
   })
-}
+  
+  output$vars <- renderTable({
+    dt = data.frame(Distribution = c("x̄1","x̄2","x̄1 - x̄2"),
+                    Var = c(1, 1*input$vr, var(vals$diffs) ))
+    
+    dt
+  }, bordered = T, rownames = F, align = "c")
+} 
+
 
 shinyApp(ui, server)
 
