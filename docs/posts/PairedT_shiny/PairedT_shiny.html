@@ -268,18 +268,19 @@ server &lt;- function(input, output, session) {
     vals$diffs  &lt;- c(vals$diffs, new_draw[1] - new_draw[2])
   })
   
-  # Draw 100 samples
-  observeEvent(input$draw100, {
+  # Draw 1000 samples
+  observeEvent(input$draw1000, {
     mu &lt;- c(mu1, mu2)
     sd2 &lt;- sqrt(sd1^2 * input$vr)
     sigma &lt;- matrix(c(sd1^2, input$rho * sd1 * sd2,
                       input$rho * sd1 * sd2, sd2^2), 2, 2)
     
-    bulk_draws &lt;- MASS::mvrnorm(n = 100, mu = mu, Sigma = sigma)
+    bulk_draws &lt;- MASS::mvrnorm(n = 1000, mu = mu, Sigma = sigma)
     bulk_diffs &lt;- bulk_draws[,1] - bulk_draws[,2]
     
     vals$diffs &lt;- c(vals$diffs, bulk_diffs)
   })
+
   
   # Reset everything
   observeEvent(input$reset, {
