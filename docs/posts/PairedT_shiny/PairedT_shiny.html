@@ -227,10 +227,10 @@ ui &lt;- fluidPage(
   titlePanel("Paired vs Unpaired T-Tests"),
   sidebarLayout(
     sidebarPanel(
-      sliderInput("rho", "Correlation (ρ):", min = -1, max = 1, value = 0, step = 0.1),
+      sliderInput("rho", "Correlation (ρ):", min = -1, max = 1, value = 0, step = 0.05),
       sliderInput("vr","Variance Ratio", value = 1, min = 0.25, max = 2, step = .25),
       actionButton("draw", "Draw One Sample"),
-      actionButton("draw100", "Draw 100 Samples"),
+      actionButton("draw1000", "Draw 1000 Samples"),
       actionButton("reset", "Reset")
     ),
     mainPanel(
@@ -243,8 +243,8 @@ ui &lt;- fluidPage(
 server &lt;- function(input, output, session) {
   set.seed(123)
   # Fixed means &amp; SDs
-  mu1 &lt;- 2;  sd1 &lt;- 1
-  mu2 &lt;- 5;  sd2 &lt;- 1
+  mu1 &lt;- 5;  sd1 &lt;- 1
+  mu2 &lt;- 2;  sd2 &lt;- 1
   
   
   
@@ -263,9 +263,9 @@ server &lt;- function(input, output, session) {
     
     new_draw &lt;- MASS::mvrnorm(n = 1, mu = mu, Sigma = sigma)
     
-    vals$draws1 &lt;- new_draw[1]
-    vals$draws2 &lt;- new_draw[2]
-    vals$diffs  &lt;- c(vals$diffs, new_draw[1] - new_draw[2])
+    vals$draws1 &lt;- c(new_draw[1], vals$draws1 )
+    vals$draws2 &lt;- c(new_draw[2], vals$draws2 )
+    vals$diffs  &lt;- c(new_draw[1] - new_draw[2], vals$diffs)
   })
   
   # Draw 1000 samples
@@ -277,8 +277,9 @@ server &lt;- function(input, output, session) {
     
     bulk_draws &lt;- MASS::mvrnorm(n = 1000, mu = mu, Sigma = sigma)
     bulk_diffs &lt;- bulk_draws[,1] - bulk_draws[,2]
-    
-    vals$diffs &lt;- c(vals$diffs, bulk_diffs)
+    vals$draws1 &lt;- c( bulk_draws[,1],vals$draws1)
+    vals$draws2 &lt;- c( bulk_draws[,2],vals$draws2)
+    vals$diffs &lt;- c(bulk_diffs, vals$diffs)
   })
 
   
@@ -305,6 +306,8 @@ server &lt;- function(input, output, session) {
     
     df.x1 = df %&gt;% filter(dist == "x̄1")
     df.x2 = df %&gt;% filter(dist != "x̄1")
+    d1 = vals$draws1[1]
+    d2 = vals$draws2[1]
     # Top panel: curves + optional points &amp; segment
     p1 &lt;- ggplot(df, aes(x, y, color = dist)) +
       geom_line(linewidth = 1.2) +
@@ -313,14 +316,14 @@ server &lt;- function(input, output, session) {
         if (length(vals$draws1) &gt; 0) {
           list(
             geom_segment(aes(
-              x = vals$draws1,
-              xend = vals$draws2,
+              x = d1,
+              xend = d2,
               y = 0, yend = 0
             ), color = "firebrick1", linewidth = 0.75, inherit.aes = FALSE),
-            geom_point(aes(x = vals$draws1, y = 0), color = "navy", size = 3, inherit.aes = FALSE),
-            geom_point(aes(x = vals$draws2, y = 0), color = "steelblue1", size = 3, inherit.aes = FALSE), 
-            geom_segment(aes(x = vals$draws1, xend = vals$draws1, yend = df.x1$y[which.min(abs(df.x1$x - vals$draws1))], y = 0), color = "navy") ,
-            geom_segment(aes(x = vals$draws2, xend = vals$draws2, yend = df.x2$y[which.min(abs(df.x2$x - vals$draws2))], y = 0), color = "steelblue1")
+            geom_point(aes(x = d1, y = 0), color = "navy", size = 3, inherit.aes = FALSE),
+            geom_point(aes(x = d2, y = 0), color = "steelblue1", size = 3, inherit.aes = FALSE), 
+            geom_segment(aes(x = d1, xend = d1, yend = df.x1$y[which.min(abs(df.x1$x - d1))], y = 0), color = "navy") ,
+            geom_segment(aes(x = d2, xend = d2, yend = df.x2$y[which.min(abs(df.x2$x - d2))], y = 0), color = "steelblue1")
           )
         }
       } +
@@ -355,12 +358,17 @@ server &lt;- function(input, output, session) {
         theme_minimal(base_size = 14) +
         labs(x = "x̄₁ - x̄₂", y = "Count", title =paste0("Correlation: ", cr))
       
+      p3 &lt;- ggplot(data.frame(x1 = vals$draws1, x2 = vals$draws2)) +
+        geom_point(aes(x = x1, y = x2)) + 
+        theme_bw() + 
+        labs(x = "x̄1", y = "x̄2")
       
     } else {
       p2 &lt;- ggplot() + theme_void() + ggtitle("No differences yet")
+      p3 &lt;- ggplot() + theme_void() 
     }
     
-    p1 / p2
+    p1 / p2 / p3
   })
   
   output$vars &lt;- renderTable({

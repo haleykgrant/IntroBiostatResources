@@ -24,10 +24,10 @@ ui <- fluidPage(
   titlePanel("Paired vs Unpaired T-Tests"),
   sidebarLayout(
     sidebarPanel(
-      sliderInput("rho", "Correlation (ρ):", min = -1, max = 1, value = 0, step = 0.1),
+      sliderInput("rho", "Correlation (ρ):", min = -1, max = 1, value = 0, step = 0.05),
       sliderInput("vr","Variance Ratio", value = 1, min = 0.25, max = 2, step = .25),
       actionButton("draw", "Draw One Sample"),
-      actionButton("draw100", "Draw 100 Samples"),
+      actionButton("draw1000", "Draw 1000 Samples"),
       actionButton("reset", "Reset")
     ),
     mainPanel(
@@ -40,8 +40,8 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   set.seed(123)
   # Fixed means & SDs
-  mu1 <- 2;  sd1 <- 1
-  mu2 <- 5;  sd2 <- 1
+  mu1 <- 5;  sd1 <- 1
+  mu2 <- 2;  sd2 <- 1
   
   
   
@@ -60,23 +60,25 @@ server <- function(input, output, session) {
     
     new_draw <- MASS::mvrnorm(n = 1, mu = mu, Sigma = sigma)
     
-    vals$draws1 <- new_draw[1]
-    vals$draws2 <- new_draw[2]
-    vals$diffs  <- c(vals$diffs, new_draw[1] - new_draw[2])
+    vals$draws1 <- c(new_draw[1], vals$draws1 )
+    vals$draws2 <- c(new_draw[2], vals$draws2 )
+    vals$diffs  <- c(new_draw[1] - new_draw[2], vals$diffs)
   })
   
-  # Draw 100 samples
-  observeEvent(input$draw100, {
+  # Draw 1000 samples
+  observeEvent(input$draw1000, {
     mu <- c(mu1, mu2)
     sd2 <- sqrt(sd1^2 * input$vr)
     sigma <- matrix(c(sd1^2, input$rho * sd1 * sd2,
                       input$rho * sd1 * sd2, sd2^2), 2, 2)
     
-    bulk_draws <- MASS::mvrnorm(n = 100, mu = mu, Sigma = sigma)
+    bulk_draws <- MASS::mvrnorm(n = 1000, mu = mu, Sigma = sigma)
     bulk_diffs <- bulk_draws[,1] - bulk_draws[,2]
-    
-    vals$diffs <- c(vals$diffs, bulk_diffs)
+    vals$draws1 <- c( bulk_draws[,1],vals$draws1)
+    vals$draws2 <- c( bulk_draws[,2],vals$draws2)
+    vals$diffs <- c(bulk_diffs, vals$diffs)
   })
+
   
   # Reset everything
   observeEvent(input$reset, {
@@ -101,6 +103,8 @@ server <- function(input, output, session) {
     
     df.x1 = df %>% filter(dist == "x̄1")
     df.x2 = df %>% filter(dist != "x̄1")
+    d1 = vals$draws1[1]
+    d2 = vals$draws2[1]
     # Top panel: curves + optional points & segment
     p1 <- ggplot(df, aes(x, y, color = dist)) +
       geom_line(linewidth = 1.2) +
@@ -109,14 +113,14 @@ server <- function(input, output, session) {
         if (length(vals$draws1) > 0) {
           list(
             geom_segment(aes(
-              x = vals$draws1,
-              xend = vals$draws2,
+              x = d1,
+              xend = d2,
               y = 0, yend = 0
             ), color = "firebrick1", linewidth = 0.75, inherit.aes = FALSE),
-            geom_point(aes(x = vals$draws1, y = 0), color = "navy", size = 3, inherit.aes = FALSE),
-            geom_point(aes(x = vals$draws2, y = 0), color = "steelblue1", size = 3, inherit.aes = FALSE), 
-            geom_segment(aes(x = vals$draws1, xend = vals$draws1, yend = df.x1$y[which.min(abs(df.x1$x - vals$draws1))], y = 0), color = "navy") ,
-            geom_segment(aes(x = vals$draws2, xend = vals$draws2, yend = df.x2$y[which.min(abs(df.x2$x - vals$draws2))], y = 0), color = "steelblue1")
+            geom_point(aes(x = d1, y = 0), color = "navy", size = 3, inherit.aes = FALSE),
+            geom_point(aes(x = d2, y = 0), color = "steelblue1", size = 3, inherit.aes = FALSE), 
+            geom_segment(aes(x = d1, xend = d1, yend = df.x1$y[which.min(abs(df.x1$x - d1))], y = 0), color = "navy") ,
+            geom_segment(aes(x = d2, xend = d2, yend = df.x2$y[which.min(abs(df.x2$x - d2))], y = 0), color = "steelblue1")
           )
         }
       } +
@@ -151,12 +155,17 @@ server <- function(input, output, session) {
         theme_minimal(base_size = 14) +
         labs(x = "x̄₁ - x̄₂", y = "Count", title =paste0("Correlation: ", cr))
       
+      p3 <- ggplot(data.frame(x1 = vals$draws1, x2 = vals$draws2)) +
+        geom_point(aes(x = x1, y = x2)) + 
+        theme_bw() + 
+        labs(x = "x̄1", y = "x̄2")
       
     } else {
       p2 <- ggplot() + theme_void() + ggtitle("No differences yet")
+      p3 <- ggplot() + theme_void() 
     }
     
-    p1 / p2
+    p1 / p2 / p3
   })
   
   output$vars <- renderTable({

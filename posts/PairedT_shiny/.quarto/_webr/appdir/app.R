@@ -10,7 +10,7 @@ ui <- fluidPage(
       sliderInput("rho", "Correlation (ρ):", min = -1, max = 1, value = 0, step = 0.1),
       sliderInput("vr","Variance Ratio", value = 1, min = 0.25, max = 2, step = .25),
       actionButton("draw", "Draw One Sample"),
-      actionButton("draw100", "Draw 100 Samples"),
+      actionButton("draw1000", "Draw 1000 Samples"),
       actionButton("reset", "Reset")
     ),
     mainPanel(
@@ -48,18 +48,19 @@ server <- function(input, output, session) {
     vals$diffs  <- c(vals$diffs, new_draw[1] - new_draw[2])
   })
   
-  # Draw 100 samples
-  observeEvent(input$draw100, {
+  # Draw 1000 samples
+  observeEvent(input$draw1000, {
     mu <- c(mu1, mu2)
     sd2 <- sqrt(sd1^2 * input$vr)
     sigma <- matrix(c(sd1^2, input$rho * sd1 * sd2,
                       input$rho * sd1 * sd2, sd2^2), 2, 2)
     
-    bulk_draws <- MASS::mvrnorm(n = 100, mu = mu, Sigma = sigma)
+    bulk_draws <- MASS::mvrnorm(n = 1000, mu = mu, Sigma = sigma)
     bulk_diffs <- bulk_draws[,1] - bulk_draws[,2]
     
     vals$diffs <- c(vals$diffs, bulk_diffs)
   })
+
   
   # Reset everything
   observeEvent(input$reset, {
@@ -134,12 +135,17 @@ server <- function(input, output, session) {
         theme_minimal(base_size = 14) +
         labs(x = "x̄₁ - x̄₂", y = "Count", title =paste0("Correlation: ", cr))
       
+      p3 <- ggplot(df) +
+        geom_point(aes(x = x, y = y)) + 
+        theme_bw() + 
+        labs(x = "X1", y = "X2")
       
     } else {
       p2 <- ggplot() + theme_void() + ggtitle("No differences yet")
+      p3 <- ggplot() + theme_void() 
     }
     
-    p1 / p2
+    p1 / p2 / p3
   })
   
   output$vars <- renderTable({
