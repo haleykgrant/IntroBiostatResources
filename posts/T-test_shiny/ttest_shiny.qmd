@@ -21,10 +21,10 @@ ui <- page_sidebar(
   theme = bs_theme(bootswatch = "materia"),
   titlePanel("T-test Visualization"),
   sidebar = sidebar(
-    numericInput("n", "Sample size (n):", value = 30, min = 2),
+    numericInput("n", "Sample size per group (n):", value = 735, min = 2),
     numericInput("mu0", HTML("Null hypothesis mean (&mu;<sub>0</sub>):"), value = 0),
     numericInput("mu_true", HTML("True mean (&mu;<sub>true</sub>):"), value = 0), # True mean input
-    numericInput("sigma", "Population standard deviation (σ):", value = 1),
+    numericInput("sigma", "Population standard deviation (σ):", value = 2.15),
     numericInput("alpha", "Significance level (α):", value = 0.05),
     radioButtons("test_type", "Test Type:", choices = list("One-sided (left)" = "one left","One-sided (right)" = "one right", "Two-sided" = "two"),
                  selected = "two"),
@@ -274,7 +274,7 @@ server <- function(input, output, session) {
                           n = input$n, 
                           sd = input$sigma, 
                           sig.level = input$alpha, 
-                          type = "one.sample", 
+                          type = "two.sample", 
                           alternative = sides)$power
       
       # Return power value as a string
