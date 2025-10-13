@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../include/webex.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -166,12 +166,39 @@ ul.task-list li input[type="checkbox"] {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
         </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html#Tutorials" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorials</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html#shiny-apps" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shiny Apps</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -190,7 +217,6 @@ ul.task-list li input[type="checkbox"] {
 #| viewerHeight: 800
 library(shiny)
 library(ggplot2)
-library(extraDistr)
 library(bslib)
 library(bsicons)
 
@@ -213,7 +239,7 @@ ui &lt;- page_sidebar(
   
   card(
     card_header("Sample"),
-    height = "750px",
+    height = "850px",
     fluidRow(
       column(6,
              style = "justify-content: center; align-items: center",  # Center vertically and control height
@@ -226,12 +252,15 @@ ui &lt;- page_sidebar(
     
   ),
   
-  card(card_header("Sample Mean"), plotOutput("meanDensityPlot", height = "500px") ), # New density plot for sample mean
-  card( 
-    card_header("Test Statistic"),
-    plotOutput("densityPlot", height = "500px")),  # Larger density plot below
+  card(card_header("Null Distributions"),
+       height = "700px",
+       fluidRow(
+         column(6, 
+              plotOutput("meanDensityPlot", height = "175px") ), # New density plot for sample mean
+  column(6,
+    plotOutput("densityPlot", height = "175px")))),  # Larger density plot below
   card(card_header("Power"),
-       height = "250px",
+       height = "350px",
        card_body(
        textOutput("power")))
   
@@ -322,7 +351,14 @@ server &lt;- function(input, output, session) {
       
       # Add alternative distribution if showAlt is TRUE
       if (showAlt()) {
-        p &lt;- p + stat_function(fun = dlst, args = list(mu = input$mu_true/(plot_data$sample_sd/sqrt(input$n)), df = input$n-1), 
+        p &lt;- p + stat_function(
+  fun = dt, 
+  args = list(
+    # 'ncp' is the non-centrality parameter
+    ncp = input$mu_true / (plot_data$sample_sd / sqrt(input$n)), 
+    # 'df' is the degrees of freedom
+    df = input$n - 1
+  ), 
                                color = "lightblue", alpha = 0.7) + 
           labs(title = "Test Statistic Distribution: Null vs Alternative")
         
@@ -341,12 +377,13 @@ server &lt;- function(input, output, session) {
           # Add shaded rejection regions using geom_rect
           p &lt;- p + geom_rect(aes(xmin = -Inf, xmax = critical_value_low, ymin = 0, ymax = Inf), 
                              fill = "red", alpha = 0.05) + 
-            geom_rect(aes(xmin = critical_value_high, xmax = Inf, ymin = 0, ymax = Inf), 
+            geom_rect(aes(xmin = critical_value_high, xmax = Inf, ymin = 0, ymax = Inf),
                       fill = "red", alpha = 0.05) 
         } else if (test_type == "one left") {
           critical_value_high &lt;- qt(1-alpha, df = input$n - 1)
           p &lt;- p + geom_rect(aes(xmin = -Inf, xmax = critical_value_high, ymin = 0, ymax = Inf), 
-                             fill = "red", alpha = 0.05)
+                             fill = "red", alpha = 0.05) 
+           
           
         } else {
           
@@ -355,7 +392,8 @@ server &lt;- function(input, output, session) {
           
           # Add a shaded rejection region for one-sided test
           p &lt;- p + geom_rect(aes(xmin = critical_value_low, xmax = Inf, ymin = 0, ymax = Inf), 
-                             fill = "red", alpha = 0.05)
+                             fill = "red", alpha = 0.05) 
+            
         } }
       p
     })
@@ -401,9 +439,9 @@ server &lt;- function(input, output, session) {
       # Show confidence interval if the toggle is on
       if (showCI()) {
         p &lt;- p + geom_segment(aes(x = ci_low, xend = ci_high, y = 0, yend = 0), 
-                              color = "purple", size = 2) + 
+                              color = "blue", size = 2) + 
           geom_rect(aes(xmin = ci_low, xmax = ci_high, ymin = 0, ymax = Inf), 
-                    fill = "purple", alpha = 0.05) +
+                    fill = "blue", alpha = 0.05) +
           geom_vline(aes(xintercept = input$mu0), color = "firebrick1", linetype = 2)
         
       }
@@ -465,6 +503,7 @@ server &lt;- function(input, output, session) {
 
 
 shinyApp(ui = ui, server = server)
+
 
 </code></pre>
 

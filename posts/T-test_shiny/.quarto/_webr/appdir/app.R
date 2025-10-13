@@ -1,19 +1,6 @@
----
-title: "T Test Visualization"
-author: "Haley Grant"
-image: "tst.png"
-description: "App to show intuition behind t-tests"  
-filters: 
-  - shinylive
-categories:
-    - Statistical Inference
----
-
-```{shinylive-r}
-#| standalone: true
-#| viewerHeight: 800
 library(shiny)
 library(ggplot2)
+library(extraDistr)
 library(bslib)
 library(bsicons)
 
@@ -49,15 +36,12 @@ ui <- page_sidebar(
     
   ),
   
-  card(card_header("Null Distributions"),
-       height = "700px",
-       fluidRow(
-         column(6, 
-              plotOutput("meanDensityPlot", height = "175px") ), # New density plot for sample mean
-  column(6,
-    plotOutput("densityPlot", height = "175px")))),  # Larger density plot below
+  card(card_header("Sample Mean"), plotOutput("meanDensityPlot", height = "500px") ), # New density plot for sample mean
+  card( 
+    card_header("Test Statistic"),
+    plotOutput("densityPlot", height = "500px")),  # Larger density plot below
   card(card_header("Power"),
-       height = "350px",
+       height = "250px",
        card_body(
        textOutput("power")))
   
@@ -148,14 +132,7 @@ server <- function(input, output, session) {
       
       # Add alternative distribution if showAlt is TRUE
       if (showAlt()) {
-        p <- p + stat_function(
-  fun = dt, 
-  args = list(
-    # 'ncp' is the non-centrality parameter
-    ncp = input$mu_true / (plot_data$sample_sd / sqrt(input$n)), 
-    # 'df' is the degrees of freedom
-    df = input$n - 1
-  ), 
+        p <- p + stat_function(fun = dlst, args = list(mu = input$mu_true/(plot_data$sample_sd/sqrt(input$n)), df = input$n-1), 
                                color = "lightblue", alpha = 0.7) + 
           labs(title = "Test Statistic Distribution: Null vs Alternative")
         
@@ -174,13 +151,12 @@ server <- function(input, output, session) {
           # Add shaded rejection regions using geom_rect
           p <- p + geom_rect(aes(xmin = -Inf, xmax = critical_value_low, ymin = 0, ymax = Inf), 
                              fill = "red", alpha = 0.05) + 
-            geom_rect(aes(xmin = critical_value_high, xmax = Inf, ymin = 0, ymax = Inf),
+            geom_rect(aes(xmin = critical_value_high, xmax = Inf, ymin = 0, ymax = Inf), 
                       fill = "red", alpha = 0.05) 
         } else if (test_type == "one left") {
           critical_value_high <- qt(1-alpha, df = input$n - 1)
           p <- p + geom_rect(aes(xmin = -Inf, xmax = critical_value_high, ymin = 0, ymax = Inf), 
-                             fill = "red", alpha = 0.05) 
-           
+                             fill = "red", alpha = 0.05)
           
         } else {
           
@@ -189,8 +165,7 @@ server <- function(input, output, session) {
           
           # Add a shaded rejection region for one-sided test
           p <- p + geom_rect(aes(xmin = critical_value_low, xmax = Inf, ymin = 0, ymax = Inf), 
-                             fill = "red", alpha = 0.05) 
-            
+                             fill = "red", alpha = 0.05)
         } }
       p
     })
@@ -236,9 +211,9 @@ server <- function(input, output, session) {
       # Show confidence interval if the toggle is on
       if (showCI()) {
         p <- p + geom_segment(aes(x = ci_low, xend = ci_high, y = 0, yend = 0), 
-                              color = "blue", size = 2) + 
+                              color = "purple", size = 2) + 
           geom_rect(aes(xmin = ci_low, xmax = ci_high, ymin = 0, ymax = Inf), 
-                    fill = "blue", alpha = 0.05) +
+                    fill = "purple", alpha = 0.05) +
           geom_vline(aes(xintercept = input$mu0), color = "firebrick1", linetype = 2)
         
       }
@@ -301,6 +276,3 @@ server <- function(input, output, session) {
 
 shinyApp(ui = ui, server = server)
 
-
-
-```

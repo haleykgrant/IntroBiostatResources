@@ -1,20 +1,25 @@
 library(shiny)
 library(tidyverse)
-library(MASS)      # for mvrnorm
-library(patchwork) # for combining plots
+library(MASS)
+library(patchwork)
 
 ui <- fluidPage(
   titlePanel("Paired vs Unpaired T-Tests"),
   sidebarLayout(
     sidebarPanel(
-      sliderInput("rho", "Correlation (ρ):", min = -1, max = 1, value = 0, step = 0.1),
-      sliderInput("vr","Variance Ratio", value = 1, min = 0.25, max = 2, step = .25),
+      sliderInput("rho", "Correlation (ρ):", min = -1, max = 1, value = 0, step = 0.05),
+      sliderInput("vr", "Variance Ratio", value = 1, min = 0.25, max = 2, step = .25),
       actionButton("draw", "Draw One Sample"),
       actionButton("draw1000", "Draw 1000 Samples"),
       actionButton("reset", "Reset")
     ),
     mainPanel(
-      plotOutput("plots", height = "600px"),
+      tabsetPanel(
+        tabPanel("Distribution Plot", plotOutput("plot_p1", height = "400px")),
+        tabPanel("Scatterplot", plotOutput("plot_p3", height = "400px"))
+      ),
+      br(),
+      plotOutput("plot_p2", height = "300px"),
       tableOutput("vars")
     )
   )
@@ -22,140 +27,116 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   set.seed(123)
-  # Fixed means & SDs
-  mu1 <- 2;  sd1 <- 1
-  mu2 <- 5;  sd2 <- 1
+  mu1 <- 5; sd1 <- 1
+  mu2 <- 2; sd2 <- 1
   
+  vals <- reactiveValues(draws1 = numeric(), draws2 = numeric(), diffs = numeric())
   
-  
-  vals <- reactiveValues(
-    draws1 = numeric(),
-    draws2 = numeric(),
-    diffs  = numeric()
-  )
-  
-  # Draw one sample
+  # --- Drawing events ---
   observeEvent(input$draw, {
     mu <- c(mu1, mu2)
     sd2 <- sqrt(sd1^2 * input$vr)
     sigma <- matrix(c(sd1^2, input$rho * sd1 * sd2,
                       input$rho * sd1 * sd2, sd2^2), 2, 2)
-    
     new_draw <- MASS::mvrnorm(n = 1, mu = mu, Sigma = sigma)
-    
-    vals$draws1 <- new_draw[1]
-    vals$draws2 <- new_draw[2]
-    vals$diffs  <- c(vals$diffs, new_draw[1] - new_draw[2])
+    vals$draws1 <- c(new_draw[1], vals$draws1)
+    vals$draws2 <- c(new_draw[2], vals$draws2)
+    vals$diffs  <- c(new_draw[1] - new_draw[2], vals$diffs)
   })
   
-  # Draw 1000 samples
   observeEvent(input$draw1000, {
     mu <- c(mu1, mu2)
     sd2 <- sqrt(sd1^2 * input$vr)
     sigma <- matrix(c(sd1^2, input$rho * sd1 * sd2,
                       input$rho * sd1 * sd2, sd2^2), 2, 2)
-    
-    bulk_draws <- MASS::mvrnorm(n = 1000, mu = mu, Sigma = sigma)
-    bulk_diffs <- bulk_draws[,1] - bulk_draws[,2]
-    
-    vals$diffs <- c(vals$diffs, bulk_diffs)
+    bulk <- MASS::mvrnorm(n = 1000, mu = mu, Sigma = sigma)
+    vals$draws1 <- c(bulk[,1], vals$draws1)
+    vals$draws2 <- c(bulk[,2], vals$draws2)
+    vals$diffs  <- c(bulk[,1] - bulk[,2], vals$diffs)
   })
-
   
-  # Reset everything
   observeEvent(input$reset, {
     vals$draws1 <- numeric()
     vals$draws2 <- numeric()
     vals$diffs  <- numeric()
   })
   
-  output$plots <- renderPlot({
+  # --- Plots ---
+  output$plot_p1 <- renderPlot({
     sd2 <- sqrt(sd1^2 * input$vr)
-    # Theoretical SD of the difference given correlation
-    diff_sd <- sqrt(sd1^2 + sd2^2 - 2 * input$rho * sd1 * sd2)
     x_range <- seq(min(mu1 - 4*sd1, mu2 - 4*sd2),
-                   max(mu1 + 4*sd1, mu2 + 4*sd2),
-                   length.out = 600)
-    
-    # Data for the two theoretical normals
+                   max(mu1 + 4*sd1, mu2 + 4*sd2), length.out = 600)
     df <- rbind(
-      data.frame(x = x_range, y = dnorm(x_range, mean = mu1, sd = sd1), dist = "x̄1"),
-      data.frame(x = x_range, y = dnorm(x_range, mean = mu2, sd = sd2), dist = "x̄2")
+      data.frame(x = x_range, y = dnorm(x_range, mu1, sd1), dist = "x̄1"),
+      data.frame(x = x_range, y = dnorm(x_range, mu2, sd2), dist = "x̄2")
     )
     
-    df.x1 = df %>% filter(dist == "x̄1")
-    df.x2 = df %>% filter(dist != "x̄1")
-    # Top panel: curves + optional points & segment
+    df.x1 <- df %>% filter(dist == "x̄1")
+    df.x2 <- df %>% filter(dist == "x̄2")
+    
     p1 <- ggplot(df, aes(x, y, color = dist)) +
       geom_line(linewidth = 1.2) +
-      scale_color_manual(values = c("navy","steelblue1")) + 
-      {
-        if (length(vals$draws1) > 0) {
-          list(
-            geom_segment(aes(
-              x = vals$draws1,
-              xend = vals$draws2,
-              y = 0, yend = 0
-            ), color = "firebrick1", linewidth = 0.75, inherit.aes = FALSE),
-            geom_point(aes(x = vals$draws1, y = 0), color = "navy", size = 3, inherit.aes = FALSE),
-            geom_point(aes(x = vals$draws2, y = 0), color = "steelblue1", size = 3, inherit.aes = FALSE), 
-            geom_segment(aes(x = vals$draws1, xend = vals$draws1, yend = df.x1$y[which.min(abs(df.x1$x - vals$draws1))], y = 0), color = "navy") ,
-            geom_segment(aes(x = vals$draws2, xend = vals$draws2, yend = df.x2$y[which.min(abs(df.x2$x - vals$draws2))], y = 0), color = "steelblue1")
-          )
-        }
-      } +
+      scale_color_manual(values = c("navy", "steelblue1")) +
       theme_minimal(base_size = 14) +
-      labs(x = "Value", y = "Density", color = "Distribution") 
+      labs(x = "Value", y = "Density", color = "Distribution")
     
-    # Bottom panel: dot plot of differences
-    if (length(vals$diffs) > 0) {
-      if(input$rho==0){cr = "Uncorrelated"
-      } else if(input$rho > 0) {cr = "Positively Correlated"
-      } else {cr = "Negatively Correlated"}
-      n_points <- length(vals$diffs)
-      binwidth <- 0.2
-      
-      # Parameters for theoretical difference distribution
-      mu_diff <- mu1 - mu2
-      sd_diff <- sqrt(sd1^2 + sd2^2 - 2 * input$rho * sd1 * sd2)
-      sd_diff0 <- sqrt(sd1^2 + sd2^2 )
-      # Maximum expected count occurs at the mode (center of normal)
-      expected_max <- n_points * dnorm(mu_diff, mean = mu_diff, sd = sd_diff) * binwidth
-      
-      # Add a small margin
-      y_max <- ceiling(expected_max) + ceiling(sqrt(n_points))
-      if(y_max==Inf) {y_max = n_points + ceiling(n_points/50) }
-      # Histogram
-      p2 <-  ggplot() +
-        geom_histogram(aes(x = vals$diffs), binwidth = binwidth, fill = "firebrick1", color = "black") +
-        coord_cartesian(
-          xlim = c(mu_diff + -4*sd_diff0 - binwidth, mu_diff + 4*sd_diff0 + binwidth),
-          ylim = c(0, y_max)  # y-axis expands in steps
-        ) +
-        theme_minimal(base_size = 14) +
-        labs(x = "x̄₁ - x̄₂", y = "Count", title =paste0("Correlation: ", cr))
-      
-      p3 <- ggplot(df) +
-        geom_point(aes(x = x, y = y)) + 
-        theme_bw() + 
-        labs(x = "X1", y = "X2")
-      
-    } else {
-      p2 <- ggplot() + theme_void() + ggtitle("No differences yet")
-      p3 <- ggplot() + theme_void() 
+    if (length(vals$draws1) > 0) {
+      d1 <- vals$draws1[1]
+      d2 <- vals$draws2[1]
+      p1 <- p1 +
+        geom_segment(aes(x = d1, xend = d2, y = 0, yend = 0),
+                     color = "firebrick1", linewidth = 0.75, inherit.aes = FALSE) +
+        geom_point(aes(x = d1, y = 0), color = "navy", size = 3, inherit.aes = FALSE) +
+        geom_point(aes(x = d2, y = 0), color = "steelblue1", size = 3, inherit.aes = FALSE) +
+        geom_segment(aes(x = d1, xend = d1,
+                         y = 0, yend = df.x1$y[which.min(abs(df.x1$x - d1))]),
+                     color = "navy", inherit.aes = FALSE) +
+        geom_segment(aes(x = d2, xend = d2,
+                         y = 0, yend = df.x2$y[which.min(abs(df.x2$x - d2))]),
+                     color = "steelblue1", inherit.aes = FALSE)
     }
     
-    p1 / p2 / p3
+    p1
+  })
+  
+  output$plot_p2 <- renderPlot({
+    if (length(vals$diffs) == 0)
+      return(ggplot() + theme_void() + ggtitle("No differences yet"))
+    
+    sd2 <- sqrt(sd1^2 * input$vr)
+    mu_diff <- mu1 - mu2
+    sd_diff <- sqrt(sd1^2 + sd2^2 - 2 * input$rho * sd1 * sd2)
+    sd_diff0 <- sqrt(sd1^2 + sd2^2)
+    binwidth <- 0.2
+    
+    cr <- if (input$rho == 0) "Uncorrelated" else if (input$rho > 0) "Positively Correlated" else "Negatively Correlated"
+    
+    ggplot() +
+      geom_histogram(aes(x = vals$diffs), binwidth = binwidth,
+                     fill = "firebrick1", color = "black") +
+      coord_cartesian(
+        xlim = c(mu_diff - 4*sd_diff0, mu_diff + 4*sd_diff0)
+      ) +
+      theme_minimal(base_size = 14) +
+      labs(x = "x̄₁ - x̄₂", y = "Count", title = paste0("Correlation: ", cr))
+  })
+  
+  output$plot_p3 <- renderPlot({
+    if (length(vals$draws1) == 0)
+      return(ggplot() + theme_void())
+    
+    ggplot(data.frame(x1 = vals$draws1, x2 = vals$draws2)) +
+      geom_point(aes(x = x1, y = x2)) +
+      theme_bw() +
+      labs(x = "x̄1", y = "x̄2")
   })
   
   output$vars <- renderTable({
-    dt = data.frame(Distribution = c("x̄1","x̄2","x̄1 - x̄2"),
-                    Var = c(1, 1*input$vr, var(vals$diffs) ))
-    
-    dt
-  }, bordered = T, rownames = F, align = "c")
-} 
-
+    data.frame(
+      Distribution = c("x̄1", "x̄2", "x̄1 - x̄2"),
+      Var = c(1, 1 * input$vr, var(vals$diffs))
+    )
+  }, bordered = TRUE, rownames = FALSE, align = "c")
+}
 
 shinyApp(ui, server)
-
