@@ -291,10 +291,10 @@ server &lt;- function(input, output, session) {
   
   observeEvent(input$draw, {
     # Create a bimodal sample using the true mean (µ_true)
-    n1 &lt;- floor(input$n / 2)
+   n1 &lt;- floor(input$n / 2)
     n2 &lt;- input$n - n1
-    sample1 &lt;- rnorm(n1, mean = input$mu_true - 0.5, sd = (4 * input$sigma - 1) / 4)  # First mode
-    sample2 &lt;- rnorm(n2, mean = input$mu_true + 0.5, sd = (4 * input$sigma - 1) / 4)  # Second mode
+    sample1 &lt;- rnorm(n1, mean = input$mu_true - 1.75, sd = (4 * input$sigma - 3.5) / 4)  # First mode
+    sample2 &lt;- rnorm(n2, mean = input$mu_true + 1.75, sd = (4 * input$sigma - 3.5) / 4)  # Second mode
     sample &lt;- c(sample1, sample2)
     
     sample_data(sample)  # Store sample data
