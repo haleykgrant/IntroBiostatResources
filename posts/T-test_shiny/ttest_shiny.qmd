@@ -53,13 +53,13 @@ ui <- page_sidebar(
        height = "700px",
        fluidRow(
          column(6, 
-              plotOutput("meanDensityPlot", height = "175px") ), # New density plot for sample mean
-  column(6,
-    plotOutput("densityPlot", height = "175px")))),  # Larger density plot below
+                plotOutput("meanDensityPlot", height = "175px") ), # New density plot for sample mean
+         column(6,
+                plotOutput("densityPlot", height = "175px")))),  # Larger density plot below
   card(card_header("Power"),
        height = "350px",
        card_body(
-       textOutput("power")))
+         textOutput("power")))
   
 )
 
@@ -88,8 +88,9 @@ server <- function(input, output, session) {
   
   observeEvent(input$draw, {
     # Create a bimodal sample using the true mean (µ_true)
-   n1 <- floor(input$n / 2)
+    n1 <- floor(input$n / 2)
     n2 <- input$n - n1
+
     sample1 <- rnorm(n1, mean = input$mu_true - 1.75, sd = (4 * input$sigma - 3.5) / 4)  # First mode
     sample2 <- rnorm(n2, mean = input$mu_true + 1.75, sd = (4 * input$sigma - 3.5) / 4)  # Second mode
     sample <- c(sample1, sample2)
@@ -149,14 +150,14 @@ server <- function(input, output, session) {
       # Add alternative distribution if showAlt is TRUE
       if (showAlt()) {
         p <- p + stat_function(
-  fun = dt, 
-  args = list(
-    # 'ncp' is the non-centrality parameter
-    ncp = input$mu_true / (plot_data$sample_sd / sqrt(input$n)), 
-    # 'df' is the degrees of freedom
-    df = input$n - 1
-  ), 
-                               color = "lightblue", alpha = 0.7) + 
+          fun = dt, 
+          args = list(
+            # 'ncp' is the non-centrality parameter
+            ncp = input$mu_true / (plot_data$sample_sd / sqrt(input$n)), 
+            # 'df' is the degrees of freedom
+            df = input$n - 1
+          ), 
+          color = "lightblue", alpha = 0.7) + 
           labs(title = "Test Statistic Distribution: Null vs Alternative")
         
         
@@ -180,7 +181,7 @@ server <- function(input, output, session) {
           critical_value_high <- qt(1-alpha, df = input$n - 1)
           p <- p + geom_rect(aes(xmin = -Inf, xmax = critical_value_high, ymin = 0, ymax = Inf), 
                              fill = "red", alpha = 0.05) 
-           
+          
           
         } else {
           
@@ -190,7 +191,7 @@ server <- function(input, output, session) {
           # Add a shaded rejection region for one-sided test
           p <- p + geom_rect(aes(xmin = critical_value_low, xmax = Inf, ymin = 0, ymax = Inf), 
                              fill = "red", alpha = 0.05) 
-            
+          
         } }
       p
     })
@@ -274,7 +275,7 @@ server <- function(input, output, session) {
                           n = input$n, 
                           sd = input$sigma, 
                           sig.level = input$alpha, 
-                          type = "two.sample", 
+                          type = "one.sample", 
                           alternative = sides)$power
       
       # Return power value as a string
@@ -300,7 +301,6 @@ server <- function(input, output, session) {
 
 
 shinyApp(ui = ui, server = server)
-
 
 
 ```
