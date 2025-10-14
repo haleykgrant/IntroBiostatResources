@@ -225,8 +225,8 @@ ui &lt;- page_sidebar(
   titlePanel("T-test Visualization"),
   sidebar = sidebar(
     numericInput("n", "Sample size per group (n):", value = 735, min = 2),
-    numericInput("mu0", HTML("Null hypothesis mean (&amp;mu;&lt;sub&gt;0&lt;/sub&gt;):"), value = 0),
-    numericInput("mu_true", HTML("True mean (&amp;mu;&lt;sub&gt;true&lt;/sub&gt;):"), value = 0), # True mean input
+    numericInput("mu0", HTML("Null hypothesized mean difference (&amp;mu;&lt;sub&gt;0&lt;/sub&gt;):"), value = 0),
+    numericInput("mu_true", HTML("True mean difference (&amp;mu;&lt;sub&gt;true&lt;/sub&gt;):"), value = 0), # True mean input
     numericInput("sigma", "Population standard deviation (σ):", value = 2.15),
     numericInput("alpha", "Significance level (α):", value = 0.05),
     radioButtons("test_type", "Test Type:", choices = list("One-sided (left)" = "one left","One-sided (right)" = "one right", "Two-sided" = "two"),
@@ -291,28 +291,31 @@ server &lt;- function(input, output, session) {
   
   observeEvent(input$draw, {
     # Create a bimodal sample using the true mean (µ_true)
-    n1 &lt;- floor(input$n / 2)
-    n2 &lt;- input$n - n1
-
-    sample1 &lt;- rnorm(n1, mean = input$mu_true - 1.75, sd = (4 * input$sigma - 3.5) / 4)  # First mode
-    sample2 &lt;- rnorm(n2, mean = input$mu_true + 1.75, sd = (4 * input$sigma - 3.5) / 4)  # Second mode
-    sample &lt;- c(sample1, sample2)
     
-    sample_data(sample)  # Store sample data
+    pop1a &lt;- rnorm(10000, mean =  - 1.75, sd = (4 * input$sigma - 3.5) / 4)  # First mode
+    pop1b &lt;- rnorm(10000, mean = 1.75, sd = (4 * input$sigma - 3.5) / 4)  # Second mode
+    pop2a &lt;- rnorm(10000, mean =  input$mu_true - 1.75, sd = (4 * input$sigma - 3.5) / 4)  # First mode
+    pop2b &lt;- rnorm(10000, mean = input$mu_true + 1.75, sd = (4 * input$sigma - 3.5) / 4)  # Second mode
+    pop1 = c(pop1a, pop1b)
+    pop2 = c(pop2a, pop2b)
+    sample1 = sample(pop1, input$n, replace = T)
+    sample2 = sample(pop2, input$n, replace = T)
+    sample_data(data.frame(group = rep(c("Group 1", "Group 2"), each = input$n),
+                           x = c(sample1, sample2)))  # Store sample data
     
     # Store plot-specific values in reactiveValues
-    plot_data$sample_mean &lt;- mean(sample)
-    plot_data$sample_sd &lt;- sd(sample)
-    plot_data$t_stat &lt;- (plot_data$sample_mean - input$mu0) / (plot_data$sample_sd / sqrt(input$n))  # t-statistic
+    plot_data$sample_mean &lt;- mean(sample2) - mean(sample1) 
+    plot_data$sample_sd &lt;- sqrt((var(sample1)+var(sample2))/2)
+    plot_data$t_stat &lt;- (plot_data$sample_mean - input$mu0) / (sqrt(2*plot_data$sample_sd^2 / input$n))  # t-statistic
     
     # Dynamically set x-axis limits for density plots, based on current input values
     plot_data$x_limits_null &lt;- c(
-      qt(0.0001, df = input$n - 1),
-      qt(0.9999, df = input$n - 1) + (input$mu_true - input$mu0) / (plot_data$sample_sd / sqrt(input$n))
+      qt(0.0001, df = 2*input$n - 2),
+      qt(0.9999, df = 2*input$n - 2) + (input$mu_true - input$mu0) / (sqrt(2 * plot_data$sample_sd^2 / input$n))
     )
     plot_data$mean_x_limits &lt;- c(
-      qnorm(0.0001, mean = input$mu0, sd = (input$sigma / sqrt(input$n))),
-      qnorm(0.9999, mean = input$mu_true, sd = (input$sigma / sqrt(input$n)))
+      qnorm(0.0001, mean = input$mu0, sd = (sqrt(2*plot_data$sample_sd^2 / input$n))),
+      qnorm(0.9999, mean = input$mu_true, sd = (sqrt(2*plot_data$sample_sd^2 / input$n)))
     )
     
     # Render the summary statistics in the left panel
@@ -322,7 +325,7 @@ server &lt;- function(input, output, session) {
         Value = c(
           round(plot_data$sample_mean, 3),
           round(plot_data$sample_sd, 3),
-          round(plot_data$sample_sd / sqrt(input$n), 3),
+          round((sqrt(2*plot_data$sample_sd^2 / input$n)), 3),
           paste0("&lt;span style='color:springgreen4;'&gt;", round(plot_data$t_stat, 3), "&lt;/span&gt;")
         ),
         stringsAsFactors = FALSE
@@ -356,9 +359,9 @@ server &lt;- function(input, output, session) {
           fun = dt, 
           args = list(
             # 'ncp' is the non-centrality parameter
-            ncp = input$mu_true / (plot_data$sample_sd / sqrt(input$n)), 
+            ncp = input$mu_true / (sqrt(2*plot_data$sample_sd^2 / input$n)), 
             # 'df' is the degrees of freedom
-            df = input$n - 1
+            df = 2*input$n - 2
           ), 
           color = "lightblue", alpha = 0.7) + 
           labs(title = "Test Statistic Distribution: Null vs Alternative")
@@ -373,15 +376,15 @@ server &lt;- function(input, output, session) {
         
         if (test_type == "two") {
           # Calculate critical t-values for two-sided test
-          critical_value_low &lt;- qt(alpha / 2, df = input$n - 1)
-          critical_value_high &lt;- qt(1 - alpha / 2, df = input$n - 1)
+          critical_value_low &lt;- qt(alpha / 2, df = 2*input$n - 2)
+          critical_value_high &lt;- qt(1 - alpha / 2, df = 2*input$n - 2)
           # Add shaded rejection regions using geom_rect
           p &lt;- p + geom_rect(aes(xmin = -Inf, xmax = critical_value_low, ymin = 0, ymax = Inf), 
                              fill = "red", alpha = 0.05) + 
             geom_rect(aes(xmin = critical_value_high, xmax = Inf, ymin = 0, ymax = Inf),
                       fill = "red", alpha = 0.05) 
         } else if (test_type == "one left") {
-          critical_value_high &lt;- qt(1-alpha, df = input$n - 1)
+          critical_value_high &lt;- qt(1-alpha, df = 2*input$n - 2)
           p &lt;- p + geom_rect(aes(xmin = -Inf, xmax = critical_value_high, ymin = 0, ymax = Inf), 
                              fill = "red", alpha = 0.05) 
           
@@ -389,7 +392,7 @@ server &lt;- function(input, output, session) {
         } else {
           
           # One-sided test
-          critical_value_low &lt;- qt(1-alpha, df = input$n - 1)
+          critical_value_low &lt;- qt(1-alpha, df = 2*input$n - 2)
           
           # Add a shaded rejection region for one-sided test
           p &lt;- p + geom_rect(aes(xmin = critical_value_low, xmax = Inf, ymin = 0, ymax = Inf), 
@@ -401,8 +404,9 @@ server &lt;- function(input, output, session) {
     
     # Plot for the sample histogram
     output$samplePlot &lt;- renderPlot({
-      ggplot(data.frame(sample = sample_data()), aes(x = sample)) + 
-        geom_histogram(bins = 10, fill = "lightblue", color = "black") + 
+      ggplot(sample_data(), aes(x = x, fill = group)) + 
+        geom_histogram(bins = 10, alpha = 0.6, color = "black", position = "identity") + 
+        scale_fill_manual(values = c("steelblue4", "orange3")) + 
         labs(title = paste0("Sample (µ = ", input$mu_true,")"),  
              x = "Sample Values", y = "Frequency") + theme_classic()
     })
@@ -410,26 +414,26 @@ server &lt;- function(input, output, session) {
     # Plot for the expected sample mean distribution
     output$meanDensityPlot &lt;- renderPlot({
       # Set appropriate limits for the expected sample mean density plot
-      mean_x_limits &lt;- c(qnorm(0.0001, mean = input$mu0, sd = (input$sigma / sqrt(input$n))),
-                         qnorm(0.9999, mean = input$mu_true, sd = (input$sigma / sqrt(input$n))))
+      mean_x_limits &lt;- c(qnorm(0.0001, mean = input$mu0, sd = (sqrt(2*plot_data$sample_sd^2 / input$n))),
+                         qnorm(0.9999, mean = input$mu_true, sd = (sqrt(2*plot_data$sample_sd^2 / input$n)) ))
       
-      se &lt;- plot_data$sample_sd / sqrt(input$n)
+      se &lt;- (sqrt(2*plot_data$sample_sd^2 / input$n))
       alpha &lt;- input$alpha
       test_type &lt;- input$test_type
       
       if (test_type == "one left") {
-        ci_high&lt;- plot_data$sample_mean + qt(1-alpha, df = input$n-1)*se
+        ci_high&lt;- plot_data$sample_mean + qt(1-alpha, df = 2*input$n-2)*se
         ci_low &lt;- -Inf  # For one-sided, CI extends to infinity on the right side
       } else if (test_type == "one right"){
-        ci_low &lt;- plot_data$sample_mean - qt(1-alpha, df = input$n-1)*se
+        ci_low &lt;- plot_data$sample_mean - qt(1-alpha, df = 2*input$n-2)*se
         ci_high &lt;- Inf  # For one-sided, CI extends to infinity on the right side
       } else {
-        ci_low &lt;- plot_data$sample_mean - qt(1-alpha/2, df = input$n-1)*se
-        ci_high &lt;- plot_data$sample_mean + qt(1-alpha/2, df = input$n-1)*se
+        ci_low &lt;- plot_data$sample_mean - qt(1-alpha/2, df = 2*input$n-2)*se
+        ci_high &lt;- plot_data$sample_mean + qt(1-alpha/2, df = 2*input$n-2)*se
       }
       
       p &lt;- ggplot(data.frame(x = plot_data$mean_x_limits), aes(x)) + 
-        stat_function(fun = stats::dnorm, args = list(mean = input$mu0, sd = input$sigma / sqrt(input$n)), color = "firebrick2") + 
+        stat_function(fun = stats::dnorm, args = list(mean = input$mu0, sd = (sqrt(2*plot_data$sample_sd^2 / input$n))), color = "firebrick2") + 
         geom_vline(xintercept = plot_data$sample_mean, color = "orange3", linetype = "dashed") + 
         geom_text(aes(x = plot_data$sample_mean, label = paste("X̄ =", round(plot_data$sample_mean, 2)), y = Inf), 
                   color = "orange3", angle = 90, vjust = 0, hjust = 1, size = 4.5) +
@@ -449,7 +453,9 @@ server &lt;- function(input, output, session) {
       
       # Add alternative distribution if showAlt is TRUE
       if (showAlt()) {
-        p &lt;- p + stat_function(fun = dnorm, args = list(mean = input$mu_true, sd = input$sigma / sqrt(input$n)), 
+        p &lt;- p + stat_function(fun = dnorm, 
+                               args = list(mean = input$mu_true, 
+                                           sd = (sqrt(2*plot_data$sample_sd^2 / input$n))), 
                                color = "lightblue", alpha = 0.7) + 
           labs(title = "Sample Mean: Null vs Alternative")
         
@@ -478,7 +484,7 @@ server &lt;- function(input, output, session) {
                           n = input$n, 
                           sd = input$sigma, 
                           sig.level = input$alpha, 
-                          type = "one.sample", 
+                          type = "two.sample", 
                           alternative = sides)$power
       
       # Return power value as a string
