@@ -1,7 +1,7 @@
 library(shiny)
 library(tidyverse)
 library(cowplot)
-
+library(shinyvalidate)
 
 # Define UI for application with tabs
 ui <- fluidPage(
@@ -10,111 +10,153 @@ ui <- fluidPage(
   titlePanel("Regression: Confidence and Prediction Intervals"),
   
   tabsetPanel(
+    # ---- FIRST TAB ----
     tabPanel("Confidence Interval for Regression Line",
              sidebarLayout(
                sidebarPanel(
-                 sliderInput("slope", "True Slope", min = -2, max = 2, value = 0, step = .01),
-                 sliderInput("intercept", "True Intercept", min = -10, max = 10, value = 0, step = .01),
-                 sliderInput("slopetry", "Slope to try", min = -2, max = 2, value = 0, step = .01),
-                 sliderInput("intercepttry", "Intercept to try", min = -10, max = 10, value = 0, step = .01),
+                 sliderInput("true_intercept", "True Intercept", min = -10, max = 10, value = 2, step = 0.1),
+                 sliderInput("true_slope", "True Slope", min = -2, max = 2, value = 0.5, step = 0.01),
+                 numericInput("true_sigma", "True Error SD", value = 2, min = 0.1, max = 10, step = 0.1),
                  numericInput("alpha", "Significance Level", value = 0.05, min = 0, max = 1),
-                 numericInput("n", "Sample size", min = 1, max = 1000, value = 30)
+                 numericInput("n", "Sample size", min = 5, max = 1000, value = 30),
+                 actionButton("sampleBtn", "Draw Sample"),
+                 actionButton("resetBtn", "Reset")
                ),
-               
-               # Show a plot of the generated distribution
                mainPanel(
-                 plotOutput("slopePlot")
+                 tabsetPanel(
+                   tabPanel("Single Sample", plotOutput("samplePlot")),
+                   tabPanel("All Samples", plotOutput("allSamplesPlot"))
+                 )
                )
              )
     ),
+    
+    # ---- SECOND TAB (unchanged) ----
     tabPanel("Confidence vs Prediction Intervals",
              sidebarLayout(
                sidebarPanel(
-                 numericInput("xval", "Choose X value", value = 25, min = 18, max = 40, step = 1),
+                 sliderInput("xval", "Choose X value", value = 25, min = 18, max = 40, step = 1),
                  radioButtons("interval_type", "Confidence vs Prediction Interval",
                               c("Confidence Interval" = "ci", "Prediction Interval" = "pi"),
                               selected = "ci")
                ),
-               
-               # Show a plot of the generated distribution
                mainPanel(
-                 plotOutput("intervalPlot")
+                 tabsetPanel(
+                   tabPanel("Single Sample", plotOutput("intervalPlot")),
+                   tabPanel("Multiple Samples", plotOutput("intervalWithLinesPlot"))
+                 )
                )
              )
     )
   )
 )
 
-
+# ---- SERVER ----
 server <- function(input, output, session) {
   
-  vals <- reactive({
-    x <- runif(input$n, min = 18, max = 40)
-    y <- input$intercept + input$slope * x + rnorm(input$n, sd = 2)
-    data.frame(x = x, y = y)
+  # Reactive values to store all fitted regression lines
+  simdata <- reactiveValues(
+    lines = tibble(intercept = numeric(), slope = numeric())
+  )
   
+  # Generate a new sample when "Sample" is clicked
+  new_sample <- eventReactive(input$sampleBtn, {
+    x <- runif(input$n, 18, 40)
+    y <- input$true_intercept + input$true_slope * x + rnorm(input$n, sd = input$true_sigma)
+    tibble(x, y)
   })
   
+  # Store sample data as well for visualization
+observeEvent(input$sampleBtn, {
+  dat <- new_sample()
+  fit <- lm(y ~ x, data = dat)
+  coefs <- coef(fit)
   
-  observe({
-    # Fit the regression model with current slope and intercept
-    mdl <- lm(y ~ x, data = vals())
-    se_estimates <- sqrt(diag(vcov(mdl)))
+  # Store estimated line
+  simdata$lines <- bind_rows(simdata$lines,
+                             tibble(intercept = coefs[1], slope = coefs[2]))
+  
+  # Store sample data
+  simdata$samples <- append(simdata$samples, list(dat))
+})
+
+# Reset all stored lines and data
+observeEvent(input$resetBtn, {
+  simdata$lines <- tibble(intercept = numeric(), slope = numeric())
+  simdata$samples <- list()
+})
+  
+  # ---- Plot: current sample ----
+  output$samplePlot <- renderPlot({
+    req(new_sample())
+    dat <- new_sample()
+    mdl <- lm(y ~ x, data = dat)
     
-    # Default values if standard errors are NaN or NULL
-    slope_se <- ifelse(is.na(se_estimates["x"]), 0.1, se_estimates["x"])
-    intercept_se <- ifelse(is.na(se_estimates["(Intercept)"]), 1, se_estimates["(Intercept)"])
+    newx <- tibble(x = seq(min(dat$x), max(dat$x), length.out = 100))
+    preds <- predict(mdl, newdata = newx, interval = "confidence", level = 1 - input$alpha)
+    newx <- bind_cols(newx, as.data.frame(preds))
     
-    # Minimum range width to avoid too narrow sliders
-    slope_min <- max(input$slope - 2 * slope_se, input$slope - 0.5) %>% round(digits = 3)
-    slope_max <- min(input$slope + 2 * slope_se, input$slope + 0.5) %>% round(digits = 3)
-    intercept_min <- max(input$intercept - 2 * intercept_se, input$intercept - 5) %>% round(digits = 3)
-    intercept_max <- min(input$intercept + 2 * intercept_se, input$intercept + 5) %>% round(digits = 3)
-    
-    # Step size calculation
-    slope_step <- max(slope_se / 10, 0.001) %>% round(digits = 4)
-    intercept_step <- max(intercept_se / 10, 0.05) %>% round(digits = 4)
-    
-    # Update sliders with dynamic range and step
-    updateSliderInput(session, "slopetry", 
-                      min = slope_min, 
-                      max = slope_max, 
-                      step = slope_step, 
-                      value = input$slope)
-    
-    updateSliderInput(session, "intercepttry", 
-                      min = intercept_min, 
-                      max = intercept_max, 
-                      step = intercept_step, 
-                      value = input$intercept)
+    ggplot(dat, aes(x = x, y = y)) +
+      geom_point(size = 2, alpha = 0.6) +
+      geom_abline(intercept = input$true_intercept, slope = input$true_slope, 
+                  color = "blue", linetype = "dashed", size = 1.2) +
+      geom_line(data = newx, aes(y = fit), color = "red", size = 1) +
+      geom_ribbon(data = newx, aes(x = x, ymin = lwr, ymax = upr), 
+                  inherit.aes = FALSE, alpha = 0.2, fill = "red") +
+      labs(title = "Current Sample",
+           x = "X", y = "Y") +
+      theme_bw(base_size = 14)
   })
   
-  # Plot for Slope Comparison
-  output$slopePlot <- renderPlot({
-    mdl <- lm(y ~ x, data = vals())
-    coef_estimates <- coef(mdl)
-    coef_cov <- vcov(mdl)
+  # ---- Plot: all regression lines ----
+  output$allSamplesPlot <- renderPlot({
+    df <- as.data.frame(simdata$lines)
+    x_range <- c(15, 43)
     
-    user_coef <- c(input$intercepttry, input$slopetry)
-    delta <- user_coef - coef_estimates
-    mahalanobis_dist <- t(delta) %*% solve(coef_cov) %*% delta
+    # Compute y-range for the true line + estimated lines
+    true_y <- input$true_intercept + input$true_slope * x_range
     
-    critical_value <- qchisq(1 - input$alpha, df = 2)
-    within_ci <- as.numeric(mahalanobis_dist) <= critical_value
-    clr <- if (within_ci) "blue" else "red"
+    if (nrow(df) > 0) {
+      # Get y-values of each estimated line at x_range
+      y_vals <- t(apply(df, 1, function(r) {
+        as.numeric(r["intercept"]) + as.numeric(r["slope"]) * x_range
+      }))
+      all_y_min <- min(y_vals, true_y)
+      all_y_max <- max(y_vals, true_y)
+    } else {
+      all_y_min <- min(true_y)
+      all_y_max <- max(true_y)
+    }
     
-    ggplot(vals(), aes(x = x, y = y)) +
-      geom_point() +
-      geom_smooth(method = "lm", formula = y ~ x, level = 1 - input$alpha, color = "black") +
-      geom_abline(slope = input$slopetry, intercept = input$intercepttry, color = clr, linetype = "dashed") +
-      labs(title = "Regression Line and Confidence Interval",
+    ymarg <- 0.1 * (all_y_max - all_y_min + 1e-6)
+    y_limits <- c(all_y_min - ymarg, all_y_max + ymarg)
+    
+    # Base data frame to define the plotting area
+    base_df <- data.frame(x = x_range, y = y_limits)
+    
+    ggplot(base_df, aes(x, y)) +
+      geom_blank() +
+      coord_cartesian(xlim = x_range, ylim = y_limits) +
+      # Estimated regression lines (red)
+      geom_abline(data = df, aes(intercept = intercept, slope = slope),
+                  color = "red", alpha = 0.4, size = 1) +
+      # True regression line (blue)
+      geom_abline(intercept = input$true_intercept, slope = input$true_slope,
+                  color = "blue", linetype = "dashed", size = 1.2) +
+      labs(title = paste("All Estimated Regression Lines (", nrow(df), " samples )"),
            x = "X", y = "Y") +
       theme_bw()
   })
   
-  # Plot for Interval Comparison
+  
+  # ---- Second tab (unchanged) ----
+  vals <- reactive({
+    x <- runif(input$n, min = 18, max = 40)
+    y <- input$true_intercept + input$true_slope * x + rnorm(input$n, sd = input$true_sigma)
+    data.frame(x = x, y = y)
+  })
+  
   output$intervalPlot <- renderPlot({
-    
     mdl <- lm(y ~ x, data = vals())
     pred <- predict(mdl, newdata = data.frame(x = input$xval), 
                     interval = "predict", level = 1 - input$alpha)
@@ -144,23 +186,60 @@ server <- function(input, output, session) {
            x = "X", y = "Y") +
       theme_bw() + 
       geom_vline(aes(xintercept = input$xval), color = "purple",
-                     linewidth = 0.5, linetype = 2) 
-      
-      
-  
-  
+                 linewidth = 0.5, linetype = 2) 
     
     y_density <- axis_canvas(p, axis = "y", coord_flip = TRUE) +
       geom_function(fun = dnorm, args = list(mean = pred[1], sd = sd_y), color = clr) +
       coord_flip()
     
-    # Create the combined plot
     combined_plot <- insert_yaxis_grob(p, y_density, position = "right")
-    
-    # Show the result
     ggdraw(combined_plot)
   })
+  output$intervalWithLinesPlot <- renderPlot({
+    req(length(simdata$samples) > 0)
+    
+    # Use the last sample to get CI/PI
+    last_sample <- tail(simdata$samples, 1)[[1]]
+    mdl <- lm(y ~ x, data = last_sample)
+    
+    if (input$interval_type == "ci") {
+      preds <- predict(mdl, newdata = data.frame(x = input$xval), 
+                       interval = "confidence", level = 1 - input$alpha)
+    } else {
+      preds <- predict(mdl, newdata = data.frame(x = input$xval), 
+                       interval = "predict", level = 1 - input$alpha)
+    }
+    
+    # x grid for plotting lines
+    x_grid <- seq(18, 40, length.out = 100)
+    
+    # build data frame for all sample estimated lines
+    lines_df <- simdata$lines %>%
+      mutate(id = row_number()) %>%
+      group_by(id) %>%
+      summarise(x = list(x_grid),
+                y = list(intercept + slope * x_grid)) %>%
+      unnest(c(x, y))
+    
+    ggplot() +
+      # All sample lines
+      geom_line(data = lines_df, aes(x = x, y = y, group = id),
+                color = "red", alpha = 0.3) +
+      # All sample points
+      geom_point(data = bind_rows(simdata$samples, .id = "sample_id"),
+                 aes(x = x, y = y), alpha = 0.4, size = 1.5) +
+      # True regression line
+      geom_abline(intercept = input$true_intercept, slope = input$true_slope,
+                  color = "blue", linetype = "dashed", size = 1.2) +
+      # CI/PI bar at xval
+      geom_errorbar(aes(x = input$xval, ymin = preds[2], ymax = preds[3]),
+                    color = "purple", width = 0.2) +
+      labs(title = "Sample Regression Lines",
+           x = "X", y = "Y") +
+      theme_bw(base_size = 14)
+  })
+  
 }
 
-# Run the application 
+# ---- RUN APP ----
 shinyApp(ui = ui, server = server)
