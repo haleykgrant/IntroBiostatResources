@@ -1,4 +1,3 @@
- 
 library(shiny)
 library(ggplot2)
 library(tidyverse)
@@ -9,57 +8,65 @@ ui <- fluidPage(
   
   tabsetPanel(
     tabPanel("Normal Approximation",
-  sidebarLayout(
-    sidebarPanel(
-      uiOutput("phatSlider1"),
-      numericInput("n", "Sample Size (n):", value = 50),
-      sliderInput("p", "True Proportion (p):", min = 0, max = 1, value = 0.5, step = 0.01),
-      numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.25, step = 0.01),
-      selectInput("sides", "1- vs 2-sided",choices = c("1-sided (upper)","1-sided (lower)","2-sided"),selected = "2-sided"),
-      actionButton("ci", "Show/Hide Confidence Interval")
-    ),
-    
-    mainPanel(
-      plotOutput("densityPlot"),
-      textOutput("distance"),
-      textOutput("distanceSE"),
-      textOutput("pValueText")
-    )
-  )),
-  tabPanel("Exact Binomial",
-           sidebarLayout(
-             sidebarPanel(
-               uiOutput("phatSlider2"),
-               numericInput("n2", "Sample Size (n):", value = 50),
-               sliderInput("p2", "True Proportion (p):", min = 0, max = 1, value = 0.5, step = 0.01),
-               numericInput("alpha2", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.25, step = 0.01),
-               selectInput("sides2", "1- vs 2-sided",choices = c("1-sided (upper)","1-sided (lower)","2-sided"),selected = "2-sided"),
-               actionButton("ci2", "Show/Hide Confidence Interval")
-             ),
-             
-             mainPanel(
-               plotOutput("binomPlot"),
-               textOutput("pValueText_binom")
-             )
-           )))
+             sidebarLayout(
+               sidebarPanel(
+                 uiOutput("phatSlider1"),
+                 numericInput("n", "Sample Size (n):", value = 50),
+                 sliderInput("p", "True Proportion (p):", min = 0, max = 1, value = 0.5, step = 0.01),
+                 numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.25, step = 0.01),
+                 selectInput("sides", "1- vs 2-sided",choices = c("1-sided (upper)","1-sided (lower)","2-sided"),selected = "2-sided"),
+                 actionButton("ci", "Show/Hide Confidence Interval")
+               ),
+               
+               mainPanel(
+                 plotOutput("densityPlot"),
+                 textOutput("phat"),
+                 textOutput("distance"),
+                 textOutput("distanceSE"),
+                 textOutput("pValueText")
+               )
+             )),
+    tabPanel("Exact Binomial",
+             sidebarLayout(
+               sidebarPanel(
+                 uiOutput("phatSlider2"),
+                 numericInput("n2", "Sample Size (n):", value = 50),
+                 sliderInput("p2", "True Proportion (p):", min = 0, max = 1, value = 0.5, step = 0.01),
+                 numericInput("alpha2", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.25, step = 0.01),
+                 selectInput("sides2", "1- vs 2-sided",choices = c("1-sided (upper)","1-sided (lower)","2-sided"),selected = "2-sided"),
+                 actionButton("ci2", "Show/Hide Confidence Interval")
+               ),
+               
+               mainPanel(
+                 plotOutput("binomPlot"),
+                 textOutput("phat2"),
+                 textOutput("pValueText_binom")
+               )
+             )))
   
 )
 
 # Define server logic
 server <- function(input, output, session) {
   output$phatSlider1 <- renderUI({
-    sliderInput("phat", "Sample Proportion (p̂):", min = 0, max =1, value =round(input$n/4)/input$n, step = 1/input$n)
-  })
-  output$phatSlider2 <- renderUI({
-    sliderInput("phat2", "Sample Proportion (p̂):", min = 0, max =1, value =round(input$n2/4)/input$n2, step = 1/input$n2)
+    sliderInput("x", "Sample Count (x):", 
+                min = 0, max = input$n, 
+                value = round(input$n / 4), step = 1)
   })
   
+  output$phatSlider2 <- renderUI({
+    sliderInput("x2", "Sample Count (x):", 
+                min = 0, max = input$n2, 
+                value = round(input$n2 / 4), step = 1)
+  })
+  phat <- reactive({ input$x / input$n })
+  phat2 <- reactive({ input$x2 / input$n2 })
   showCI <- reactiveVal(FALSE)
   
   observeEvent(input$ci,{
     showCI(input$ci %% 2 == 1 )
   })
-    showCI2 <- reactiveVal(FALSE)
+  showCI2 <- reactiveVal(FALSE)
   
   observeEvent(input$ci2,{
     showCI(input$ci2 %% 2 == 1 )
@@ -67,17 +74,17 @@ server <- function(input, output, session) {
   
   output$densityPlot <- renderPlot({
     # Calculate standard error
-    se_est <- sqrt(input$phat*(1-input$phat)/input$n)
+    se_est <- sqrt(phat()*(1-phat())/input$n)
     se_true <-  sqrt(input$p*(1-input$p)/input$n)
     
     # Calculate the z statistic
-    z <- (input$phat - input$p) / se_true
+    z <- (phat() - input$p) / se_true
     
     # Calculate p-value
     if(input$sides=="2-sided"){
       p_value <- 2 * (1 - pnorm(abs(z)))
     } else if(input$sides=="1-sided (upper)"){ 
-      p_value <-  pnorm(z,lower.tail = F)} else{p_value <-  pnorm(z)}
+      p_value <-  pnorm(z, lower.tail = F)} else{p_value <-  pnorm(z)}
     
     # Define the color based on p-value and alpha
     tail_color <- ifelse(p_value < input$alpha, "red", "blue")
@@ -85,15 +92,15 @@ server <- function(input, output, session) {
     # Generate x values for the plot
     x_values <- seq(-0.1, 1.1, length.out = 1000)
     if(input$sides=="2-sided"){
-      shade_vals1 = x_values[x_values<=min(input$phat, 2*input$p-input$phat)]
+      shade_vals1 = x_values[x_values<=min(phat(), 2*input$p-phat())]
     } else if(input$sides=="1-sided (upper)"){ 
       shade_vals1 = NA
-    } else{shade_vals1 = x_values[x_values<=input$phat]}
+    } else{shade_vals1 = x_values[x_values<=phat()]}
     
     if(input$sides=="2-sided"){
-      shade_vals2 = x_values[ x_values>=max(input$phat, 2*input$p-input$phat)]
+      shade_vals2 = x_values[ x_values>=max(phat(), 2*input$p-phat())]
     } else if(input$sides=="1-sided (upper)"){ 
-      shade_vals2 = x_values[x_values>=input$phat]
+      shade_vals2 = x_values[x_values>=phat()]
     } else{shade_vals2 = NA}
     # Calculate y values for the density function
     y_values <- dnorm(x_values, mean = input$p, sd = se_true)
@@ -109,16 +116,16 @@ server <- function(input, output, session) {
       # Shade the right tail
       geom_area(data = data.frame(x = x_values, y = y_values)%>% filter( x %in% shade_vals2),
                 aes(x = x, y = y), fill = tail_color, alpha = 0.3) +
-      geom_segment(aes(x = input$phat, y = 0, xend = input$p, yend = 0), color = "black", size = .75,
+      geom_segment(aes(x = phat(), y = 0, xend = input$p, yend = 0), color = "black", size = .75,
                    arrow = grid::arrow(angle = 90, ends = "both", length = unit(.1, "inches"))) +
       # Add vertical lines for xbar and mu
-      geom_vline(xintercept = input$phat, linetype = "dashed", color = "cornflowerblue", size = 0.75) +
+      geom_vline(xintercept = phat(), linetype = "dashed", color = "cornflowerblue", size = 0.75) +
       geom_vline(xintercept = input$p, linetype = "dashed", color = "darkorange2", size = 0.75) +
       # Add line segment to show the distance between xbar and mu
-      geom_segment(aes(x = input$phat, y = 0, xend = input$p, yend = 0), color = "black", size = .75,
+      geom_segment(aes(x = phat(), y = 0, xend = input$p, yend = 0), color = "black", size = .75,
                    arrow = grid::arrow(angle = 90, ends = "both", length = unit(.1, "inches"))) +
       # Add labels for xbar and mu
-      annotate("text", x = input$phat, y = -0.1, label = "p̂", color= "cornflowerblue", hjust = -0.2, size = 5) +
+      annotate("text", x = phat(), y = -0.1, label = "p̂", color= "cornflowerblue", hjust = -0.2, size = 5) +
       annotate("text", x = input$p, y = -0.1, label = "p", color = "darkorange2",  hjust = 1.2, size = 5) +
       labs(title = "Normal Density with Selected Proportion",
            x = "Value",
@@ -127,7 +134,7 @@ server <- function(input, output, session) {
     
     if(input$sides == "2-sided"){
       # Add line segment to show the distance between xbar and mu
-      p <- p + geom_segment(aes(x = 2*input$p-input$phat, y = 0, xend = input$p, yend = 0), color = "black", 
+      p <- p + geom_segment(aes(x = 2*input$p-phat(), y = 0, xend = input$p, yend = 0), color = "black", 
                             size = .75, arrow = grid::arrow(angle = 90,ends = "both",length = unit(.1, "inches")) )
     }
     
@@ -135,15 +142,20 @@ server <- function(input, output, session) {
     if(showCI()){
       if(input$sides=="2-sided"){
         p <- p + 
-          geom_segment(aes(x = input$phat +qnorm(input$alpha/2)*se_est, y = -max(y_values)/16, xend = input$phat -qnorm(input$alpha/2)*se_true, yend = -max(y_values)/16),lineend = "square", color = "purple", alpha = 0.3,
+          geom_segment(aes(x = phat() + qnorm(input$alpha/2)*se_est, 
+                           y = -max(y_values)/16, xend = phat() - qnorm(input$alpha/2)*se_true, 
+                           yend = -max(y_values)/16),lineend = "square", 
+                       color = "purple", alpha = 0.3,
                        size = .75 )
       } else if(input$sides=="1-sided (upper)"){
         p <- p + 
-          geom_segment(aes(x = input$phat -qnorm(input$alpha,lower.tail = F)*se_est, y = -max(y_values)/16, xend = Inf, yend = -max(y_values)/16),lineend = "square", color = "purple", alpha = 0.3,
+          geom_segment(aes(x = phat() - qnorm(input$alpha, lower.tail = F)*se_est, 
+                           y = -max(y_values)/16, xend = Inf, yend = -max(y_values)/16),
+                       lineend = "square", color = "purple", alpha = 0.3,
                        size = .75 )
       } else{
         p <- p + 
-          geom_segment(aes(x = input$phat + qnorm(input$alpha,lower.tail = F)*se_est, y = -max(y_values)/16, xend = -Inf, yend = -max(y_values)/16),lineend = "square", color = "purple", alpha = 0.3,
+          geom_segment(aes(x = phat() + qnorm(input$alpha, lower.tail = F)*se_est, y = -max(y_values)/16, xend = -Inf, yend = -max(y_values)/16),lineend = "square", color = "purple", alpha = 0.3,
                        size = .75 )
       }
     }
@@ -152,19 +164,26 @@ server <- function(input, output, session) {
   })
   
   output$distance <- renderText({
-    paste0("Distance of p̂ from μ: ", round(abs(input$p - input$phat), 4))
+    paste0("Distance of p̂ from p: ", round(abs(input$p - phat()), 4))
   })
   
   output$distanceSE <- renderText({
-    paste0("Distance in standard errors: ", round(abs(input$p - input$phat)/(sqrt(input$p*(1-input$p)/sqrt(input$n))), 4))
+    paste0("Distance in standard errors: ", round(abs(input$p - phat())/(sqrt(input$p*(1-input$p)/sqrt(input$n))), 4))
+  })
+  output$phat <- renderText({
+    paste0("Sample proportion (p̂): ", round(phat(), 4))
+  })
+  
+  output$phat2 <- renderText({
+    paste0("Sample proportion (p̂): ", round(phat2(), 4))
   })
   
   output$pValueText <- renderText({
     # Calculate standard error
-    se <- sqrt(input$p*(1-input$p)/sqrt(input$n))
+    se <- sqrt(input$p * (1 - input$p) / input$n)
     
     # Calculate the z statistic
-    z <- (input$phat - input$p) / se
+    z <- (phat() - input$p) / se
     
     # Calculate p-value
     if(input$sides=="2-sided"){
@@ -178,10 +197,16 @@ server <- function(input, output, session) {
   output$pValueText_binom <- renderText({
     # Calculate p-value
     if(input$sides2=="2-sided"){
-      tst = binom.test(x = input$phat2*input$n2, n = input$n2, p = input$p2, alternative = "two.sided",conf.level = 1-input$alpha2)
+      tst = binom.test(x = phat2()*input$n2, n = input$n2, 
+                       p = input$p2, alternative = "two.sided",
+                       conf.level = 1 - input$alpha2)
     } else if(input$sides2=="1-sided (upper)"){ 
-      tst = binom.test(x = input$phat2*input$n2, n = input$n2, p = input$p2, alternative = "greater",conf.level = 1-input$alpha2)
-    } else{      tst = binom.test(x = input$phat2*input$n2, n = input$n2, p = input$p2, alternative = "less",conf.level = 1-input$alpha2)}
+      tst = binom.test(x = phat2()*input$n2, n = input$n2, 
+                       p = input$p2, alternative = "greater",
+                       conf.level = 1 - input$alpha2)
+    } else{      tst = binom.test(x = phat2()*input$n2, n = input$n2, 
+                                  p = input$p2, alternative = "less",
+                                  conf.level = 1 - input$alpha2)}
     
     p_value = tst$p.value
     # Display p-value
@@ -190,16 +215,22 @@ server <- function(input, output, session) {
   
   output$binomPlot <- renderPlot({
     # Calculate standard error
-    se_est <- sqrt(input$phat2*(1-input$phat2)/input$n2)
-    se_true <-  sqrt(input$p2*(1-input$p2)/input$n2)
+    se_est <- sqrt(phat2() * (1 - phat2()) / input$n2)
+    se_true <-  sqrt(input$p2 * (1 - input$p2) / input$n2)
     
-  
+    
     # Calculate p-value
     if(input$sides2=="2-sided"){
-      tst = binom.test(x = input$phat2*input$n2, n = input$n2, p = input$p2, alternative = "two.sided",conf.level = 1-input$alpha2)
+      tst = binom.test(x = phat2()*input$n2, n = input$n2, 
+                       p = input$p2, alternative = "two.sided", 
+                       conf.level = 1 - input$alpha2)
     } else if(input$sides2=="1-sided (upper)"){ 
-      tst = binom.test(x = input$phat2*input$n2, n = input$n2, p = input$p2, alternative = "greater",conf.level = 1-input$alpha2)
-      } else{      tst = binom.test(x = input$phat2*input$n2, n = input$n2, p = input$p2, alternative = "less",conf.level = 1-input$alpha2)}
+      tst = binom.test(x = phat2()*input$n2, n = input$n2, 
+                       p = input$p2, alternative = "greater", 
+                       conf.level = 1 - input$alpha2)
+    } else{      tst = binom.test(x = phat2()*input$n2, n = input$n2, 
+                                  p = input$p2, alternative = "less",
+                                  conf.level = 1 - input$alpha2)}
     
     p_value = tst$p.value
     # Define the color based on p-value and alpha
@@ -208,17 +239,17 @@ server <- function(input, output, session) {
     # Generate x values for the plot
     x_values <- seq(0,1,by = 1/input$n2)
     if(input$sides2=="2-sided"){
-      shade_vals1 = x_values[x_values<=min(input$phat2, 2*input$p2-input$phat2)| 
-                               near(x_values,max(input$phat2, 2*input$p2-input$phat2) )]
+      shade_vals1 = x_values[x_values<=min(phat2(), 2*input$p2-phat2())| 
+                               near(x_values,max(phat2(), 2*input$p2-phat2()) )]
     } else if(input$sides2=="1-sided (upper)"){ 
       shade_vals1 = NA
-    } else{shade_vals1 = x_values[x_values<=input$phat2]}
+    } else{shade_vals1 = x_values[x_values<=phat2()]}
     
     if(input$sides2=="2-sided"){
-      shade_vals2 = x_values[ x_values>=max(input$phat2, 2*input$p2-input$phat2) | 
-                                near(x_values,max(input$phat2, 2*input$p2-input$phat2) )]
+      shade_vals2 = x_values[x_values>=max(phat2(), 2*input$p2-phat2()) | 
+                                near(x_values,max(phat2(), 2*input$p2-phat2()) )]
     } else if(input$sides2=="1-sided (upper)"){ 
-      shade_vals2 = x_values[x_values>=input$phat2]
+      shade_vals2 = x_values[x_values>=phat2()]
     } else{shade_vals2 = NA}
     # Calculate y values for the density function
     y_values <- dbinom(x_values*input$n2, p = input$p2, size = input$n2)
@@ -232,13 +263,13 @@ server <- function(input, output, session) {
       geom_bar(aes(y = y, fill = extreme), stat = "identity") +
       scale_fill_manual(values = c(`FALSE` = "lightgrey",`TRUE` = tail_color),
                         levels)+
-      geom_segment(aes(x = input$phat2, y = 0, xend = input$p2, yend = 0), color = "black", 
-                     size = .75, arrow = grid::arrow(angle = 90,ends = "both",length = unit(.1, "inches")) )+
+      geom_segment(aes(x = phat2(), y = 0, xend = input$p2, yend = 0), color = "black", 
+                   size = .75, arrow = grid::arrow(angle = 90,ends = "both",length = unit(.1, "inches")) )+
       # Add vertical lines for xbar and mu
-      geom_vline(xintercept = input$phat2, linetype = "dashed", color = "cornflowerblue", size = 0.75) +
+      geom_vline(xintercept = phat2(), linetype = "dashed", color = "cornflowerblue", size = 0.75) +
       geom_vline(xintercept = input$p2, linetype = "dashed", color = "darkorange2", size = 0.75) +
       # Add labels for xbar and mu
-      annotate("text", x = input$phat2, y = -0.005, label = "p̂", color= "cornflowerblue", hjust = -0.2, size = 5) +
+      annotate("text", x = phat2(), y = -0.005, label = "p̂", color= "cornflowerblue", hjust = -0.2, size = 5) +
       annotate("text", x = input$p2, y = -0.005, label = "p", color = "darkorange2",  hjust = 1.2, size = 5) +
       labs(title = "Binomial Distribution With Selected Proportion",
            x = "Value",
@@ -247,16 +278,16 @@ server <- function(input, output, session) {
     
     if(input$sides == "2-sided"){
       # Add line segment to show the distance between xbar and mu
-      p <- p + geom_segment(aes(x = 2*input$p2-input$phat2, y = 0, xend = input$p2, yend = 0), color = "black", 
+      p <- p + geom_segment(aes(x = 2*input$p2-phat2(), y = 0, xend = input$p2, yend = 0), color = "black", 
                             size = .75, arrow = grid::arrow(angle = 90,ends = "both",length = unit(.1, "inches")) )
     }
     
     
     if(showCI()){
-     
-        p <- p + 
-          geom_segment(aes(x = tst$conf.int[1], y = -max(y_values)/16, xend = tst$conf.int[2], yend = -max(y_values)/16),lineend = "square", color = "purple", alpha = 0.3,
-                       size = .75 )
+      
+      p <- p + 
+        geom_segment(aes(x = tst$conf.int[1], y = -max(y_values)/16, xend = tst$conf.int[2], yend = -max(y_values)/16),lineend = "square", color = "purple", alpha = 0.3,
+                     size = .75 )
     }
     
     print(p)
