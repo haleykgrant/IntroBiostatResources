@@ -229,7 +229,6 @@ url.csv &lt;- "https://haleykgrant.github.io/tutorial_data/data/trainingData_dia
 download.file(url.csv, "./Data/trainingData_diabetes.csv")
 
 df &lt;- read_csv("./Data/trainingData_diabetes.csv") %&gt;%
-  select(hb_a1c, bmi, class) %&gt;% 
   arrange(class) %&gt;%
   mutate(id = row_number(),
          class = factor(class)) 
@@ -245,7 +244,14 @@ ui &lt;- fluidPage(
       
       checkboxInput("scale_data",
                     "Scale Predictors",
-                    value = FALSE)
+                    value = FALSE),
+      selectInput("x_var", "First predictor:", 
+                  choices = setdiff(names(df)[sapply(df, is.numeric)],"id"), 
+                  selected = "bmi"),
+      
+      selectInput("y_var", "Second predictor:", 
+                  choices = setdiff(names(df)[sapply(df, is.numeric)],c("id","bmi")), 
+                  selected = "tg")
     ),
     
     mainPanel(
@@ -259,7 +265,16 @@ ui &lt;- fluidPage(
 server &lt;- function(input, output, session) {
   
   selected_index &lt;- reactiveVal(NULL)
-  
+  observeEvent(input$x_var, {
+    # Get all numeric columns except the one selected for x
+    y_choices &lt;- setdiff(names(df)[sapply(df, is.numeric)], c(input$x_var,"id"))
+    
+    # Update the y_var selectInput
+    updateSelectInput(session, "y_var",
+                      choices = y_choices,
+                      # If the current selection is now invalid, pick the first remaining
+                      selected = if (input$y_var %in% y_choices) input$y_var else y_choices[1])
+  })
   # Handle plot click
   observeEvent(event_data("plotly_click", source = "knnplot"), {
     click_data &lt;- event_data("plotly_click", source = "knnplot")
@@ -274,7 +289,9 @@ server &lt;- function(input, output, session) {
   
   # Reactive predictors (scaled or not)
   predictors_reactive &lt;- reactive({
-    predictors &lt;- df[, c("bmi", "hb_a1c")]
+    req(input$x_var, input$y_var)
+    
+    predictors &lt;- df[, c(input$x_var, input$y_var)]
     
     if (input$scale_data) {
       predictors &lt;- scale(predictors)
@@ -288,7 +305,9 @@ server &lt;- function(input, output, session) {
     
     k &lt;- input$k
     plot_data &lt;- df
-    if(input$scale_data){plot_data[, c("bmi", "hb_a1c")] &lt;- scale(df[, c("bmi", "hb_a1c")])}
+    if(input$scale_data){plot_data[, c(input$x_var, input$y_var)] &lt;- scale(df[, c(input$x_var, input$y_var)])}
+    names(plot_data)[which(names(plot_data)==input$x_var)] = "x_var"
+    names(plot_data)[which(names(plot_data)==input$y_var)] = "y_var"
     predictors &lt;- predictors_reactive()
     sel &lt;- selected_index()
     
@@ -312,13 +331,13 @@ server &lt;- function(input, output, session) {
     
     plty &lt;- plot_ly(
       data = plot_data,
-      x = ~bmi,
-      y = ~hb_a1c,
+      x = ~x_var,
+      y = ~y_var,
       color = ~class,
       key = ~id,
       text = ~paste0("ID: ", id,
-                     "&lt;br&gt;BMI: ", round(bmi, 2),
-                     "&lt;br&gt;HbA1c: ", round(hb_a1c, 2),
+                     "&lt;br&gt;", input$x_var, ": ", round(plot_data[["x_var"]], 2),
+                     "&lt;br&gt;", input$y_var, ": ", round(plot_data[["y_var"]], 2),
                      "&lt;br&gt;Class: ", class),
       hoverinfo = "text",
       type = "scatter",
@@ -338,20 +357,18 @@ server &lt;- function(input, output, session) {
     if (input$scale_data) {
       plty &lt;- plty %&gt;%
         layout(
-          xaxis = list(
-            title = "BMI (Scaled)",
-            scaleanchor = "y",   # lock x-axis scale to y
-            scaleratio = 1       # 1:1 aspect ratio
-          ),
-          yaxis = list(
-            title = "HbA1c (Scaled)"
-          )
+          xaxis = list(title = paste(input$x_var, "(Scaled)"),
+                       scaleanchor = "y",
+                       scaleratio = 1),
+          yaxis = list(title = paste(input$y_var, "(Scaled)"))
         )
     } else {
       plty &lt;- plty %&gt;%
         layout(
-          xaxis = list(title = "BMI"),
-          yaxis = list(title = "HbA1c")
+          xaxis = list(title = input$x_var,
+                       scaleanchor = "y",
+                       scaleratio = 1),
+          yaxis = list(title = input$y_var)
         )
     }
   })
