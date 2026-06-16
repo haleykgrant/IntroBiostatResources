@@ -1,5 +1,6 @@
 library(shiny)
 library(ggplot2)
+library(kableExtra)
 
 ui <- fluidPage(
   titlePanel("ANOVA Simulation"),
@@ -10,29 +11,34 @@ ui <- fluidPage(
       uiOutput("group_mean_sliders"),
       numericInput("n_per_group", "Sample Size per Group", value = 30, min = 5),
       numericInput("within_var", "Within Group Variability (SD)", value = 5, min = 1),
+      numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 1, step = 0.01),
+      
       actionButton("draw_sample", "Draw Sample"),
+      actionButton("draw_sample_100", "Draw 100 Samples"),
       radioButtons("plot_type", "Select Plot Type:",
                    choices = c("Density Plots" = "density", "Boxplots" = "boxplot"),
-                   selected = "boxplot")
+                   selected = "boxplot"),
+      actionButton("reset", "Reset")
     ),
     
     mainPanel(
       plotOutput("combined_plot"),
+      h4("ANOVA Table Summary"),
+      tableOutput("anova_table"),
+      
       textOutput("anova_result"),
-      plotOutput("f_dist_plot")
+      plotOutput("f_dist_plot"),
+      h4("Observed F-statistics Over Time"),
+      plotOutput("f_history_plot")
     )
   )
 )
 
 server <- function(input, output, session) {
-  
-  # Dynamically generate sliders for group means based on number of groups
-  output$group_mean_sliders <- renderUI({
-    lapply(1:input$n_groups, function(i) {
-      sliderInput(paste0("mean_", i), paste0("Mean for Group ", i), 
-                  min = -10, max = 10, value = 2, step = 0.1)
-    })
-  })
+  # Reactive value to store F-statistics history
+  f_history <- reactiveVal(data.frame(draw = numeric(), f_stat = numeric()))
+  # Mutable reactive to store current sample (NULL when none)
+  sample_data <- reactiveVal(NULL)
   
   # Population data sampling large size (e.g., 10,000 per group)
   pop_data <- reactive({
@@ -44,59 +50,197 @@ server <- function(input, output, session) {
     data.frame(group = as.factor(group), values = values)
   })
   
-  # Reactive for sample data
-  sample_data <- eventReactive(input$draw_sample, {
-    means <- sapply(1:input$n_groups, function(i) input[[paste0("mean_", i)]])
-    group <- rep(1:input$n_groups, each = input$n_per_group)
-    values <- unlist(lapply(1:input$n_groups, function(i) {
-      rnorm(input$n_per_group, mean = means[i], sd = input$within_var)
-    }))
-    data.frame(group = as.factor(group), values = values)
+  # When user clicks "Draw Sample" produce a new sample and store it
+  observeEvent(input$draw_sample, {
+    isolate({
+      means <- sapply(1:input$n_groups, function(i) input[[paste0("mean_", i)]])
+      group <- rep(1:input$n_groups, each = input$n_per_group)
+      values <- unlist(lapply(1:input$n_groups, function(i) {
+        rnorm(input$n_per_group, mean = means[i], sd = input$within_var)
+      }))
+      samp <- data.frame(group = as.factor(group), values = values)
+      sample_data(samp)
+      
+      # compute F and append to history
+      fit <- aov(values ~ group, data = samp)
+      f_stat <- summary(fit)[[1]]$`F value`[1]
+      current <- f_history()
+      new_row <- data.frame(draw = ifelse(nrow(current)==0, 1, max(current$draw)+1),
+                            f_stat = f_stat)
+      f_history(rbind(current, new_row))
+    })
+  })
+  
+  # Draw 100 samples: append 100 F-stats to history and set sample_data to the last one
+  observeEvent(input$draw_sample_100, {
+    isolate({
+      means <- sapply(1:input$n_groups, function(i) input[[paste0("mean_", i)]])
+      new_f_stats <- replicate(100, {
+        group <- rep(1:input$n_groups, each = input$n_per_group)
+        values <- unlist(lapply(1:input$n_groups, function(i) {
+          rnorm(input$n_per_group, mean = means[i], sd = input$within_var)
+        }))
+        data <- data.frame(group = as.factor(group), values = values)
+        fit <- aov(values ~ group, data = data)
+        summary(fit)[[1]]$`F value`[1]
+      })
+      
+      # Append to history
+      current <- f_history()
+      n_existing <- ifelse(nrow(current) == 0, 0, max(current$draw))
+      new_rows <- data.frame(
+        draw = seq(n_existing + 1, n_existing + 100),
+        f_stat = new_f_stats
+      )
+      f_history(rbind(current, new_rows))
+      
+      # Optionally set sample_data to the last simulated sample (so UI shows a sample)
+      # If you prefer NOT to set sample_data here, comment the next block out.
+      last_group <- rep(1:input$n_groups, each = input$n_per_group)
+      last_values <- unlist(lapply(1:input$n_groups, function(i) {
+        rnorm(input$n_per_group, mean = means[i], sd = input$within_var)
+      }))
+      sample_data(data.frame(group = as.factor(last_group), values = last_values))
+    })
+  })
+  
+  # ANOVA summary table (Between/Within) — only render when we have a sample
+  output$anova_table <- renderUI({
+    req(!is.null(sample_data()))
+    req(nrow(sample_data()) > 0)
+    fit <- aov(values ~ group, data = sample_data())
+    anova_res <- summary(fit)[[1]]
+    
+    ss_between <- anova_res$`Sum Sq`[1]
+    ss_within  <- anova_res$`Sum Sq`[2]
+    df_between <- anova_res$Df[1]
+    df_within  <- anova_res$Df[2]
+    ms_between <- ss_between / df_between
+    ms_within  <- ss_within / df_within
+    
+    table_df <- data.frame(
+      Source = c("Between Groups", "Within Groups"),
+      `Sum of Squares (SS)` = round(c(ss_between, ss_within), 3),
+      `Degrees of Freedom (df)` = c(df_between, df_within),
+      `Mean Square (MS)` = round(c(ms_between, ms_within), 3)
+    )
+    
+    table_html <- table_df %>%
+      knitr::kable("html", align = "lccc",
+                   caption = "ANOVA Summary Table",
+                   col.names = c("Source", "Sum of Squares", "Degrees of Freedom","Variance Estimate")) %>%
+      kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed"))
+    
+    HTML(table_html)
+  })
+  
+  # Reset button clears sample and history (no assignment to eventReactive)
+  observeEvent(input$reset, {
+    f_history(data.frame(draw = numeric(), f_stat = numeric()))
+    sample_data(NULL)
+    
+    # Optionally also reset inputs (uncomment if you want)
+    # updateNumericInput(session, "n_groups", value = 4)
+    # updateNumericInput(session, "n_per_group", value = 30)
+    # updateNumericInput(session, "within_var", value = 5)
+    # updateNumericInput(session, "alpha", value = 0.05)
+    
+    # Reset sliders for means to 2 (if you prefer)
+    # lapply(1:input$n_groups, function(i) {
+    #   updateSliderInput(session, paste0("mean_", i), value = 2)
+    # })
+  })
+  
+  # Plot of F-statistics over time
+  output$f_history_plot <- renderPlot({
+    req(nrow(f_history()) > 0)
+    mx = max(qf(0.999, df1 = input$n_groups - 1, df2 = input$n_groups*(input$n_per_group - 1)),
+             max(f_history()$f_stat))
+    df1 <- input$n_groups - 1
+    df2 <- input$n_groups * (input$n_per_group - 1)
+    
+    x <- seq(0, max(max(f_history()$f_stat), 10), length.out = 500)
+    f_density <- df(x, df1, df2)
+    f_df <- data.frame(x = x, density = f_density)
+    
+    crit_f <- qf(1 - input$alpha, df1, df2)
+    
+    ggplot(f_history(), aes(x = f_stat)) +
+      geom_histogram(aes(y = ..density..),
+                     bins = 30,
+                     color = "black",
+                     fill = "lavender",
+                     alpha = 0.7) +
+      geom_vline(xintercept = qf(1-input$alpha, df1 = input$n_groups - 1, df2 = input$n_groups*(input$n_per_group - 1) ),
+                 color = "firebrick4")+
+      geom_area(data = f_df[f_df$x >= crit_f, ], aes(x = x, y = density),
+                fill = "firebrick4", alpha = 0.4) +
+      geom_line(data = f_df,
+                aes(x = x, y = density),
+                color = "red",
+                size = 1.2) +
+      theme_minimal() +
+      labs(
+        title = "Observed F-statistics vs Theoretical F-Distribution",
+        x = "F value",
+        y = "Density"
+      )
+  })
+  
+  # Dynamically generate sliders for group means (unchanged)
+  output$group_mean_sliders <- renderUI({
+    lapply(1:input$n_groups, function(i) {
+      sliderInput(paste0("mean_", i), paste0("Mean for Group ", i),
+                  min = -10, max = 10, value = 2, step = 0.1)
+    })
   })
   
   # Combined plot for population and sample distributions
   output$combined_plot <- renderPlot({
-    
     if (input$plot_type == "density") {
-    p <- ggplot(pop_data(), aes(x = values, fill = group)) +
-      geom_density(alpha = 0.4) +
-      facet_wrap(~ group, ncol = 1) +
-      labs(title = "Population Distributions", y = "Density", x = "Values") +
-      theme_minimal() +
-      theme(legend.position = "none")
-    } else{
-      p <- ggplot(pop_data(), aes(y = values, x=group, color = group)) +
+      p <- ggplot(pop_data(), aes(x = values, fill = group)) +
+        geom_density(alpha = 0.4) +
+        facet_wrap(~ group, ncol = 1) +
+        labs(title = "Population Distributions", y = "Density", x = "Values") +
+        theme_minimal() +
+        theme(legend.position = "none")
+    } else {
+      p <- ggplot(pop_data(), aes(y = values, x = group, color = group)) +
         geom_boxplot(alpha = 0.4) +
         labs(title = "Population Distributions", y = "Values", x = "Group") +
         theme_minimal() +
         theme(legend.position = "none")
     }
     
-    if (input$draw_sample > 0) {
-      req(sample_data())
-      if (input$plot_type == "density") {
-        p <- p +
-          geom_histogram(data = sample_data(), aes(x = values, fill = group, y = ..density..), 
-                         color = "black", alpha = 0.6, position = "identity", bins = 30)  +
-          geom_vline(aes(xintercept = mean(values)), data = sample_data(), 
-                    linetype = "dashed", color = "blue", size = 1) +
-          labs(subtitle = "+ Sample Distributions")
-      } else {
-        p <- p +
-          geom_boxplot(data = sample_data(), aes(x = group, y = values, fill = group), color = "black", 
-                       alpha = 0.7, position = position_dodge(width = 0.8))+
-          geom_hline(aes(yintercept = mean(values)), data = sample_data(), 
-                     linetype = "dashed", color = "blue", size = 1) +
-          labs(subtitle = "+ Sample Distributions")
+    # Only add sample layers if we have a sample
+    if (!is.null(sample_data())) {
+      samp <- sample_data()
+      if (nrow(samp) > 0) {
+        if (input$plot_type == "density") {
+          p <- p +
+            geom_histogram(data = samp, aes(x = values, fill = group, y = ..density..),
+                           color = "black", alpha = 0.6, position = "identity", bins = 30)  +
+            geom_vline(aes(xintercept = mean(values)), data = samp,
+                       linetype = "dashed", color = "blue", size = 1) +
+            labs(subtitle = "+ Sample Distributions")
+        } else {
+          p <- p +
+            geom_boxplot(data = samp, aes(x = group, y = values, fill = group), color = "black",
+                         alpha = 0.7, position = position_dodge(width = 0.8))+
+            geom_hline(aes(yintercept = mean(values)), data = samp,
+                       linetype = "dashed", color = "blue", size = 1) +
+            labs(subtitle = "+ Sample Distributions")
+        }
       }
     }
     
     print(p)
   })
   
-  # Perform ANOVA and display F statistic
+  # Perform ANOVA and display F statistic — only when sample exists
   output$anova_result <- renderText({
-    req(sample_data())
+    req(!is.null(sample_data()))
+    req(nrow(sample_data()) > 0)
     fit <- aov(values ~ group, data = sample_data())
     anova_res <- summary(fit)
     f_stat <- anova_res[[1]]$`F value`[1]
@@ -104,28 +248,41 @@ server <- function(input, output, session) {
     paste("ANOVA F-statistic:", round(f_stat, 3), "with p-value:", round(p_value, 3))
   })
   
-  # Plot F distribution with shaded p-value
+  # Plot F distribution with shaded p-value — only when sample exists
   output$f_dist_plot <- renderPlot({
-    req(sample_data())
+    req(!is.null(sample_data()))
+    req(nrow(sample_data()) > 0)
+    
     fit <- aov(values ~ group, data = sample_data())
     f_stat <- summary(fit)[[1]]$`F value`[1]
+    p_value <- summary(fit)[[1]]$`Pr(>F)`[1]
+    
     df1 <- input$n_groups - 1
     df2 <- input$n_groups * (input$n_per_group - 1)
     
-    x <- seq(0, max(10, f_stat + 1), length.out = 500)
+    x <- seq(0, max(10, f_stat + 5), length.out = 500)
     f_dist <- df(x, df1, df2)
+    f_df <- data.frame(x = x, y = f_dist)
     
-    ggplot(data.frame(x = x, y = f_dist), aes(x = x, y = y)) +
-      geom_line() +
-      geom_area(data = data.frame(x = x[x >= f_stat], y = f_dist[x >= f_stat]), 
-                aes(x = x, y = y), fill = "red", alpha = 0.5) +
-      geom_vline(xintercept = f_stat, linetype = "dashed", color = "forestgreen") +
-      labs(title = "F Distribution", x = "F value", y = "Density") +
-      annotate("text", x = f_stat + 0.3, y = max(f_dist)/2, 
-               label = paste("F =", round(f_stat, 3)), color = "forestgreen") +
+    crit_f <- qf(1 - input$alpha, df1, df2)
+    
+    ggplot(f_df, aes(x = x, y = y)) +
+      geom_line(size = 1) +
+      geom_area(data = f_df[f_df$x >= crit_f, ], aes(x = x, y = y),
+                fill = "firebrick4", alpha = 0.4) +
+      geom_area(data = f_df[f_df$x >= f_stat, ], aes(x = x, y = y),
+                fill = "purple", alpha = 0.4) +
+      geom_vline(xintercept = crit_f, linetype = "dashed", color = "firebrick4", size = 1) +
+      geom_vline(xintercept = f_stat, linetype = "dashed", color = "forestgreen", size = 1) +
+      annotate("text", x = f_stat + 0.5, y = max(f_dist)/2,
+               label = paste0("F = ", round(f_stat, 3)),
+               color = "forestgreen") +
+      labs(title = "F Distribution with Rejection Region & p-value",
+           x = "F value",
+           y = "Density") +
       theme_bw()
   })
 }
 
-shinyApp(ui = ui, server = server)
 
+shinyApp(ui = ui, server = server)

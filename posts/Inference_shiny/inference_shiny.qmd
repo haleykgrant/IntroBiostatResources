@@ -24,7 +24,7 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      numericInput("xbar", "Sample Mean (x̄):", value = 98.450),
+      numericInput("xbar", "Sample Mean (ȳ):", value = 98.450),
       numericInput("s", "Sample Standard Deviation (s):", value = 0.62),
       numericInput("n", "Sample Size (n):", value = 43),
       uiOutput("muSlider"),  # Use uiOutput for dynamic slider
@@ -112,7 +112,7 @@ server <- function(input, output, session) {
       geom_segment(aes(x = input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", size = .75,
                        arrow = grid::arrow(angle = 90, ends = "both", length = unit(.1, "inches"))) +
       # Add labels for xbar and mu
-      annotate("text", x = input$xbar, y = -0.1, label = "x̄", color= "cornflowerblue", hjust = -0.2, size = 5) +
+      annotate("text", x = input$xbar, y = -0.1, label = "ȳ", color= "cornflowerblue", hjust = -0.2, size = 5) +
       annotate("text", x = input$mu, y = -0.1, label = "μ", color = "darkorange2",  hjust = 1.2, size = 5) +
       labs(title = "Normal Density with Selected Mean",
            x = "Value",
@@ -146,7 +146,7 @@ server <- function(input, output, session) {
   })
   
   output$distance <- renderText({
-    paste0("Distance of x̄ from μ: ", round(abs(input$mu - input$xbar), 4))
+    paste0("Distance of ȳ from μ: ", round(abs(input$mu - input$xbar), 4))
   })
   
   output$distanceSE <- renderText({
@@ -167,7 +167,7 @@ server <- function(input, output, session) {
       p_value <-  pnorm(z,lower.tail = F)} else{p_value <-  pnorm(z)}
     
     # Display p-value
-    paste0("Probability of getting x̄ this extreme : ", round(p_value, 4))
+    paste0("Probability of getting ȳ this extreme : ", round(p_value, 4))
   })
 }
 

@@ -84,12 +84,12 @@ server <- function(input, output, session) {
     x_range <- seq(min(mu1 - 4*sd1, mu2 - 4*sd2),
                    max(mu1 + 4*sd1, mu2 + 4*sd2), length.out = 600)
     df <- rbind(
-      data.frame(x = x_range, y = dnorm(x_range, mu1, sd1), dist = "x̄1"),
-      data.frame(x = x_range, y = dnorm(x_range, mu2, sd2), dist = "x̄2")
+      data.frame(x = x_range, y = dnorm(x_range, mu1, sd1), dist = "ȳ1"),
+      data.frame(x = x_range, y = dnorm(x_range, mu2, sd2), dist = "ȳ2")
     )
     
-    df.x1 <- df %>% filter(dist == "x̄1")
-    df.x2 <- df %>% filter(dist == "x̄2")
+    df.x1 <- df %>% filter(dist == "ȳ1")
+    df.x2 <- df %>% filter(dist == "ȳ2")
     
     p1 <- ggplot(df, aes(x, y, color = dist)) +
       geom_line(linewidth = 1.2) +
@@ -135,7 +135,7 @@ server <- function(input, output, session) {
         xlim = c(mu_diff - 4*sd_diff0, mu_diff + 4*sd_diff0)
       ) +
       theme_minimal(base_size = 14) +
-      labs(x = "x̄₁ - x̄₂", y = "Count", title = paste0("Correlation: ", cr))
+      labs(x = "ȳ₁ - ȳ₂", y = "Count", title = paste0("Correlation: ", cr))
   })
   
   output$plot_p3 <- renderPlot({
@@ -145,12 +145,12 @@ server <- function(input, output, session) {
     ggplot(data.frame(x1 = vals$draws1, x2 = vals$draws2)) +
       geom_point(aes(x = x1, y = x2)) +
       theme_bw() +
-      labs(x = "x̄1", y = "x̄2")
+      labs(x = "ȳ1", y = "ȳ2")
   })
   
   output$vars <- renderTable({
     data.frame(
-      Distribution = c("x̄1", "x̄2", "x̄1 - x̄2"),
+      Distribution = c("ȳ1", "ȳ2", "ȳ1 - ȳ2"),
       Var = c(1, 1 * input$vr, var(vals$diffs))
     )
   }, bordered = TRUE, rownames = FALSE, align = "c")

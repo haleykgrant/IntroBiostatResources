@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../include/webex.css">
 </head>
 
-<body class="nav-sidebar floating nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -167,12 +167,39 @@ ul.task-list li input[type="checkbox"] {
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
         </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html#Tutorials" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorials</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html#shiny-apps" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shiny Apps</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -200,7 +227,7 @@ ui &lt;- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      numericInput("xbar", "Sample Mean (x̄):", value = 98.450),
+      numericInput("xbar", "Sample Mean (ȳ):", value = 98.450),
       numericInput("s", "Sample Standard Deviation (s):", value = 0.62),
       numericInput("n", "Sample Size (n):", value = 43),
       uiOutput("muSlider"),  # Use uiOutput for dynamic slider
@@ -288,7 +315,7 @@ server &lt;- function(input, output, session) {
       geom_segment(aes(x = input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", size = .75,
                        arrow = grid::arrow(angle = 90, ends = "both", length = unit(.1, "inches"))) +
       # Add labels for xbar and mu
-      annotate("text", x = input$xbar, y = -0.1, label = "x̄", color= "cornflowerblue", hjust = -0.2, size = 5) +
+      annotate("text", x = input$xbar, y = -0.1, label = "ȳ", color= "cornflowerblue", hjust = -0.2, size = 5) +
       annotate("text", x = input$mu, y = -0.1, label = "μ", color = "darkorange2",  hjust = 1.2, size = 5) +
       labs(title = "Normal Density with Selected Mean",
            x = "Value",
@@ -322,7 +349,7 @@ server &lt;- function(input, output, session) {
   })
   
   output$distance &lt;- renderText({
-    paste0("Distance of x̄ from μ: ", round(abs(input$mu - input$xbar), 4))
+    paste0("Distance of ȳ from μ: ", round(abs(input$mu - input$xbar), 4))
   })
   
   output$distanceSE &lt;- renderText({
@@ -343,7 +370,7 @@ server &lt;- function(input, output, session) {
       p_value &lt;-  pnorm(z,lower.tail = F)} else{p_value &lt;-  pnorm(z)}
     
     # Display p-value
-    paste0("Probability of getting x̄ this extreme : ", round(p_value, 4))
+    paste0("Probability of getting ȳ this extreme : ", round(p_value, 4))
   })
 }
 
