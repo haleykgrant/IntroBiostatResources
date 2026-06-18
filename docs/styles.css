@@ -2,7 +2,7 @@
 
 #code-blanks-clear-storage {
   background: #FEE6E7 !important;
-  border-color: #F9343E !important;
+  border-color:black!important;
 }
 
 .code-blanks-instructions-box 
@@ -23,7 +23,7 @@ pre.code-blanks code input.code-blank-input {
 .code-blanks-next-section {
   background: #FA5A62;
   color: white;
-  border-color: #F9343E !important;
+  border-color: black !important;
 }
 
 /* Completely hide all card descriptions in grid listings */
