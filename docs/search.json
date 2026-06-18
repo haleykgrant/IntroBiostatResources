@@ -784,5 +784,240 @@
     "title": "KNN",
     "section": "",
     "text": "#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n#| viewerHeight: 600\nlibrary(shiny)\nlibrary(plotly)\nlibrary(FNN)\nlibrary(dplyr)\nlibrary(tidyverse)\nlibrary(caret)\nlibrary(kableExtra)\n\ndir.create(\"./Data\")\n\nurl.csv &lt;- \"https://haleykgrant.github.io/tutorial_data/data/trainingData_diabetes.csv\"\ndownload.file(url.csv, \"./Data/trainingData_diabetes.csv\")\n\ndf &lt;- read_csv(\"./Data/trainingData_diabetes.csv\") %&gt;%\n  arrange(class) %&gt;%\n  mutate(id = row_number(),\n         class = factor(class)) \n\nui &lt;- fluidPage(\n  titlePanel(\"KNN Visualization\"),\n  \n  sidebarLayout(\n    sidebarPanel(\n      sliderInput(\"k\", \n                  \"Number of Neighbors (K):\", \n                  min = 1, max = 11, value = 3, step = 2),\n      \n      checkboxInput(\"scale_data\",\n                    \"Scale Predictors\",\n                    value = FALSE),\n      selectInput(\"x_var\", \"First predictor:\", \n                  choices = setdiff(names(df)[sapply(df, is.numeric)],\"id\"), \n                  selected = \"bmi\"),\n      \n      selectInput(\"y_var\", \"Second predictor:\", \n                  choices = setdiff(names(df)[sapply(df, is.numeric)],c(\"id\",\"bmi\")), \n                  selected = \"tg\")\n    ),\n    \n    mainPanel(\n      plotlyOutput(\"plot\"),\n      br(),\n      uiOutput(\"knn_table\")\n    )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  \n  selected_index &lt;- reactiveVal(NULL)\n  observeEvent(input$x_var, {\n    # Get all numeric columns except the one selected for x\n    y_choices &lt;- setdiff(names(df)[sapply(df, is.numeric)], c(input$x_var,\"id\"))\n    \n    # Update the y_var selectInput\n    updateSelectInput(session, \"y_var\",\n                      choices = y_choices,\n                      # If the current selection is now invalid, pick the first remaining\n                      selected = if (input$y_var %in% y_choices) input$y_var else y_choices[1])\n  })\n  # Handle plot click\n  observeEvent(event_data(\"plotly_click\", source = \"knnplot\"), {\n    click_data &lt;- event_data(\"plotly_click\", source = \"knnplot\")\n    clicked_id &lt;- click_data$key\n    \n    if (!is.null(selected_index()) && selected_index() == clicked_id) {\n      selected_index(NULL)\n    } else {\n      selected_index(clicked_id)\n    }\n  })\n  \n  # Reactive predictors (scaled or not)\n  predictors_reactive &lt;- reactive({\n    req(input$x_var, input$y_var)\n    \n    predictors &lt;- df[, c(input$x_var, input$y_var)]\n    \n    if (input$scale_data) {\n      predictors &lt;- scale(predictors)\n    }\n    \n    predictors\n  })\n  \n  output$plot &lt;- renderPlotly({\n    req(input$k)\n    \n    k &lt;- input$k\n    plot_data &lt;- df\n    if(input$scale_data){plot_data[, c(input$x_var, input$y_var)] &lt;- scale(df[, c(input$x_var, input$y_var)])}\n    names(plot_data)[which(names(plot_data)==input$x_var)] = \"x_var\"\n    names(plot_data)[which(names(plot_data)==input$y_var)] = \"y_var\"\n    predictors &lt;- predictors_reactive()\n    sel &lt;- selected_index()\n    \n    knn_result &lt;- get.knn(predictors, k = k)\n    \n    if (!is.null(sel)) {\n      row_idx &lt;- which(plot_data$id == sel)\n      neighbors &lt;- knn_result$nn.index[row_idx, ]\n      highlight_rows &lt;- c(row_idx, neighbors)\n      \n      plot_data &lt;- plot_data %&gt;%\n        mutate(\n          opacity = ifelse(row_number() %in% highlight_rows, 1, 0.2),\n          size = ifelse(row_number() %in% highlight_rows, 12, 6),\n          symbol = ifelse(row_number() == row_idx, \"x\", \"circle\")\n        )\n    } else {\n      plot_data &lt;- plot_data %&gt;%\n        mutate(opacity = 1, size = 6, symbol = \"circle\")\n    }\n    \n    plty &lt;- plot_ly(\n      data = plot_data,\n      x = ~x_var,\n      y = ~y_var,\n      color = ~class,\n      key = ~id,\n      text = ~paste0(\"ID: \", id,\n                     \"&lt;br&gt;\", input$x_var, \": \", round(plot_data[[\"x_var\"]], 2),\n                     \"&lt;br&gt;\", input$y_var, \": \", round(plot_data[[\"y_var\"]], 2),\n                     \"&lt;br&gt;Class: \", class),\n      hoverinfo = \"text\",\n      type = \"scatter\",\n      mode = \"markers\",\n      marker = list(\n        size = ~size,\n        opacity = ~opacity,\n        symbol = ~symbol\n      ),\n      source = \"knnplot\",\n      colors = c(\"Non.Diabetic\" = \"#F8766D\",\n                 \"Pre.Diabetic\" = \"#00BA38\",\n                 \"Diabetic\" = \"#619CFF\")\n    )\n    \n    # Apply layout separately\n    if (input$scale_data) {\n      plty &lt;- plty %&gt;%\n        layout(\n          xaxis = list(title = paste(input$x_var, \"(Scaled)\"),\n                       scaleanchor = \"y\",\n                       scaleratio = 1),\n          yaxis = list(title = paste(input$y_var, \"(Scaled)\"))\n        )\n    } else {\n      plty &lt;- plty %&gt;%\n        layout(\n          xaxis = list(title = input$x_var,\n                       scaleanchor = \"y\",\n                       scaleratio = 1),\n          yaxis = list(title = input$y_var)\n        )\n    }\n  })\n  \n  output$knn_table &lt;- renderUI({\n    req(selected_index(), input$k)\n    \n    k &lt;- input$k\n    plot_data &lt;- df\n    predictors &lt;- predictors_reactive()\n    \n    row_idx &lt;- which(plot_data$id == selected_index())\n    knn_result &lt;- get.knn(predictors, k = k)\n    neighbors &lt;- knn_result$nn.index[row_idx, ]\n    neighbor_classes &lt;- plot_data$class[neighbors]\n    \n    tbl &lt;- plot_data %&gt;%\n      slice(neighbors) %&gt;%\n      count(class, name = \"n\") %&gt;%\n      mutate(p = n / sum(n),\n             assigned = names(which.max(table(neighbor_classes))))\n    \n    HTML(tbl %&gt;%\n           kable(digits = 3, format = \"html\") %&gt;%\n           kable_styling(\"striped\", full_width = FALSE) %&gt;%\n           collapse_rows(columns = 4, valign = \"middle\"))\n  })\n}\n\nshinyApp(ui, server)"
+  },
+  {
+    "objectID": "posts/Module1_practice/M1practice.html",
+    "href": "posts/Module1_practice/M1practice.html",
+    "title": "M1 Practice",
+    "section": "",
+    "text": "Please enable JavaScript to experience the dynamic code cell content on this page.\n# take a look at the top few rows of data\nhead()"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html",
+    "href": "posts/Module1_Practice/M1practice.html",
+    "title": "Module 1 Practice",
+    "section": "",
+    "text": "We will start by importing the data and making some updates to the variables. Then, we will turn to data summarization and visualization."
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#data-snapshot",
+    "href": "posts/Module1_Practice/M1practice.html#data-snapshot",
+    "title": "Module 1 Practice",
+    "section": "Data Snapshot",
+    "text": "Data Snapshot\nWhen you first import a dataset, it can be helpful to look at the first few rows to understand its structure.\nFill in the code to display the first 6 rows of the cdc dataset.\n# view the top few rows of the cdc dataframe \nhead()\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# view the top few rows of the cdc dataframe \nhead(cdc)"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#importing-the-data",
+    "href": "posts/Module1_Practice/M1practice.html#importing-the-data",
+    "title": "Module 1 Practice",
+    "section": "Importing the Data",
+    "text": "Importing the Data\nOur first step is to import the data and save it as an object. The dataset is hosted on GitHub, so we will import it directly from a URL.\n\nFill in the blank code to import the data and call the new object cdc.\n\n# read in CDC data and name it cdc\n &lt;- read_csv(\"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\")\n\n# check that the object exists\nexists(\"cdc\")\n\n\n\n\n\n\nHint\n\n\n\n\n\nIf you have filled in the code correctly, the output should read:\n\n[1] TRUE\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# read in CDC data and name it cdc\ncdc &lt;- read_csv(\"https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv\")\n\n# check that the object exists\nexists(\"cdc\")"
+  },
+  {
+    "objectID": "index.html#extra-r-practice",
+    "href": "index.html#extra-r-practice",
+    "title": "Intro Biostatistics Resources",
+    "section": "Extra R Practice",
+    "text": "Extra R Practice\n\n\n\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nModule 1 Practice\n\n\nHaley Grant\n\n\n\n\n\nNo matching items",
+    "crumbs": [
+      "About",
+      "Home"
+    ]
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#making-a-new-variable",
+    "href": "posts/Module1_Practice/M1practice.html#making-a-new-variable",
+    "title": "Module 1 Practice",
+    "section": "Making A New Variable",
+    "text": "Making A New Variable\nThe variable hlthplan contains information about whether an individual has health insurance. It is coded as a binary variable such that a 1 indicates that an individual has a health insurance plan and a 0 indicates that the individual does not. We may prefer to have a variable show up with more readable labels. Let’s make a new variable!\n\nFill in the code to update the cdc dataframe to add a new column called insured holding a factor variable that reads \"Yes\" if the individual has health insurance and \"No\" if they do not.\n\n# update dataframe to add new `insured` column\n &lt;- cdc |&gt;\n  mutate(insured = factor(, levels = c(0,1), labels = c(,)))\n  \n# take a look to make sure it works\nhead(cdc)\n\n\n\n\n\n\nHint\n\n\n\n\n\nIf you have filled in the code correctly, you should have a new column at the far right end of the data snapshot output showing a column with name “Insured” and either “Yes” or “No” as values.\nTo update the cdc. object and save the results, we are replacing the previous object called cdc with a new object also called cdc.\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# update dataframe to add new `insured` column\ncdc &lt;- cdc |&gt;\n  mutate(insured = factor(hlthplan, levels = c(0,1), labels = c(\"No\",\"Yes\")))\n  \n# take a look to make sure it works\nhead(cdc)"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#summary-statistics",
+    "href": "posts/Module1_Practice/M1practice.html#summary-statistics",
+    "title": "Module 1 Practice",
+    "section": "Summary Statistics",
+    "text": "Summary Statistics\n\nFill in the code to show the number of individuals who do and do not have health insurance.\n\n# count number with and without insurance\nxtabs(~ , data = cdc)\n\n\nDo more people in our data have health insurance or not have health insurance?\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# count number with and without insurance\nxtabs(~ insured, data = cdc)\ninsured\nNo Yes\n10 50\nThere are more individuals with insurance (50) than without (10)."
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#plot",
+    "href": "posts/Module1_Practice/M1practice.html#plot",
+    "title": "Module 1 Practice",
+    "section": "Plot",
+    "text": "Plot\nNow, let’s make a plot to display that information graphically.\n\nFill in the code to show the number of individuals who do and do not have health insurance in a plot.\n\n# bar graph showing breakdown of insurance status\ncdc |&gt;\n  ggplot(aes(x = )) + \n  geom_bar() + \n  theme_bw()\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# bar graph showing breakdown of insurance status\ncdc |&gt;\n  ggplot(aes(x = insured)) + \n  geom_bar() + \n  theme_bw()"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#one-categorical-variable",
+    "href": "posts/Module1_Practice/M1practice.html#one-categorical-variable",
+    "title": "Module 1 Practice",
+    "section": "One Categorical Variable",
+    "text": "One Categorical Variable"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#one-quantitative-variable",
+    "href": "posts/Module1_Practice/M1practice.html#one-quantitative-variable",
+    "title": "Module 1 Practice",
+    "section": "One Quantitative Variable",
+    "text": "One Quantitative Variable"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#plot-1",
+    "href": "posts/Module1_Practice/M1practice.html#plot-1",
+    "title": "Module 1 Practice",
+    "section": "Plot",
+    "text": "Plot\nNow, let’s make a plot to show the full distribution of age in the data.\n\nFill in the code to make a histogram showing the distribution of age in the data.\n\n# histogram showing distribution of age\ncdc |&gt;\n  ggplot(aes(x = )) + \n  geom_histogram() + \n  theme_bw()\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# histogram showing distribution of age\ncdc |&gt;\n  ggplot(aes(x = age)) + \n  geom_histogram() + \n  theme_bw()"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#solution-8",
+    "href": "posts/Module1_Practice/M1practice.html#solution-8",
+    "title": "Module 1 Practice",
+    "section": "Solution",
+    "text": "Solution\n# binwidth of 0.5 (small bins)\n# histogram showing distribution of age\ncdc |&gt;\n  ggplot(aes(x = age)) + \n  geom_histogram(binwidth = 0.5) + \n  theme_bw()\n  \n# binwidth of 10 (large bins)\ncdc |&gt;\n  ggplot(aes(x = age)) + \n  geom_histogram(binwidth = 0.5) + \n  theme_bw()\n:::"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#two-categorical-variables",
+    "href": "posts/Module1_Practice/M1practice.html#two-categorical-variables",
+    "title": "Module 1 Practice",
+    "section": "Two Categorical Variables",
+    "text": "Two Categorical Variables\nNow we will turn to data summaries and visualizations for two variables.\nWe will start by looking at two categorical variables: health insurance and health status"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#one-categorical-one-quantitative-variable",
+    "href": "posts/Module1_Practice/M1practice.html#one-categorical-one-quantitative-variable",
+    "title": "Module 1 Practice",
+    "section": "One Categorical, One Quantitative Variable",
+    "text": "One Categorical, One Quantitative Variable\nWe will now turn to summarizing data using one categorical and one quantitative variable: insurance status and age"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#two-quantitative-variables",
+    "href": "posts/Module1_Practice/M1practice.html#two-quantitative-variables",
+    "title": "Module 1 Practice",
+    "section": "Two Quantitative Variables",
+    "text": "Two Quantitative Variables\nFinally, we turn to describing the relationship between two quantitative variables: height and weight."
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#data-manipulation",
+    "href": "posts/Module1_Practice/M1practice.html#data-manipulation",
+    "title": "Module 1 Practice",
+    "section": "",
+    "text": "We will start by importing the data and making some updates to the variables. Then, we will turn to data summarization and visualization."
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#data-analysis",
+    "href": "posts/Module1_Practice/M1practice.html#data-analysis",
+    "title": "Module 1 Practice",
+    "section": "Data Analysis",
+    "text": "Data Analysis\nNow we are ready to start making some plots and calculating some summary statistics using our data!"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#summary-statistics-1",
+    "href": "posts/Module1_Practice/M1practice.html#summary-statistics-1",
+    "title": "Module 1 Practice",
+    "section": "Summary Statistics",
+    "text": "Summary Statistics\n\nFill in the code to calculate some key summary statistics for age:\n\nmean\nmedian\nstandard deviation\nminimum\nmaximum\n\n\n# summary statistics for age\ncdc |&gt; \n  summarise(mean = mean(),\n            med = median(),\n            sd = sd(),\n            min = min(),\n            max = max())\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# summary statistics for age\ncdc |&gt; \n  summarise(mean = mean(age),\n            med = median(age),\n            sd = sd(age),\n            min = min(age),\n            max = max(age))\nmean med sd min max\n43.8 43 14.8 19 77"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#summary-statistics-2",
+    "href": "posts/Module1_Practice/M1practice.html#summary-statistics-2",
+    "title": "Module 1 Practice",
+    "section": "Summary Statistics",
+    "text": "Summary Statistics\n\nFill in the code to show breakdown of health status (genhlth) by insurance status.\n\n# count number with and without insurance\nxtabs(~  + , data = cdc)\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# count number with and without insurance\nxtabs(~ insured + genhlth, data = cdc)"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#plots",
+    "href": "posts/Module1_Practice/M1practice.html#plots",
+    "title": "Module 1 Practice",
+    "section": "Plots",
+    "text": "Plots\nNow let’s visualize. We will start with side-by-side bar plots, then try a mosaic plot.\nTo start, we may want to turn the genhlth variable into a factor variable to control order of the levels in our plot. Let’s call the new variable (health).\n\nFill in the code to make a new factor variable called health that reorders the genhlth variable.\n\n# make factor variable for genhlth\ncdc &lt;- cdc |&gt;\n  mutate( = factor(genhlth, \n                          levels = c(\"poor\", \"fair\", \"good\",\n                                     \"very good\", \"excellent\")))"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#summary-statistics-3",
+    "href": "posts/Module1_Practice/M1practice.html#summary-statistics-3",
+    "title": "Module 1 Practice",
+    "section": "Summary Statistics",
+    "text": "Summary Statistics\n\nFill in the code calculate summary statistics for age by insurance status.\n\n# summary statistics for age separately by insurance status\ncdc |&gt; \n  summarise(mean = mean(),\n            med = median(),\n            sd = sd(),\n            min = min(),\n            max = max(), .by = )\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# summary statistics for age separately by insurance status\ncdc |&gt; \n  summarise(mean = mean(age),\n            med = median(age),\n            sd = sd(age),\n            min = min(age),\n            max = max(age), .by = insured)"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#plots-1",
+    "href": "posts/Module1_Practice/M1practice.html#plots-1",
+    "title": "Module 1 Practice",
+    "section": "Plots",
+    "text": "Plots\n\nFill in the code to make a histogram showing the distribution of age separately by insurace status.\n\n# histogram showing distribution of  by insurance status\ncdc |&gt;\n  ggplot(aes(x = age, fill = )) + \n  geom_histogram(binwidth = 5) + \n  theme_bw() + \n  facet_wrap(~ insured, nrow = 2, scales = \"free_y\")\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# histogram showing distribution of age by insurance status\ncdc |&gt;\n  ggplot(aes(x = age, fill = insured)) + \n  geom_histogram(binwidth = 5) + \n  theme_bw() + \n  facet_wrap(~ insured, nrow = 2, scales = \"free_y\")"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#summary-statistics-4",
+    "href": "posts/Module1_Practice/M1practice.html#summary-statistics-4",
+    "title": "Module 1 Practice",
+    "section": "Summary Statistics",
+    "text": "Summary Statistics\n\nFill in the code to calculate the Pearson correlation between height and weight.\n\n# Pearson correlation between height and weight\ncor(cdc$, cdc$, use = \"complete.obs\")\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# correlation between height and weight\ncor(cdc$height, cdc$weight)"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#plots-2",
+    "href": "posts/Module1_Practice/M1practice.html#plots-2",
+    "title": "Module 1 Practice",
+    "section": "Plots",
+    "text": "Plots\n\nFill in the code to make a scatter plot showing the relationship between height and weight\n\n# scatter plot of height and weight\ncdc |&gt; \n  ggplot(aes(x = , y = )) + \n  geom_point() + \n  theme_bw() +\n  labs(x = \"Height (in)\",\n       y = \"Weight (lbs)\")\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# scatter plot of height and weight\ncdc |&gt; \n  ggplot(aes(x = height, y = weight)) + \n  geom_point() + \n  theme_bw() +\n  labs(x = \"Height (in)\",\n       y = \"Weight (lbs)\")"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#adding-color",
+    "href": "posts/Module1_Practice/M1practice.html#adding-color",
+    "title": "Module 1 Practice",
+    "section": "Adding color",
+    "text": "Adding color\n\nNow try adding color to the plot by filling in the bars based on insurance status.\n\n# bar graph showing breakdown of insurance status with colored bars\ncdc |&gt;\n  ggplot(aes(x = insured, fill = )) + \n  geom_bar() + \n  theme_bw()\n\n\nDoes adding color to the plot add any additional information compared to the previous plot?\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# bar graph showing breakdown of insurance status with colors bars\ncdc |&gt;\n  ggplot(aes(x = insured, fill = insured)) + \n  geom_bar() + \n  theme_bw()\nSince we’re only plotting one variable, this doesn’t add any additional information."
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#the-binwidth-argument",
+    "href": "posts/Module1_Practice/M1practice.html#the-binwidth-argument",
+    "title": "Module 1 Practice",
+    "section": "The binwidth argument",
+    "text": "The binwidth argument\n\nTry a few different values of the binwidth argument.\n\nWhat happens if you make it 0.5?\nWhat happens if you make it 10?\n\n\n# histogram showing distribution of age\ncdc |&gt;\n  ggplot(aes(x = age)) + \n  geom_histogram(binwidth = ) + \n  theme_bw()\n\n\nCan you describe what the binwidth argument changes in the plot?\nWhat value would you choose if it were up to you?\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# binwidth of 0.5 (small bins)\n# histogram showing distribution of age\ncdc |&gt;\n  ggplot(aes(x = age)) + \n  geom_histogram(binwidth = 0.5) + \n  theme_bw()\n  \n# binwidth of 10 (large bins)\ncdc |&gt;\n  ggplot(aes(x = age)) + \n  geom_histogram(binwidth = 0.5) + \n  theme_bw()\nBinwidth changes the width (horizontal size) of the bars within a histogram. A larger value groups more individuals together (bigger intervals) and a smaller value makes narrower intervals with fewer observations. I would probably choose something like 5 or 10 in this case given the variable and the amount of age variability in the data (5-10 year age windows are probably useful and interpretable in this case)."
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#proportions-vs-counts",
+    "href": "posts/Module1_Practice/M1practice.html#proportions-vs-counts",
+    "title": "Module 1 Practice",
+    "section": "Proportions vs Counts",
+    "text": "Proportions vs Counts\nRemember that there were far more people with health insurance than without. To better understand the pattern here, let’s calculate the proportions of each health status within the insured and uninsured groups separately.\n\nFill in the code to show the proportions of each health outcome within each insurance status group.\n\n# count number with and without insurance\nxtabs(~ insured + genhlth, data = cdc) |&gt;\n  prop.table(margin = )\n\n\n\n\n\n\n\nHint\n\n\n\n\n\nThe options for margin are 1 (for rows) and 2 (for columns).\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# count number with and without insurance\nxtabs(~ insured + genhlth, data = cdc) |&gt;\n  prop.table(margin = 1)"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#side-by-side-bar-plots",
+    "href": "posts/Module1_Practice/M1practice.html#side-by-side-bar-plots",
+    "title": "Module 1 Practice",
+    "section": "Side-by-side bar plots",
+    "text": "Side-by-side bar plots\n\nFill in the code to show side-by-side bar plots with separate bars by insurance status and colors indicating health status.\n\n# bar plot of health status by insurance\ncdc |&gt;\n  ggplot(aes(x = , fill = )) + \n  geom_bar() + \n  theme_bw()\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# bar plot of health status by insurance\ncdc |&gt;\n  ggplot(aes(x = insured, fill = health)) + \n  geom_bar() + \n  theme_bw()"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#side-by-side-bar-plots-with-proportions",
+    "href": "posts/Module1_Practice/M1practice.html#side-by-side-bar-plots-with-proportions",
+    "title": "Module 1 Practice",
+    "section": "Side-by-side bar plots with proportions",
+    "text": "Side-by-side bar plots with proportions\nNotice that it is hard to compare becuase of the differnece in group sizes.\n\nUpdate the code to show the proportions instead of counts.\n\n# bar plot of health status by insurance\ncdc |&gt;\n  ggplot(aes(x = insured, fill = health)) + \n  geom_bar(position = ) + \n  theme_bw()\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# bar plot of health status by insurance\ncdc |&gt;\n  ggplot(aes(x = insured, fill = health)) + \n  geom_bar(position = \"fill\") + \n  theme_bw()"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#mosaic-plots",
+    "href": "posts/Module1_Practice/M1practice.html#mosaic-plots",
+    "title": "Module 1 Practice",
+    "section": "Mosaic plots",
+    "text": "Mosaic plots\nNow, we will make a mosaic plot, which combines the strengths of the previous two plots.\n\nFill in the code to create a mosaic plot showing the distribution of health status by insurance status.\n\n# mosaic plot of health status by insurance\ncdc |&gt;\n  ggplot() + \n  geom_mosaic(aes(x = , fill = ), alpha = 1) + \n  theme_bw() +\n  labs(title = \"Health Status by Insurance\",\n       fill = \"Health Status\") + \n  theme(axis.title.y = element_blank())\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n# mosaic plot of health status by insurance\ncdc |&gt;\n  ggplot() + \n  geom_mosaic(aes(x = insured, fill = health), alpha = 1) + \n  theme_bw() +\n  labs(title = \"Health Status by Insurance\",\n       fill = \"Health Status\") + \n  theme(axis.title.y = element_blank())"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#ordered-vs-unordered-variable",
+    "href": "posts/Module1_Practice/M1practice.html#ordered-vs-unordered-variable",
+    "title": "Module 1 Practice",
+    "section": "Ordered vs unordered variable",
+    "text": "Ordered vs unordered variable\n\nTry the code above using the original genhlth variable instead of the new health variable. Explain why the new variable is a better choice for plotting.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nThe new variable is better for plotting because the levels of the health status variable appear in a logical order."
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#changing-the-y-axis",
+    "href": "posts/Module1_Practice/M1practice.html#changing-the-y-axis",
+    "title": "Module 1 Practice",
+    "section": "Changing the y-axis",
+    "text": "Changing the y-axis\n\nTry changing the scales from “free_y” to “fixed”. How does this impact the plot?\n\n\n# histogram showing distribution of age by insurance status\ncdc |&gt;\n  ggplot(aes(x = age, fill = insured)) + \n  geom_histogram(binwidth = 5) + \n  theme_bw() + \n  facet_wrap(~ insured, nrow = 2, scales = )"
+  },
+  {
+    "objectID": "posts/Module1_Practice/M1practice.html#spearman-correlation",
+    "href": "posts/Module1_Practice/M1practice.html#spearman-correlation",
+    "title": "Module 1 Practice",
+    "section": "Spearman Correlation",
+    "text": "Spearman Correlation\n\nTry changing from Pearson correlation (the default) to Spearman correlation. Are they similar? Different?\n\n# Spearman correlation between height and weight\ncor(cdc$height, cdc$weight, method = \"\", use = \"complete.obs\")\n\nTry to describe what you think the scatterplot will look like for height and weight."
   }
 ]

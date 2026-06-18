@@ -7,12 +7,12 @@ listing:
     categories: true
     sort-ui: false
     filter-ui: false
-#  - id: Recitations
-#    contents: "Recitation*.qmd"
-#    type: default
-#    categories: true
-#    sort-ui: false
-#    filter-ui: false
+  - id: Extra-Practice
+    contents: "*practice.qmd"
+    type: table
+    categories: true
+    sort-ui: false
+    filter-ui: false
   - id: shiny-apps
     contents: "*shiny*.qmd"
     type: grid
@@ -27,11 +27,17 @@ title-block-banner-color: "black"
 ::: {#Tutorials}
 :::
 
+## Extra R Practice
 
+::: {#Extra-Practice}
+:::
 
 ## Shiny Apps
 
 ::: {#shiny-apps}
 :::
+
+
+
 
 
