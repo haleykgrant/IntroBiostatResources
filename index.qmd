@@ -36,8 +36,3 @@ title-block-banner-color: "black"
 
 ::: {#shiny-apps}
 :::
-
-
-
-
-
