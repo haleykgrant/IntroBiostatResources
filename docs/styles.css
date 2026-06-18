@@ -1,7 +1,13 @@
 /* css styles */
 
+#code-blanks-clear-storage {
 
+  border-color:black !important;
+}
 
+.code-blanks-next-section {
+ border-color:black !important;
+}
 .code-blanks-error-box {
     background: #FFF5F5;
     border-left: 4px solid #CF0202;
@@ -12,8 +18,8 @@
 
 .code-blanks-instructions-box 
 {
-  background-color: #FEE6E7 !important;
-  border-color: #FA5A62 !important;
+  background-color: #F0E0F0 !important;
+  border-color: #c8a8c8 !important;
 }
 
 
