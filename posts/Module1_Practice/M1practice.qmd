@@ -1,0 +1,925 @@
+---
+title: Module 1 Practice
+description: "Fill-in-the-blank coding exercises for Module 1"
+author: "Haley Grant"
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 1
+    css: ../../../styles.css
+filters:
+  - code-blanks
+code-blanks:
+  packages:
+    - tidyverse
+    - ggmosaic
+  setup:
+    - library(tidyverse)
+    - library(ggmosaic)
+  progressive-reveal: true
+title-block-banner: "#FA5A62"
+title-block-banner-color: white
+---
+
+## Data Manipulation
+
+We will start by importing the data and making some updates to the variables. Then, we will turn to data summarization and visualization.
+
+## Importing the Data
+
+Our first step is to **import the data** and **save it as an object**. The dataset is hosted on GitHub, so we will import it directly from a URL.
+
+```{code-blanks-instructions}
+Fill in the blank code to import the data and call the new object `cdc`.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: cdc
+#|   prefill: false
+#|   occurrence: 2
+#|   match: text
+
+# read in CDC data and name it cdc
+cdc <- read_csv("https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv")
+
+# check that the object exists
+exists("cdc")
+```
+
+::: {.callout-caution icon=false collapse="true"}
+## Hint
+
+If you have filled in the code correctly, the output should read:
+
+::: {style="text-align: left;"}
+[\[1\] TRUE]{style="font-family: 'Monaco'; font-weight: 500; "}
+:::
+
+
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# read in CDC data and name it cdc
+cdc <- read_csv("https://haleykgrant.github.io/tutorial_data/data/cdc.samp.csv")
+
+# check that the object exists
+exists("cdc")
+```
+:::
+
+## Data Snapshot
+
+When you first import a dataset, it can be helpful to look at the first few rows to understand its structure.
+
+Fill in the code to display the first 6 rows of the `cdc` dataset.
+
+```{code-blanks}
+#| blank:
+#|   target: cdc
+#|   prefill: false
+#|   occurrence: 2
+#|   match: text
+
+# view the top few rows of the cdc dataframe 
+head(cdc)
+```
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# view the top few rows of the cdc dataframe 
+head(cdc)
+```
+:::
+
+## Making A New Variable
+
+The variable `hlthplan` contains information about whether an individual has health insurance. It is coded as a binary variable such that a `1` indicates that an individual has a health insurance plan and a `0` indicates that the individual does not. We may prefer to have a variable show up with more readable labels. Let's make a new variable!
+
+```{code-blanks-instructions}
+Fill in the code to update the `cdc` dataframe to __add a new column__ called `insured` holding a __factor variable__ that reads `"Yes"` if the individual has health insurance and `"No"` if they do not. 
+```
+
+```{code-blanks}
+#| blank:
+#|   target: cdc
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+#| blank:
+#|   target: hlthplan
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+#| blank:
+#|   target: "No"
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+#| blank:
+#|   target: "Yes"
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+
+# update dataframe to add new `insured` column
+cdc <- cdc |>
+  mutate(insured = factor(hlthplan, levels = c(0,1), labels = c("No","Yes")))
+  
+# take a look to make sure it works
+head(cdc)
+```
+
+::: {.callout-caution icon=false collapse="true"}
+## Hint
+
+If you have filled in the code correctly, you should have a new column at the far right end of the data snapshot output showing a column with name "Insured" and either "Yes" or "No" as values. 
+
+To update the `cdc`. object and save the results, we are replacing the previous object called `cdc` with a new object also called `cdc`.
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# update dataframe to add new `insured` column
+cdc <- cdc |>
+  mutate(insured = factor(hlthplan, levels = c(0,1), labels = c("No","Yes")))
+  
+# take a look to make sure it works
+head(cdc)
+```
+:::
+
+
+## Data Analysis
+
+Now we are ready to start making some plots and calculating some summary statistics using our data!
+
+## One Categorical Variable
+
+## Summary Statistics
+
+```{code-blanks-instructions}
+Fill in the code to show the __number of individuals who do and do not have health insurance__.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: insured
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+
+# count number with and without insurance
+xtabs(~ insured, data = cdc)
+
+```
+
+```{code-blanks-response}
+Do more people in our data __have health insurance__ or __not have health insurance__?
+```
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# count number with and without insurance
+xtabs(~ insured, data = cdc)
+```
+[insured]{style="font-family: 'Monaco'; font-weight: 500; "}
+
+[No Yes]{style="font-family: 'Monaco'; font-weight: 500; "}
+
+ [10  50]{style="font-family: 'Monaco'; font-weight: 500; "} 
+ 
+ There are more individuals with insurance (50) than without (10).
+:::
+
+
+## Plot
+
+Now, let's make a plot to display that information graphically.
+
+
+```{code-blanks-instructions}
+Fill in the code to show the __number of individuals who do and do not have health insurance in a plot__.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: insured
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+
+# bar graph showing breakdown of insurance status
+cdc |>
+  ggplot(aes(x = insured)) + 
+  geom_bar() + 
+  theme_bw()
+
+```
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# bar graph showing breakdown of insurance status
+cdc |>
+  ggplot(aes(x = insured)) + 
+  geom_bar() + 
+  theme_bw()
+```
+
+:::
+
+## Adding color
+
+```{code-blanks-instructions}
+Now try adding color to the plot by __filling in the bars based on insurance status__.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: insured
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+
+# bar graph showing breakdown of insurance status with colored bars
+cdc |>
+  ggplot(aes(x = insured, fill = insured)) + 
+  geom_bar() + 
+  theme_bw()
+
+```
+
+```{code-blanks-response}
+Does adding color to the plot add any additional information compared to the previous plot?
+```
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# bar graph showing breakdown of insurance status with colors bars
+cdc |>
+  ggplot(aes(x = insured, fill = insured)) + 
+  geom_bar() + 
+  theme_bw()
+```
+Since we're only plotting one variable, this doesn't add any additional information. 
+
+:::
+
+
+## One Quantitative Variable
+
+## Summary Statistics
+
+```{code-blanks-instructions}
+Fill in the code to calculate some key __summary statistics__ for age:
+ 
+* mean
+  
+* median
+
+* standard deviation
+
+* minimum
+
+* maximum
+```
+
+```{code-blanks}
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+
+# summary statistics for age
+cdc |> 
+  summarise(mean = mean(age),
+            med = median(age),
+            sd = sd(age),
+            min = min(age),
+            max = max(age))
+
+```
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# summary statistics for age
+cdc |> 
+  summarise(mean = mean(age),
+            med = median(age),
+            sd = sd(age),
+            min = min(age),
+            max = max(age))
+
+```
+[mean   med    sd   min   max]{style="font-family: 'Monaco'; font-weight: 500; "} 
+
+[43.8    43  14.8    19    77]{style="font-family: 'Monaco'; font-weight: 500; "} 
+:::
+
+## Plot
+
+Now, let's make a plot to show the full distribution of age in the data.
+
+
+```{code-blanks-instructions}
+Fill in the code to make a __histogram__ showing the distribution of age in the data.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+
+# histogram showing distribution of age
+cdc |>
+  ggplot(aes(x = age)) + 
+  geom_histogram() + 
+  theme_bw()
+
+```
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# histogram showing distribution of age
+cdc |>
+  ggplot(aes(x = age)) + 
+  geom_histogram() + 
+  theme_bw()
+```
+
+:::
+
+## The `binwidth` argument
+
+```{code-blanks-instructions}
+Try a few different values of the `binwidth` argument.
+
+- What happens if you make it 0.5?
+- What happens if you make it 10?
+```
+
+```{code-blanks}
+#| blank:
+#|   target: 10
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+
+# histogram showing distribution of age
+cdc |>
+  ggplot(aes(x = age)) + 
+  geom_histogram(binwidth = 10) + 
+  theme_bw()
+
+```
+
+```{code-blanks-response}
+Can you describe what the `binwidth` argument changes in the plot? 
+  
+What value would you choose if it were up to you?
+```
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# binwidth of 0.5 (small bins)
+# histogram showing distribution of age
+cdc |>
+  ggplot(aes(x = age)) + 
+  geom_histogram(binwidth = 0.5) + 
+  theme_bw()
+  
+# binwidth of 10 (large bins)
+cdc |>
+  ggplot(aes(x = age)) + 
+  geom_histogram(binwidth = 0.5) + 
+  theme_bw()
+```
+
+Binwidth changes the width (horizontal size) of the bars within a histogram. A larger value groups more individuals together (bigger intervals) and a smaller value makes narrower intervals with fewer observations. I would probably choose something like 5 or 10 in this case given the variable and the amount of age variability in the data (5-10 year age windows are probably useful and interpretable in this case). 
+:::
+
+## Two Categorical Variables
+
+Now we will turn to data summaries and visualizations for two variables. 
+
+We will start by looking at two categorical variables: health insurance and health status
+
+## Summary Statistics
+
+```{code-blanks-instructions}
+Fill in the code to show breakdown of health status (`genhlth`) by insurance status.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: insured
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+#| blank:
+#|   target: genhlth
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+
+# count number with and without insurance
+xtabs(~ insured + genhlth, data = cdc)
+
+```
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# count number with and without insurance
+xtabs(~ insured + genhlth, data = cdc)
+```
+
+:::
+
+## Proportions vs Counts
+
+Remember that there were far more people with health insurance than without. To better understand the pattern here, let's calculate the proportions of each health status within the insured and uninsured groups separately.
+
+
+```{code-blanks-instructions}
+Fill in the code to show the proportions of each health outcome within each insurance status group. 
+```
+
+```{code-blanks}
+#| blank:
+#|   target: 1
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+
+# count number with and without insurance
+xtabs(~ insured + genhlth, data = cdc) |>
+  prop.table(margin = 1)
+
+```
+
+
+::: {.callout-caution icon=false collapse="true"}
+## Hint
+
+The options for `margin` are `1` (for rows) and `2` (for columns). 
+:::
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# count number with and without insurance
+xtabs(~ insured + genhlth, data = cdc) |>
+  prop.table(margin = 1)
+
+```
+
+:::
+
+## Plots
+
+Now let's visualize. We will start with side-by-side bar plots, then try a mosaic plot. 
+
+To start, we may want to turn the `genhlth` variable into a factor variable to control order of the levels in our plot. Let's call the new variable (`health`).
+
+```{code-blanks-instructions}
+Fill in the code to make a new factor variable called `health` that reorders the `genhlth` variable.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: health
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+
+# make factor variable for genhlth
+cdc <- cdc |>
+  mutate(health = factor(genhlth, 
+                          levels = c("poor", "fair", "good",
+                                     "very good", "excellent")))
+```
+
+## Side-by-side bar plots
+
+```{code-blanks-instructions}
+Fill in the code to show side-by-side bar plots with separate bars by insurance status and colors indicating health status.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: insured
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+#| blank:
+#|   target: health
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+
+# bar plot of health status by insurance
+cdc |>
+  ggplot(aes(x = insured, fill = health)) + 
+  geom_bar() + 
+  theme_bw()
+
+```
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# bar plot of health status by insurance
+cdc |>
+  ggplot(aes(x = insured, fill = health)) + 
+  geom_bar() + 
+  theme_bw()
+
+
+```
+
+:::
+
+## Side-by-side bar plots with proportions
+
+Notice that it is hard to compare becuase of the differnece in group sizes. 
+
+```{code-blanks-instructions}
+Update the code to show the proportions instead of counts. 
+```
+
+```{code-blanks}
+#| blank:
+#|   target: "fill"
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+
+# bar plot of health status by insurance
+cdc |>
+  ggplot(aes(x = insured, fill = health)) + 
+  geom_bar(position = "fill") + 
+  theme_bw()
+
+```
+
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# bar plot of health status by insurance
+cdc |>
+  ggplot(aes(x = insured, fill = health)) + 
+  geom_bar(position = "fill") + 
+  theme_bw()
+
+```
+
+:::
+
+## Mosaic plots
+
+Now, we will make a mosaic plot, which combines the strengths of the previous two plots.
+
+```{code-blanks-instructions}
+Fill in the code to create a mosaic plot showing the distribution of health status by insurance status.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: insured
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+#| blank:
+#|   target: health
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+
+# mosaic plot of health status by insurance
+cdc |>
+  ggplot() + 
+  geom_mosaic(aes(x = insured, fill = health), alpha = 1) + 
+  theme_bw() +
+  labs(title = "Health Status by Insurance",
+       fill = "Health Status") + 
+  theme(axis.title.y = element_blank())
+
+```
+
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# mosaic plot of health status by insurance
+cdc |>
+  ggplot() + 
+  geom_mosaic(aes(x = insured, fill = health), alpha = 1) + 
+  theme_bw() +
+  labs(title = "Health Status by Insurance",
+       fill = "Health Status") + 
+  theme(axis.title.y = element_blank())
+
+```
+
+:::
+
+## Ordered vs unordered variable
+
+```{code-blanks-response}
+Try the code above using the original `genhlth` variable instead of the new `health` variable. Explain why the new variable is a better choice for plotting.
+```
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+The new variable is better for plotting because the levels of the health status variable appear in a logical order.
+
+:::
+
+## One Categorical, One Quantitative Variable
+We will now turn to summarizing data using one categorical and one quantitative variable: insurance status and age
+
+## Summary Statistics
+
+```{code-blanks-instructions}
+Fill in the code calculate summary statistics for age by insurance status.
+```
+
+
+```{code-blanks}
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: insured
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+
+# summary statistics for age separately by insurance status
+cdc |> 
+  summarise(mean = mean(age),
+            med = median(age),
+            sd = sd(age),
+            min = min(age),
+            max = max(age), .by = insured)
+
+```
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# summary statistics for age separately by insurance status
+cdc |> 
+  summarise(mean = mean(age),
+            med = median(age),
+            sd = sd(age),
+            min = min(age),
+            max = max(age), .by = insured)
+```
+
+:::
+
+## Plots
+
+```{code-blanks-instructions}
+Fill in the code to make a __histogram__ showing the distribution of age separately by insurace status.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: age
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+#| blank:
+#|   target: insured
+#|   prefill: false
+#|   occurrence: 1
+#|   match: token
+
+# histogram showing distribution of age by insurance status
+cdc |>
+  ggplot(aes(x = age, fill = insured)) + 
+  geom_histogram(binwidth = 5) + 
+  theme_bw() + 
+  facet_wrap(~ insured, nrow = 2, scales = "free_y")
+
+```
+
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# histogram showing distribution of age by insurance status
+cdc |>
+  ggplot(aes(x = age, fill = insured)) + 
+  geom_histogram(binwidth = 5) + 
+  theme_bw() + 
+  facet_wrap(~ insured, nrow = 2, scales = "free_y")
+```
+
+:::
+
+## Changing the y-axis
+
+```{code-blanks-response}
+Try changing the scales from "free_y" to "fixed". How does this impact the plot?
+```
+
+```{code-blanks}
+#| blank:
+#|   target: "free_y"
+#|   prefill: true
+#|   occurrence: 1
+#|   match: token
+
+# histogram showing distribution of age by insurance status
+cdc |>
+  ggplot(aes(x = age, fill = insured)) + 
+  geom_histogram(binwidth = 5) + 
+  theme_bw() + 
+  facet_wrap(~ insured, nrow = 2, scales = "free_y")
+
+```
+
+## Two Quantitative Variables
+
+Finally, we turn to describing the relationship between two quantitative variables: height and weight.
+
+## Summary Statistics
+
+```{code-blanks-instructions}
+Fill in the code to calculate the Pearson correlation between `height` and `weight`.
+```
+
+```{code-blanks}
+#| blank:
+#|   target: height
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: weight
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+
+# Pearson correlation between height and weight
+cor(cdc$height, cdc$weight, use = "complete.obs")
+```
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# correlation between height and weight
+cor(cdc$height, cdc$weight)
+```
+
+:::
+
+## Spearman Correlation
+
+```{code-blanks-instructions}
+Try changing from Pearson correlation (the default) to Spearman correlation. Are they similar? Different?
+```
+
+```{code-blanks}
+#| blank:
+#|   target: Pearson
+#|   prefill: true
+#|   occurrence: 1
+#|   match: token
+
+# Spearman correlation between height and weight
+cor(cdc$height, cdc$weight, method = "Pearson", use = "complete.obs")
+```
+
+```{code-blanks-response}
+Try to describe what you think the scatterplot will look like for height and weight.
+```
+
+## Plots
+
+```{code-blanks-instructions}
+Fill in the code to make a scatter plot showing the relationship between height and weight
+```
+
+```{code-blanks}
+#| blank:
+#|   target: height
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+#| blank:
+#|   target: weight
+#|   prefill: false
+#|   occurrence: 2
+#|   match: token
+
+# scatter plot of height and weight
+cdc |> 
+  ggplot(aes(x = height, y = weight)) + 
+  geom_point() + 
+  theme_bw() +
+  labs(x = "Height (in)",
+       y = "Weight (lbs)")
+```
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+```r
+# scatter plot of height and weight
+cdc |> 
+  ggplot(aes(x = height, y = weight)) + 
+  geom_point() + 
+  theme_bw() +
+  labs(x = "Height (in)",
+       y = "Weight (lbs)")
+```
+
+:::
