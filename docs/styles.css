@@ -2,9 +2,8 @@
 
 #code-blanks-clear-storage {
   background: #FEE6E7 !important;
-  border-color:black!important;
+  border-color: #F9343E !important;
 }
-
 
 .code-blanks-error-box {
     background: #FFF5F5;
@@ -32,7 +31,6 @@ pre.code-blanks code input.code-blank-input {
 .code-blanks-next-section {
   background: #FA5A62;
   color: white;
-  border-color: black !important;
 }
 
 /* Completely hide all card descriptions in grid listings */
