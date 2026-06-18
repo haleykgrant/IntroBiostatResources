@@ -1,9 +1,6 @@
 /* css styles */
 
-#code-blanks-clear-storage {
-  background: #FEE6E7 !important;
-  border-color: #F9343E !important;
-}
+
 
 .code-blanks-error-box {
     background: #FFF5F5;
@@ -19,19 +16,6 @@
   border-color: #FA5A62 !important;
 }
 
-pre.code-blanks code input.code-blank-input {
-  background-color: #FEE6E7 !important;
-  border-color: #FA5A62 !important;
-}
-
-.code-blanks-run {
-  background: #FA5A62;
-}
-
-.code-blanks-next-section {
-  background: #FA5A62;
-  color: white;
-}
 
 /* Completely hide all card descriptions in grid listings */
 .quarto-grid .card-text,
