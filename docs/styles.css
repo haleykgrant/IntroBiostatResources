@@ -23,6 +23,7 @@ pre.code-blanks code input.code-blank-input {
 .code-blanks-next-section {
   background: #FA5A62;
   color: white;
+  border-color: #F9343E !important;
 }
 
 /* Completely hide all card descriptions in grid listings */
