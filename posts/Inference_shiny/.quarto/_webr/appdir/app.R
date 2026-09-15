@@ -1,0 +1,161 @@
+ 
+library(shiny)
+library(ggplot2)
+library(tidyverse)
+
+# Define UI
+ui <- fluidPage(
+  titlePanel("Inference Visualization"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("xbar", "Sample Mean (ȳ):", value = 98.450),
+      numericInput("s", "Sample Standard Deviation (s):", value = 0.62),
+      numericInput("n", "Sample Size (n):", value = 43),
+      uiOutput("muSlider"),  # Use uiOutput for dynamic slider
+      numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.01, max = 0.25, step = 0.01),
+      selectInput("sides", "1- vs 2-sided",choices = c("1-sided (upper)","1-sided (lower)","2-sided"),selected = "2-sided"),
+      actionButton("ci", "Show/Hide Confidence Interval")
+    ),
+    
+    mainPanel(
+      plotOutput("densityPlot"),
+      textOutput("distance"),
+      textOutput("distanceSE"),
+      textOutput("pValueText")
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output, session) {
+  
+  # Dynamically update the slider input for mu based on xbar, s, and n
+  output$muSlider <- renderUI({
+    se <- input$s / sqrt(input$n)
+    min_mu <- round(input$xbar - 4 * se, digits = 2)
+    max_mu <- round(input$xbar + 4 * se, digits = 2)
+    
+    sliderInput("mu", "Possible Mean Value (μ):", min = min_mu, max = max_mu, value = input$xbar - se, step = 0.01)
+  })
+  
+  showCI <- reactiveVal(FALSE)
+  
+  observeEvent(input$ci,{
+    showCI(input$ci %% 2 == 1 )
+  })
+  
+  output$densityPlot <- renderPlot({
+    # Calculate standard error
+    se <- input$s / sqrt(input$n)
+    
+    # Calculate the z statistic
+    z <- (input$xbar - input$mu) / se
+    
+    # Calculate p-value
+    if(input$sides=="2-sided"){
+      p_value <- 2 * (1 - pnorm(abs(z)))
+    } else if(input$sides=="1-sided (upper)"){ 
+      p_value <-  pnorm(z,lower.tail = F)} else{p_value <-  pnorm(z)}
+    
+    # Define the color based on p-value and alpha
+    tail_color <- ifelse(p_value < input$alpha, "red", "blue")
+    
+    # Generate x values for the plot
+    x_values <- seq(input$xbar - 5*se, input$xbar + 5*se, length.out = 1000)
+    if(input$sides=="2-sided"){
+      shade_vals1 = x_values[x_values<=min(input$xbar, 2*input$mu-input$xbar)]
+    } else if(input$sides=="1-sided (upper)"){ 
+      shade_vals1 = NA
+    } else{shade_vals1 = x_values[x_values<=input$xbar]}
+    
+    if(input$sides=="2-sided"){
+      shade_vals2 = x_values[ x_values>=max(input$xbar, 2*input$mu-input$xbar)]
+    } else if(input$sides=="1-sided (upper)"){ 
+      shade_vals2 = x_values[x_values>=input$xbar]
+    } else{shade_vals2 = NA}
+    # Calculate y values for the density function
+    y_values <- dnorm(x_values, mean = input$mu, sd = se)
+    
+    # Generate the plot
+    p <- ggplot(data.frame(x = x_values, y = y_values), aes(x = x)) +
+      geom_line(aes(y = y), color = "darkgrey", size = 0.6) +
+      
+      # Shade the left tail
+      geom_area(data = data.frame(x = x_values, y = y_values)%>% filter( x %in% shade_vals1),
+                aes(x = x, y = y), fill = tail_color, alpha = 0.3) +
+      
+      # Shade the right tail
+      geom_area(data = data.frame(x = x_values, y = y_values)%>% filter( x %in% shade_vals2),
+                aes(x = x, y = y), fill = tail_color, alpha = 0.3) +
+      geom_segment(aes(x = input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", size = .75,
+                            arrow = grid::arrow(angle = 90, ends = "both", length = unit(.1, "inches"))) +
+      # Add vertical lines for xbar and mu
+      geom_vline(xintercept = input$xbar, linetype = "dashed", color = "cornflowerblue", size = 0.75) +
+      geom_vline(xintercept = input$mu, linetype = "dashed", color = "darkorange2", size = 0.75) +
+        # Add line segment to show the distance between xbar and mu
+      geom_segment(aes(x = input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", size = .75,
+                       arrow = grid::arrow(angle = 90, ends = "both", length = unit(.1, "inches"))) +
+      # Add labels for xbar and mu
+      annotate("text", x = input$xbar, y = -0.1, label = "ȳ", color= "cornflowerblue", hjust = -0.2, size = 5) +
+      annotate("text", x = input$mu, y = -0.1, label = "μ", color = "darkorange2",  hjust = 1.2, size = 5) +
+      labs(title = "Normal Density with Selected Mean",
+           x = "Value",
+           y = "Density") +
+      theme_minimal() + ylim(-max(y_values)/16, max(y_values))
+      
+    if(input$sides == "2-sided"){
+      # Add line segment to show the distance between xbar and mu
+       p <- p + geom_segment(aes(x = 2*input$mu-input$xbar, y = 0, xend = input$mu, yend = 0), color = "black", 
+                     size = .75, arrow = grid::arrow(angle = 90,ends = "both",length = unit(.1, "inches")) )
+    }
+    
+    
+    if(showCI()){
+      if(input$sides=="2-sided"){
+        p <- p + 
+          geom_segment(aes(x = input$xbar +qnorm(input$alpha/2)*se, y = -max(y_values)/16, xend = input$xbar -qnorm(input$alpha/2)*se, yend = -max(y_values)/16),lineend = "square", color = "blue", alpha = 0.3,
+                       size = .75 )
+      } else if(input$sides=="1-sided (upper)"){
+        p <- p + 
+          geom_segment(aes(x = input$xbar -qnorm(input$alpha,lower.tail = F)*se, y = -max(y_values)/16, xend = Inf, yend = -max(y_values)/16),lineend = "square", color = "blue", alpha = 0.3,
+                       size = .75 )
+      } else{
+        p <- p + 
+          geom_segment(aes(x = input$xbar + qnorm(input$alpha,lower.tail = F)*se, y = -max(y_values)/16, xend = -Inf, yend = -max(y_values)/16),lineend = "square", color = "blue", alpha = 0.3,
+                       size = .75 )
+      }
+    }
+    
+    print(p)
+  })
+  
+  output$distance <- renderText({
+    paste0("Distance of ȳ from μ: ", round(abs(input$mu - input$xbar), 4))
+  })
+  
+  output$distanceSE <- renderText({
+    paste0("Distance in standard errors: ", round(abs(input$mu - input$xbar)/(input$s/sqrt(input$n)), 4))
+  })
+  
+  output$pValueText <- renderText({
+    # Calculate standard error
+    se <- input$s / sqrt(input$n)
+    
+    # Calculate the z statistic
+    z <- (input$xbar - input$mu) / se
+    
+    # Calculate p-value
+    if(input$sides=="2-sided"){
+      p_value <- 2 * (1 - pnorm(abs(z)))
+    } else if(input$sides=="1-sided (upper)"){ 
+      p_value <-  pnorm(z,lower.tail = F)} else{p_value <-  pnorm(z)}
+    
+    # Display p-value
+    paste0("Probability of getting ȳ this extreme : ", round(p_value, 4))
+  })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+

@@ -8,6 +8,9 @@ filters:
 categories:
     - Sampling Distributions
     - Statistical Inference
+format:
+  html:
+    embed-resources: false
 ---
 
 ```{shinylive-r}
