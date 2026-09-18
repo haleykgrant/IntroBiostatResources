@@ -101,34 +101,6 @@ ul.task-list li input[type="checkbox"] {
   
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-Extra-Practice .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-Extra-Practice'] = new List('listing-Extra-Practice', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
     const listingTargetEl = window.document.querySelector('#listing-shiny-apps .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
@@ -175,6 +147,8 @@ background-size: cover;
       }
 </style>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -322,7 +296,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(27)</span></div><div class="category" data-category="Classification">Classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Exploratory Data Analysis (EDA)">Exploratory Data Analysis (EDA) <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Probability Distributions">Probability Distributions <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R Tutorials">R Tutorials <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(8)</span></div><div class="category" data-category="Sampling Distributions">Sampling Distributions <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Statistical Inference">Statistical Inference <span class="quarto-category-count">(9)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(26)</span></div><div class="category" data-category="Classification">Classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Exploratory Data Analysis (EDA)">Exploratory Data Analysis (EDA) <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Probability Distributions">Probability Distributions <span class="quarto-category-count">(2)</span></div><div class="category" data-category="R Tutorials">R Tutorials <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Regression">Regression <span class="quarto-category-count">(8)</span></div><div class="category" data-category="Sampling Distributions">Sampling Distributions <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Statistical Inference">Statistical Inference <span class="quarto-category-count">(9)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-body" id="quarto-document-content">
 
@@ -334,7 +308,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="r-tutorials">R Tutorials</h2>
 <div id="listing-Tutorials" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="R Tutorials" data-listing-file-modified-sort="1757081036341" data-listing-reading-time-sort="3" data-listing-word-count-sort="497">
+<div class="g-col-1" data-index="0" data-categories="R Tutorials" data-listing-file-modified-sort="1789484435720" data-listing-reading-time-sort="3" data-listing-word-count-sort="497">
 <a href="./posts/Tutorial-1/Tutorial1.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -361,7 +335,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="R Tutorials" data-listing-file-modified-sort="1725474452280" data-listing-reading-time-sort="23" data-listing-word-count-sort="4533">
+<div class="g-col-1" data-index="1" data-categories="R Tutorials" data-listing-file-modified-sort="1789484435722" data-listing-reading-time-sort="23" data-listing-word-count-sort="4533">
 <a href="./posts/Tutorial-2/Tutorial2.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -388,7 +362,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="R Tutorials" data-listing-file-modified-sort="1725474474325" data-listing-reading-time-sort="21" data-listing-word-count-sort="4005">
+<div class="g-col-1" data-index="2" data-categories="R Tutorials" data-listing-file-modified-sort="1789484435724" data-listing-reading-time-sort="21" data-listing-word-count-sort="4005">
 <a href="./posts/Tutorial-3/Tutorial3.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -415,7 +389,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="R Tutorials" data-listing-file-modified-sort="1781793409704" data-listing-reading-time-sort="11" data-listing-word-count-sort="2051">
+<div class="g-col-1" data-index="3" data-categories="R Tutorials" data-listing-file-modified-sort="1789484435731" data-listing-reading-time-sort="11" data-listing-word-count-sort="2051">
 <a href="./posts/Tutorial-4/Tutorial4.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -442,7 +416,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="R Tutorials,Exploratory Data Analysis (EDA)" data-listing-file-modified-sort="1747320611966" data-listing-reading-time-sort="17" data-listing-word-count-sort="3250">
+<div class="g-col-1" data-index="4" data-categories="R Tutorials,Exploratory Data Analysis (EDA)" data-listing-file-modified-sort="1789484435732" data-listing-reading-time-sort="17" data-listing-word-count-sort="3250">
 <a href="./posts/Tutorial-5/Tutorial5.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -472,7 +446,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="R Tutorials,Exploratory Data Analysis (EDA)" data-listing-file-modified-sort="1747276789618" data-listing-reading-time-sort="17" data-listing-word-count-sort="3248">
+<div class="g-col-1" data-index="5" data-categories="R Tutorials,Exploratory Data Analysis (EDA)" data-listing-file-modified-sort="1789484435748" data-listing-reading-time-sort="17" data-listing-word-count-sort="3248">
 <a href="./posts/Tutorial-6/Tutorial6.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -510,39 +484,13 @@ No matching items
 </section>
 <section id="extra-r-practice" class="level2">
 <h2 class="anchored" data-anchor-id="extra-r-practice">Extra R Practice</h2>
-<div id="listing-Extra-Practice" class="quarto-listing quarto-listing-container-table">
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-Title
-</th>
-<th>
-Author
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-listing-file-modified-sort="1781814791218" data-listing-reading-time-sort="15" data-listing-word-count-sort="2971" data-listing-title-sort="Module 1 Practice" data-listing-filename-sort="M1practice.qmd">
-<td>
-<a href="./posts/Module1_Practice/M1practice.html" class="title listing-title">Module 1 Practice</a>
-</td>
-<td>
-<span class="listing-author">Haley Grant</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
+<p><strong>Looking for extra coding practice?</strong> I’ve made some additional exercises <a href="https://haleykgrant.github.io/CodingPractice/">here</a></p>
 </section>
 <section id="shiny-apps" class="level2">
 <h2 class="anchored" data-anchor-id="shiny-apps">Shiny Apps</h2>
 <div id="listing-shiny-apps" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="Statistical Inference" data-listing-file-modified-sort="1771871814441" data-listing-reading-time-sort="14" data-listing-word-count-sort="2740">
+<div class="g-col-1" data-index="0" data-categories="Statistical Inference" data-listing-file-modified-sort="1789484434568" data-listing-reading-time-sort="14" data-listing-word-count-sort="2740">
 <a href="./posts/ANOVA_Shiny/ANOVA_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -569,7 +517,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="Regression" data-listing-file-modified-sort="1747320057842" data-listing-reading-time-sort="20" data-listing-word-count-sort="3944">
+<div class="g-col-1" data-index="1" data-categories="Regression" data-listing-file-modified-sort="1789484435935" data-listing-reading-time-sort="20" data-listing-word-count-sort="3944">
 <a href="./posts/VIF_shiny/VIF_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -596,7 +544,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="Statistical Inference,Regression" data-listing-file-modified-sort="1761841149287" data-listing-reading-time-sort="13" data-listing-word-count-sort="2550">
+<div class="g-col-1" data-index="2" data-categories="Statistical Inference,Regression" data-listing-file-modified-sort="1789484434764" data-listing-reading-time-sort="13" data-listing-word-count-sort="2550">
 <a href="./posts/Conf_Pred_int_shiny/confpredinf_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -626,7 +574,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1781632205627" data-listing-reading-time-sort="8" data-listing-word-count-sort="1500">
+<div class="g-col-1" data-index="3" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1789502034675" data-listing-reading-time-sort="8" data-listing-word-count-sort="1500">
 <a href="./posts/Inference_shiny/inference_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -656,7 +604,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1762374264183" data-listing-reading-time-sort="18" data-listing-word-count-sort="3562">
+<div class="g-col-1" data-index="4" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1789484435477" data-listing-reading-time-sort="18" data-listing-word-count-sort="3562">
 <a href="./posts/Proportions-shiny/Proportions_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -686,7 +634,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="Classification" data-listing-file-modified-sort="1771874787907" data-listing-reading-time-sort="8" data-listing-word-count-sort="1473">
+<div class="g-col-1" data-index="5" data-categories="Classification" data-listing-file-modified-sort="1789484435029" data-listing-reading-time-sort="8" data-listing-word-count-sort="1473">
 <a href="./posts/KNN/KNN_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -713,7 +661,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="6" data-categories="Regression" data-listing-file-modified-sort="1747320360500" data-listing-reading-time-sort="9" data-listing-word-count-sort="1800">
+<div class="g-col-1" data-index="6" data-categories="Regression" data-listing-file-modified-sort="1789484435164" data-listing-reading-time-sort="9" data-listing-word-count-sort="1800">
 <a href="./posts/LOESS_shiny/loess_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -740,7 +688,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="7" data-categories="Regression" data-listing-file-modified-sort="1747254845039" data-listing-reading-time-sort="11" data-listing-word-count-sort="2009">
+<div class="g-col-1" data-index="7" data-categories="Regression" data-listing-file-modified-sort="1789484435164" data-listing-reading-time-sort="11" data-listing-word-count-sort="2009">
 <a href="./posts/LeastSquaresShiny/LeastSquares_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -767,7 +715,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="8" data-categories="Regression" data-listing-file-modified-sort="1747254879818" data-listing-reading-time-sort="2" data-listing-word-count-sort="281">
+<div class="g-col-1" data-index="8" data-categories="Regression" data-listing-file-modified-sort="1789484435166" data-listing-reading-time-sort="2" data-listing-word-count-sort="281">
 <a href="./posts/LogisticShiny/Logistic_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -794,7 +742,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="9" data-categories="Regression" data-listing-file-modified-sort="1747320073116" data-listing-reading-time-sort="16" data-listing-word-count-sort="3011">
+<div class="g-col-1" data-index="9" data-categories="Regression" data-listing-file-modified-sort="1789484435305" data-listing-reading-time-sort="16" data-listing-word-count-sort="3011">
 <a href="./posts/MLR_shiny/MLR_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -821,7 +769,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="10" data-categories="Statistical Inference" data-listing-file-modified-sort="1781620258700" data-listing-reading-time-sort="7" data-listing-word-count-sort="1212">
+<div class="g-col-1" data-index="10" data-categories="Statistical Inference" data-listing-file-modified-sort="1789484435345" data-listing-reading-time-sort="7" data-listing-word-count-sort="1212">
 <a href="./posts/PairedT_shiny/PairedT_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -848,7 +796,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="11" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1747254965484" data-listing-reading-time-sort="10" data-listing-word-count-sort="1967">
+<div class="g-col-1" data-index="11" data-categories="Sampling Distributions,Statistical Inference" data-listing-file-modified-sort="1789484435937" data-listing-reading-time-sort="10" data-listing-word-count-sort="1967">
 <a href="./posts/power_Shiny/power_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -878,7 +826,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="12" data-categories="Probability Distributions" data-listing-file-modified-sort="1747320596896" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041">
+<div class="g-col-1" data-index="12" data-categories="Probability Distributions" data-listing-file-modified-sort="1789484435478" data-listing-reading-time-sort="21" data-listing-word-count-sort="4041">
 <a href="./posts/QQ_plot_shiny/QQshiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -905,7 +853,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="13" data-categories="Regression" data-listing-file-modified-sort="1751030206321" data-listing-reading-time-sort="9" data-listing-word-count-sort="1785">
+<div class="g-col-1" data-index="13" data-categories="Regression" data-listing-file-modified-sort="1789484435515" data-listing-reading-time-sort="9" data-listing-word-count-sort="1785">
 <a href="./posts/ROC_shiny/ROC_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -932,7 +880,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="14" data-categories="Regression" data-listing-file-modified-sort="1753376490178" data-listing-reading-time-sort="9" data-listing-word-count-sort="1710">
+<div class="g-col-1" data-index="14" data-categories="Regression" data-listing-file-modified-sort="1789484435676" data-listing-reading-time-sort="9" data-listing-word-count-sort="1710">
 <a href="./posts/Regularization_shiny/regularization_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -959,7 +907,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="15" data-categories="Sampling Distributions" data-listing-file-modified-sort="1747254781833" data-listing-reading-time-sort="9" data-listing-word-count-sort="1652">
+<div class="g-col-1" data-index="15" data-categories="Sampling Distributions" data-listing-file-modified-sort="1789484434764" data-listing-reading-time-sort="9" data-listing-word-count-sort="1652">
 <a href="./posts/HeightActivityShiny/HeightActivity_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -986,7 +934,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="16" data-categories="Statistical Inference" data-listing-file-modified-sort="1747255066796" data-listing-reading-time-sort="10" data-listing-word-count-sort="1994">
+<div class="g-col-1" data-index="16" data-categories="Statistical Inference" data-listing-file-modified-sort="1789484435677" data-listing-reading-time-sort="10" data-listing-word-count-sort="1994">
 <a href="./posts/SamplingDistShiny/SampDist_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -1013,7 +961,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="17" data-categories="Probability Distributions" data-listing-file-modified-sort="1747254912857" data-listing-reading-time-sort="8" data-listing-word-count-sort="1490">
+<div class="g-col-1" data-index="17" data-categories="Probability Distributions" data-listing-file-modified-sort="1789484435307" data-listing-reading-time-sort="8" data-listing-word-count-sort="1490">
 <a href="./posts/NormalZ_Shiny/normalz_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -1040,7 +988,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="18" data-categories="Statistical Inference" data-listing-file-modified-sort="1760407620288" data-listing-reading-time-sort="18" data-listing-word-count-sort="3407">
+<div class="g-col-1" data-index="18" data-categories="Statistical Inference" data-listing-file-modified-sort="1789484435719" data-listing-reading-time-sort="18" data-listing-word-count-sort="3407">
 <a href="./posts/T-test_shiny/ttest_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -1067,7 +1015,7 @@ Haley Grant
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="19" data-categories="Statistical Inference" data-listing-file-modified-sort="1759348736994" data-listing-reading-time-sort="6" data-listing-word-count-sort="1023">
+<div class="g-col-1" data-index="19" data-categories="Statistical Inference" data-listing-file-modified-sort="1789484435977" data-listing-reading-time-sort="6" data-listing-word-count-sort="1023">
 <a href="./posts/t_alt_shiny/t_alt_shiny.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
