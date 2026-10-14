@@ -7,6 +7,9 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
+      radioButtons("plot_type", "Select Plot Type:",
+                   choices = c("Density Plots" = "density", "Boxplots" = "boxplot"),
+                   selected = "boxplot"),
       numericInput("n_groups", "Number of Groups", value = 4, min = 2),
       uiOutput("group_mean_sliders"),
       numericInput("n_per_group", "Sample Size per Group", value = 30, min = 5),
@@ -15,9 +18,6 @@ ui <- fluidPage(
       
       actionButton("draw_sample", "Draw Sample"),
       actionButton("draw_sample_100", "Draw 100 Samples"),
-      radioButtons("plot_type", "Select Plot Type:",
-                   choices = c("Density Plots" = "density", "Boxplots" = "boxplot"),
-                   selected = "boxplot"),
       actionButton("reset", "Reset")
     ),
     

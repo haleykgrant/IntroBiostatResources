@@ -44,9 +44,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <meta name="shinylive:serviceworker_dir" content="../..">
-<script src="../../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/load-shinylive-sw.js" type="module"></script>
-<script src="../../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/run-python-blocks.js" type="module"></script>
-<link href="../../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/shinylive.css" rel="stylesheet">
+<script src="../../site_libs/quarto-contrib/shinylive-0.10.12/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="../../site_libs/quarto-contrib/shinylive-0.10.12/shinylive/run-python-blocks.js" type="module"></script>
+<link href="../../site_libs/quarto-contrib/shinylive-0.10.12/shinylive/shinylive.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -191,6 +191,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../index.html#Extra-Practice" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra R Practice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../index.html#shiny-apps" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shiny Apps</span></a>
   </div>
@@ -225,6 +231,9 @@ ui &lt;- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
+      radioButtons("plot_type", "Select Plot Type:",
+                   choices = c("Density Plots" = "density", "Boxplots" = "boxplot"),
+                   selected = "boxplot"),
       numericInput("n_groups", "Number of Groups", value = 4, min = 2),
       uiOutput("group_mean_sliders"),
       numericInput("n_per_group", "Sample Size per Group", value = 30, min = 5),
@@ -233,9 +242,6 @@ ui &lt;- fluidPage(
       
       actionButton("draw_sample", "Draw Sample"),
       actionButton("draw_sample_100", "Draw 100 Samples"),
-      radioButtons("plot_type", "Select Plot Type:",
-                   choices = c("Density Plots" = "density", "Boxplots" = "boxplot"),
-                   selected = "boxplot"),
       actionButton("reset", "Reset")
     ),
     
@@ -246,7 +252,7 @@ ui &lt;- fluidPage(
       
       textOutput("anova_result"),
       plotOutput("f_dist_plot"),
-      h4("Observed F-statistics Over Time"),
+      h4("Observed F-statistics Over Different Samples"),
       plotOutput("f_history_plot")
     )
   )
